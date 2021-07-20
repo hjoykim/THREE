@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using THREE.Math;
+namespace THREE.Materials
+{
+
+    public class LineBasicMaterial : Material
+    {
+        //public Color Color;
+
+        public string LineCap ="round";
+
+        public string LineJoin ="round";
+
+
+        public LineBasicMaterial(Hashtable parameters = null)
+        {
+            this.Color = new Color().SetHex(0xffffff);
+
+            this.type = "LineBasicMaterial";
+
+            this.LineWidth = 1.0f;
+            this.LineCap = "round";
+            this.LineJoin = "round";
+
+            if(parameters!=null)
+                this.SetValues(parameters);
+        }
+        protected LineBasicMaterial(LineBasicMaterial source) : base(source)
+        {
+            this.Color = source.Color;
+
+            this.LineWidth = source.LineWidth;
+
+            this.LineCap = source.LineCap;
+
+            this.LineJoin = source.LineJoin;
+        }
+       
+    }
+}
