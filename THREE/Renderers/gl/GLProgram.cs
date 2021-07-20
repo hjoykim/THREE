@@ -415,8 +415,8 @@ namespace THREE.Renderers.gl
             string vertexGlsl = prefixVertex + VertexShader+"\r\n";
             string fragmentGlsl = prefixFragment + FragmentShader+"\r\n";
 
-            File.WriteAllText(parameters["shaderName"]+"_vshader.txt", vertexGlsl);
-            File.WriteAllText(parameters["shaderName"]+"_fshader.txt", fragmentGlsl);
+            //File.WriteAllText(parameters["shaderName"]+"_vshader.txt", vertexGlsl);
+            //File.WriteAllText(parameters["shaderName"]+"_fshader.txt", fragmentGlsl);
             GLShader glVertexShader = new GLShader(ShaderType.VertexShader, vertexGlsl);
             GLShader glFragmentShader = new GLShader(ShaderType.FragmentShader, fragmentGlsl);
 
