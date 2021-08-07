@@ -30,3 +30,32 @@ void main() {
 	#include <premultiplied_alpha_fragment>
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

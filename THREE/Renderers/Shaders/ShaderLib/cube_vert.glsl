@@ -12,3 +12,32 @@ void main() {
 	gl_Position.z = gl_Position.w; // set z to camera.far
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

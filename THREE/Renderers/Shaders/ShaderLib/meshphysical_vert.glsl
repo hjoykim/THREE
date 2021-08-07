@@ -67,3 +67,32 @@ void main() {
 	#include <fog_vertex>
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

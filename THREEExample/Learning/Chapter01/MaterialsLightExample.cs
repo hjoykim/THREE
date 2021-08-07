@@ -27,7 +27,7 @@ namespace THREEExample.Learning.Chapter01
 
         TrackballControls controls;
 
-        ImGuiManager imGuiManager;
+       
         public MaterialsLightExample() : base()
         {
             camera = new PerspectiveCamera();
@@ -73,7 +73,7 @@ namespace THREEExample.Learning.Chapter01
 
             InitCameraController();
 
-            imGuiManager = new ImGuiManager(this.glControl);
+           
 
             scene.Background = Color.Hex(0xffffff);
 
@@ -123,11 +123,11 @@ namespace THREEExample.Learning.Chapter01
         }
         public override void Render()
         {
-            if(!imGuiManager.ImWantMouse) controls.Update();
+          
 
             this.renderer.Render(scene, camera);
 
-            imGuiManager.ImDraw();
+            
         }
         public override void Resize(System.Drawing.Size clientSize)
         {
