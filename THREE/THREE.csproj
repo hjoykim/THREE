@@ -475,6 +475,9 @@
     <None Include="Renderers\Shaders\ShaderLib\vsm_frag.glsl" />
     <None Include="Renderers\Shaders\ShaderLib\vsm_vert.glsl" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ltc_1.png" />
+    <EmbeddedResource Include="Resources\ltc_2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

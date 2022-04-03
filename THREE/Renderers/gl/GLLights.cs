@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using THREE.Cameras;
 using THREE.Lights;
+using THREE.Loaders;
 using THREE.Math;
+using THREE.Renderers.Shaders;
 using THREE.Textures;
 namespace THREE.Renderers.gl
 {
@@ -410,7 +412,15 @@ namespace THREE.Renderers.gl
                     hemiLength++;
                 }
             }
-          
+
+
+
+            if (rectAreaLength > 0)
+            {
+                state["rectAreaLTC1"] = TextureLoader.LoadEmbedded("ltc_1.png");
+                state["rectAreaLTC2"] = TextureLoader.LoadEmbedded("ltc_2.png");
+            }
+
             state["ambient"] = ambientColor;
 
             Hashtable hash = (Hashtable)state["hash"];

@@ -1140,6 +1140,8 @@ namespace THREE.Renderers
                 (uniforms["spotLights"] as GLUniform)["value"] = lights.state["spot"];
                 (uniforms["spotLightShadows"] as GLUniform)["value"] = lights.state["spotShadow"];
                 (uniforms["rectAreaLights"] as GLUniform)["value"] = lights.state["rectArea"];
+                (uniforms["ltc_1"] as GLUniform)["value"] = lights.state["rectAreaLTC1"];
+                (uniforms["ltc_2"] as GLUniform)["value"] = lights.state["rectAreaLTC2"];
                 (uniforms["pointLights"] as GLUniform)["value"] = lights.state["point"];
                 (uniforms["pointLightShadows"] as GLUniform)["value"] = lights.state["pointShadow"];
                 (uniforms["hemisphereLights"] as GLUniform)["value"] = lights.state["hemi"];
@@ -1379,6 +1381,8 @@ namespace THREE.Renderers
                 (m_uniforms["spotLights"] as GLUniform)["value"] = lights.state["spot"];
                 (m_uniforms["spotLightShadows"] as GLUniform)["value"] = lights.state["spotShadow"];
                 (m_uniforms["rectAreaLights"] as GLUniform)["value"] = lights.state["rectArea"];
+                (m_uniforms["ltc_1"] as GLUniform)["value"] = lights.state["rectAreaLTC1"];
+                (m_uniforms["ltc_2"] as GLUniform)["value"] = lights.state["rectAreaLTC2"];
                 (m_uniforms["pointLights"] as GLUniform)["value"] = lights.state["point"];
                 (m_uniforms["pointLightShadows"] as GLUniform)["value"] = lights.state["pointShadow"];
                 (m_uniforms["hemisphereLights"] as GLUniform)["value"] = lights.state["hemi"];
@@ -1580,6 +1584,9 @@ namespace THREE.Renderers
                 }
 
                 materials.RefreshMaterialUniforms(m_uniforms, material, _pixelRatio, this.glControl.Height);
+
+                if (ShaderLib.UniformsLib.ContainsKey("ltc_1")) (m_uniforms["ltc_1"] as GLUniform)["value"] = ShaderLib.UniformsLib["LTC_1"];
+                if (ShaderLib.UniformsLib.ContainsKey("ltc_2")) (m_uniforms["ltc_2"] as GLUniform)["value"] = ShaderLib.UniformsLib["LTC_2"];
 
                 //if (material is MeshLambertMaterial)
                 //    Debug.WriteLine(material.type);
