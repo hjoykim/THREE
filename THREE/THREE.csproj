@@ -139,6 +139,7 @@
     <Compile Include="Helpers\AxesHelper.cs" />
     <Compile Include="Helpers\CameraHelper.cs" />
     <Compile Include="Helpers\PointLightHelper.cs" />
+    <Compile Include="Helpers\RectAreaLightHelper.cs" />
     <Compile Include="Helpers\SpotLightHelper.cs" />
     <Compile Include="Helpers\TreeHelpers.cs" />
     <Compile Include="Lights\AmbientLight.cs" />
