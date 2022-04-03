@@ -73,11 +73,19 @@ namespace THREE.Objects
 
         public Object3D GetObjectForDistance(float distance)
         {
-            return null;
+            int i;
+            for (i = 0; i < Levels.Count; i++)
+                if (distance < Levels[i].distance)
+                    break;
+            return Levels[i - 1].object3D;
         }
 
-        public void Raycast()
+        public override void Raycast(Raycaster raycaster, out Intersection Intersection)
         {
+            Vector3 matrixPosition = new Vector3();
+            matrixPosition.SetFromMatrixPosition(MatrixWorld);
+            float distance = raycaster.ray.origin.DistanceTo(matrixPosition);
+            GetObjectForDistance(distance).Raycast(raycaster, out Intersection);
         }
 
         public void Update(Camera camera)
