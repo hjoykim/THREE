@@ -80,12 +80,12 @@ namespace THREE.Objects
             return Levels[i - 1].object3D;
         }
 
-        public override void Raycast(Raycaster raycaster, out Intersection Intersection)
+        public override void Raycast(Raycaster raycaster, List<Intersection> intersectionList)
         {
             Vector3 matrixPosition = new Vector3();
             matrixPosition.SetFromMatrixPosition(MatrixWorld);
             float distance = raycaster.ray.origin.DistanceTo(matrixPosition);
-            GetObjectForDistance(distance).Raycast(raycaster, out Intersection);
+            GetObjectForDistance(distance).Raycast(raycaster, intersectionList);
         }
 
         public void Update(Camera camera)

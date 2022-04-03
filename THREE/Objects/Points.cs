@@ -68,9 +68,8 @@ namespace THREE.Objects
             }
         }
 
-        public void raycast(Raycaster raycaster, out List<Intersection> intersects)
+        public override void Raycast(Raycaster raycaster, List<Intersection> intersectionList)
         {
-            intersects = new List<Intersection>();
             //Matrix4 inverseMatrix = new Matrix4().GetInverse(MatrixWorld);
             //Ray ray = new Ray();
             //Sphere sphere = new Sphere();

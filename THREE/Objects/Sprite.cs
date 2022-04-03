@@ -60,9 +60,8 @@ namespace THREE.Objects
             this.Center = new Vector2(0.5f, 0.5f);
         }
 
-        public void Raycast(Raycaster raycaster, out Intersection intersection)
+        public override void Raycast(Raycaster raycaster, List<Intersection> intersectionList)
         {
-            intersection = null;
             Vector3 intersectPoint = new Vector3();
             Vector3 worldScale = new Vector3();
             Vector3 mvPosition = new Vector3();
@@ -141,6 +140,7 @@ namespace THREE.Objects
             item.uv = Triangle.GetUV(intersectPoint, vA, vB, vC, uvA, uvB, uvC, new Vector2());
             item.face = null;
             item.object3D = this;
+            intersectionList.Add(item);
         }
 
         private void TransformVertex(Vector3 vertexPosition, Vector3 mvPosition, Vector2 center, Vector2 scale, float sin,
