@@ -45,7 +45,7 @@ namespace THREE.Objects
 
         }
 
-        private void testPoint(Vector3 point, int index, float localThresholdSq, Ray ray, Raycaster raycaster, Vector3 intersectPoint, ref List<Intersection> intersects)
+        private void testPoint(Vector3 point, int index, float localThresholdSq, Ray ray, Raycaster raycaster, Vector3 intersectPoint, List<Intersection> intersectionList)
         {
             float rayPointDistanceSq = ray.DistanceSqToPoint(point);
             if (rayPointDistanceSq < localThresholdSq)
@@ -64,55 +64,56 @@ namespace THREE.Objects
                 item.index = index;
                 item.face = null;
                 item.object3D = this;
-                intersects.Add(item);
+                intersectionList.Add(item);
             }
         }
 
         public override void Raycast(Raycaster raycaster, List<Intersection> intersectionList)
         {
-            //Matrix4 inverseMatrix = new Matrix4().GetInverse(MatrixWorld);
-            //Ray ray = new Ray();
-            //Sphere sphere = new Sphere();
+            Matrix4 inverseMatrix = new Matrix4().GetInverse(MatrixWorld);
+            Ray ray = new Ray();
+            Sphere sphere = new Sphere();
             //float threshold = raycaster.parameters.Points.Threshold;
-            //// Checking boundingSphere distance to ray
-            //if (Geometry.BoundingSphere == null)
-            //{
-            //    Geometry.ComputeBoundingSphere();
-            //}
-            //sphere.Copy(Geometry.BoundingSphere);
-            //sphere.ApplyMatrix4(MatrixWorld);
-            //sphere.Radius += threshold;
-            //if (!raycaster.ray.IntersectsSphere(sphere))
-            //{
-            //    return;
-            //}
-            //ray.copy(raycaster.ray).ApplyMatrix4(inverseMatrix);
-            //
-            //float localThreshold = threshold / ((float)(Scale.X + Scale.Y + Scale.Z) / 3);
-            ////        float localThresholdSq = localThreshold * localThreshold;
-            //Vector3 position = new Vector3();
-            //Vector3 intersectPoint = new Vector3();
-            //
-            //BufferAttribute index = Geometry.GetIndex();
+            float threshold = 0.1f; // Not sure what the replacement for Threshold is
+            // Checking boundingSphere distance to ray
+            if (Geometry.BoundingSphere == null)
+            {
+                Geometry.ComputeBoundingSphere();
+            }
+            sphere.Copy(Geometry.BoundingSphere);
+            sphere.ApplyMatrix4(MatrixWorld);
+            sphere.Radius += threshold;
+            if (!raycaster.ray.IntersectsSphere(sphere))
+            {
+                return;
+            }
+            ray.copy(raycaster.ray).ApplyMatrix4(inverseMatrix);
+            
+            float localThreshold = threshold / ((float)(Scale.X + Scale.Y + Scale.Z) / 3);
+            Vector3 position = new Vector3();
+            Vector3 intersectPoint = new Vector3();
+
+            BufferAttribute<int> index = (Geometry as BufferGeometry).Index;
             //float[] positions = Geometry.position.arrayFloat;
-            //if (index != null)
-            //{
-            //    int[] indices = index.arrayInt;
-            //    for (int i = 0; i < indices.Length; i++)
-            //    {
-            //        int a = indices[i];
-            //        position.FromArray(positions, a * 3);
-            //        testPoint(position, a, localThreshold, ray, raycaster, intersectPoint, ref intersects);
-            //    }
-            //}
-            //else
-            //{
-            //    for (int i = 0; i < positions.Length / 3; i++)
-            //    {
-            //        position.FromArray(positions, i * 3);
-            //        testPoint(position, i, localThreshold, ray, raycaster, intersectPoint, ref intersects);
-            //    }
-            //}
+            float[] positions = ((BufferAttribute<float>)(Geometry as BufferGeometry).Attributes["position"]).Array; // Not sure if this is Correct
+            if (index != null)
+            {
+                int[] indices = index.Array;
+                for (int i = 0; i < indices.Length; i++)
+                {
+                    int a = indices[i];
+                    position.FromArray(positions, a * 3);
+                    testPoint(position, a, localThreshold, ray, raycaster, intersectPoint, intersectionList);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < positions.Length / 3; i++)
+                {
+                    position.FromArray(positions, i * 3);
+                    testPoint(position, i, localThreshold, ray, raycaster, intersectPoint, intersectionList);
+                }
+            }
         }
     }
 }
