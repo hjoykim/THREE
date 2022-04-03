@@ -24,8 +24,8 @@ namespace THREE.Helpers
             this.Light = light;
             this.Light.UpdateMatrixWorld();
 
-            this.Matrix = this.Light.MatrixWorld;
-            this.MatrixAutoUpdate = false;
+            //this.Matrix = this.Light.MatrixWorld;
+            //this.MatrixAutoUpdate = false;
 
             this.Color = color;
 
@@ -51,7 +51,6 @@ namespace THREE.Helpers
         {
             this.Light.UpdateMatrixWorld();
             this.Scale.Set(0.5f * this.Light.Width, 0.5f * this.Light.Height, 1f);
-            this.Children[0].Scale.Set(0.5f * this.Light.Width, 0.5f * this.Light.Height, 1f);
 
             if (this.Color != null)
             {
