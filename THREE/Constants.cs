@@ -8,7 +8,7 @@ namespace THREE
 {
     public class Constants
     {
-        public static string REVISION = "110dev";
+        public static string REVISION = "111dev";
         public enum MOUSE  { LEFT= 0, MIDDLE= 1, RIGHT= 2, ROTATE= 0, DOLLY= 1, PAN= 2 };
         public enum TOUCH  { ROTATE= 0, PAN= 1, DOLLY_PAN= 2, DOLLY_ROTATE= 3 };
         public static int LineStrip = 0;

@@ -40,6 +40,9 @@ namespace THREE.Objects
                 var level = levels[i];
                 this.AddLevel((Object3D)level.object3D.Clone(), level.distance);
             }
+
+
+            this.AutoUpdate = other.AutoUpdate;
         }
 
         public LOD AddLevel(Object3D object3D, float? distance)
@@ -74,18 +77,27 @@ namespace THREE.Objects
         public Object3D GetObjectForDistance(float distance)
         {
             int i;
-            for (i = 0; i < Levels.Count; i++)
-                if (distance < Levels[i].distance)
-                    break;
-            return Levels[i - 1].object3D;
+            if (this.Levels.Count > 0)
+            {
+                for (i = 0; i < this.Levels.Count; i++)
+                {
+                    if (distance < this.Levels[i].distance)
+                        break;
+                }
+                return this.Levels[i - 1].object3D;
+            }
+            return null;
         }
 
         public override void Raycast(Raycaster raycaster, List<Intersection> intersectionList)
         {
-            Vector3 matrixPosition = new Vector3();
-            matrixPosition.SetFromMatrixPosition(MatrixWorld);
-            float distance = raycaster.ray.origin.DistanceTo(matrixPosition);
-            GetObjectForDistance(distance).Raycast(raycaster, intersectionList);
+            if (this.Levels.Count > 0)
+            {
+                v1.SetFromMatrixPosition(this.MatrixWorld);
+                var distance = raycaster.ray.origin.DistanceTo(v1);
+                this.GetObjectForDistance(distance).Raycast(raycaster, intersectionList);
+
+            }
         }
 
         public void Update(Camera camera)

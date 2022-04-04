@@ -545,8 +545,23 @@ namespace THREE.Core
                         BufferAttribute<float> morphAttribute = morphAttributesPosition[i];
                         _box.SetFromBufferAttribute(morphAttribute);
 
-                        this.BoundingBox.ExpandByPoint(_box.Min);
-                        this.BoundingBox.ExpandByPoint(_box.Max);
+                        if (this.MorphTargetsRelative)
+                        {
+
+                            _vector.AddVectors(this.BoundingBox.Min, _box.Min);
+                            this.BoundingBox.ExpandByPoint(_vector);
+
+                            _vector.AddVectors(this.BoundingBox.Max, _box.Max);
+                            this.BoundingBox.ExpandByPoint(_vector);
+
+                        }
+                        else
+                        {
+
+                            this.BoundingBox.ExpandByPoint(_box.Min);
+                            this.BoundingBox.ExpandByPoint(_box.Max);
+
+                        }
 
                     }
                 }
@@ -592,8 +607,19 @@ namespace THREE.Core
 
                         _boxMorphTargets.SetFromBufferAttribute(morphAttribute);
 
-                        _box.ExpandByPoint(_boxMorphTargets.Min);
-                        _box.ExpandByPoint(_boxMorphTargets.Max);
+                        if (this.MorphTargetsRelative)
+                        {
+                            _vector.AddVectors(_box.Min, _boxMorphTargets.Min);
+                            _box.ExpandByPoint(_vector);
+
+                            _vector.AddVectors(_box.Max, _boxMorphTargets.Max);
+                            _box.ExpandByPoint(_vector);
+                        }
+                        else
+                        {
+                            _box.ExpandByPoint(_boxMorphTargets.Min);
+                            _box.ExpandByPoint(_boxMorphTargets.Max);
+                        }
                     }
                 }
 
@@ -861,6 +887,8 @@ namespace THREE.Core
 
                 geometry2.MorphAttributes.Add(name,morphArray);
             }
+
+            geometry2.MorphTargetsRelative = this.MorphTargetsRelative;
 
             var groups = this.Groups;
 

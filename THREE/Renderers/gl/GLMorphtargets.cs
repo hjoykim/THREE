@@ -77,6 +77,8 @@ namespace THREE.Renderers.gl
 
             // Add morphAttributes
 
+            float morphInfluencesSum = 0;
+
             for (int i = 0; i < 8; i++)
             {
                 var influence = influences[i];
@@ -92,13 +94,17 @@ namespace THREE.Renderers.gl
                         if (morphNormals != null) geometry.SetAttribute("morphNormal" + i, morphNormals[(int)index]);
 
                         this.MorphInfluences[i] = value;
+                        morphInfluencesSum += value;
                         continue;
                     }
                 }
                 this.MorphInfluences[i] = 0;
             }
 
-            //program.GetUniforms().SetValue("morphTargetInfluences", this.MorphInfluences);
+            var MorphBaseInfluence = geometry.MorphTargetsRelative ? 1 : System.Math.Max(0, 1 - morphInfluencesSum);
+
+            program.GetUniforms().SetValue("morphTargetBaseInfluence", MorphBaseInfluence);
+            program.GetUniforms().SetValue("morphTargetInfluences", this.MorphInfluences);
         }
        
     }
