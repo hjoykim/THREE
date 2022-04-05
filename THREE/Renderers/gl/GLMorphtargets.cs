@@ -23,7 +23,10 @@ namespace THREE.Renderers.gl
         {
             var objectInfluences = object3D.MorphTargetInfluences;
 
-            var length = objectInfluences.Count;
+            // When object doesn't have morph target influences defined, we treat it as a 0-length array
+            // This is important to make sure we set up morphTargetBaseInfluence / morphTargetInfluences
+
+            var length = objectInfluences == null ? 0 : objectInfluences.Count;
 
             List<float[]> influences = null;
 

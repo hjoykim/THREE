@@ -17,7 +17,6 @@ namespace THREE.Objects
 		private Ray _ray = new Ray();
 		private Vector3 _intersectionPoint = new Vector3();
 		private Vector3 _intersectionPointWorld = new Vector3();
-		public int DrawMode;
 
         //public List<int> MorphTargetInfluences = new List<int>();
 
@@ -58,7 +57,6 @@ namespace THREE.Objects
                 if (this.Materials.Count > 0)
                     this.Material = this.Materials[0];
             }
-            this.DrawMode = Constants.TrianglesDrawMode;
 
             this.UpdateMorphTargets();
         }
@@ -85,14 +83,7 @@ namespace THREE.Objects
 
             this.Materials.Add(Material);
 
-            this.DrawMode = Constants.TrianglesDrawMode;
-
             this.UpdateMorphTargets();
-        }
-
-        public void SetDrawMode(int value)
-        {
-            this.DrawMode = value;
         }
 
         public void UpdateMorphTargets()

@@ -19,6 +19,8 @@ namespace THREE.Materials
             this.Defines.Add("STANDARD", "");
 
             Color = new Color().SetHex(0xffffff);
+			Roughness = 1.0f;
+			Metalness = 0.0f;
 
 			this.Map = null;
 

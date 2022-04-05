@@ -26,11 +26,14 @@ namespace THREE.Scenes
         public Scene()
         {
             this.type = "Scene";
+            this.Background = null;
+            this.Environment = null;
             this.Fog = null;
             this.OverrideMaterial = null;
 
             this.AutoUpdate = true;
         }
+
         public virtual void Resize(float width, float height)
         {
 

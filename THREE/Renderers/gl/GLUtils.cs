@@ -63,6 +63,12 @@ namespace THREE.Renderers.gl
             if ( p ==Constants.DepthStencilFormat ) return All.DepthStencil;
             if ( p ==Constants.RedFormat ) return All.Red;
 
+            if (p == Constants.RedIntegerFormat) return All.RedInteger;
+            if (p == Constants.RGFormat) return All.Rg;
+            if (p == Constants.RGIntegerFormat) return All.RgInteger;
+            if (p == Constants.RGBIntegerFormat) return All.RgbInteger;
+            if (p == Constants.RGBAIntegerFormat) return All.RgbaInteger;
+
             if ( p ==Constants.AddEquation ) return All.FuncAdd;
             if ( p ==Constants.SubtractEquation ) return All.FuncSubtract;
             if ( p ==Constants.ReverseSubtractEquation ) return All.FuncReverseSubtract;

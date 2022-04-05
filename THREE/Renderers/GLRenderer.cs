@@ -59,10 +59,6 @@ namespace THREE.Renderers
 
         public float GammaFactor = 2.0f; // for backwards compatibility
 
-        public bool GammaInput = false;
-
-        public bool GammaOutput = false;
-
         public int outputEncoding = Constants.LinearEncoding;
         // physically lights
 
@@ -603,19 +599,6 @@ namespace THREE.Renderers
 
             var dataCount = (index != null) ? index.count : position.count;
 
-            //if (index != null)
-            //{
-
-            //    dataCount = index.count;
-
-            //}
-            //else if (position != null)
-            //{
-
-            //    dataCount = (position as BufferAttribute<float>).count;
-
-            //}
-
             var rangeStart = (geometry as BufferGeometry).DrawRange.Start * rangeFactor;
             var rangeCount = (geometry as BufferGeometry).DrawRange.Count * rangeFactor;
 
@@ -643,24 +626,6 @@ namespace THREE.Renderers
                 else
                 {
                     renderer.SetMode(PrimitiveType.Triangles);
-
-                    //switch ((object3D as Mesh).DrawMode)
-                    //{
-
-                    //    case 0 : //Constants.TrianglesDrawMode:
-                    //        renderer.SetMode(PrimitiveType.Triangles);
-                    //        break;
-
-                    //    case 1 : //Constants.TriangleStripDrawMode:
-                    //        renderer.SetMode(PrimitiveType.TriangleStrip);
-                    //        break;
-
-                    //    case 2 : //Constants.TriangleFanDrawMode:
-                    //        renderer.SetMode(PrimitiveType.TriangleFan);
-                    //        break;
-
-                    //}
-
                 }
 
             }
@@ -1035,9 +1000,9 @@ namespace THREE.Renderers
 
             if (object3D is ImmediateRenderObject)
             {
-                state.SetMaterial(material);
+                var program = SetProgram(camera, scene, material, object3D);
 
-                var program = SetProgram(camera, scene, material, object3D);               
+                state.SetMaterial(material);
 
                 RenderObjectImmediate(object3D, program);
             }

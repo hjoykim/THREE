@@ -102,6 +102,8 @@ namespace THREE.Textures
             }
         }
 
+        public string InternalFormat = null;
+
         public int Encoding = Constants.LinearEncoding;
 
         public int version = 0;
@@ -167,6 +169,7 @@ namespace THREE.Textures
             this.Anisotropy = anisotropy != null ? (int)anisotropy : 1;
 
             this.Format = format != null ? (int)format : Constants.RGBAFormat;
+            this.InternalFormat = null;
             this.Type = type != null ? (int)type : Constants.UnsignedByteType;
 
             this.Encoding = encoding != null ? (int)encoding : Constants.LinearEncoding;
@@ -204,6 +207,7 @@ namespace THREE.Textures
             this.Anisotropy = other.Anisotropy;
 
             this.Format = other.Format;
+            this.InternalFormat = other.InternalFormat;
             this.Type = other.Type;
 
             this.Encoding = other.Encoding;
