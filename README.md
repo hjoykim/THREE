@@ -1,6 +1,5 @@
 # THREE
-C# port of Three.js
-Updated to r112
+C# port of Three.js r112
 
 ![image](https://user-images.githubusercontent.com/3807476/126269787-b1b512a5-96c6-4cab-b60b-ede6745892bb.png)
 ![image](https://user-images.githubusercontent.com/3807476/126269817-398da361-fa3b-4a20-925b-4723f3d2daba.png)
