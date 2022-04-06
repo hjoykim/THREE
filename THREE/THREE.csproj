@@ -230,6 +230,7 @@
     <Compile Include="Objects\Points.cs" />
     <Compile Include="Objects\Skeleton.cs" />
     <Compile Include="Objects\SkinnedMesh.cs" />
+    <Compile Include="Objects\Sky.cs" />
     <Compile Include="Objects\Sprite.cs" />
     <Compile Include="Postprocessing\BloomPass.cs" />
     <Compile Include="Postprocessing\BokehPass.cs" />
