@@ -417,8 +417,8 @@ namespace THREE.Renderers.gl
 
             if (rectAreaLength > 0)
             {
-                state["rectAreaLTC1"] = TextureLoader.LoadEmbedded("ltc_1.png");
-                state["rectAreaLTC2"] = TextureLoader.LoadEmbedded("ltc_2.png");
+                if(state.Contains("rectAreaLTC1")) state["rectAreaLTC1"] = TextureLoader.LoadEmbedded("ltc_1.png");
+                if (state.Contains("rectAreaLTC2")) state["rectAreaLTC2"] = TextureLoader.LoadEmbedded("ltc_2.png");
             }
 
             state["ambient"] = ambientColor;
