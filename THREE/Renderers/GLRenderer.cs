@@ -1143,16 +1143,23 @@ namespace THREE.Renderers
             target.Copy(_currentViewport);
 
             return target;
-        }        
+        }
 
-        public virtual void Resize(float width, float height)
+        public virtual void SetGraphicsContext(IGraphicsContext context, int width, int height)
         {
-           
+            Context = context;
+            Resize(width, height);
+        }
+
+        public virtual void Resize(int width, int height)
+        {
             //foreach (string key in sceneList.Keys)
             //{
             //    RenderInfo info = sceneList[key];
             //    info.Camera.MatrixWorldNeedsUpdate = true;
             //}
+            Width = width;
+            Height = height;
 
             this._viewport.Set(0, 0, width, height);
             this._currentViewport.Set(0, 0, width, height);       
