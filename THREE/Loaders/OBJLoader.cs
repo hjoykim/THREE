@@ -516,6 +516,11 @@ namespace THREE.Loaders
 
         public Objects.Group Parse(string path)
         {
+            return Parse(File.ReadAllText(path), path);
+        }
+
+        public Objects.Group Parse(string objContents, string path)
+        {
             Debug.WriteLine("OBJLoader");
 
             Stopwatch stopWatch = new Stopwatch();
@@ -524,19 +529,15 @@ namespace THREE.Loaders
 
             var state = ParserState();
 
-            string filePath = Path.GetDirectoryName(path);
-
-            var textAll = File.ReadAllText(path);
-
-            if (textAll.IndexOf(@"\r\n") > -1)
+            if (objContents.IndexOf(@"\r\n") > -1)
             {
-                textAll = textAll.Replace(@"\r\n", @"\n");
+                objContents = objContents.Replace(@"\r\n", @"\n");
             }
-            if (textAll.IndexOf(@"\\\n") > -1)
+            if (objContents.IndexOf(@"\\\n") > -1)
             {
-                textAll = textAll.Replace(@"\\\n", "");
+                objContents = objContents.Replace(@"\\\n", "");
             }
-            var lines = textAll.Split('\n');
+            var lines = objContents.Split('\n');
 
             int lineLength = 0;
 
@@ -642,14 +643,14 @@ namespace THREE.Loaders
                     state.StartObject(name, true);
                     continue;
                 }
-                else if (line.Contains("usemtl"))
+                else if (line.Contains("usemtl") && string.IsNullOrWhiteSpace(path) == false)
                 {
                     if (line.Trim() == "usemtl") continue;
                     string mtlName = line.Substring(7, line.Length - 7).Trim();
                     state.Object.StartMaterial(mtlName, state.MaterialLibraries);
                     continue;
                 }
-                else if (line.Contains("mtllib"))
+                else if (line.Contains("mtllib") && string.IsNullOrWhiteSpace(path) == false)
                 {
                     string matFileName = line.Substring(7, line.Length - 7).Trim();
                     string directory = Path.GetDirectoryName(path);
@@ -689,13 +690,13 @@ namespace THREE.Loaders
 
             container.MaterialLibraries = state.MaterialLibraries.ToList();
 
-            if (container.MaterialLibraries != null && container.MaterialLibraries.Count > 0)
+            if (container.MaterialLibraries != null && container.MaterialLibraries.Count > 0 && string.IsNullOrWhiteSpace(path) == false)
             {
                 MTLLoader mtlLoader = new MTLLoader();
                 for (int i = 0; i < container.MaterialLibraries.Count; i++)
                 {
                     string mtlPath = container.MaterialLibraries[i];
-                    if(File.Exists(mtlPath))
+                    if (File.Exists(mtlPath))
                         mtlLoader.Load(mtlPath);
                 }
                 this.SetMaterials(mtlLoader.MultiMaterialCreator);
@@ -747,7 +748,7 @@ namespace THREE.Loaders
                     var sourceMaterial = materials[mi];
                     Material material = null;
 
-                    if (this.Materials != null && this.Materials.Materials.Count > 0 &&  !string.IsNullOrEmpty(sourceMaterial.Name))
+                    if (this.Materials != null && this.Materials.Materials.Count > 0 && !string.IsNullOrEmpty(sourceMaterial.Name))
                     {
 
                         material = this.Materials.Create(sourceMaterial.Name);
@@ -796,7 +797,7 @@ namespace THREE.Loaders
                     }
 
                     material.FlatShading = sourceMaterial.Smooth ? false : true;
-                    material.VertexColors = hasVertexColors; 
+                    material.VertexColors = hasVertexColors;
 
                     createdMaterials.Add(material);
 
@@ -880,445 +881,6 @@ namespace THREE.Loaders
         public Objects.Group Load(string path)
         {
             return Parse(path);
-    //        Stopwatch stopWatch = new Stopwatch();
-    //        stopWatch.Start();
-
-    //        string filePath = Path.GetDirectoryName(path);
-    //        var textAll = File.ReadAllText(path);
-
-    //        if (textAll.IndexOf(@"\r\n") > -1)
-    //        {
-    //            textAll = textAll.Replace(@"\r\n", @"\n");
-    //        }
-    //        if (textAll.IndexOf(@"\\\n") > -1)
-    //        {
-    //            textAll = textAll.Replace(@"\\\n", "");
-    //        }
-    //        var lines = textAll.Split('\n');
-           
-    //        // v float float float
-    //        var vertex_pattern = @"v( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)";
-
-    //        // v float float float float float float
-    //        var vertex_color_pattern = @"v( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)";
-
-    //        // vn float float float
-
-    //        var normal_pattern = @"vn( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)";
-
-    //        // vt float float
-
-    //        var uv_pattern = @"vt( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)";
-
-    //        // f vertex vertex vertex ...
-
-    //        var face_pattern1 = @"f( +-?\d+)( +-?\d+)( +-?\d+)( +-?\d+)?";
-
-    //        // f vertex/uv vertex/uv vertex/uv ...
-
-    //        var face_pattern2 = @"f( +(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+))?";
-
-    //        // f vertex/uv/normal vertex/uv/normal vertex/uv/normal ...
-
-    //        var face_pattern3 = @"f( +(-?\d+)\/(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+)\/(-?\d+))( +(-?\d+)\/(-?\d+)\/(-?\d+))?";
-
-    //        // f vertex//normal vertex//normal vertex//normal ... 
-
-    //        var face_pattern4 = @"f( +(-?\d+)\/\/(-?\d+))( +(-?\d+)\/\/(-?\d+))( +(-?\d+)\/\/(-?\d+))( +(-?\d+)\/\/(-?\d+))?";
-
-    //        // l index index
-    //        var line_pattern1 = @"l( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)";
-
-    //        // l line index/uv index line index/uv index
-    //        var line_pattern2 = @"l( +[\d|\.|\+|\-|e|E]+)\/( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)\/( +[\d|\.|\+|\-|e|E]+)";
-
-    //        // p float float float
-    //        var point_pattern = @"v( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)( +[\d|\.|\+|\-|e|E]+)";
-
-    //        var state = ParserState();
-
-    //        for (int i = 0; i < lines.Length; i++)
-    //        {
-    //            var line = lines[i].Trim();
-
-    //            if (line.Length == 0 || line[0] == '#')
-    //            {
-    //                continue;
-    //            }
-    //            {
-    //                // 'v' Vertex
-    //                var rgx = new Regex(vertex_pattern, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-                        
-    //                    state.Vertices.Add(ParseFloat(match.Groups[1].Value), ParseFloat(match.Groups[2].Value), ParseFloat(match.Groups[3].Value));
-    //                }
-
-    //                if (matches.Count > 0) continue;
-
-    //            }
-    //            {
-    //                // 'v' Vertex & Color
-    //                var rgx = new Regex(vertex_color_pattern, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-
-    //                    state.Vertices.Add(ParseFloat(match.Groups[1].Value), ParseFloat(match.Groups[2].Value), ParseFloat(match.Groups[3].Value));
-    //                    state.Colors.Add(ParseFloat(match.Groups[4].Value), ParseFloat(match.Groups[5].Value), ParseFloat(match.Groups[6].Value));
-    //                }
-
-    //                if (matches.Count > 0) continue;
-
-    //            }
-    //            {
-    //                //'vn' Normal
-    //                var rgx = new Regex(normal_pattern, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-    //                    state.Normals.Add(ParseFloat(match.Groups[1].Value), ParseFloat(match.Groups[2].Value), ParseFloat(match.Groups[3].Value));
-    //                }
-
-    //                if (matches.Count > 0) continue;
-    //            }
-    //            {
-    //                // 'vt' Uvs
-    //                var rgx = new Regex(uv_pattern, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-    //                    state.Uvs.Add(ParseFloat(match.Groups[1].Value), ParseFloat(match.Groups[2].Value));
-    //                }
-
-    //                if (matches.Count > 0) continue;
-    //            }
-    //            {
-    //                // 'f' face
-    //                var rgx = new Regex(face_pattern1, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-    //                    state.AddFace(
-    //                        ParseInt(match.Groups[1].Value), ParseInt(match.Groups[2].Value), ParseInt(match.Groups[3].Value), ParseInt(match.Groups[4].Value),
-    //                        null, null, null, null,
-    //                        null, null, null, null);
-    //                }
-
-    //                if (matches.Count > 0) continue;
-    //            }
-    //            {
-    //                // 'f' face 2
-    //                var rgx = new Regex(face_pattern2, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-    //                    state.AddFace(
-    //                        ParseInt(match.Groups[2].Value), ParseInt(match.Groups[5].Value), ParseInt(match.Groups[8].Value), ParseInt(match.Groups[11].Value),
-    //                        ParseInt(match.Groups[3].Value), ParseInt(match.Groups[6].Value), ParseInt(match.Groups[9].Value), ParseInt(match.Groups[12].Value),
-    //                        null, null, null, null);
-    //                }
-
-    //                if (matches.Count > 0) continue;
-    //            }
-    //            {
-    //                // 'f' face 3
-    //                var rgx = new Regex(face_pattern3, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-    //                    state.AddFace(
-    //                        ParseInt(match.Groups[2].Value), ParseInt(match.Groups[6].Value), ParseInt(match.Groups[10].Value), ParseInt(match.Groups[14].Value),
-    //                        ParseInt(match.Groups[3].Value), ParseInt(match.Groups[7].Value), ParseInt(match.Groups[11].Value), ParseInt(match.Groups[15].Value),
-    //                        ParseInt(match.Groups[4].Value), ParseInt(match.Groups[8].Value), ParseInt(match.Groups[12].Value), ParseInt(match.Groups[16].Value));
-    //                }
-
-    //                if (matches.Count > 0) continue;
-    //            }
-    //            {
-    //                // 'f' face 4
-    //                var rgx = new Regex(face_pattern4, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-    //                    state.AddFace(
-    //                        ParseInt(match.Groups[2].Value), ParseInt(match.Groups[5].Value), ParseInt(match.Groups[8].Value), ParseInt(match.Groups[11].Value),
-    //                        null, null, null, null,
-    //                        ParseInt(match.Groups[3].Value), ParseInt(match.Groups[6].Value), ParseInt(match.Groups[9].Value), ParseInt(match.Groups[12].Value));
-    //                }
-
-    //                if (matches.Count > 0) continue;
-    //            }
-    //            {
-    //                // 'l' line pattern
-    //                var rgx = new Regex(line_pattern1, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-    //                    state.AddLineGeometry(new float[] { ParseFloat(match.Groups[1].Value), ParseFloat(match.Groups[2].Value) });
-    //                }
-
-    //                if (matches.Count > 0) continue;
-    //            }
-    //            {
-    //                // 'l' line pattern
-    //                var rgx = new Regex(line_pattern2, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-    //                    state.AddLineGeometry(new float[] { ParseFloat(match.Groups[1].Value), ParseFloat(match.Groups[3].Value) },new float[] { ParseFloat(match.Groups[2].Value), ParseFloat(match.Groups[4].Value) });
-    //                }
-
-    //                if (matches.Count > 0) continue;
-    //            }
-    //            {
-    //                // 'p' point pattern
-    //                var rgx = new Regex(point_pattern, RegexOptions.IgnoreCase);
-    //                var matches = rgx.Matches(line);
-
-    //                foreach (Match match in matches)
-    //                {
-    //                    state.AddPointGeometry(new float[] { ParseFloat(match.Groups[1].Value), ParseFloat(match.Groups[2].Value),ParseFloat(match.Groups[3].Value) });
-    //                }
-
-    //                if (matches.Count > 0) continue;
-    //            }
-    //            if (line.Contains("o ") || line.Contains("g "))
-    //            {
-    //                var name = line.Substring(2, line.Length - 2).Trim();
-    //                state.StartObject(name,true);
-    //                continue;
-    //            }
-
-    //            if (line.Contains("usemtl"))
-    //            {
-    //                string mtlName = line.Substring(7, line.Length - 7).Trim();                  
-    //                state.Object.StartMaterial(mtlName, state.MaterialLibraries);
-    //                continue;
-    //            }
-    //            if (line.Contains("mtllib"))
-    //            {                   
-    //                string matFileName = line.Substring(7, line.Length - 7).Trim();
-    //                string directory = Path.GetDirectoryName(path);
-    //                string matPath = Path.Combine(directory, matFileName);
-    //                //state.Object.StartMaterial(matPath, state.MaterialLibraries);
-    //                state.MaterialLibraries.Add(matPath);
-    //                continue;
-    //            }
-
-    //            if (line.Contains("s "))
-    //            {
-    //                string[] result = line.Split(' ');
-    //                if (result.Length > 1)
-    //                {
-    //                    var value = result[1].Trim().ToLower();
-    //                    state.Object.Smooth = (value != "0" && value != "off");
-    //                }
-    //                else
-    //                {
-    //                    state.Object.Smooth = true;
-    //                }
-    //                var material = state.Object.CurrentMaterial();
-    //                if (material != null) material.Smooth = state.Object.Smooth;
-    //                continue;
-    //            }
-    //            else
-    //            {
-    //                if (line == "\0") continue;
-
-    //                throw new Exception("THREE.OBJLoader: Unexpected line:" + line);
-    //            }
-
-    //        }
-
-    //        state.finalize();
-
-    //        var container = new Objects.Group();
-
-    //        container.MaterialLibraries = state.MaterialLibraries.ToList();
-
-    //        if(container.MaterialLibraries!=null && container.MaterialLibraries.Count > 0)
-    //        {
-    //            Debug.WriteLine("MTL Library is exist. it need to load obj's material from MTL File");
-    //        }
-
-    //        for (var i = 0; i < state.Objects.Count; i++)
-    //        {
-    //            var Object = state.Objects[i];
-    //            var geometry = Object.Geometry;
-    //            var materials = Object.Materials;
-    //            var isLine = geometry.type == "Line" ? true : false;
-    //            var isPoints = geometry.type == "Points" ? true : false;
-    //            var hasVertexColors = false;
-
-    //            var bufferGeometry = new BufferGeometry();
-
-    //            bufferGeometry.SetAttribute("position", new BufferAttribute<float>(geometry.Vertices.ToArray(), 3));
-
-    //            if ( geometry.Normals.Count > 0 ) {
-
-				//	bufferGeometry.SetAttribute("normal", new BufferAttribute<float>( geometry.Normals.ToArray(), 3 ) );
-
-				//} else {
-
-				//	bufferGeometry.ComputeVertexNormals();
-
-				//}
-
-				//if ( geometry.Colors.Count > 0 ) {
-
-				//	hasVertexColors = true;
-				//	bufferGeometry.SetAttribute("color", new BufferAttribute<float>( geometry.Colors.ToArray(), 3 ) );
-
-				//}
-
-				//if ( geometry.Uvs.Count > 0 ) {
-
-				//	bufferGeometry.SetAttribute("uv", new BufferAttribute<float>( geometry.Uvs.ToArray(), 2 ) );
-
-				//}
-
-    //            // Create materials
-
-				//var createdMaterials = new List<Material>();
-
-				//for (var mi = 0;mi< materials.Count;mi ++ ) 
-    //            {
-
-				//	var sourceMaterial = materials[mi];
-				//	Material material = null;
-
-				//	if ( this.Materials != null ) {
-
-				//		material = this.Materials.Create( sourceMaterial.Name );
-
-				//		// mtl etc. loaders probably can't create line materials correctly, copy properties to a line material.
-				//		if ( isLine && material!=null && ! ( material is LineBasicMaterial ) ) {
-
-				//			var materialLine = new LineBasicMaterial();
-				//			materialLine =(LineBasicMaterial)material.Clone();
-				//			materialLine.Color = material.Color;
-				//			material = materialLine;
-
-				//		} else if ( isPoints && material!=null && ! ( material is PointsMaterial ) ) {
-
-				//			var materialPoints = new PointsMaterial() { Size=10, SizeAttenuation=false };
-    //                        materialPoints = (PointsMaterial)material.Clone();                           
-				//			materialPoints.Color = material.Color;
-				//			materialPoints.Map = material.Map;
-				//			material = materialPoints;
-				//		}
-
-				//	}
-    //                if (material==null)
-    //                {
-    //                    if (isLine)
-    //                    {
-    //                        material = new LineBasicMaterial();
-    //                    }
-    //                    else if (isPoints)
-    //                    {
-    //                        material = new PointsMaterial() { Size= 1, SizeAttenuation=false };
-
-    //                    } else 
-    //                    {
-
-    //                        material = new MeshPhongMaterial();
-
-    //                    }
-
-    //                    material.Name = sourceMaterial.Name;
-
-				//	}
-
-    //                material.FlatShading = sourceMaterial.Smooth? false : true;
-				//	material.VertexColors = hasVertexColors? Constants.VertexColors : Constants.NoColors;
-
-				//	createdMaterials.Add(material);
-
-				//}
-
-    //            // Create Mesh
-    //            Mesh mesh;
-
-    //            if (createdMaterials.Count > 1)
-    //            {
-
-    //                for (var mi = 0; mi< materials.Count; mi++)
-    //                {
-
-    //                    var sourceMaterial = materials[mi];
-    //                    bufferGeometry.AddGroup(sourceMaterial.GroupStart, sourceMaterial.GroupCount, mi);
-
-    //                }
-
-    //                if (isLine)
-    //                {
-
-    //                    var lineSegment = new LineSegments(bufferGeometry, createdMaterials);
-    //                    lineSegment.Name = Object.Name;
-    //                    container.Add(lineSegment);
-    //                }
-    //                else if (isPoints)
-    //                {
-
-    //                    Points points = new Points(bufferGeometry, createdMaterials);
-    //                    points.Name = Object.Name;
-    //                    container.Add(points);
-
-    //                }
-    //                else
-    //                {
-
-    //                    mesh = new Mesh(bufferGeometry, createdMaterials);
-    //                    mesh.Name = Object.Name;
-    //                    container.Add(mesh);
-
-    //                }
-
-    //            }
-    //            else
-    //            {
-
-    //                if (isLine)
-    //                {
-
-    //                    var lineSegment = new LineSegments(bufferGeometry, createdMaterials[0]);
-    //                    lineSegment.Name = Object.Name;
-    //                    container.Add(lineSegment);
-    //                }
-    //                else if (isPoints)
-    //                {
-
-    //                    Points points = new Points(bufferGeometry, createdMaterials[0]);
-    //                    points.Name = Object.Name;
-    //                    container.Add(points);
-    //                }
-    //                else
-    //                {
-
-    //                    mesh = new Mesh(bufferGeometry, createdMaterials[0]);
-    //                    mesh.Name = Object.Name;
-    //                    container.Add(mesh);
-    //                }
-
-    //            }
-    //        }
-
-    //        stopWatch.Stop();
-    //        Debug.WriteLine("Obj loading time : " + stopWatch.ElapsedMilliseconds + "ms");
-    //        return container;
         }
     }
 }
