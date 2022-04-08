@@ -643,15 +643,16 @@ namespace THREE.Loaders
                     state.StartObject(name, true);
                     continue;
                 }
-                else if (line.Contains("usemtl") && string.IsNullOrWhiteSpace(path) == false)
+                else if (line.Contains("usemtl"))
                 {
-                    if (line.Trim() == "usemtl") continue;
+                    if (line.Trim() == "usemtl" || string.IsNullOrWhiteSpace(path)) continue;
                     string mtlName = line.Substring(7, line.Length - 7).Trim();
                     state.Object.StartMaterial(mtlName, state.MaterialLibraries);
                     continue;
                 }
-                else if (line.Contains("mtllib") && string.IsNullOrWhiteSpace(path) == false)
+                else if (line.Contains("mtllib"))
                 {
+                    if (string.IsNullOrWhiteSpace(path)) continue;
                     string matFileName = line.Substring(7, line.Length - 7).Trim();
                     string directory = Path.GetDirectoryName(path);
                     string matPath = Path.Combine(directory, matFileName);
@@ -690,7 +691,7 @@ namespace THREE.Loaders
 
             container.MaterialLibraries = state.MaterialLibraries.ToList();
 
-            if (container.MaterialLibraries != null && container.MaterialLibraries.Count > 0 && string.IsNullOrWhiteSpace(path) == false)
+            if (container.MaterialLibraries != null && container.MaterialLibraries.Count > 0)
             {
                 MTLLoader mtlLoader = new MTLLoader();
                 for (int i = 0; i < container.MaterialLibraries.Count; i++)
