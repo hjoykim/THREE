@@ -16,6 +16,7 @@ using THREE.Math;
 using THREE.Textures;
 using THREE.Extensions;
 using System.Runtime.InteropServices;
+using OpenTK.Graphics;
 
 namespace THREE.Renderers.gl
 {
@@ -31,7 +32,7 @@ namespace THREE.Renderers.gl
 
         private int maxSample;
 
-        private GLControl glControl;
+        private IGraphicsContext Context;
 
         private Hashtable videoTextures = new Hashtable();
 
@@ -48,9 +49,9 @@ namespace THREE.Renderers.gl
 
         GLInfo info;
 
-        public GLTextures(GLControl control,GLExtensions extensions, GLState state, GLProperties properties, GLCapabilities capabilities, GLUtils util, GLInfo info)
+        public GLTextures(IGraphicsContext context,GLExtensions extensions, GLState state, GLProperties properties, GLCapabilities capabilities, GLUtils util, GLInfo info)
         {
-            this.glControl = control;
+            this.Context = context;
 
             this.IsGL2 = capabilities.IsGL2;
             
@@ -254,7 +255,7 @@ namespace THREE.Renderers.gl
         
         public void DeallocateRenderTarget(GLRenderTarget renderTarget)
         {
-            if (!this.glControl.Context.IsCurrent) return;
+            if (!this.Context.IsCurrent) return;
             if (renderTarget == null) return;
 
             var renderTargetProperties = properties.Get(renderTarget);
@@ -676,7 +677,7 @@ namespace THREE.Renderers.gl
                 textureProperties.Add("glInit", true);
                 texture.Disposed += (o, e) =>
                 {
-                    if (!this.glControl.IsDisposed && this.glControl.Context.IsCurrent)
+                    if (!this.Context.IsDisposed && this.Context.IsCurrent)
                     {
                         DeallocateTexture(texture);
                         info.memory.Textures--;
@@ -1089,7 +1090,7 @@ namespace THREE.Renderers.gl
 
             renderTarget.Disposed+=(s,e)=>
             {
-                if (!this.glControl.IsDisposed)
+                if (!this.Context.IsDisposed)
                 {
                     DeallocateRenderTarget(renderTarget);
                 }

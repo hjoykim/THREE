@@ -52,11 +52,11 @@ namespace THREE.Renderers.gl
 
         private bool vaoAvailable;
 
-        private GLControl glControl;
+        private IGraphicsContext Context;
 
-        public GLBindingStates(GLControl glControl,GLExtensions extensions,GLAttributes attributes,GLCapabilities capabilities)
+        public GLBindingStates(IGraphicsContext context,GLExtensions extensions,GLAttributes attributes,GLCapabilities capabilities)
         {
-            this.glControl = glControl;
+            this.Context = context;
             this.extensions = extensions;
             this.attributes = attributes;
             this.capabilities = capabilities;
@@ -71,7 +71,7 @@ namespace THREE.Renderers.gl
         }
         ~GLBindingStates()
         {
-            if (!this.glControl.IsDisposed && this.glControl.Context.IsCurrent)
+            if (!this.Context.IsDisposed && this.Context.IsCurrent)
             {
                 Reset();                
                 foreach (int geometryId in bindingStates.Keys)
@@ -101,13 +101,13 @@ namespace THREE.Renderers.gl
         }
         private void bindVertexArrayObject(int vao)
         {
-           if(this.glControl.Context.IsCurrent)
+           if(this.Context.IsCurrent)
                 GL.BindVertexArray(vao);
            
         }
         private void deleteVertexArrayObject(int vao)
         {
-            if(this.glControl.Context.IsCurrent)
+            if(this.Context.IsCurrent)
                 GL.DeleteVertexArray(vao);
         }
        

@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.ES30;
+﻿using OpenTK.Graphics;
+using OpenTK.Graphics.ES30;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,17 +20,9 @@ using THREE.Textures;
 
 namespace THREE.Renderers
 {
-
-    //public struct RenderInfo
-    //{
-    //    public Scene Scene;
-
-    //    public Camera Camera;
-    //}
-
     public class GLRenderer : IDisposable
     {
-        public OpenTK.GLControl glControl;
+        public OpenTK.Graphics.IGraphicsContext Context;
 
         public event EventHandler<EventArgs> Disposed;
 
@@ -82,11 +75,11 @@ namespace THREE.Renderers
         GLCapabilitiesParameters parameters;
 
         public GLExtensions extensions;
-        
+
         GLCapabilities capabilities;
-        
+
         public GLState state;
-        
+
         public GLInfo info;
 
         public GLProperties properties;
@@ -169,15 +162,15 @@ namespace THREE.Renderers
             }
         }
         #region internal properties
-        
+
         private int? _framebuffer = null;
 
         private int _currentActiveCubeFace = 0;
 
         private GLRenderTarget _currentRenderTarget = null;
-        
+
         private int? _currentFramebuffer = null;
-        
+
         private int _currentMaterialId = -1;
 
         private Camera _currentCamera;
@@ -199,10 +192,10 @@ namespace THREE.Renderers
         private Vector4 _scissor = Vector4.Zero();
 
         private bool _scissorTest = false;
-        
+
         // frustum
 
-        private Frustum _frustum = new Frustum();               
+        private Frustum _frustum = new Frustum();
 
         // clipping 
 
@@ -218,7 +211,10 @@ namespace THREE.Renderers
 
         private Vector3 _vector3 = Vector3.Zero();
 
-        public Control ParentWindow;
+        public int Width;
+        public int Height;
+        public float AspectRatio => Width / Height;
+
         #endregion
 
         #region constructor
@@ -227,11 +223,12 @@ namespace THREE.Renderers
            
         }
 
-        public GLRenderer(OpenTK.GLControl glControl, Control window)  : base()
+        public GLRenderer(IGraphicsContext context, int width, int height)  : base()
         {
-            this.glControl = glControl;
-            this._viewport = new Vector4(0, 0, glControl.Width, glControl.Height);
-            this.ParentWindow = window;
+            this.Context = context;
+            this._viewport = new Vector4(0, 0, width, height);
+            this.Width = width;
+            this.Height = height;
             this.Init();
         }
         #endregion
@@ -252,16 +249,16 @@ namespace THREE.Renderers
             {
                 target = new Vector2();
             }
-            target.Set(glControl.Width, glControl.Height);
+            target.Set(Width, Height);
 
             return target;
         }
         public void SetSize(float width,float height)
         {
-            glControl.Width = (int)System.Math.Floor(width*_pixelRatio);
-            glControl.Height =(int)System.Math.Floor(height * _pixelRatio);
+            Width = (int)System.Math.Floor(width*_pixelRatio);
+            Height =(int)System.Math.Floor(height * _pixelRatio);
 
-            SetViewport(glControl.Width, glControl.Height);
+            SetViewport(Width, Height);
         }
         public void Clear(bool? color=null, bool? depth=null, bool? stencil=null)
         {
@@ -274,7 +271,7 @@ namespace THREE.Renderers
 
             ClearBufferMask mask = (ClearBufferMask)Enum.ToObject(typeof(ClearBufferMask), bits);
             
-            if(glControl.Context.IsCurrent)
+            if(Context.IsCurrent)
                 GL.Clear(mask);
         }
         public Color GetClearColor()
@@ -314,8 +311,8 @@ namespace THREE.Renderers
             this.parameters = new GLCapabilitiesParameters();
             this.capabilities = new GLCapabilities(extensions, ref parameters);
 
-            this._viewport.Set(0, 0, this.glControl.Width, this.glControl.Height);
-            this._scissor.Set(0, 0, this.glControl.Width, this.glControl.Height);
+            this._viewport.Set(0, 0, this.Width, this.Height);
+            this._scissor.Set(0, 0, this.Width, this.Height);
             if (capabilities.IsGL2 == false)
             {
                 //extensions.get( 'WEBGL_depth_texture' );
@@ -340,7 +337,7 @@ namespace THREE.Renderers
 
             this.properties = new GLProperties();
             
-            this.textures = new GLTextures(this.glControl,extensions, state, properties, capabilities, utils, info);
+            this.textures = new GLTextures(this.Context, extensions, state, properties, capabilities, utils, info);
             
             this.attributes = new GLAttributes();
 
@@ -352,7 +349,7 @@ namespace THREE.Renderers
 
             this.cubeMaps = new GLCubeMap(this);
 
-            this.bindingStates = new GLBindingStates(this.glControl,extensions, attributes, capabilities);
+            this.bindingStates = new GLBindingStates(this.Context, extensions, attributes, capabilities);
 
             this.programCache = new GLPrograms(this, cubeMaps,extensions,capabilities,bindingStates,_clipping);
 
@@ -409,7 +406,7 @@ namespace THREE.Renderers
 
         private void DeallocateMaterial(Material material)
         {
-            if (!this.glControl.IsDisposed && this.glControl.Context.IsCurrent)
+            if (!this.Context.IsDisposed && this.Context.IsCurrent)
             {
                 ReleaseMaterialProgramReference(material);
                 properties.Remove(material);
@@ -1548,7 +1545,7 @@ namespace THREE.Renderers
 
                 }
 
-                materials.RefreshMaterialUniforms(m_uniforms, material, _pixelRatio, this.glControl.Height);
+                materials.RefreshMaterialUniforms(m_uniforms, material, _pixelRatio, this.Height);
 
                 if (ShaderLib.UniformsLib.ContainsKey("ltc_1")) (m_uniforms["ltc_1"] as GLUniform)["value"] = ShaderLib.UniformsLib["LTC_1"];
                 if (ShaderLib.UniformsLib.ContainsKey("ltc_2")) (m_uniforms["ltc_2"] as GLUniform)["value"] = ShaderLib.UniformsLib["LTC_2"];
