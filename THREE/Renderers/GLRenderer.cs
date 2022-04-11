@@ -1250,6 +1250,75 @@ namespace THREE.Renderers
 		    }            
         }
 
+        public void ReadRenderTargetPixels(GLRenderTarget renderTarget, Vector2 position, int width, int height, int activeCubeFaceIndex, byte[] buffer)
+        {
+            if (renderTarget == null)
+            {
+                //console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is null THREE.WebGLRenderTarget.');
+                return;
+            }
+
+            //var glFramebuffer = (int[])(properties.Get(renderTarget) as Hashtable)["glFramebuffer"];
+            int framebuffer;
+            if (renderTarget is GLCubeRenderTarget)
+            {
+                framebuffer = ((int[])(properties.Get(renderTarget) as Hashtable)["glFramebuffer"])[activeCubeFaceIndex];
+            }
+            else if (renderTarget is GLMultisampleRenderTarget)
+            {
+                framebuffer = (int)(properties.Get(renderTarget) as Hashtable)["glMultisampledFramebuffer"];
+            }
+            else
+            {
+                framebuffer = (int)(properties.Get(renderTarget) as Hashtable)["glFramebuffer"];
+            }
+
+            if (framebuffer != 0)
+            {
+                GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
+
+                try
+                {
+                    var texture = renderTarget.Texture;
+                    var textureFormat = texture.Format;
+                    var textureType = texture.Type;
+
+                    if (textureFormat != Constants.RGBAFormat)
+                    {
+                        //console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in RGBA or implementation defined format.');
+                        return;
+                    }
+
+                    // the following if statement ensures valid read requests (no out-of-bounds pixels, see Three.js Issue #8604)
+                    if ((position.X >= 0 && position.X <= (renderTarget.Width - width)) && (position.Y >= 0 && position.Y <= (renderTarget.Height - height)))
+                    {
+                        GL.ReadPixels((int)position.X, (int)position.Y, width, height, utils.Convert(textureFormat), utils.Convert(textureType), buffer);
+                    }
+
+                }
+                finally
+                {
+                    // restore framebuffer of current render target if necessary=
+                    if (_currentRenderTarget != null) 
+                    {
+                        if (renderTarget is GLCubeRenderTarget)
+                        {
+                            framebuffer = ((int[])(properties.Get(_currentRenderTarget) as Hashtable)["glFramebuffer"])[activeCubeFaceIndex];
+                        }
+                        else if (renderTarget is GLMultisampleRenderTarget)
+                        {
+                            framebuffer = (int)(properties.Get(_currentRenderTarget) as Hashtable)["glMultisampledFramebuffer"];
+                        }
+                        else
+                        {
+                            framebuffer = (int)(properties.Get(_currentRenderTarget) as Hashtable)["glFramebuffer"];
+                        }
+                    }
+                    GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
+                }
+            }
+        }
+
         public void CopyFramebufferToTexture(Vector2 position, Texture texture, int? level = null)
         {
             if (level == null) level = 0;
