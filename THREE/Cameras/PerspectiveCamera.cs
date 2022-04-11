@@ -5,27 +5,13 @@ namespace THREE.Cameras
     using System;
     public class PerspectiveCamera : Camera
     {
-
-        public float X = -1;
-
-        public float Y = -1;
-
-        public float FullWidth = -1;
-
-        public float FullHeight = -1;
-
-        public float Width = -1;
-
-        public float Height = -1;
-
-        public float Zoom = 1;
-
         public PerspectiveCamera(float fov=50,float aspect=1,float near=0.1f,float far = 2000)
         {
             this.Fov = fov;
             this.Aspect = aspect;
             this.Near = near;
             this.Far = far;
+
             this.UpdateProjectionMatrix();
         }
 
@@ -43,18 +29,21 @@ namespace THREE.Cameras
             base.UpdateProjectionMatrix();
 
             float near = this.Near,
-
             top = near * (float)Math.Tan(TMath.DEG2RAD * 0.5 * this.Fov) / this.Zoom,
-
             height = 2 * top,
-
             width = this.Aspect * height,
-
             left = -0.5f * width;
 
-            this.ProjectionMatrix = this.ProjectionMatrix.MakePerspective(left, left + width, top, top - height, near, this.Far);
+            if (this.View.Enabled)
+            {
+                left += View.OffsetX * width / View.FullWidth;
+                top -= View.OffsetY * height / View.FullHeight;
+                width *= View.Width / View.FullWidth;
+                height *= View.Height / View.FullHeight;
+            }
 
-		    this.ProjectionMatrixInverse.GetInverse( this.ProjectionMatrix );
+            this.ProjectionMatrix = this.ProjectionMatrix.MakePerspective(left, left + width, top, top - height, near, this.Far);
+		    this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
 
         }
 

@@ -1250,7 +1250,7 @@ namespace THREE.Renderers
 		    }            
         }
 
-        public void ReadRenderTargetPixels(GLRenderTarget renderTarget, Vector2 position, int width, int height, int activeCubeFaceIndex, byte[] buffer)
+        public void ReadRenderTargetPixels(GLRenderTarget renderTarget, Vector2 position, int width, int height, int? activeCubeFaceIndex, byte[] buffer)
         {
             if (renderTarget == null)
             {
@@ -1262,7 +1262,7 @@ namespace THREE.Renderers
             int framebuffer;
             if (renderTarget is GLCubeRenderTarget)
             {
-                framebuffer = ((int[])(properties.Get(renderTarget) as Hashtable)["glFramebuffer"])[activeCubeFaceIndex];
+                framebuffer = ((int[])(properties.Get(renderTarget) as Hashtable)["glFramebuffer"])[activeCubeFaceIndex != null ? activeCubeFaceIndex.Value : 0];
             }
             else if (renderTarget is GLMultisampleRenderTarget)
             {
@@ -1303,7 +1303,7 @@ namespace THREE.Renderers
                     {
                         if (renderTarget is GLCubeRenderTarget)
                         {
-                            framebuffer = ((int[])(properties.Get(_currentRenderTarget) as Hashtable)["glFramebuffer"])[activeCubeFaceIndex];
+                            framebuffer = ((int[])(properties.Get(_currentRenderTarget) as Hashtable)["glFramebuffer"])[activeCubeFaceIndex != null ? activeCubeFaceIndex.Value : 0];
                         }
                         else if (renderTarget is GLMultisampleRenderTarget)
                         {
