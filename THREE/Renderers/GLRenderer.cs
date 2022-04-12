@@ -384,6 +384,10 @@ namespace THREE.Renderers
         {
 
         }
+        public GLRenderLists GetRenderLists()
+        {
+            return renderLists;
+        }
         public GLRenderList GetRenderList()
         {
             return CurrentRenderList;
