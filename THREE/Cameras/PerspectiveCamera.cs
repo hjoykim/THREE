@@ -36,10 +36,10 @@ namespace THREE.Cameras
 
             if (this.View.Enabled)
             {
-                left += View.OffsetX * width / View.FullWidth;
-                top -= View.OffsetY * height / View.FullHeight;
-                width *= View.Width / View.FullWidth;
-                height *= View.Height / View.FullHeight;
+                left += (float)View.OffsetX * width / (float)View.FullWidth;
+                top -= (float)View.OffsetY * height / (float)View.FullHeight;
+                width *= (float)View.Width / (float)View.FullWidth;
+                height *= (float)View.Height / (float)View.FullHeight;
             }
 
             this.ProjectionMatrix = this.ProjectionMatrix.MakePerspective(left, left + width, top, top - height, near, this.Far);
