@@ -149,6 +149,23 @@ namespace THREE.Math
             return this;
         }
 
+        public Box3 SetFromCenterAndSize(Vector3 center, Vector3 size)
+        {
+            Vector3 HalfSize = _vector.Copy(size).MultiplyScalar(0.5f);
+
+            this.Min.Copy(center).Sub(HalfSize);
+            this.Max.Copy(center).Add(HalfSize);
+
+            return this;
+        }
+
+        public Box3 SetFromObject(Object3D obj)
+        {
+            this.MakeEmpty();
+
+            return this.ExpandByObject(obj);
+        }
+
         public void MakeEmpty()
         {
             this.Min.X = this.Min.Y = this.Min.Z = float.PositiveInfinity;

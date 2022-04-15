@@ -529,8 +529,17 @@ namespace THREE.Core
                 this.BoundingBox = new Box3();
             }
 
-            var position = this.Attributes["position"];
-            var morphAttributesPosition = this.MorphAttributes["position"] as List<BufferAttribute<float>>;
+            //var position = this.Attributes["position"];
+            //var morphAttributesPosition = this.MorphAttributes["position"] as List<BufferAttribute<float>>;
+
+            BufferAttribute<float> position = null;
+
+            if (this.Attributes.ContainsKey("position"))
+                position = (BufferAttribute<float>)this.Attributes["position"];
+
+            List<BufferAttribute<float>> morphAttributesPosition = null;
+            if (this.MorphAttributes.ContainsKey("position"))
+                morphAttributesPosition = this.MorphAttributes["position"] as List<BufferAttribute<float>>;
 
             if (position != null)
             {
