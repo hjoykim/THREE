@@ -633,9 +633,15 @@ namespace THREE.Renderers
             else if (object3D is Line)
             {
 
-                var lineWidth = (material as LineBasicMaterial).LineWidth;
-
-                if (lineWidth == 0) lineWidth = 1; // Not using Line*Material
+                float lineWidth;
+                if(material is LineBasicMaterial)
+                {
+                    lineWidth = (material as LineBasicMaterial).LineWidth;
+                }
+                else
+                {
+                    lineWidth = 1f; // Not using Line*Material
+                }
 
                 state.SetLineWidth(lineWidth * GetTargetPixelRatio());
 
