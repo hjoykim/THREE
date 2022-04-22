@@ -20,29 +20,46 @@ using Vector3 = THREE.Math.Vector3;
 namespace THREEExample.Learning.Chapter02
 {
     [Example("04-Geometries", ExampleCategory.LearnThreeJS, "Chapter02")]
-    public class GeometriesExample : BasicSceneExample
+    public class GeometriesExample :Example
     {
 
-
+        Camera camera;
+        Scene scene;
+        TrackballControls controls;
         public GeometriesExample() : base()
         {
-
+            camera = new PerspectiveCamera();
+            scene = new Scene();
         }
-        public override void InitCamera()
+        public void InitCamera()
         {
-            base.InitCamera();
+            
             camera.Position.Set(-50.0f, 30.0f, 20.0f);
-           
+            camera.LookAt(new Vector3(-10, 0, 0));
         }
-        public override void InitRenderer()
+        private void InitCameraController()
+        {
+            controls = new TrackballControls(this.glControl, camera);
+            controls.StaticMoving = false;
+            controls.RotateSpeed = 4.0f;
+            controls.ZoomSpeed = 3;
+            controls.PanSpeed = 3;
+            controls.NoZoom = false;
+            controls.NoPan = false;
+            controls.NoRotate = false;
+            controls.StaticMoving = true;
+            controls.DynamicDampingFactor = 0.3f;
+        }
+        public void InitRenderer()
         {
             this.renderer.SetClearColor(new Color().SetHex(0xEEEEEE), 1);
             this.renderer.ShadowMap.Enabled = true;
         }
+
         public override void Load(GLControl glControl)
         {
             base.Load(glControl);
-
+           
             InitRenderer();
 
             InitCamera();
