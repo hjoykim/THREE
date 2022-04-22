@@ -91,6 +91,7 @@ namespace FormsDemo
             }
             treeView1.Sort();
             treeView1.ExpandAll();
+            treeView1.SelectedNode = treeView1.Nodes[0];
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)

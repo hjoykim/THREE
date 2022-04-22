@@ -70,6 +70,10 @@
     <Compile Include="ExampleInfo.cs" />
     <Compile Include="Learning\Chapter01\FirstSceneExample.cs" />
     <Compile Include="Learning\Chapter01\MaterialsLightExample.cs" />
+    <Compile Include="Learning\Chapter02\BasicSceneExample.cs" />
+    <Compile Include="Learning\Chapter02\FoggySceneExample.cs" />
+    <Compile Include="Learning\Chapter02\ForcedMaterialsExample.cs" />
+    <Compile Include="Learning\Chapter02\GeometriesExample.cs" />
     <Compile Include="Learning\Chapter03\AmbientLightExample.cs" />
     <Compile Include="Learning\Chapter03\HemisphereLightExample.cs" />
     <Compile Include="Learning\Chapter03\LensflaresExample.cs" />
