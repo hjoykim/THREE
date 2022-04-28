@@ -208,7 +208,6 @@
     <Compile Include="Math\Spherical.cs" />
     <Compile Include="Math\SphericalHarmonics3.cs" />
     <Compile Include="Math\ThreeBSP.cs" />
-    <Compile Include="Math\TMath.cs" />
     <Compile Include="Math\Triangle.cs" />
     <Compile Include="Math\Vector.cs" />
     <Compile Include="Math\Vector2.cs" />

@@ -248,12 +248,12 @@ namespace THREE.Cameras.Controlls
                 this.lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
 
             this.lat = System.Math.Max(-85, System.Math.Min(85, this.lat));
-            this.phi = THREE.Math.TMath.DegToRad(90 - this.lat);
-            this.theta = THREE.Math.TMath.DegToRad(this.lon);
+            this.phi = THREE.Math.MathUtils.DegToRad(90 - this.lat);
+            this.theta = THREE.Math.MathUtils.DegToRad(this.lon);
 
             if (this.ConstrainVertical)
             {
-                this.phi = THREE.Math.TMath.mapLinear(this.phi, 0,System.Math.PI, this.VerticalMin, this.VerticalMax);
+                this.phi = THREE.Math.MathUtils.mapLinear(this.phi, 0,System.Math.PI, this.VerticalMin, this.VerticalMax);
             }
 
             var targetPosition = this.target;

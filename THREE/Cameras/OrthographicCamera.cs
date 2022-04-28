@@ -7,22 +7,7 @@ using THREE.Math;
 
 namespace THREE.Cameras
 {
-    public struct View
-    {
-        public Boolean Enabled;
 
-        public int FullWidth;
-
-        public int FullHeight;
-
-        public int OffsetX;
-
-        public int OffsetY;
-
-        public int Width;
-
-        public int Height;
-    }
 
     public class OrthographicCamera : Camera,ICloneable
     {

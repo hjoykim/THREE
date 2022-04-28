@@ -8,6 +8,22 @@ using THREE.Core;
 using THREE.Math;
 namespace THREE.Cameras
 {
+    public struct View
+    {
+        public bool Enabled;
+
+        public int FullWidth;
+
+        public int FullHeight;
+
+        public int OffsetX;
+
+        public int OffsetY;
+
+        public int Width;
+
+        public int Height;
+    }
     public class Camera : Object3D
     {
         public Matrix4 MatrixWorldInverse = Matrix4.Identity();

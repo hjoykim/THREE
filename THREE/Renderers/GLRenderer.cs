@@ -1512,7 +1512,7 @@ namespace THREE.Renderers
 
 
 						    var size = (float)System.Math.Sqrt( bones.Length * 4 ); // 4 pixels needed for 1 matrix
-						    size = TMath.CeilPowerOfTwo( size );
+						    size = MathUtils.CeilPowerOfTwo( size );
 						    size = System.Math.Max( size, 4 );
 
 						    var boneMatrices = new float[ (int)(size * size * 4) ]; // 4 floats per RGBA pixel

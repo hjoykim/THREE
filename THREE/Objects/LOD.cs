@@ -40,6 +40,8 @@ namespace THREE.Objects
                 var level = levels[i];
                 this.AddLevel((Object3D)level.object3D.Clone(), level.distance);
             }
+
+            this.AutoUpdate = other.AutoUpdate;
         }
 
         public LOD AddLevel(Object3D object3D, float? distance)
@@ -73,6 +75,16 @@ namespace THREE.Objects
 
         public Object3D GetObjectForDistance(float distance)
         {
+            int i;
+            if (this.Levels.Count > 0)
+            {
+                for (i = 0; i < this.Levels.Count; i++)
+                {
+                    if (distance < this.Levels[i].distance)
+                        break;
+                }
+                return this.Levels[i - 1].object3D;
+            }
             return null;
         }
 

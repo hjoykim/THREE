@@ -118,8 +118,8 @@ namespace THREE.Renderers.gl
             {
                 if (image is Bitmap)
                 {
-                    var width = needsPowerOfTwo ? TMath.FloorPowerOfTwo(scale*image.Width) : (float)System.Math.Floor(scale*image.Width);
-                    var height = needsPowerOfTwo ? TMath.FloorPowerOfTwo(scale * image.Height) : (float)System.Math.Floor(scale * image.Height);
+                    var width = needsPowerOfTwo ? MathUtils.FloorPowerOfTwo(scale*image.Width) : (float)System.Math.Floor(scale*image.Width);
+                    var height = needsPowerOfTwo ? MathUtils.FloorPowerOfTwo(scale * image.Height) : (float)System.Math.Floor(scale * image.Height);
 
                     
                     image = ResizeImage(image, (int)width, (int)height);
@@ -138,14 +138,14 @@ namespace THREE.Renderers.gl
         private bool IsPowerOfTwo(Bitmap image ) 
         {
             if (image == null) return false;
-		    return TMath.IsPowerOfTwo(image.Width ) && TMath.IsPowerOfTwo(image.Height );
+		    return MathUtils.IsPowerOfTwo(image.Width ) && MathUtils.IsPowerOfTwo(image.Height );
 
 	    }
 
         private bool IsPowerOfTwo(GLRenderTarget image)
         {
             if (image == null) return false;
-            return TMath.IsPowerOfTwo(image.Width) && TMath.IsPowerOfTwo(image.Height);
+            return MathUtils.IsPowerOfTwo(image.Width) && MathUtils.IsPowerOfTwo(image.Height);
 
         }
 
