@@ -40,19 +40,19 @@ namespace THREE.Objects
             }
             else
             {
-                if (this.Bones.Length == boneInverses.Length)
-                {
-                    Array.Copy(boneInverses, 0, this.BoneInverses, 0, boneInverses.Length);
-                }
-                else
-                {
+                //if (this.Bones.Length == boneInverses.Length)
+                //{
+                //    Array.Copy(boneInverses, 0, this.BoneInverses, 0, boneInverses.Length);
+                //}
+                //else
+                //{
                     this.BoneInverses = new Matrix4[this.Bones.Length];
                     int bCount = 0;
                     for (int i = 0; i < this.Bones.Length; i++)
                     {
                         this.BoneInverses[bCount++] = new Matrix4();
                     }
-                }
+                //}
             }
         }
 
