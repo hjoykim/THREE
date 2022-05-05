@@ -40,8 +40,6 @@ namespace THREE.Objects
                 var level = levels[i];
                 this.AddLevel((Object3D)level.object3D.Clone(), level.distance);
             }
-
-
             this.AutoUpdate = other.AutoUpdate;
         }
 

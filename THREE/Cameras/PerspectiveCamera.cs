@@ -30,6 +30,7 @@ namespace THREE.Cameras
 
             float near = this.Near,
             top = near * (float)Math.Tan(TMath.DEG2RAD * 0.5 * this.Fov) / this.Zoom,
+
             height = 2 * top,
             width = this.Aspect * height,
             left = -0.5f * width;
@@ -42,8 +43,9 @@ namespace THREE.Cameras
                 height *= (float)View.Height / (float)View.FullHeight;
             }
 
+
             this.ProjectionMatrix = this.ProjectionMatrix.MakePerspective(left, left + width, top, top - height, near, this.Far);
-		    this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
+		        this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
 
         }
 

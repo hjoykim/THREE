@@ -164,9 +164,9 @@ namespace THREE.Cameras.Controlls
         {
             Vector3 front = Vector3.Zero();
 
-            front.X = (float)System.Math.Cos(TMath.DegToRad(Yaw)) * (float)System.Math.Cos(TMath.DegToRad(Pitch));
-            front.Y = (float)System.Math.Sin(TMath.DegToRad(Pitch));
-            front.Z = (float)System.Math.Sin(TMath.DegToRad(Yaw)) * (float)System.Math.Cos(TMath.DegToRad(Pitch));
+            front.X = (float)System.Math.Cos(MathUtils.DegToRad(Yaw)) * (float)System.Math.Cos(MathUtils.DegToRad(Pitch));
+            front.Y = (float)System.Math.Sin(MathUtils.DegToRad(Pitch));
+            front.Z = (float)System.Math.Sin(MathUtils.DegToRad(Yaw)) * (float)System.Math.Cos(MathUtils.DegToRad(Pitch));
 
             this.camera.Front = front.Normalize();
             this.camera.Right = Vector3.Zero().Copy(this.camera.Front).Cross(this.worldUp).Normalize();

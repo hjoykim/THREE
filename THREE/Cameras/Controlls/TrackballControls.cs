@@ -120,7 +120,7 @@ namespace THREE.Cameras.Controlls
             var length = mouseOnBall.Length();
             if (this.NoRoll)
             {
-                if (length < TMath.SQRT1_2)
+                if (length < MathUtils.SQRT1_2)
                     mouseOnBall.Z = (float)System.Math.Sqrt(1.0 - length * length);
                 else
                     mouseOnBall.Z = 0.5f / length;
