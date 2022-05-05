@@ -1,6 +1,6 @@
 # THREE
 C# port of Three.js
-three.js is a very powerful, simple and useful OpenGL Graphics library. I always want to express my deep appreciation to the team that created this library.(https://github.com/mrdoob/three.js/). There was a time when I wanted to show how to use these 3D geometry and mathematical theories with OpenGL libraries. In that case, the examples of three.js was a very good.
+three.js is a very powerful, simple and useful OpenGL Graphics library. I always want to express my deep appreciation to the team that created this library.(https://github.com/mrdoob/three.js). There was a time when I wanted to show how to use these 3D geometry and mathematical theories with OpenGL libraries. In that case, the examples of three.js was a very good.
 
 However, someone who are familiar with structural languages such as C++, Java, C#, etc find it difficult to understand how three.js works. So I decided to port three.js to C++, C#. However, it seemed that it would take too much time to port the massive examples of three.js Fortunately, I found very simple and key examples in Learning Three.js written by Jos Dirksen(https://github.com/josdirksen/learning-threejs) Most of three.js core have been completed, but some code have not yet been done because I am lazy. I don't know if I can afford it, the rest will be completed as soon as time permits. 
 
