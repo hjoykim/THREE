@@ -54,10 +54,6 @@ namespace THREE.Renderers.gl
                 case PrimitiveType.Triangles:
                     render.Triangles += (int)instanceCount * (count / 3);
                     break;
-                case PrimitiveType.TriangleStrip :
-                case PrimitiveType.TriangleFan :
-                    render.Triangles += (int)instanceCount * (count - 2);
-                    break;
                 case PrimitiveType.Lines :
                     render.Lines += (int)instanceCount * (count / 2);
                     break;

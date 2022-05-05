@@ -90,7 +90,7 @@ namespace THREEExample.Learning.Chapter11
             renderer.SetViewport(halfWidth, halfHeight, halfWidth, halfHeight);
             composer4.Render();
 
-            renderer.SetViewport(0, 0, renderer.glControl.Width, renderer.glControl.Height);
+            renderer.SetViewport(0, 0, renderer.Width, renderer.Height);
             ShowControls();
 
 

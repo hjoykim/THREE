@@ -16,6 +16,7 @@ using THREE.Math;
 using THREE.Textures;
 using THREE.Extensions;
 using System.Runtime.InteropServices;
+using OpenTK.Graphics;
 
 namespace THREE.Renderers.gl
 {
@@ -31,7 +32,7 @@ namespace THREE.Renderers.gl
 
         private int maxSample;
 
-        private GLControl glControl;
+        private IGraphicsContext Context;
 
         private Hashtable videoTextures = new Hashtable();
 
@@ -48,9 +49,9 @@ namespace THREE.Renderers.gl
 
         GLInfo info;
 
-        public GLTextures(GLControl control,GLExtensions extensions, GLState state, GLProperties properties, GLCapabilities capabilities, GLUtils util, GLInfo info)
+        public GLTextures(IGraphicsContext context,GLExtensions extensions, GLState state, GLProperties properties, GLCapabilities capabilities, GLUtils util, GLInfo info)
         {
-            this.glControl = control;
+            this.Context = context;
 
             this.IsGL2 = capabilities.IsGL2;
             
@@ -178,9 +179,15 @@ namespace THREE.Renderers.gl
                 textureProperties.Add("maxMipLevel", (int)value);
             }
         }
-        private int GetInternalFormat(int glFormat, int glType)
+        private int GetInternalFormat(string internalFormatName, int glFormat, int glType)
         {
             if (IsGL2 == false) return glFormat;
+
+            if (internalFormatName != null)
+            {
+                //if (_gl[internalFormatName] != null) return _gl[internalFormatName];
+                //console.warn('THREE.WebGLRenderer: Attempt to use non-existing WebGL internal format \'' + internalFormatName + '\'');
+            }
 
             var internalFormat = glFormat;
 
@@ -248,7 +255,7 @@ namespace THREE.Renderers.gl
         
         public void DeallocateRenderTarget(GLRenderTarget renderTarget)
         {
-            if (!this.glControl.Context.IsCurrent) return;
+            if (!this.Context.IsCurrent) return;
             if (renderTarget == null) return;
 
             var renderTargetProperties = properties.Get(renderTarget);
@@ -413,7 +420,7 @@ namespace THREE.Renderers.gl
 
 				All glFormat = utils.Convert( texture.Format );
 				All glType = utils.Convert( texture.Type );
-				int glInternalFormat = GetInternalFormat( (int)glFormat, (int)glType );
+				int glInternalFormat = GetInternalFormat(texture.InternalFormat, (int)glFormat, (int)glType );
 
 			    SetTextureParameters(TextureTarget.TextureCubeMap, texture, supportsMips );
 
@@ -670,7 +677,7 @@ namespace THREE.Renderers.gl
                 textureProperties.Add("glInit", true);
                 texture.Disposed += (o, e) =>
                 {
-                    if (!this.glControl.IsDisposed && this.glControl.Context.IsCurrent)
+                    if (!this.Context.IsDisposed && this.Context.IsCurrent)
                     {
                         DeallocateTexture(texture);
                         info.memory.Textures--;
@@ -707,7 +714,7 @@ namespace THREE.Renderers.gl
             bool supportsMips = IsPowerOfTwo(image) ? true : IsGL2;
             All glFormat = utils.Convert(texture.Format);
             All glType = utils.Convert(texture.Type);
-            int glInternalFormat = GetInternalFormat((int)glFormat, (int)glType);
+            int glInternalFormat = GetInternalFormat(texture.InternalFormat, (int)glFormat, (int)glType);
 
             SetTextureParameters(textureType, texture, supportsMips);
 
@@ -895,7 +902,7 @@ namespace THREE.Renderers.gl
 
 		    if ( TextureNeedsGenerateMipmaps( texture, supportsMips ) ) {
 
-			    GenerateMipmap(TextureTarget.Texture2D, texture, image.Width, image.Height );
+			    GenerateMipmap(textureType, texture, image.Width, image.Height );
 
 		    }
 
@@ -908,7 +915,7 @@ namespace THREE.Renderers.gl
 
             var glFormat = utils.Convert(renderTarget.Texture.Format);
             var glType = utils.Convert(renderTarget.Texture.Type);
-            var glInternalFormat = GetInternalFormat((int)glFormat, (int)glType);
+            var glInternalFormat = GetInternalFormat(renderTarget.Texture.InternalFormat, (int)glFormat, (int)glType);
 
             TextureTarget2d target = (TextureTarget2d)textureTarget;
             state.TexImage2D(target, 0, (TextureComponentCount)glInternalFormat, renderTarget.Width, renderTarget.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, IntPtr.Zero);
@@ -970,7 +977,7 @@ namespace THREE.Renderers.gl
 
                 var glFormat = utils.Convert(renderTarget.Texture.Format);
                 var glType = utils.Convert(renderTarget.Texture.Type);
-                var glInternalFormat = GetInternalFormat((int)glFormat,(int) glType);
+                var glInternalFormat = GetInternalFormat(renderTarget.Texture.InternalFormat, (int)glFormat,(int) glType);
 
                 if (isMultisample)
                 {
@@ -1083,7 +1090,7 @@ namespace THREE.Renderers.gl
 
             renderTarget.Disposed+=(s,e)=>
             {
-                if (!this.glControl.IsDisposed)
+                if (!this.Context.IsDisposed)
                 {
                     DeallocateRenderTarget(renderTarget);
                 }
@@ -1129,7 +1136,7 @@ namespace THREE.Renderers.gl
 					    GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer,(int) renderTargetProperties["glColorRenderbuffer"] );
 					    var glFormat = utils.Convert( renderTarget.Texture.Format );
 					    var glType = utils.Convert( renderTarget.Texture.Type );
-					    var glInternalFormat = GetInternalFormat((int) glFormat, (int)glType );
+					    var glInternalFormat = GetInternalFormat(renderTarget.Texture.InternalFormat, (int) glFormat, (int)glType );
 					    var samples = GetRenderTargetSamples( renderTarget );
 					    GL.RenderbufferStorageMultisample(RenderbufferTarget.Renderbuffer, samples,(RenderbufferInternalFormat)glInternalFormat, renderTarget.Width, renderTarget.Height );
 

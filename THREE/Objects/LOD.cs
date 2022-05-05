@@ -40,7 +40,6 @@ namespace THREE.Objects
                 var level = levels[i];
                 this.AddLevel((Object3D)level.object3D.Clone(), level.distance);
             }
-
             this.AutoUpdate = other.AutoUpdate;
         }
 
@@ -88,8 +87,15 @@ namespace THREE.Objects
             return null;
         }
 
-        public void Raycast()
+        public override void Raycast(Raycaster raycaster, List<Intersection> intersectionList)
         {
+            if (this.Levels.Count > 0)
+            {
+                v1.SetFromMatrixPosition(this.MatrixWorld);
+                var distance = raycaster.ray.origin.DistanceTo(v1);
+                this.GetObjectForDistance(distance).Raycast(raycaster, intersectionList);
+
+            }
         }
 
         public void Update(Camera camera)

@@ -7,14 +7,9 @@ using THREE.Math;
 
 namespace THREE.Cameras
 {
-
-
     public class OrthographicCamera : Camera,ICloneable
     {
         #region Fields
-
-       
-
         public View View = new View();
         #endregion
 
@@ -42,8 +37,6 @@ namespace THREE.Cameras
             this.Near = near != null ? (float)near : 0.1f;
             this.Far = far != null ? (float)far : 2000;
 
-            View.Enabled = false;
-
             this.UpdateProjectionMatrix();
         }
 
@@ -62,8 +55,6 @@ namespace THREE.Cameras
 
             this.Near = other.Near;
             this.Far = other.Far;
-
-            this.View = other.View;
         }
 
         #endregion
@@ -74,25 +65,6 @@ namespace THREE.Cameras
         #endregion
 
         #region Public Methods and Operators
-        public void SetViewOffset(int fullWidth, int fullHeight, int x, int y, int width, int height)
-        {
-
-            View.Enabled = true;
-            View.FullWidth = fullWidth;
-            View.FullHeight = fullHeight;
-            View.OffsetX = x;
-            View.OffsetY = y;
-            View.Width = width;
-            View.Height = height;
-
-            this.UpdateProjectionMatrix();
-        }
-        public void ClearViewOffset()
-        {
-            this.View.Enabled = false;
-
-            this.UpdateProjectionMatrix();
-        }
         /// <summary>
         /// </summary>
         public override void UpdateProjectionMatrix()

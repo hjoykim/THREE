@@ -35,7 +35,9 @@ namespace THREEExample.Learning.Chapter09
             glControl = control;
             this.renderer = new THREE.Renderers.GLRenderer();
 
-            this.renderer.glControl = control;
+            this.renderer.Context = control.Context;
+            this.renderer.Width = control.Width;
+            this.renderer.Height = control.Height;
 
             this.renderer.Init();
 

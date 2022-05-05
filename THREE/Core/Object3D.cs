@@ -482,9 +482,8 @@ namespace THREE.Core
 
         }
 
-        public virtual void Raycast(Raycaster raycaster,List<Intersection> intersects)
+        public virtual void Raycast(Raycaster raycaster, List<Intersection> intersectionList)
         {
-
         }
 
         public void Traverse(Action<Object3D> callback)

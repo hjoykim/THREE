@@ -10,7 +10,7 @@ namespace THREE.Cameras
 {
     public struct View
     {
-        public bool Enabled;
+        public Boolean Enabled;
 
         public int FullWidth;
 
@@ -26,6 +26,8 @@ namespace THREE.Cameras
     }
     public class Camera : Object3D
     {
+        public View View;
+
         public Matrix4 MatrixWorldInverse = Matrix4.Identity();
 
         public Matrix4 ProjectionMatrixInverse = Matrix4.Identity();
@@ -65,6 +67,17 @@ namespace THREE.Cameras
         {
             this.IsCamera = true;
             this.type = "Camera";
+
+            View = new View()
+            {
+                Enabled = false,
+                FullWidth = 1,
+                FullHeight = 1,
+                OffsetX = 0,
+                OffsetY = 0,
+                Width = 1,
+                Height = 1
+            };
         }
         protected Camera(Camera source, bool recursive = true) : base(source,recursive)
         {
@@ -76,6 +89,8 @@ namespace THREE.Cameras
             ProjectionMatrix.Copy(source.ProjectionMatrix);
 
             ProjectionMatrixInverse.Copy(source.ProjectionMatrixInverse);
+
+            this.View = source.View;
         }
 
         public override Vector3 GetWorldDirection(Vector3 target)
@@ -99,6 +114,26 @@ namespace THREE.Cameras
 
             MatrixWorldInverse.GetInverse(MatrixWorld);
         }
+
+        public void SetViewOffset(int fullWidth, int fullHeight, int x, int y, int width, int height)
+        {
+            View.Enabled = true;
+            View.FullWidth = fullWidth;
+            View.FullHeight = fullHeight;
+            View.OffsetX = x;
+            View.OffsetY = y;
+            View.Width = width;
+            View.Height = height;
+
+            this.UpdateProjectionMatrix();
+        }
+        public void ClearViewOffset()
+        {
+            this.View.Enabled = false;
+
+            this.UpdateProjectionMatrix();
+        }
+
         public virtual void UpdateProjectionMatrix()
         {
             //this.MatrixWorldInverse.GetInverse(this.MatrixWorld);

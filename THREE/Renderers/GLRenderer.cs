@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.ES30;
+﻿using OpenTK.Graphics;
+using OpenTK.Graphics.ES30;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,17 +20,9 @@ using THREE.Textures;
 
 namespace THREE.Renderers
 {
-
-    //public struct RenderInfo
-    //{
-    //    public Scene Scene;
-
-    //    public Camera Camera;
-    //}
-
     public class GLRenderer : IDisposable
     {
-        public OpenTK.GLControl glControl;
+        public OpenTK.Graphics.IGraphicsContext Context;
 
         public event EventHandler<EventArgs> Disposed;
 
@@ -59,10 +52,6 @@ namespace THREE.Renderers
 
         public float GammaFactor = 2.0f; // for backwards compatibility
 
-        public bool GammaInput = false;
-
-        public bool GammaOutput = false;
-
         public int outputEncoding = Constants.LinearEncoding;
         // physically lights
 
@@ -86,11 +75,11 @@ namespace THREE.Renderers
         GLCapabilitiesParameters parameters;
 
         public GLExtensions extensions;
-        
+
         GLCapabilities capabilities;
-        
+
         public GLState state;
-        
+
         public GLInfo info;
 
         public GLProperties properties;
@@ -173,15 +162,15 @@ namespace THREE.Renderers
             }
         }
         #region internal properties
-        
+
         private int? _framebuffer = null;
 
         private int _currentActiveCubeFace = 0;
 
         private GLRenderTarget _currentRenderTarget = null;
-        
+
         private int? _currentFramebuffer = null;
-        
+
         private int _currentMaterialId = -1;
 
         private Camera _currentCamera;
@@ -203,10 +192,10 @@ namespace THREE.Renderers
         private Vector4 _scissor = Vector4.Zero();
 
         private bool _scissorTest = false;
-        
+
         // frustum
 
-        private Frustum _frustum = new Frustum();               
+        private Frustum _frustum = new Frustum();
 
         // clipping 
 
@@ -222,7 +211,10 @@ namespace THREE.Renderers
 
         private Vector3 _vector3 = Vector3.Zero();
 
-        public Control ParentWindow;
+        public int Width;
+        public int Height;
+        public float AspectRatio => Width / Height;
+
         #endregion
 
         #region constructor
@@ -231,11 +223,12 @@ namespace THREE.Renderers
            
         }
 
-        public GLRenderer(OpenTK.GLControl glControl, Control window)  : base()
+        public GLRenderer(IGraphicsContext context, int width, int height)  : base()
         {
-            this.glControl = glControl;
-            this._viewport = new Vector4(0, 0, glControl.Width, glControl.Height);
-            this.ParentWindow = window;
+            this.Context = context;
+            this._viewport = new Vector4(0, 0, width, height);
+            this.Width = width;
+            this.Height = height;
             this.Init();
         }
         #endregion
@@ -256,16 +249,16 @@ namespace THREE.Renderers
             {
                 target = new Vector2();
             }
-            target.Set(glControl.Width, glControl.Height);
+            target.Set(Width, Height);
 
             return target;
         }
         public void SetSize(float width,float height)
         {
-            glControl.Width = (int)System.Math.Floor(width*_pixelRatio);
-            glControl.Height =(int)System.Math.Floor(height * _pixelRatio);
+            Width = (int)System.Math.Floor(width*_pixelRatio);
+            Height =(int)System.Math.Floor(height * _pixelRatio);
 
-            SetViewport(glControl.Width, glControl.Height);
+            SetViewport(Width, Height);
         }
         public void Clear(bool? color=null, bool? depth=null, bool? stencil=null)
         {
@@ -278,7 +271,7 @@ namespace THREE.Renderers
 
             ClearBufferMask mask = (ClearBufferMask)Enum.ToObject(typeof(ClearBufferMask), bits);
             
-            if(glControl.Context.IsCurrent)
+            if(Context.IsCurrent)
                 GL.Clear(mask);
         }
         public Color GetClearColor()
@@ -318,8 +311,8 @@ namespace THREE.Renderers
             this.parameters = new GLCapabilitiesParameters();
             this.capabilities = new GLCapabilities(extensions, ref parameters);
 
-            this._viewport.Set(0, 0, this.glControl.Width, this.glControl.Height);
-            this._scissor.Set(0, 0, this.glControl.Width, this.glControl.Height);
+            this._viewport.Set(0, 0, this.Width, this.Height);
+            this._scissor.Set(0, 0, this.Width, this.Height);
             if (capabilities.IsGL2 == false)
             {
                 //extensions.get( 'WEBGL_depth_texture' );
@@ -344,7 +337,7 @@ namespace THREE.Renderers
 
             this.properties = new GLProperties();
             
-            this.textures = new GLTextures(this.glControl,extensions, state, properties, capabilities, utils, info);
+            this.textures = new GLTextures(this.Context, extensions, state, properties, capabilities, utils, info);
             
             this.attributes = new GLAttributes();
 
@@ -356,7 +349,7 @@ namespace THREE.Renderers
 
             this.cubeMaps = new GLCubeMap(this);
 
-            this.bindingStates = new GLBindingStates(this.glControl,extensions, attributes, capabilities);
+            this.bindingStates = new GLBindingStates(this.Context, extensions, attributes, capabilities);
 
             this.programCache = new GLPrograms(this, cubeMaps,extensions,capabilities,bindingStates,_clipping);
 
@@ -391,6 +384,10 @@ namespace THREE.Renderers
         {
 
         }
+        public GLRenderLists GetRenderLists()
+        {
+            return renderLists;
+        }
         public GLRenderList GetRenderList()
         {
             return CurrentRenderList;
@@ -413,7 +410,7 @@ namespace THREE.Renderers
 
         private void DeallocateMaterial(Material material)
         {
-            if (!this.glControl.IsDisposed && this.glControl.Context.IsCurrent)
+            if (!this.Context.IsDisposed && this.Context.IsCurrent)
             {
                 ReleaseMaterialProgramReference(material);
                 properties.Remove(material);
@@ -603,19 +600,6 @@ namespace THREE.Renderers
 
             var dataCount = (index != null) ? index.count : position.count;
 
-            //if (index != null)
-            //{
-
-            //    dataCount = index.count;
-
-            //}
-            //else if (position != null)
-            //{
-
-            //    dataCount = (position as BufferAttribute<float>).count;
-
-            //}
-
             var rangeStart = (geometry as BufferGeometry).DrawRange.Start * rangeFactor;
             var rangeCount = (geometry as BufferGeometry).DrawRange.Count * rangeFactor;
 
@@ -643,33 +627,21 @@ namespace THREE.Renderers
                 else
                 {
                     renderer.SetMode(PrimitiveType.Triangles);
-
-                    //switch ((object3D as Mesh).DrawMode)
-                    //{
-
-                    //    case 0 : //Constants.TrianglesDrawMode:
-                    //        renderer.SetMode(PrimitiveType.Triangles);
-                    //        break;
-
-                    //    case 1 : //Constants.TriangleStripDrawMode:
-                    //        renderer.SetMode(PrimitiveType.TriangleStrip);
-                    //        break;
-
-                    //    case 2 : //Constants.TriangleFanDrawMode:
-                    //        renderer.SetMode(PrimitiveType.TriangleFan);
-                    //        break;
-
-                    //}
-
                 }
 
             }
             else if (object3D is Line)
             {
 
-                var lineWidth = (material as LineBasicMaterial).LineWidth;
-
-                if (lineWidth == 0) lineWidth = 1; // Not using Line*Material
+                float lineWidth;
+                if(material is LineBasicMaterial)
+                {
+                    lineWidth = (material as LineBasicMaterial).LineWidth;
+                }
+                else
+                {
+                    lineWidth = 1f; // Not using Line*Material
+                }
 
                 state.SetLineWidth(lineWidth * GetTargetPixelRatio());
 
@@ -1035,9 +1007,9 @@ namespace THREE.Renderers
 
             if (object3D is ImmediateRenderObject)
             {
-                state.SetMaterial(material);
+                var program = SetProgram(camera, scene, material, object3D);
 
-                var program = SetProgram(camera, scene, material, object3D);               
+                state.SetMaterial(material);
 
                 RenderObjectImmediate(object3D, program);
             }
@@ -1140,6 +1112,8 @@ namespace THREE.Renderers
                 (uniforms["spotLights"] as GLUniform)["value"] = lights.state["spot"];
                 (uniforms["spotLightShadows"] as GLUniform)["value"] = lights.state["spotShadow"];
                 (uniforms["rectAreaLights"] as GLUniform)["value"] = lights.state["rectArea"];
+                (uniforms["ltc_1"] as GLUniform)["value"] = lights.state["rectAreaLTC1"];
+                (uniforms["ltc_2"] as GLUniform)["value"] = lights.state["rectAreaLTC2"];
                 (uniforms["pointLights"] as GLUniform)["value"] = lights.state["point"];
                 (uniforms["pointLightShadows"] as GLUniform)["value"] = lights.state["pointShadow"];
                 (uniforms["hemisphereLights"] as GLUniform)["value"] = lights.state["hemi"];
@@ -1179,16 +1153,23 @@ namespace THREE.Renderers
             target.Copy(_currentViewport);
 
             return target;
-        }        
+        }
 
-        public virtual void Resize(float width, float height)
+        public virtual void SetGraphicsContext(IGraphicsContext context, int width, int height)
         {
-           
+            Context = context;
+            Resize(width, height);
+        }
+
+        public virtual void Resize(int width, int height)
+        {
             //foreach (string key in sceneList.Keys)
             //{
             //    RenderInfo info = sceneList[key];
             //    info.Camera.MatrixWorldNeedsUpdate = true;
             //}
+            Width = width;
+            Height = height;
 
             this._viewport.Set(0, 0, width, height);
             this._currentViewport.Set(0, 0, width, height);       
@@ -1277,6 +1258,75 @@ namespace THREE.Renderers
                 GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget2d.TextureCubeMapPositiveX + (activeCubeFace != null ? activeCubeFace.Value : 0), (int)textureProperties["glTexture"], activeMipmapLevel != null ? activeMipmapLevel.Value : 0);
 
 		    }            
+        }
+
+        public void ReadRenderTargetPixels(GLRenderTarget renderTarget, Vector2 position, int width, int height, int? activeCubeFaceIndex, byte[] buffer)
+        {
+            if (renderTarget == null)
+            {
+                //console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is null THREE.WebGLRenderTarget.');
+                return;
+            }
+
+            //var glFramebuffer = (int[])(properties.Get(renderTarget) as Hashtable)["glFramebuffer"];
+            int framebuffer;
+            if (renderTarget is GLCubeRenderTarget)
+            {
+                framebuffer = ((int[])(properties.Get(renderTarget) as Hashtable)["glFramebuffer"])[activeCubeFaceIndex != null ? activeCubeFaceIndex.Value : 0];
+            }
+            else if (renderTarget is GLMultisampleRenderTarget)
+            {
+                framebuffer = (int)(properties.Get(renderTarget) as Hashtable)["glMultisampledFramebuffer"];
+            }
+            else
+            {
+                framebuffer = (int)(properties.Get(renderTarget) as Hashtable)["glFramebuffer"];
+            }
+
+            if (framebuffer != 0)
+            {
+                GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
+
+                try
+                {
+                    var texture = renderTarget.Texture;
+                    var textureFormat = texture.Format;
+                    var textureType = texture.Type;
+
+                    if (textureFormat != Constants.RGBAFormat)
+                    {
+                        //console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in RGBA or implementation defined format.');
+                        return;
+                    }
+
+                    // the following if statement ensures valid read requests (no out-of-bounds pixels, see Three.js Issue #8604)
+                    if ((position.X >= 0 && position.X <= (renderTarget.Width - width)) && (position.Y >= 0 && position.Y <= (renderTarget.Height - height)))
+                    {
+                        GL.ReadPixels((int)position.X, (int)position.Y, width, height, utils.Convert(textureFormat), utils.Convert(textureType), buffer);
+                    }
+
+                }
+                finally
+                {
+                    // restore framebuffer of current render target if necessary=
+                    if (_currentRenderTarget != null) 
+                    {
+                        if (renderTarget is GLCubeRenderTarget)
+                        {
+                            framebuffer = ((int[])(properties.Get(_currentRenderTarget) as Hashtable)["glFramebuffer"])[activeCubeFaceIndex != null ? activeCubeFaceIndex.Value : 0];
+                        }
+                        else if (renderTarget is GLMultisampleRenderTarget)
+                        {
+                            framebuffer = (int)(properties.Get(_currentRenderTarget) as Hashtable)["glMultisampledFramebuffer"];
+                        }
+                        else
+                        {
+                            framebuffer = (int)(properties.Get(_currentRenderTarget) as Hashtable)["glFramebuffer"];
+                        }
+                    }
+                    GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
+                }
+            }
         }
 
         public void CopyFramebufferToTexture(Vector2 position, Texture texture, int? level = null)
@@ -1379,6 +1429,8 @@ namespace THREE.Renderers
                 (m_uniforms["spotLights"] as GLUniform)["value"] = lights.state["spot"];
                 (m_uniforms["spotLightShadows"] as GLUniform)["value"] = lights.state["spotShadow"];
                 (m_uniforms["rectAreaLights"] as GLUniform)["value"] = lights.state["rectArea"];
+                (m_uniforms["ltc_1"] as GLUniform)["value"] = lights.state["rectAreaLTC1"];
+                (m_uniforms["ltc_2"] as GLUniform)["value"] = lights.state["rectAreaLTC2"];
                 (m_uniforms["pointLights"] as GLUniform)["value"] = lights.state["point"];
                 (m_uniforms["pointLightShadows"] as GLUniform)["value"] = lights.state["pointShadow"];
                 (m_uniforms["hemisphereLights"] as GLUniform)["value"] = lights.state["hemi"];
@@ -1579,7 +1631,10 @@ namespace THREE.Renderers
 
                 }
 
-                materials.RefreshMaterialUniforms(m_uniforms, material, _pixelRatio, this.glControl.Height);
+                materials.RefreshMaterialUniforms(m_uniforms, material, _pixelRatio, this.Height);
+
+                if (ShaderLib.UniformsLib.ContainsKey("ltc_1")) (m_uniforms["ltc_1"] as GLUniform)["value"] = ShaderLib.UniformsLib["LTC_1"];
+                if (ShaderLib.UniformsLib.ContainsKey("ltc_2")) (m_uniforms["ltc_2"] as GLUniform)["value"] = ShaderLib.UniformsLib["LTC_2"];
 
                 //if (material is MeshLambertMaterial)
                 //    Debug.WriteLine(material.type);

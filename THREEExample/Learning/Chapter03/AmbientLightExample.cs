@@ -46,7 +46,7 @@ namespace THREEExample.Learning.Chapter03
         private void InitCamera()
         {
             camera.Fov = 45.0f;
-            camera.Aspect = this.glControl.AspectRatio;
+            camera.Aspect = this.renderer.AspectRatio;
             camera.Near = 0.1f;
             camera.Far = 1000.0f;
             camera.Position.X = -30;

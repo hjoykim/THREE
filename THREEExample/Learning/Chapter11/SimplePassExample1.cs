@@ -82,7 +82,7 @@ namespace THREEExample.Learning.Chapter11
             renderer.SetViewport(halfWidth, 0, halfWidth, halfHeight);
             dotScreenComposer.Render();
 
-            renderer.SetViewport(0, 0, renderer.glControl.Width, renderer.glControl.Height);
+            renderer.SetViewport(0, 0, renderer.Width, renderer.Height);
             ShowControls();
         }
         public override void ShowControls()

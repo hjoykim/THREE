@@ -925,7 +925,7 @@ namespace THREE.Renderers.gl
 
         public override void Dispose()
         {
-            if (!renderer.glControl.IsDisposed)
+            if (!renderer.Context.IsDisposed)
             {
                 GL.DeleteProgram(program);             
                 this.program = 0;
