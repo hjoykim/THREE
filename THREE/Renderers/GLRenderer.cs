@@ -1545,9 +1545,11 @@ namespace THREE.Renderers
                 p_uniforms.SetOptional(object3D, "bindMatrix" );
 			    p_uniforms.SetOptional(object3D, "bindMatrixInverse" );
 
-			    var skeleton = (object3D as SkinnedMesh).Skeleton;
+                Skeleton skeleton = null;
+                if(object3D is SkinnedMesh)
+                    skeleton = (object3D as SkinnedMesh).Skeleton;
 
-			    if ( skeleton!=null ) {
+                if ( skeleton!=null ) {
 
 				    var bones = skeleton.Bones;
 
