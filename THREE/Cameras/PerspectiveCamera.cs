@@ -29,7 +29,7 @@ namespace THREE.Cameras
             base.UpdateProjectionMatrix();
 
             float near = this.Near,
-            top = near * (float)Math.Tan(TMath.DEG2RAD * 0.5 * this.Fov) / this.Zoom,
+            top = near * (float)Math.Tan(MathUtils.DEG2RAD * 0.5 * this.Fov) / this.Zoom,
 
             height = 2 * top,
             width = this.Aspect * height,
