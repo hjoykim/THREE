@@ -447,6 +447,9 @@ namespace THREE.Core
 
             this.SetAttribute("position", new BufferAttribute<float>(positions, 3).CopyVector3sArray(geometry.Vertices.ToArray()));
 
+            if (geometry.Indices != null && geometry.Indices.Count > 0)
+                this.Index = new BufferAttribute<int>(geometry.Indices.ToArray<int>(), 1);
+
             if (geometry.Normals.Count > 0)
             {
                 float[] normals = new float[geometry.Normals.Count * 3];
