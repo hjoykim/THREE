@@ -1650,7 +1650,7 @@ namespace THREE.Renderers
 
             }
 
-            if (material is SpriteMaterial)
+            if (material is SpriteMaterial && object3D is Sprite)
             {
                 p_uniforms.SetValue("center", (object3D as Sprite).Center);
             }
