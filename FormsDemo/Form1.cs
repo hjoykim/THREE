@@ -19,6 +19,7 @@ namespace FormsDemo
         public Form1()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
         }
         void Application_Idle(object sender, EventArgs e)
         {

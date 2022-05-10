@@ -12,17 +12,17 @@ namespace THREE.Cameras
     {
         public bool Enabled;
 
-        public int FullWidth;
+        public float FullWidth;
 
-        public int FullHeight;
+        public float FullHeight;
 
-        public int OffsetX;
+        public float OffsetX;
 
-        public int OffsetY;
+        public float OffsetY;
 
-        public int Width;
+        public float Width;
 
-        public int Height;
+        public float Height;
     }
     public class Camera : Object3D
     {

@@ -5,6 +5,12 @@ namespace THREE.Cameras
     using System;
     public class PerspectiveCamera : Camera
     {
+        public int FilmGauge = 35;
+
+        public int FilmOffset = 9;
+
+        public float focus = 10.0f;
+
         public View View;
         public PerspectiveCamera(float fov=50,float aspect=1,float near=0.1f,float far = 2000)
         {
@@ -13,6 +19,14 @@ namespace THREE.Cameras
             this.Near = near;
             this.Far = far;
             this.UpdateProjectionMatrix();
+
+            View.Enabled = true;
+            View.FullWidth = 1;
+            View.FullHeight = 1;
+            View.OffsetX = 0;
+            View.OffsetY = 0;
+            View.Width = 1;
+            View.Height = 1;
         }
 
         protected PerspectiveCamera(PerspectiveCamera other) : base(other)
@@ -21,12 +35,17 @@ namespace THREE.Cameras
             this.Aspect = other.Aspect;
             this.Near = other.Near;
             this.Far = other.Far;
-            this.UpdateProjectionMatrix();
+            this.focus = other.focus;
+            this.Zoom = other.Zoom;
+            this.FilmGauge = other.FilmGauge;
+            this.FilmOffset = other.FilmOffset;
+            this.View = other.View;
+            //this.UpdateProjectionMatrix();
         }
 
         public override void UpdateProjectionMatrix()
         {
-            base.UpdateProjectionMatrix();
+            //base.UpdateProjectionMatrix();
 
             float near = this.Near,
 
@@ -39,16 +58,15 @@ namespace THREE.Cameras
             left = -0.5f * width;
 
             if (this.View.Enabled)
-            {
-                left += View.OffsetX * width / View.FullWidth;
-                top -= View.OffsetY * height / View.FullHeight;
-                width *= View.Width / View.FullWidth;
-                height *= View.Height / View.FullHeight;
+            {              
                 left += (float)View.OffsetX * width / (float)View.FullWidth;
                 top -= (float)View.OffsetY * height / (float)View.FullHeight;
                 width *= (float)View.Width / (float)View.FullWidth;
                 height *= (float)View.Height / (float)View.FullHeight;
             }
+
+            var skew = this.FilmOffset;
+            if (skew != 0) left += near * skew / this.GetFilmWidth();
 
             this.ProjectionMatrix = this.ProjectionMatrix.MakePerspective(left, left + width, top, top - height, near, this.Far);
 
@@ -56,9 +74,59 @@ namespace THREE.Cameras
 
         }
 
+        public void SetViewOffset(float fullWidth,float fullHeight,float x,float y,float width,float height)
+        {
+            this.Aspect = fullWidth / (1.0f * fullHeight);
+            View.Enabled = true;
+            View.FullWidth = fullWidth;
+            View.FullHeight = fullHeight;
+            View.OffsetX = x;
+            View.OffsetY = y;
+            View.Width = width;
+            View.Height = height;
+
+            this.UpdateProjectionMatrix();
+
+        }
+
+        public void ClearViewOffset()
+        {
+            this.View.Enabled = false;
+            this.UpdateProjectionMatrix();
+
+        }
+
         public override object Clone()
         {
             return new PerspectiveCamera(this);
+        }
+
+        public void SetFocalLength(float focalLength)
+        {
+            float vExtentSlope = 0.5f * this.GetFilmHeight() / focalLength;
+            this.Fov = MathUtils.RAD2DEG * 2 * (float)System.Math.Atan(vExtentSlope);
+
+            this.UpdateProjectionMatrix();
+        }
+        public float GetFocalLength()
+        {
+            float vExtentSlope = (float)System.Math.Tan(MathUtils.DEG2RAD * 0.5f * this.Fov);
+
+            return 0.5f * this.GetFilmHeight() / vExtentSlope;
+        }
+
+        public float GetEffectiveFOV()
+        {
+            return MathUtils.RAD2DEG * 2 * (float)Math.Atan(Math.Tan(MathUtils.DEG2RAD * 0.5 * this.Fov) / this.Zoom);
+        }
+        public float GetFilmWidth()
+        {
+            return this.FilmGauge * (float)Math.Min(this.Aspect, 1);
+        }
+
+        public float GetFilmHeight()
+        {
+            return this.FilmGauge / (float)Math.Max(this.Aspect, 1);
         }
     }
 }
