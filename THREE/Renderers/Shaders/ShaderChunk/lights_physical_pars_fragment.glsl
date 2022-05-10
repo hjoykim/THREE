@@ -43,22 +43,22 @@ float clearcoatDHRApprox( const in float roughness, const in float dotNL ) {
 		rectCoords[ 2 ] = lightPos - halfWidth + halfHeight;
 		rectCoords[ 3 ] = lightPos + halfWidth + halfHeight;
 
-		vec2 uv = LTC_Uv( normal, viewDir, roughness );
-
-		vec4 t1 = texture2D( ltc_1, uv );
-		vec4 t2 = texture2D( ltc_2, uv );
-
-		mat3 mInv = mat3(
-			vec3( t1.x, 0, t1.y ),
-			vec3(    0, 1,    0 ),
-			vec3( t1.z, 0, t1.w )
-		);
+		//vec2 uv = LTC_Uv( normal, viewDir, roughness );
+		//
+		//vec4 t1 = texture2D( ltc_1, uv );
+		//vec4 t2 = texture2D( ltc_2, uv );
+		//
+		//mat3 mInv = mat3(
+		//	vec3( t1.x, 0, t1.y ),
+		//	vec3(    0, 1,    0 ),
+		//	vec3( t1.z, 0, t1.w )
+		//);
 
 		// LTC Fresnel Approximation by Stephen Hill
 		// http://blog.selfshadow.com/publications/s2016-advances/s2016_ltc_fresnel.pdf
-		vec3 fresnel = ( material.specularColor * t2.x + ( vec3( 1.0 ) - material.specularColor ) * t2.y );
+		//vec3 fresnel = ( material.specularColor * t2.x + ( vec3( 1.0 ) - material.specularColor ) * t2.y );
 
-		reflectedLight.directSpecular += lightColor * fresnel * LTC_Evaluate( normal, viewDir, position, mInv, rectCoords );
+		//reflectedLight.directSpecular += lightColor * fresnel * LTC_Evaluate( normal, viewDir, position, mInv, rectCoords );
 
 		reflectedLight.directDiffuse += lightColor * material.diffuseColor * LTC_Evaluate( normal, viewDir, position, mat3( 1.0 ), rectCoords );
 

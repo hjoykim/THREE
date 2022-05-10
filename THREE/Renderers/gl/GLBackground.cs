@@ -88,12 +88,6 @@ namespace THREE.Renderers.gl
             {
                 background = cubeMaps.Get(background as Texture);
             }
-            //var vr = Renderer.vr;
-            //var session = vr.getSession && vr.getSession();
-
-            //if ( session && session.environmentBlendMode == 'additive' ) {
-            //    background = null;
-            //}
 
             if (background == null)
             {
@@ -115,7 +109,7 @@ namespace THREE.Renderers.gl
                ErrorCode value = GL.GetError();
             }
 
-            if (background != null && (background is CubeTexture || background is GLCubeRenderTarget))
+            if (background != null && (background is CubeTexture || background is GLCubeRenderTarget || (background is Texture && (background as Texture).Mapping == Constants.CubeUVReflectionMapping)))
             {
                 if (BoxMesh == null)
                 {

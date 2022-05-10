@@ -8,7 +8,7 @@ namespace THREE
 {
     public class Constants
     {
-        public static string REVISION = "111dev";
+        public static string REVISION = "112";
         public enum MOUSE  { LEFT= 0, MIDDLE= 1, RIGHT= 2, ROTATE= 0, DOLLY= 1, PAN= 2 };
         public enum TOUCH  { ROTATE= 0, PAN= 1, DOLLY_PAN= 2, DOLLY_ROTATE= 3 };
         public static int LineStrip = 0;
@@ -113,6 +113,12 @@ namespace THREE
         public static int DepthFormat = 1026;
         public static int DepthStencilFormat = 1027;
         public static int RedFormat = 1028;
+        public static int RedIntegerFormat = 1029;
+        public static int RGFormat = 1030;
+        public static int RGIntegerFormat = 1031;
+        public static int RGBIntegerFormat = 1032;
+        public static int RGBAIntegerFormat = 1033;
+
         public static int RGB_S3TC_DXT1_Format = 33776;
         public static int RGBA_S3TC_DXT1_Format = 33777;
         public static int RGBA_S3TC_DXT3_Format = 33778;

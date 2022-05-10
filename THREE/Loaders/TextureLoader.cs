@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using THREE.Textures;
 using OpenTK.Graphics.ES30;
+using System.Reflection;
 
 namespace THREE.Loaders
 {
@@ -21,15 +22,27 @@ namespace THREE.Loaders
 
             bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
             
-
             Texture texture = new Texture();
             texture.Image = bitmap;
             texture.Format = Constants.RGBFormat;
             texture.NeedsUpdate = true;
 
             return texture;
+        }
 
+        public static Texture LoadEmbedded(string EmbeddedPath)
+        {
+            string embeddedNameBase = "THREE.Resources.";
+            Bitmap bitmap = new Bitmap(typeof(THREE.Core.Object3D).GetTypeInfo().Assembly.GetManifestResourceStream(embeddedNameBase + EmbeddedPath));
 
+            bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            
+            Texture texture = new Texture();
+            texture.Image = bitmap;
+            texture.Format = Constants.RGBFormat;
+            texture.NeedsUpdate = true;
+
+            return texture;
         }
     }
 }

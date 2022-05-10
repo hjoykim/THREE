@@ -32,20 +32,72 @@ namespace THREE.Objects
 
         public void Bind(Skeleton skeleton, Matrix4 bindMatrix)
         {
+            this.Skeleton = skeleton;
+            
+            if (bindMatrix == null)
+            {
+            
+                this.UpdateMatrixWorld(true);
+            
+                this.Skeleton.CalculateInverses();
+            
+                bindMatrix = this.MatrixWorld;
+            
+            }
+            
+            this.BindMatrix.Copy(bindMatrix);
+            this.BindMatrixInverse.GetInverse(bindMatrix);
         }
 
         public void Pose()
         {
-
+            Skeleton.Pose();
         }
 
         public void NormalizeSkinWeights()
         {
+            Vector4 vector = new Vector4();
+            BufferAttribute<float> skinWeight = (this.Geometry as BufferGeometry).Attributes["skinWeight"] as BufferAttribute<float>;
+
+            for (int i = 0; i < skinWeight.count; i++)
+            {
+                vector.X = skinWeight.getX(i);
+                vector.Y = skinWeight.getY(i);
+                vector.Z = skinWeight.getZ(i);
+                vector.W = skinWeight.getW(i);
+            
+                float scale = 1f / vector.ManhattanLength();
+            
+                if (scale != float.PositiveInfinity)
+                {
+                    vector.MultiplyScalar(scale);
+                }
+                else
+                {
+                    vector.Set(1, 0, 0, 0); // do something reasonable
+                }
+            
+                skinWeight.setXYZW(i, vector.X, vector.Y, vector.Z, vector.W);
+            }
         }
 
-        public void UpdateMatrixWorld(bool? force = false)
+        public override void UpdateMatrixWorld(bool force = false)
         {
+            base.UpdateMatrixWorld(force);
+            if (BindMode.Equals("attached"))
+            {
+                BindMatrixInverse.GetInverse(MatrixWorld);
+            }
+            else if (BindMode.Equals("detached"))
+            {
+                BindMatrixInverse.GetInverse(BindMatrix);
+            }
+            else
+            {
+                // Unrecognized BindMode
+            }
         }
+
         public Vector4 BoneTransform(int index,Vector4 target)
         {
             Vector3 basePosition = new Vector3();

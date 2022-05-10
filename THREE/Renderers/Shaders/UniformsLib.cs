@@ -299,7 +299,9 @@ namespace THREE.Renderers.Shaders
                                                 }
                                             }
 
-        	    }
+        	    },
+		        {"ltc_1", new GLUniform{{ "value", null}}},
+		        {"ltc_2", new GLUniform{{ "value", null}}}
             };
         }
 
