@@ -13,7 +13,7 @@
         public const float SQRT1_2 = (0.7071067811865476f);
 
         public const float DEG2RAD = (float)System.Math.PI / 180;
-
+        public const float RAD2DEG = 180 / (float)System.Math.PI;
         public static Color NextColor()
         {
             return new Color((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble());
