@@ -78,6 +78,8 @@
     <Compile Include="Learning\Chapter03\HemisphereLightExample.cs" />
     <Compile Include="Learning\Chapter03\LensflaresExample.cs" />
     <Compile Include="Learning\Chapter03\SpotLightExample.cs" />
+    <Compile Include="Learning\Chapter04\BasicMeshMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MaterialExampleTemplate.cs" />
     <Compile Include="Learning\Chapter10\AlphaMapExample.cs" />
     <Compile Include="Learning\Chapter10\EmissiveMapExample.cs" />
     <Compile Include="Learning\Chapter10\EnvMapDynamicExample.cs" />
