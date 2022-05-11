@@ -47,8 +47,6 @@ namespace THREE.Cameras
 
         public override void UpdateProjectionMatrix()
         {
-            //base.UpdateProjectionMatrix();
-
             float near = this.Near,
             top = near * (float)Math.Tan(MathUtils.DEG2RAD * 0.5 * this.Fov) / this.Zoom,
 
@@ -57,7 +55,6 @@ namespace THREE.Cameras
             left = -0.5f * width;
 
             if (this.View.Enabled)
-
             {              
                 left += (float)View.OffsetX * width / (float)View.FullWidth;
                 top -= (float)View.OffsetY * height / (float)View.FullHeight;
@@ -76,7 +73,7 @@ namespace THREE.Cameras
 
         public void SetViewOffset(float fullWidth,float fullHeight,float x,float y,float width,float height)
         {
-            this.Aspect = fullWidth / (1.0f * fullHeight);
+            this.Aspect = fullWidth / fullHeight;
             View.Enabled = true;
             View.FullWidth = fullWidth;
             View.FullHeight = fullHeight;
