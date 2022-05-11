@@ -11,8 +11,6 @@ namespace THREE.Cameras
 
         public float focus = 10.0f;
 
-        public View View;
-
         public PerspectiveCamera(float fov=50,float aspect=1,float near=0.1f,float far = 2000)
         {
             this.Fov = fov;
@@ -21,14 +19,6 @@ namespace THREE.Cameras
             this.Far = far;
 
             this.UpdateProjectionMatrix();
-
-            View.Enabled = true;
-            View.FullWidth = 1;
-            View.FullHeight = 1;
-            View.OffsetX = 0;
-            View.OffsetY = 0;
-            View.Width = 1;
-            View.Height = 1;
         }
 
         protected PerspectiveCamera(PerspectiveCamera other) : base(other)
@@ -41,8 +31,7 @@ namespace THREE.Cameras
             this.Zoom = other.Zoom;
             this.FilmGauge = other.FilmGauge;
             this.FilmOffset = other.FilmOffset;
-            this.View = other.View;
-            //this.UpdateProjectionMatrix();
+            this.UpdateProjectionMatrix();
         }
 
         public override void UpdateProjectionMatrix()
@@ -67,30 +56,7 @@ namespace THREE.Cameras
 
             this.ProjectionMatrix = this.ProjectionMatrix.MakePerspective(left, left + width, top, top - height, near, this.Far);
             
-		        this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
-
-        }
-
-        public void SetViewOffset(float fullWidth,float fullHeight,float x,float y,float width,float height)
-        {
-            this.Aspect = fullWidth / fullHeight;
-            View.Enabled = true;
-            View.FullWidth = fullWidth;
-            View.FullHeight = fullHeight;
-            View.OffsetX = x;
-            View.OffsetY = y;
-            View.Width = width;
-            View.Height = height;
-
-            this.UpdateProjectionMatrix();
-
-        }
-
-        public void ClearViewOffset()
-        {
-            this.View.Enabled = false;
-            this.UpdateProjectionMatrix();
-
+		    this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
         }
 
         public override object Clone()
