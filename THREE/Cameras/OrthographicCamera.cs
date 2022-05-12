@@ -23,7 +23,7 @@ namespace THREE.Cameras
         /// <param name="bottom"></param>
         /// <param name="near"></param>
         /// <param name="far"></param>
-        public OrthographicCamera(float? left=null, float? right=null, float? top=null, float? bottom=null, float? near = null, int? far = null)
+        public OrthographicCamera(float? left=null, float? right=null, float? top=null, float? bottom=null, float? near = null, float? far = null)
         {
             this.type = "OrthographicCamera";
 

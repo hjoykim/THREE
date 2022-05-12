@@ -185,20 +185,15 @@ namespace THREEExample.Learning.Chapter04
         }
         public virtual void AddSpecificMaterialSettings(Material material, string name)
         {
-            Color materialColor = material.Color.Value;
-            Color? emissiveColor = null;
-            if (material.Emissive != null)
-                emissiveColor = material.Emissive;
-           
-            System.Numerics.Vector3 color = new System.Numerics.Vector3(materialColor.R, materialColor.G, materialColor.B);
-            System.Numerics.Vector3 emissive = new System.Numerics.Vector3(0,0,0);
-            if (emissiveColor!=null)
-                emissive = new System.Numerics.Vector3(emissiveColor.Value.R, emissiveColor.Value.G, emissiveColor.Value.B);
+            Color? materialColor = material.Color;
+            Color? emissiveColor = material.Emissive;
+            
             if (ImGui.TreeNode(name))
             {
-
-                AddColorPicker(material);
-                AddEmissivePicker(material);
+                if(materialColor!=null)
+                    AddColorPicker(material);
+                if(emissiveColor!=null)
+                    AddEmissivePicker(material);
                 AddSpecularPicker(material);
                 ImGui.TreePop();
             }

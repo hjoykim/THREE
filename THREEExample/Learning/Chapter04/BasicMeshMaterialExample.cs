@@ -13,16 +13,16 @@ namespace THREEExample.Learning.Chapter04
     [Example("01.BasicMeshMaterial", ExampleCategory.LearnThreeJS, "Chapter04")]
     public class BasicMeshMaterialExample : MaterialExampleTemplate
     {
-        Mesh plane, cube, sphere;
-        Object3D selectedMesh;
-        Group gopher;
+        public Mesh plane, cube, sphere;
+        public Object3D selectedMesh;
+        public Group gopher;
 
-        AmbientLight ambientLight;
-        SpotLight spotLight;
+        public AmbientLight ambientLight;
+        public SpotLight spotLight;
 
-        int selectedIndex = 0;
+        public int selectedIndex = 0;
 
-        float step = 0;
+        public float step = 0;
 
         public Material meshMaterial;
 
@@ -43,20 +43,21 @@ namespace THREEExample.Learning.Chapter04
                 Fog = true
             };
         }
-        public virtual void BuildGeometry()
+        
+        public virtual void BuildGroundGeometry()
         {
             var groundGeometry = new PlaneGeometry(100, 100, 4, 4);
             var groundMesh = new Mesh(groundGeometry, new MeshBasicMaterial() { Color = Color.Hex(0x777777) });
             groundMesh.Rotation.X = (float)(-System.Math.PI / 2);
             groundMesh.Position.Y = -20;
             scene.Add(groundMesh);
+        }
 
+        public virtual void BuildMesh()
+        {
             var sphereGeometry = new SphereGeometry(14, 20, 20);
             var cubeGeometry = new BoxGeometry(15, 15, 15);
             var planeGeometry = new PlaneGeometry(14, 14, 4, 4);
-
-            BuildMeshMaterial();
-
             sphere = new Mesh(sphereGeometry, meshMaterial);
             cube = new Mesh(cubeGeometry, meshMaterial);
             plane = new Mesh(planeGeometry, meshMaterial);
@@ -64,9 +65,10 @@ namespace THREEExample.Learning.Chapter04
             sphere.Position.Set(0, 3, 2);
             cube.Position.Copy(sphere.Position);
             plane.Position.Copy(sphere.Position);
+        }
 
-            materialsLib.Add(meshMaterial.Name, meshMaterial);
-
+        public virtual void BuildGopher()
+        {
             OBJLoader loader = new OBJLoader();
             gopher = loader.Load(@"../../../assets/models/gopher/gopher.obj");
 
@@ -75,17 +77,41 @@ namespace THREEExample.Learning.Chapter04
             SetMaterialGroup(meshMaterial, gopher);
 
             gopher.Scale.Set(4, 4, 4);
-            scene.Add(cube);
-
-            selectedMesh = cube;
-
+        }
+        public virtual void AddAmbientLight()
+        {
             ambientLight = new AmbientLight(Color.Hex(0x0c0c0c));
             scene.Add(ambientLight);
+        }
 
+        public virtual void AddSpotLight()
+        {
             spotLight = new SpotLight(Color.Hex(0xffffff));
             spotLight.Position.Set(-40, 60, -10);
             spotLight.CastShadow = true;
             scene.Add(spotLight);
+        }
+        public virtual void BuildGeometry()
+        {
+
+            BuildGroundGeometry();           
+
+            BuildMeshMaterial();
+
+            BuildMesh();
+
+            BuildGopher();
+
+            materialsLib.Add(meshMaterial.Name, meshMaterial);
+
+           
+            scene.Add(cube);
+
+            selectedMesh = cube;
+
+            AddAmbientLight();
+
+            AddSpotLight();           
 
         }
         public override void Load(GLControl control)
