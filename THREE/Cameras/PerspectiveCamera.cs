@@ -11,7 +11,6 @@ namespace THREE.Cameras
 
         public float focus = 10.0f;
 
-        public View View;
 
         public PerspectiveCamera(float fov=50,float aspect=1,float near=0.1f,float far = 2000)
         {
@@ -50,7 +49,7 @@ namespace THREE.Cameras
             //base.UpdateProjectionMatrix();
 
             float near = this.Near,
-            top = near * (float)Math.Tan(TMath.DEG2RAD * 0.5 * this.Fov) / this.Zoom,
+            top = near * (float)Math.Tan(MathUtils.DEG2RAD * 0.5 * this.Fov) / this.Zoom,
 
             height = 2 * top,
             width = this.Aspect * height,
