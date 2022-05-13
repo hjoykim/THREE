@@ -66,7 +66,7 @@
 
 	vec2 texture2DDistribution( sampler2D shadow, vec2 uv ) {
 
-		return unpack2HalfToRGBA( texture2D( shadow, uv ) );
+		return unpackHalfTo2RGBA( texture2D( shadow, uv ) );
 
 	}
 
