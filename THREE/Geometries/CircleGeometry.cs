@@ -114,13 +114,13 @@ namespace THREE.Geometries
             this.SetAttribute("position", positions.CopyVector3sArray(vertices.ToArray()));
 
             BufferAttribute<float> normalAttributes = new BufferAttribute<float>();
-            positions.ItemSize = 3;
-            positions.Type = typeof(float);
+            normalAttributes.ItemSize = 3;
+            normalAttributes.Type = typeof(float);
             this.SetAttribute("normal", normalAttributes.CopyVector3sArray(normals.ToArray()));
 
             BufferAttribute<float> uvAttributes = new BufferAttribute<float>();
-            positions.ItemSize = 2;
-            positions.Type = typeof(float);
+            uvAttributes.ItemSize = 2;
+            uvAttributes.Type = typeof(float);
             this.SetAttribute("uv",uvAttributes.CopyVector2sArray(uvs.ToArray()));
 
         }
