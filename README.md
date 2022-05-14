@@ -80,9 +80,11 @@ There is C++ port of Three.js   (https://github.com/hjoykim/ThreeCpp)
 #### Chapter03 - Lensflares Light
 ![image](https://user-images.githubusercontent.com/3807476/166921275-620f734a-46f1-4f8d-b23d-e3576fb251f2.png)
 ### Chapter04 -MeshPhysicalMaterial
-![image](https://user-images.githubusercontent.com/3807476/168407251-463a878f-53db-46e9-81dd-bc5534dd0100.png)
-### Chapter05~Chapter08 - All the examples have been completed, but they have not been committed yet
 > some examples are include DataLoader like as .obj
+![image](https://user-images.githubusercontent.com/3807476/168407251-463a878f-53db-46e9-81dd-bc5534dd0100.png)
+### Chapter05-Basic-3D-Geometries-Polyhedron
+![image](https://user-images.githubusercontent.com/3807476/168426813-a28b1eca-0a9b-4052-adf2-fc9dc248f249.png)
+### Chapter06~Chapter08 - All the examples have been completed, but they have not been committed yet
 #### Chapter09 - Trackball controls
 ![image](https://user-images.githubusercontent.com/3807476/166919252-6cb474c5-a971-474c-bf7c-a8b565bc4cd4.png)
 #### Chapter10 env map
