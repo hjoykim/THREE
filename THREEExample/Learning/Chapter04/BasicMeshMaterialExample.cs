@@ -24,6 +24,8 @@ namespace THREEExample.Learning.Chapter04
 
         public float step = 0;
 
+        public float rotationSpeed = 0.001f;
+
         public Material meshMaterial;
 
         public BasicMeshMaterialExample() : base()

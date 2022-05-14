@@ -81,8 +81,17 @@
     <Compile Include="Learning\Chapter04\BasicMeshMaterialExample.cs" />
     <Compile Include="Learning\Chapter04\CombinedMaterialExample.cs" />
     <Compile Include="Learning\Chapter04\DepthMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\LineMaterialDashedExample.cs" />
+    <Compile Include="Learning\Chapter04\LineMaterialExample.cs" />
     <Compile Include="Learning\Chapter04\MaterialExampleTemplate.cs" />
+    <Compile Include="Learning\Chapter04\MeshFaceMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshLambertMaterialExample.cs" />
     <Compile Include="Learning\Chapter04\MeshNormalMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshPhongMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshPhysicalMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshStandardMeterailExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshToonMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\ShaderMaterialExample.cs" />
     <Compile Include="Learning\Chapter10\AlphaMapExample.cs" />
     <Compile Include="Learning\Chapter10\EmissiveMapExample.cs" />
     <Compile Include="Learning\Chapter10\EnvMapDynamicExample.cs" />

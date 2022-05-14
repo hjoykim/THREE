@@ -16,6 +16,15 @@ namespace THREEExample.Learning.Chapter04
         {
 
         }
+        public override void InitCamera()
+        {
+            base.InitCamera();
+            camera.Position.X = -30;
+            camera.Position.Y = 50;
+            camera.Position.Z = 40;
+            camera.LookAt(new THREE.Math.Vector3(10, 0, 0));
+
+        }
         public override void BuildMeshMaterial()
         {
             meshMaterial = new MeshNormalMaterial();

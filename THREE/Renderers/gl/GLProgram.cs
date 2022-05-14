@@ -361,7 +361,7 @@ namespace THREE.Renderers.gl
                      "\n"			        
                 };
 
-                prefixFragment = string.Join("\n", prefixFragments);
+                prefixFragment = string.Join("\r\n", prefixFragments);
             }
 
             VertexShader = ResolveIncludes(VertexShader);
