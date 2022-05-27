@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using THREE;
 using THREE.Cameras;
-using THREE.Cameras.Controlls;
+using THREE.Controls;
 using THREE.Core;
 using THREE.Geometries;
 using THREE.Materials;

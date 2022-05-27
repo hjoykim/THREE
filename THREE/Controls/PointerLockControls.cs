@@ -4,18 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using THREE.Cameras;
 using THREE.Core;
 using THREE.Math;
 using THREE.Renderers;
 
-namespace THREE.Cameras.Controlls
+namespace THREE.Controls
 {
     public class PointerLockControls
     {
         private Camera camera;
 
         private const float YAW = -90.0f;
-        
+
         private const float PITCH = 0.0f;
 
         private const float SPEED = 2.5f;
@@ -32,7 +33,7 @@ namespace THREE.Cameras.Controlls
 
         public float MouseSensitivity;
 
-       
+
         public Vector3 worldUp;
 
         private int oldX = 0;
@@ -42,20 +43,20 @@ namespace THREE.Cameras.Controlls
         public PointerLockControls(Control control, Camera camera)
         {
             this.camera = camera;
-            
-            this.Yaw = YAW;
-            
-            this.Pitch = PITCH;
+
+            Yaw = YAW;
+
+            Pitch = PITCH;
 
             this.camera.Front = new Vector3(0.0f, 0.0f, -1.0f);
 
-            this.MovementSpeed = SPEED;
+            MovementSpeed = SPEED;
 
-            this.MouseSensitivity = SENSITIVITY;
+            MouseSensitivity = SENSITIVITY;
 
-            
 
-            this.worldUp = camera.Up;
+
+            worldUp = camera.Up;
 
             control.MouseMove += Control_MouseMove;
             control.MouseWheel += Control_MouseWheel;
@@ -68,8 +69,8 @@ namespace THREE.Cameras.Controlls
 
         private void Control_KeyUp(object sender, KeyEventArgs e)
         {
-            
-            float velocity = 2.5f*MovementSpeed;
+
+            float velocity = 2.5f * MovementSpeed;
             switch (e.KeyCode)
             {
                 case Keys.Up:
@@ -97,10 +98,10 @@ namespace THREE.Cameras.Controlls
 
             }
             updateCameraVectors();
-           
+
         }
 
-       
+
         public void Update()
         {
             //updateCameraVectors();
@@ -108,13 +109,13 @@ namespace THREE.Cameras.Controlls
         }
         public Matrix4 GetViewMatrix()
         {
-            return Matrix4.Identity().LookAt(camera.Position,camera.Position + camera.Front,camera.Up);
+            return Matrix4.Identity().LookAt(camera.Position, camera.Position + camera.Front, camera.Up);
         }
 
         private void Control_SizeChanged(object sender, EventArgs e)
         {
-            this.camera.Aspect = (sender as OpenTK.GLControl).AspectRatio;
-            this.camera.UpdateProjectionMatrix();
+            camera.Aspect = (sender as OpenTK.GLControl).AspectRatio;
+            camera.UpdateProjectionMatrix();
         }
 
         private void Control_MouseMove(object sender, MouseEventArgs e)
@@ -127,14 +128,14 @@ namespace THREE.Cameras.Controlls
             }
             int xoffset = e.X - oldX;
             int yoffset = oldY - e.Y;
-            
-            this.Yaw += xoffset * MouseSensitivity;
-            
-            this.Pitch += yoffset * MouseSensitivity;
+
+            Yaw += xoffset * MouseSensitivity;
+
+            Pitch += yoffset * MouseSensitivity;
 
             if (Pitch > 89.0f)
                 Pitch = 89.0f;
-            
+
             if (Pitch < -89.0f)
                 Pitch = -89.0f;
 
@@ -158,7 +159,7 @@ namespace THREE.Cameras.Controlls
                 camera.Fov = 45.0f;
 
             camera.UpdateProjectionMatrix();
-           
+
         }
         private void updateCameraVectors()
         {
@@ -168,9 +169,9 @@ namespace THREE.Cameras.Controlls
             front.Y = (float)System.Math.Sin(MathUtils.DegToRad(Pitch));
             front.Z = (float)System.Math.Sin(MathUtils.DegToRad(Yaw)) * (float)System.Math.Cos(MathUtils.DegToRad(Pitch));
 
-            this.camera.Front = front.Normalize();
-            this.camera.Right = Vector3.Zero().Copy(this.camera.Front).Cross(this.worldUp).Normalize();
-            this.camera.Up = Vector3.Zero().Copy(this.camera.Right).Cross(this.camera.Front).Normalize();
+            camera.Front = front.Normalize();
+            camera.Right = Vector3.Zero().Copy(camera.Front).Cross(worldUp).Normalize();
+            camera.Up = Vector3.Zero().Copy(camera.Right).Cross(camera.Front).Normalize();
         }
     }
 }

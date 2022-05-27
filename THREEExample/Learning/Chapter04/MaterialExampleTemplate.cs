@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using THREE;
 using THREE.Cameras;
-using THREE.Cameras.Controlls;
+using THREE.Controls;
 using THREE.Materials;
 using THREE.Math;
 using THREE.Scenes;

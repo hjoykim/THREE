@@ -76,7 +76,7 @@ namespace THREE.Renderers
 
         public GLExtensions extensions;
 
-        GLCapabilities capabilities;
+        public GLCapabilities capabilities;
 
         public GLState state;
 

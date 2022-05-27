@@ -87,11 +87,13 @@ namespace THREE.Core
             return this.Attributes[name] as GLAttribute;
         }
 
-        public void SetAttribute(string name, GLAttribute attribute)
+        public BufferGeometry SetAttribute(string name, GLAttribute attribute)
         {
             this.Attributes[name] = attribute;
             //if (!AttributesKeys.Contains(name))
             //    this.AttributesKeys.Add(name);
+
+            return this;
 
         }
 
@@ -133,7 +135,7 @@ namespace THREE.Core
             this.DrawRange.Count = count;
         }
 
-        public new BufferGeometry ApplyMatrix(Matrix4 matrix)
+        public BufferGeometry ApplyMatrix(Matrix4 matrix)
         {
             if (this.Attributes.ContainsKey("position"))
             {

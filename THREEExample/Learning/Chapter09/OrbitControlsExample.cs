@@ -2,7 +2,7 @@
 using OpenTK;
 using THREE;
 using THREE.Cameras;
-using THREE.Cameras.Controlls;
+using THREE.Controls;
 using THREE.Geometries;
 using THREE.Lights;
 using THREE.Loaders;
