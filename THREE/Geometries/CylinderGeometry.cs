@@ -32,7 +32,6 @@ namespace THREE.Geometries
             this.FromBufferGeometry(new CylinderBufferGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength));
             this.MergeVertices();            
         }
-
     }
 
     public class CylinderBufferGeometry : BufferGeometry

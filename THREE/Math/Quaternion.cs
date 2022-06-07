@@ -339,7 +339,7 @@ namespace THREE.Math
 		    return this;
         }
 
-        public Quaternion Invert()
+        public Quaternion Inverse()
         {
             return this.Conjugate();
         }

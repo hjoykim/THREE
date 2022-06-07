@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using THREE;
 using THREE.Cameras;
-using THREE.Controls;
+using THREE.Cameras.Controlls;
 using THREE.Loaders;
 using THREE.Math;
 using THREE.Scenes;

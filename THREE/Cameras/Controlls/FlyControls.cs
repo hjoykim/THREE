@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using THREE.Cameras;
 using THREE.Math;
 
-namespace THREE.Controls
+namespace THREE.Cameras.Controlls
 {
     public class FlyControls
     {
@@ -55,8 +54,7 @@ namespace THREE.Controls
 
         private float movementSpeedMultiplier = 0.0f;
 
-        private MoveState moveState = new MoveState()
-        {
+        private MoveState moveState = new MoveState() { 
             Up = 0,
             Down = 0,
             Left = 0,
@@ -70,10 +68,10 @@ namespace THREE.Controls
             RollRight = 0
         };
 
-        public FlyControls(Control control, Camera camera)
+        public FlyControls(Control control,Camera camera)
         {
             this.control = control;
-
+             
             this.camera = camera;
 
             control.KeyDown += Control_KeyDown;
@@ -89,98 +87,96 @@ namespace THREE.Controls
 
         private void Control_MouseUp(object sender, MouseEventArgs e)
         {
-
-            if (DragToLook)
+           
+            if (this.DragToLook)
             {
 
-                mouseStatus--;
+                this.mouseStatus--;
 
-                moveState.YawLeft = moveState.PitchDown = 0;
+                this.moveState.YawLeft = this.moveState.PitchDown = 0;
 
             }
             else
             {
 
-                switch (e.Button)
-                {
+                switch ( e.Button ) {
 
-                    case MouseButtons.Left: moveState.Forward = 0; break;
-                    case MouseButtons.Right: moveState.Back = 0; break;
+				case MouseButtons.Left: this.moveState.Forward = 0; break;
+				case MouseButtons.Right: this.moveState.Back = 0; break;
 
                 }
 
-                UpdateMovementVector();
+			    this.UpdateMovementVector();
 
-            }
+		    }
 
-            UpdateRotationVector();
+            this.UpdateRotationVector();
         }
 
         private void Control_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!DragToLook || mouseStatus > 0)
+            if (!this.DragToLook || this.mouseStatus > 0)
             {
 
                 //var container = this.getContainerDimensions();
                 var halfWidth = control.Width / 2;
                 var halfHeight = control.Height / 2;
 
-                moveState.YawLeft = -(e.X - halfWidth) / (float)halfWidth;
-                moveState.PitchDown = (e.Y - halfHeight) / (float)halfHeight;
+                this.moveState.YawLeft = -( e.X  - halfWidth ) / (float)halfWidth;
+			    this.moveState.PitchDown = ( e.Y - halfHeight ) / (float)halfHeight;
 
-                UpdateRotationVector();
+			    this.UpdateRotationVector();
 
-            }
+		    }
         }
 
         private void Control_MouseDown(object sender, MouseEventArgs e)
         {
-
-            if (DragToLook)
+           
+            if (this.DragToLook)
             {
 
-                mouseStatus++;
+                this.mouseStatus++;
 
             }
             else
             {
-                switch (e.Button)
-                {
-                    case MouseButtons.Left: moveState.Forward = 1; break;
-                    case MouseButtons.Right: moveState.Back = 1; break;
+                switch ( e.Button ) {
+				    case  MouseButtons.Left: this.moveState.Forward = 1; break;
+				    case  MouseButtons.Right: this.moveState.Back = 1; break;
                 }
 
-                UpdateMovementVector();
-            }
+			this.UpdateMovementVector();
+		    }
         }
 
         private void Control_KeyUp(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
-                case Keys.ShiftKey: /* shift */ movementSpeedMultiplier = 1.1f; break;
+                case Keys.ShiftKey: /* shift */ this.movementSpeedMultiplier = 1.1f; break;
 
-                case Keys.W: /*W*/ moveState.Forward = 0; break;
-                case Keys.S: /*S*/ moveState.Back = 0; break;
+                case Keys.W: /*W*/ this.moveState.Forward = 0; break;
+                case Keys.S: /*S*/ this.moveState.Back = 0; break;
 
-                case Keys.A: /*A*/ moveState.Left = 0; break;
-                case Keys.D: /*D*/ moveState.Right = 0; break;
+                case Keys.A: /*A*/ this.moveState.Left = 0; break;
+                case Keys.D: /*D*/ this.moveState.Right = 0; break;
 
-                case Keys.R: /*R*/ moveState.Up = 0; break;
-                case Keys.F: /*F*/ moveState.Down = 0; break;
+                case Keys.R: /*R*/ this.moveState.Up = 0; break;
+                case Keys.F: /*F*/ this.moveState.Down = 0; break;
 
-                case Keys.Up: /*up*/ moveState.PitchUp = 0; break;
-                case Keys.Down: /*down*/ moveState.PitchDown = 0; break;
+                case Keys.Up: /*up*/ this.moveState.PitchUp = 0; break;
+                case Keys.Down: /*down*/ this.moveState.PitchDown = 0; break;
 
-                case Keys.Left: /*left*/ moveState.YawLeft = 0; break;
-                case Keys.Right: /*right*/ moveState.YawRight = 0; break;
+                case Keys.Left: /*left*/ this.moveState.YawLeft = 0; break;
+                case Keys.Right: /*right*/ this.moveState.YawRight = 0; break;
 
-                case Keys.Q: /*Q*/ moveState.RollLeft = 0; break;
-                case Keys.E: /*E*/ moveState.RollRight = 0; break;
+                case Keys.Q: /*Q*/ this.moveState.RollLeft = 0; break;
+                case Keys.E: /*E*/ this.moveState.RollRight = 0; break;
             }
 
-            UpdateMovementVector();
-            UpdateRotationVector();
+            this.UpdateMovementVector();
+            this.UpdateRotationVector();
         }
 
         private void Control_KeyDown(object sender, KeyEventArgs e)
@@ -190,29 +186,29 @@ namespace THREE.Controls
 
             switch (e.KeyCode)
             {
-                case Keys.ShiftKey: /* shift */ movementSpeedMultiplier = 0.1f; break;
+                case Keys.ShiftKey : /* shift */ this.movementSpeedMultiplier = 0.1f; break;
 
-                case Keys.W: /*W*/ moveState.Forward = 1; break;
-                case Keys.S: /*S*/ moveState.Back = 1; break;
+                case Keys.W : /*W*/ this.moveState.Forward = 1; break;
+                case Keys.S: /*S*/ this.moveState.Back = 1; break;
 
-                case Keys.A: /*A*/ moveState.Left = 1; break;
-                case Keys.D: /*D*/ moveState.Right = 1; break;
+                case Keys.A: /*A*/ this.moveState.Left = 1; break;
+                case Keys.D: /*D*/ this.moveState.Right = 1; break;
 
-                case Keys.R: /*R*/ moveState.Up = 1; break;
-                case Keys.F: /*F*/ moveState.Down = 1; break;
+                case Keys.R: /*R*/ this.moveState.Up = 1; break;
+                case Keys.F: /*F*/ this.moveState.Down = 1; break;
 
-                case Keys.Up: /*up*/ moveState.PitchUp = 1; break;
-                case Keys.Down: /*down*/ moveState.PitchDown = 1; break;
+                case Keys.Up: /*up*/ this.moveState.PitchUp = 1; break;
+                case Keys.Down: /*down*/ this.moveState.PitchDown = 1; break;
 
-                case Keys.Left: /*left*/ moveState.YawLeft = 1; break;
-                case Keys.Right: /*right*/ moveState.YawRight = 1; break;
+                case Keys.Left: /*left*/ this.moveState.YawLeft = 1; break;
+                case Keys.Right: /*right*/ this.moveState.YawRight = 1; break;
 
-                case Keys.Q: /*Q*/ moveState.RollLeft = 1; break;
-                case Keys.E: /*E*/ moveState.RollRight = 1; break;
+                case Keys.Q: /*Q*/ this.moveState.RollLeft = 1; break;
+                case Keys.E: /*E*/ this.moveState.RollRight = 1; break;
             }
 
-            UpdateMovementVector();
-            UpdateRotationVector();
+            this.UpdateMovementVector();
+            this.UpdateRotationVector();
         }
 
         public void Update(float delta)
@@ -245,18 +241,18 @@ namespace THREE.Controls
 
         private void UpdateMovementVector()
         {
-            var forward = moveState.Forward != 0 || AutoForward && moveState.Back == 0 ? 1 : 0;
+            var forward = (this.moveState.Forward!=0 || (this.AutoForward && this.moveState.Back==0)) ? 1 : 0;
 
-            moveVector.X = -moveState.Left + moveState.Right;
-            moveVector.Y = -moveState.Down + moveState.Up;
-            moveVector.Z = -forward + moveState.Back;
+            this.moveVector.X = (-this.moveState.Left + this.moveState.Right);
+            this.moveVector.Y = (-this.moveState.Down + this.moveState.Up);
+            this.moveVector.Z = (-forward + this.moveState.Back);
         }
 
         private void UpdateRotationVector()
         {
-            rotationVector.X = -moveState.PitchDown + moveState.PitchUp;
-            rotationVector.Y = -moveState.YawRight + moveState.YawLeft;
-            rotationVector.Z = -moveState.RollRight + moveState.RollLeft;
+            this.rotationVector.X = (-this.moveState.PitchDown + this.moveState.PitchUp);
+            this.rotationVector.Y = (-this.moveState.YawRight + this.moveState.YawLeft);
+            this.rotationVector.Z = (-this.moveState.RollRight + this.moveState.RollLeft);
         }
     }
 }

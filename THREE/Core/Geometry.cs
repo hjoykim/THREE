@@ -96,7 +96,7 @@ namespace THREE.Core
         public Geometry()
         {
             Id = GeometryIdCount;
-            GeometryIdCount += 1;
+            GeometryIdCount += 2;
 
             this.Name = "";
 
@@ -115,10 +115,8 @@ namespace THREE.Core
             this.IsBufferGeometry = false;
         }
 
-        public Geometry(Geometry source) : this()
-        {
-            Id = GeometryIdCount;
-            GeometryIdCount += 1;
+        protected Geometry(Geometry source) : this()
+        {           
 
             this.Name = source.Name;
             var vertices = source.Vertices;

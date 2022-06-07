@@ -68,8 +68,6 @@ namespace THREE.Materials
 
             this.Map = null;
 
-            this.Color = THREE.Math.Color.Hex(0xffffff); // emissive
-
             //this.LightMap = null;
 
             this.SpecularMap = null;
@@ -98,12 +96,8 @@ namespace THREE.Materials
         protected MeshBasicMaterial(MeshBasicMaterial other)
             : base(other)
         {
-            
-        }
         
-        public new MeshBasicMaterial Clone()
-        {
-            return new MeshBasicMaterial(this);
         }
+
     }
 }

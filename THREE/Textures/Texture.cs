@@ -10,7 +10,7 @@ using THREE.Math;
 
 namespace THREE.Textures
 {
-    public class MipMap  
+    public class MipMap : ICloneable
     {
         public byte[] Data;
 
@@ -25,13 +25,13 @@ namespace THREE.Textures
             if (other.Data.Length > 0)
                 this.Data = other.Data.ToArray();
         }
-        public MipMap Clone()
+        public object Clone()
         {
             return new MipMap(this);
         }
     }
 
-    public class Texture : DisposableObject
+    public class Texture : DisposableObject,ICloneable
     {
         #region Static Fields
 
@@ -72,7 +72,7 @@ namespace THREE.Textures
         public int MinFilter;
         public int MaxFilter;
 
-        public float Anisotropy;
+        public int Anisotropy;
 
         public int Format = (int)Constants.RGBAFormat;
         public int Type;
@@ -222,7 +222,7 @@ namespace THREE.Textures
             this.Matrix.SetUvTransform(this.Offset.X, this.Offset.Y, this.Repeat.X, this.Repeat.Y, this.Rotation, this.Center.X, this.Center.Y);
         }
 
-        public Texture Clone()
+        public virtual object Clone()
         {
             return new Texture(this);
         }

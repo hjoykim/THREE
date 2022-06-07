@@ -2,7 +2,7 @@
 using System;
 using THREE;
 using THREE.Cameras;
-using THREE.Controls;
+using THREE.Cameras.Controlls;
 using THREE.Core;
 using THREE.Loaders;
 using THREE.Math;

@@ -19,7 +19,7 @@ namespace FormsDemo
         public Form1()
         {
             InitializeComponent();
-            //this.WindowState = FormWindowState.Maximized;
+            this.WindowState = FormWindowState.Maximized;
         }
         void Application_Idle(object sender, EventArgs e)
         {
@@ -91,7 +91,7 @@ namespace FormsDemo
                 }
             }
             treeView1.Sort();
-            //treeView1.ExpandAll();
+            treeView1.ExpandAll();
             treeView1.SelectedNode = treeView1.Nodes[0];
         }
 

@@ -102,8 +102,6 @@ namespace THREE.Core
         public bool IsCamera = false;
 
         public bool IsLight = false;
-
-        public object Tag = null;
         #endregion
 
         public List<float> MorphTargetInfluences = new List<float>();
@@ -330,7 +328,7 @@ namespace THREE.Core
             {
                 m.ExtractRotation(Parent.MatrixWorld);
                 Quaternion q1 = new Quaternion().SetFromRotationMatrix(m);
-                this.Quaternion.PreMultiply(q1.Invert());
+                this.Quaternion.PreMultiply(q1.Inverse());
 
             }
         }
@@ -383,7 +381,7 @@ namespace THREE.Core
 
         }
 
-        public virtual Object3D Attach(Object3D object3D)
+        public Object3D Attach(Object3D object3D)
         {
             this.UpdateWorldMatrix(true, false);
 
