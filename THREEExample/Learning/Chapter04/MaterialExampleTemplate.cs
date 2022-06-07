@@ -41,13 +41,13 @@ namespace THREEExample.Learning.Chapter04
             renderer.Render(scene, camera);
             ShowGUIControls();
         }
-        public void InitRenderer()
+        public virtual void InitRenderer()
         {
             this.renderer.SetClearColor(new Color().SetHex(0x000000));
             this.renderer.ShadowMap.Enabled = true;
             this.renderer.ShadowMap.type = Constants.PCFSoftShadowMap;
         }
-        public void InitCamera()
+        public virtual void InitCamera()
         {
             camera.Fov = 45.0f;
             camera.Aspect = this.glControl.AspectRatio;
@@ -56,7 +56,7 @@ namespace THREEExample.Learning.Chapter04
             camera.Position.Set(0, 20, 40);
             camera.LookAt(new THREE.Math.Vector3(10,0,0));
         }
-        public void InitCameraController()
+        public virtual void InitCameraController()
         {
             controls = new TrackballControls(this.glControl, camera);
             controls.StaticMoving = false;
@@ -185,20 +185,15 @@ namespace THREEExample.Learning.Chapter04
         }
         public virtual void AddSpecificMaterialSettings(Material material, string name)
         {
-            Color materialColor = material.Color.Value;
-            Color? emissiveColor = null;
-            if (material.Emissive != null)
-                emissiveColor = material.Emissive;
-           
-            System.Numerics.Vector3 color = new System.Numerics.Vector3(materialColor.R, materialColor.G, materialColor.B);
-            System.Numerics.Vector3 emissive = new System.Numerics.Vector3(0,0,0);
-            if (emissiveColor!=null)
-                emissive = new System.Numerics.Vector3(emissiveColor.Value.R, emissiveColor.Value.G, emissiveColor.Value.B);
+            Color? materialColor = material.Color;
+            Color? emissiveColor = material.Emissive;
+            
             if (ImGui.TreeNode(name))
             {
-
-                AddColorPicker(material);
-                AddEmissivePicker(material);
+                if(materialColor!=null)
+                    AddColorPicker(material);
+                if(emissiveColor!=null)
+                    AddEmissivePicker(material);
                 AddSpecularPicker(material);
                 ImGui.TreePop();
             }

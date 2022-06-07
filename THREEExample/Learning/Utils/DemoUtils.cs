@@ -334,10 +334,8 @@ namespace THREEExample.Learning.Utils
             }
             return mesh;
         }
-        public static Mesh AppliyMeshNormalMaterial(Geometry geometry, Material material = null)
+        public static Mesh AppliyMeshNormalMaterial(Geometry geometry, ref Material material )
         {
-
-
 
             if (material == null || material.type != "MeshNormalMaterial")
             {
@@ -347,7 +345,7 @@ namespace THREEExample.Learning.Utils
             return new Mesh(geometry, material);
         }
 
-        public static Mesh AppliyMeshStandardMaterial(Geometry geometry, Material material = null)
+        public static Mesh AppliyMeshStandardMaterial(Geometry geometry, ref Material material)
         {
 
             if (material == null || material.type != "MeshStandardMaterial")

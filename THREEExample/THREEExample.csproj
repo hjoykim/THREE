@@ -41,7 +41,7 @@
       <HintPath>..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\THREE\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
+      <HintPath>..\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -79,7 +79,30 @@
     <Compile Include="Learning\Chapter03\LensflaresExample.cs" />
     <Compile Include="Learning\Chapter03\SpotLightExample.cs" />
     <Compile Include="Learning\Chapter04\BasicMeshMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\CombinedMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\DepthMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\LineMaterialDashedExample.cs" />
+    <Compile Include="Learning\Chapter04\LineMaterialExample.cs" />
     <Compile Include="Learning\Chapter04\MaterialExampleTemplate.cs" />
+    <Compile Include="Learning\Chapter04\MeshFaceMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshLambertMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshNormalMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshPhongMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshPhysicalMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshStandardMeterailExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshToonMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\ShaderMaterialExample.cs" />
+    <Compile Include="Learning\Chapter05\Basic2D_Geometries_Circle.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries.Sphere.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Cone.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Cube.cs" />
+    <Compile Include="Learning\Chapter05\Basic2D_Geometries_Plane.cs" />
+    <Compile Include="Learning\Chapter05\Basic2D_Geometries_Ring.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Cylinder.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Polyhedron.cs" />
+    <Compile Include="Learning\Chapter05\Basic2D_Geometries_Shape.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Torus.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Torus_knot.cs" />
     <Compile Include="Learning\Chapter10\AlphaMapExample.cs" />
     <Compile Include="Learning\Chapter10\EmissiveMapExample.cs" />
     <Compile Include="Learning\Chapter10\EnvMapDynamicExample.cs" />
