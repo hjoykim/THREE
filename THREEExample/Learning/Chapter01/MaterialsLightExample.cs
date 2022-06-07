@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using THREE;
 using THREE.Cameras;
-using THREE.Cameras.Controlls;
 using THREE.Math;
 using THREE.Scenes;
 using THREE.Helpers;
@@ -15,6 +14,7 @@ using THREE.Objects;
 using OpenTK;
 using THREE.Lights;
 using THREEExample.ThreeImGui;
+using THREE.Controls;
 
 namespace THREEExample.Learning.Chapter01
 {

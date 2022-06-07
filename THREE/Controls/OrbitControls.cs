@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using THREE.Cameras;
 using THREE.Math;
 using static THREE.Constants;
 
-namespace THREE.Cameras.Controlls
+namespace THREE.Controls
 {
     public enum STATE
     {
@@ -175,7 +176,8 @@ namespace THREE.Cameras.Controlls
         public void Pan(float deltaX, float deltaY)
         {
             Vector3 offset = Vector3.Zero();
-            if (camera is PerspectiveCamera) {
+            if (camera is PerspectiveCamera)
+            {
 
                 // perspective
                 var position = camera.Position;
@@ -183,19 +185,22 @@ namespace THREE.Cameras.Controlls
                 var targetDistance = offset.Length();
 
                 // half of the fov is center to top of screen
-                targetDistance *= (float)System.Math.Tan((camera.Fov / 2) * System.Math.PI / 180.0);
+                targetDistance *= (float)System.Math.Tan(camera.Fov / 2 * System.Math.PI / 180.0);
 
                 // we use only clientHeight here so aspect ratio does not distort speed
                 PanLeft(2 * deltaX * targetDistance / control.ClientSize.Height, camera.Matrix);
                 PanUp(2 * deltaY * targetDistance / control.ClientSize.Height, camera.Matrix);
 
-            } else if (camera is OrthographicCamera) {
+            }
+            else if (camera is OrthographicCamera)
+            {
                 var ocamera = camera as OrthographicCamera;
                 // orthographic
                 PanLeft(deltaX * (ocamera.CameraRight - ocamera.Left) / camera.Zoom / control.ClientSize.Width, camera.Matrix);
                 PanUp(deltaY * (ocamera.Top - ocamera.Bottom) / camera.Zoom / control.ClientSize.Height, camera.Matrix);
 
-            } else
+            }
+            else
             {
                 // camera neither orthographic nor perspective
                 //console.warn('WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.');
@@ -205,16 +210,20 @@ namespace THREE.Cameras.Controlls
 
         public void DollyOut(float dollyScale)
         {
-            if (camera is PerspectiveCamera) {
+            if (camera is PerspectiveCamera)
+            {
 
                 scale /= dollyScale;
 
-            } else if (camera is OrthographicCamera) {
-                camera.Zoom = (float)System.Math.Max(MinZoom, System.Math.Min(MaxZoom, camera.Zoom * dollyScale));
+            }
+            else if (camera is OrthographicCamera)
+            {
+                camera.Zoom = System.Math.Max(MinZoom, System.Math.Min(MaxZoom, camera.Zoom * dollyScale));
                 camera.UpdateProjectionMatrix();
                 zoomChanged = true;
 
-            } else
+            }
+            else
             {
 
                 //console.warn('WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.');
@@ -224,17 +233,21 @@ namespace THREE.Cameras.Controlls
         }
         public void DollyIn(float dollyScale)
         {
-            if (camera is PerspectiveCamera) {
+            if (camera is PerspectiveCamera)
+            {
 
                 scale *= dollyScale;
 
-            } else if (camera is OrthographicCamera) {
+            }
+            else if (camera is OrthographicCamera)
+            {
 
-                camera.Zoom = (float)System.Math.Max(MinZoom, System.Math.Min(MaxZoom, camera.Zoom / dollyScale));
+                camera.Zoom = System.Math.Max(MinZoom, System.Math.Min(MaxZoom, camera.Zoom / dollyScale));
                 camera.UpdateProjectionMatrix();
                 zoomChanged = true;
 
-            } else
+            }
+            else
             {
                 //console.warn('WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.');
                 EnableZoom = false;
@@ -274,7 +287,7 @@ namespace THREE.Cameras.Controlls
             dollyEnd.Set(e.X, e.Y);
             dollyDelta.SubVectors(dollyEnd, dollyStart);
 
-            if(dollyDelta.Y>0)
+            if (dollyDelta.Y > 0)
             {
                 DollyOut(GetZoomScale());
             }
@@ -307,7 +320,7 @@ namespace THREE.Cameras.Controlls
 
         private void handleMouseWheel(System.Windows.Forms.MouseEventArgs e)
         {
-            if(e.Delta<0)
+            if (e.Delta < 0)
             {
                 DollyIn(GetZoomScale());
             }
@@ -333,16 +346,16 @@ namespace THREE.Cameras.Controlls
                     needsUpdate = true;
                     break;
                 case Keys.Left:
-                    Pan(KeyPanSpeed,0);
+                    Pan(KeyPanSpeed, 0);
                     needsUpdate = true;
                     break;
                 case Keys.Right:
-                    Pan(-KeyPanSpeed,0);
+                    Pan(-KeyPanSpeed, 0);
                     needsUpdate = true;
                     break;
             }
 
-            if(needsUpdate)
+            if (needsUpdate)
             {
                 Update();
             }
@@ -387,7 +400,7 @@ namespace THREE.Cameras.Controlls
             var offset = new Vector3();
 
             var quat = new Quaternion().SetFromUnitVectors(camera.Up, new Vector3(0, 1, 0));
-            var quatInverse = (quat.Clone() as Quaternion).Inverse();
+            var quatInverse = (quat.Clone() as Quaternion).Invert();
 
             var lastPosition = new Vector3();
             var lastQuaternion = new Quaternion();
@@ -447,7 +460,7 @@ namespace THREE.Cameras.Controlls
                 else
                 {
 
-                    spherical.Theta = (spherical.Theta > (min + max) / 2) ?
+                    spherical.Theta = spherical.Theta > (min + max) / 2 ?
                         System.Math.Max(min, spherical.Theta) :
                         System.Math.Min(max, spherical.Theta);
 
@@ -493,8 +506,8 @@ namespace THREE.Cameras.Controlls
             if (EnableDamping == true)
             {
 
-                sphericalDelta.Theta *= (1 - DampingFactor);
-                sphericalDelta.Phi *= (1 - DampingFactor);
+                sphericalDelta.Theta *= 1 - DampingFactor;
+                sphericalDelta.Phi *= 1 - DampingFactor;
 
                 panOffset.MultiplyScalar(1 - DampingFactor);
 
@@ -538,7 +551,7 @@ namespace THREE.Cameras.Controlls
 
         private void Control_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (Enabled == false || EnableZoom == false || (state != STATE.NONE && state != STATE.ROTATE)) return;
+            if (Enabled == false || EnableZoom == false || state != STATE.NONE && state != STATE.ROTATE) return;
 
             handleMouseWheel(e);
         }
@@ -549,8 +562,8 @@ namespace THREE.Cameras.Controlls
 
             handleMouseUp(e);
 
-            this.control.MouseMove -= onPointerMove;
-            this.control.MouseUp -= onPointerUp;
+            control.MouseMove -= onPointerMove;
+            control.MouseUp -= onPointerUp;
         }
 
         private void Control_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -585,10 +598,10 @@ namespace THREE.Cameras.Controlls
                 case MouseButtons.Left:
                     mouseAction = (int)ControlMouseButtons.LEFT;
                     break;
-                case MouseButtons.Middle :
+                case MouseButtons.Middle:
                     mouseAction = (int)ControlMouseButtons.MIDDLE;
                     break;
-                case MouseButtons.Right :
+                case MouseButtons.Right:
                     mouseAction = (int)ControlMouseButtons.RIGHT;
                     break;
                 default:
@@ -597,7 +610,7 @@ namespace THREE.Cameras.Controlls
             }
 
             MOUSE action = (MOUSE)Enum.ToObject(typeof(MOUSE), mouseAction);
-            switch(action)
+            switch (action)
             {
                 case MOUSE.DOLLY:
                     if (EnableZoom == false) return;
@@ -605,17 +618,17 @@ namespace THREE.Cameras.Controlls
                     handleMouseDownDolly(e);
 
                     state = STATE.DOLLY;
-                    
+
                     break;
 
                 case MOUSE.ROTATE:
-                    if(Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                    if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
                     {
                         if (EnablePan == false) return;
 
                         handleMouseDownPan(e);
 
-                        state = STATE.PAN;                        
+                        state = STATE.PAN;
                     }
                     else
                     {
@@ -657,20 +670,20 @@ namespace THREE.Cameras.Controlls
             }
         }
 
-        private void onPointerMove(object sender,System.Windows.Forms.MouseEventArgs e)
+        private void onPointerMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Control_MouseMove(sender, e);
         }
 
-        private void onPointerUp(object sender,System.Windows.Forms.MouseEventArgs e)
+        private void onPointerUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Control_MouseUp(sender, e);
         }
 
-        private void onPointerDown(object sender,System.Windows.Forms.MouseEventArgs e)
+        private void onPointerDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Control_MouseDown(sender, e);
         }
-      
+
     }
 }

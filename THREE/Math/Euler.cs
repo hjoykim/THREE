@@ -102,7 +102,7 @@ namespace THREE.Math
             this.Order = order;
         }
 
-        public Euler Set(float a, float b, float c, RotationOrder o)
+        public Euler Set(float a, float b, float c, RotationOrder o = RotationOrder.XYZ)
         {
             this._x = a;
             this._y = b;
@@ -114,6 +114,17 @@ namespace THREE.Math
             return this;
         }
 
+        public Euler Copy(Euler other)
+        {
+            this._x = other._x;
+            this._y = other._y;
+            this._z = other._z;
+            this.Order = other.Order;
+
+            this.OnPropertyChanged();
+
+            return this;
+        }
         public static float Clamp(float value, float min, float max)
         {
             return value.Clamp(min, max);

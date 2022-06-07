@@ -7,18 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using THREE.Cameras;
 using THREE.Math;
 using THREE.Renderers;
 using Quaternion = THREE.Math.Quaternion;
 using Vector2 = THREE.Math.Vector2;
 using Vector3 = THREE.Math.Vector3;
 
-namespace THREE.Cameras.Controlls
+namespace THREE.Controls
 {
     public class TrackballControls
     {
         public Camera camera;
-        enum STATE : int
+        public enum STATE : int
         {
             NONE = -1,
             ROTATE = 0,
@@ -48,7 +49,7 @@ namespace THREE.Cameras.Controlls
 
         private Vector3 lastPosition = Vector3.Zero();
 
-        private STATE state = STATE.NONE;
+        public STATE state = STATE.NONE;
 
         private Vector3 eye = Vector3.Zero();
 
@@ -77,13 +78,13 @@ namespace THREE.Cameras.Controlls
         private Vector3 up0;
 
 
-        public TrackballControls(Control control,Camera camera)
+        public TrackballControls(Control control, Camera camera)
         {
             this.camera = camera;
 
-            this.screen = control.ClientRectangle;
+            screen = control.ClientRectangle;
 
-            target0 = this.target;
+            target0 = target;
 
             position0 = this.camera.Position;
 
@@ -104,21 +105,21 @@ namespace THREE.Cameras.Controlls
         public Vector2 GetMouseOnScreen(int pageX, int pageY)
         {
             var vector = new Vector2(
-                (pageX - this.screen.Left) / (float)this.screen.Width,
-                (pageY - this.screen.Top) / (float)this.screen.Height);
+                (pageX - screen.Left) / (float)screen.Width,
+                (pageY - screen.Top) / (float)screen.Height);
 
             return vector;
         }
         public Vector3 GetMouseProjectionOnBall(int pageX, int pageY)
         {
             Vector3 mouseOnBall = new Vector3(
-                (pageX - this.screen.Width * 0.5f - this.screen.Left) / (this.screen.Width * 0.5f),
-                (this.screen.Height * 0.5f + this.screen.Top - pageY) / (this.screen.Height * 0.5f),
+                (pageX - screen.Width * 0.5f - screen.Left) / (screen.Width * 0.5f),
+                (screen.Height * 0.5f + screen.Top - pageY) / (screen.Height * 0.5f),
                 0.0f
                 );
 
             var length = mouseOnBall.Length();
-            if (this.NoRoll)
+            if (NoRoll)
             {
                 if (length < MathUtils.SQRT1_2)
                     mouseOnBall.Z = (float)System.Math.Sqrt(1.0 - length * length);
@@ -132,13 +133,13 @@ namespace THREE.Cameras.Controlls
 
             Vector3 camPos = camera.Position;
             eye = camPos - target;
-            Vector3 upClone = Vector3.Zero().Copy(this.camera.Up);
+            Vector3 upClone = Vector3.Zero().Copy(camera.Up);
             Vector3 projection;
             upClone.Normalize();
 
             projection = upClone.MultiplyScalar(mouseOnBall.Y);
 
-            Vector3 cross = Vector3.Zero().Copy(this.camera.Up).Cross(eye);
+            Vector3 cross = Vector3.Zero().Copy(camera.Up).Cross(eye);
             cross.Normalize();
             cross.MultiplyScalar(mouseOnBall.X);
             projection = projection.Add(cross);
@@ -163,16 +164,16 @@ namespace THREE.Cameras.Controlls
             {
                 axis.CrossVectors(rotateStart, rotateEnd).Normalize();
 
-                angle *= this.RotateSpeed;
+                angle *= RotateSpeed;
 
                 quaternion.SetFromAxisAngle(axis, -angle);
 
                 eye.ApplyQuaternion(quaternion);
-                this.camera.Up.ApplyQuaternion(quaternion);
+                camera.Up.ApplyQuaternion(quaternion);
 
                 rotateEnd.ApplyQuaternion(quaternion);
 
-                if (this.StaticMoving)
+                if (StaticMoving)
                 {
 
                     rotateStart.Copy(rotateEnd);
@@ -181,7 +182,7 @@ namespace THREE.Cameras.Controlls
                 else
                 {
 
-                    quaternion.SetFromAxisAngle(axis, angle * (this.DynamicDampingFactor - 1.0f));
+                    quaternion.SetFromAxisAngle(axis, angle * (DynamicDampingFactor - 1.0f));
                     rotateStart.ApplyQuaternion(quaternion);
 
                 }
@@ -222,14 +223,14 @@ namespace THREE.Cameras.Controlls
 
             mouseChange.Copy(panEnd).Sub(panStart);
 
-            if (mouseChange.LengthSq()>0)
+            if (mouseChange.LengthSq() > 0)
             {
                 mouseChange.MultiplyScalar(eye.Length() * PanSpeed);
-                pan.Copy(eye).Cross(this.camera.Up).SetLength(mouseChange.X);
-                pan.Add(objectUp.Copy(this.camera.Up).SetLength(mouseChange.Y));
+                pan.Copy(eye).Cross(camera.Up).SetLength(mouseChange.X);
+                pan.Add(objectUp.Copy(camera.Up).SetLength(mouseChange.Y));
 
-                this.camera.Position.Add(pan);
-                this.target.Add(pan);
+                camera.Position.Add(pan);
+                target.Add(pan);
 
                 /*    
                 pan.Normalize();
@@ -252,7 +253,7 @@ namespace THREE.Cameras.Controlls
                     //mouseChange = panEnd - panStart;
                     //mouseChange = Vector2.Multiply(mouseChange, DynamicDampingFactor);
                     //panStart += mouseChange;
-                    panStart.Add(mouseChange.SubVectors(panEnd, panStart).MultiplyScalar(this.DynamicDampingFactor));
+                    panStart.Add(mouseChange.SubVectors(panEnd, panStart).MultiplyScalar(DynamicDampingFactor));
                 }
 
             }
@@ -267,7 +268,7 @@ namespace THREE.Cameras.Controlls
                     eye.Normalize();
                     eye.MultiplyScalar(MaxDistance);
 
-                    this.camera.Position = this.target + eye;
+                    camera.Position = target + eye;
                 }
 
                 if (eye.LengthSq() < MinDistance * MinDistance)
@@ -276,7 +277,7 @@ namespace THREE.Cameras.Controlls
 
                     eye.MultiplyScalar(MinDistance);
 
-                    this.camera.Position = this.target + eye;                   
+                    camera.Position = target + eye;
                 }
 
             }
@@ -301,7 +302,7 @@ namespace THREE.Cameras.Controlls
             }
 
             // object.position =  target + _eye;
-            camera.Position= target + eye;
+            camera.Position = target + eye;
 
             CheckDistances();
 
@@ -324,9 +325,9 @@ namespace THREE.Cameras.Controlls
         }
         private void Control_SizeChanged(object sender, EventArgs e)
         {
-            this.screen = (sender as Control).ClientRectangle;
-            this.camera.Aspect = (sender as GLControl).AspectRatio;
-            this.camera.UpdateProjectionMatrix();
+            screen = (sender as Control).ClientRectangle;
+            camera.Aspect = (sender as GLControl).AspectRatio;
+            camera.UpdateProjectionMatrix();
 
         }
 

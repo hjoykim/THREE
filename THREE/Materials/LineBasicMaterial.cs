@@ -41,5 +41,9 @@ namespace THREE.Materials
             this.LineJoin = source.LineJoin;
         }
        
+        public new LineBasicMaterial Clone()
+        {
+            return new LineBasicMaterial(this);
+        }
     }
 }

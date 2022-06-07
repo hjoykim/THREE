@@ -98,6 +98,19 @@ namespace THREE.Math
 
             return source;
         }
+
+        public static List<T> Add<T>(this List<T> source, T x, T y, T z,T x1,T y1,T z1)
+        {
+            source.Add(x);
+            source.Add(y);
+            source.Add(z);
+            source.Add(x1);
+            source.Add(y1);
+            source.Add(z1);
+
+            return source;
+        }
+
         public static List<T> Add<T>(this List<T> source, T x, T y)
         {
             source.Add(x);

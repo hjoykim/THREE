@@ -1,7 +1,6 @@
 ﻿using System;
 using THREE;
 using THREE.Cameras;
-using THREE.Cameras.Controlls;
 using THREE.Math;
 using THREE.Scenes;
 using THREE.Helpers;
@@ -9,6 +8,7 @@ using THREE.Geometries;
 using THREE.Materials;
 using THREE.Objects;
 using OpenTK;
+using THREE.Controls;
 
 namespace THREEExample.Learning.Chapter01
 {
@@ -103,7 +103,6 @@ namespace THREEExample.Learning.Chapter01
 
       //      // add the sphere to the scene
             scene.Add(sphere);
-
         }
         public override void Render()
         {
