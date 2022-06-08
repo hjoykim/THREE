@@ -9,10 +9,6 @@ namespace THREE.Cameras
 {
     public class OrthographicCamera : Camera,ICloneable
     {
-        #region Fields
-        public View View = new View();
-        #endregion
-
         #region Constructors and Destructors
 
         /// <summary>
