@@ -139,10 +139,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreeImGui\ImGuiManager.cs" />
     <Compile Include="Three\Interactive\InteractiveCubesExample.cs" />
-    <Compile Include="Three\Misc\Controls\Controls_Transform.cs" />
+    <Compile Include="Three\Misc\Controls\ControlsExampleTemplate.cs" />
+    <Compile Include="Three\Misc\Controls\DragControlsExample.cs" />
     <Compile Include="Three\Misc\Controls\TransControlsExample.cs" />
-    <Compile Include="Three\Misc\Controls\TransformControlsAxisExample.cs" />
-    <Compile Include="Three\Misc\Controls\TransformControlsMine.cs" />
     <Compile Include="Three\Modifier\ModifierCurve.cs" />
   </ItemGroup>
   <ItemGroup>

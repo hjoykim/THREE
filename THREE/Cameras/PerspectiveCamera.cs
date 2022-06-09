@@ -88,13 +88,6 @@ namespace THREE.Cameras
 
         }
 
-        public void ClearViewOffset()
-        {
-            this.View.Enabled = false;
-            this.UpdateProjectionMatrix();
-
-        }
-
         public override object Clone()
         {
             return new PerspectiveCamera(this);

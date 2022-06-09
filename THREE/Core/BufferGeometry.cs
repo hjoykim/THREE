@@ -34,9 +34,7 @@ namespace THREE.Core
 
         public bool MorphTargetsRelative = false;
 
-        public DrawRange DrawRange = new DrawRange { Start = 0, MaterialIndex = -1, Count = float.PositiveInfinity };
-
-        public List<DrawRange> Groups = new List<DrawRange>();
+        public DrawRange DrawRange = new DrawRange { Start = 0, MaterialIndex = -1, Count = float.PositiveInfinity };              
 
         private Box3 _box = new Box3();
 

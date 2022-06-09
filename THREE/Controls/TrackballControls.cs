@@ -284,7 +284,7 @@ namespace THREE.Controls
         }
         public void Update()
         {
-
+            if (!this.Enabled) return;
             eye.SubVectors(camera.Position, target);
             if (!NoRotate)
             {

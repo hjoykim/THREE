@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Cameras\ArrayCamera.cs" />
     <Compile Include="Cameras\Camera.cs" />
+    <Compile Include="Controls\DragControls.cs" />
     <Compile Include="Controls\FirstPersonControls.cs" />
     <Compile Include="Controls\FlyControls.cs" />
     <Compile Include="Controls\ICameraControl.cs" />

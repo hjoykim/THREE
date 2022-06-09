@@ -82,7 +82,7 @@ namespace THREE.Objects
             this.Mode = (int)Constants.LineStrip;
         }
 
-        public Line ComputeLineDistances()
+        public virtual Line ComputeLineDistances()
         {
             var geometry = this.Geometry;
 
