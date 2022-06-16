@@ -34,6 +34,7 @@ namespace THREEExample
     {
         OpenTK=0,
         LearnThreeJS,
+        ThreeJs,
         Misc
     }
 }

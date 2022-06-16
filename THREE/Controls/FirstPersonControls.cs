@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using THREE.Cameras;
 using THREE.Math;
 using THREE.Renderers;
-namespace THREE.Cameras.Controlls
+namespace THREE.Controls
 {
     public class FirstPersonControls
     {
@@ -63,7 +64,7 @@ namespace THREE.Cameras.Controlls
         public FirstPersonControls(Control control, Camera camera)
         {
             this.camera = camera;
-            this.screen = control.ClientRectangle;
+            screen = control.ClientRectangle;
 
             control.MouseDown += Control_MouseDown;
 
@@ -84,29 +85,29 @@ namespace THREE.Cameras.Controlls
         {
             switch (e.KeyCode)
             {
-                case Keys.Up :
-                case Keys.W :
+                case Keys.Up:
+                case Keys.W:
                     moveForward = true;
                     break;
-                case Keys.Left :
-                case Keys.A :
+                case Keys.Left:
+                case Keys.A:
                     moveLeft = true;
                     break;
-                case Keys.Down :
-                case Keys.S :
+                case Keys.Down:
+                case Keys.S:
                     moveBackward = true;
                     break;
-                case Keys.Right :
-                case Keys.D :
+                case Keys.Right:
+                case Keys.D:
                     moveRight = true;
                     break;
-                case Keys.R :
+                case Keys.R:
                     moveUp = true;
                     break;
-                case Keys.F :
+                case Keys.F:
                     moveDown = true;
                     break;
-                
+
             }
             e.Handled = true;
         }
@@ -143,127 +144,127 @@ namespace THREE.Cameras.Controlls
 
         private void Control_MouseMove(object sender, MouseEventArgs e)
         {
-            this.mouseX = e.X - this.viewHalfX;
-            this.mouseY = e.Y - this.viewHalfY;
+            mouseX = e.X - viewHalfX;
+            mouseY = e.Y - viewHalfY;
         }
 
         private void Control_MouseUp(object sender, MouseEventArgs e)
         {
-            if (this.ActiveLook)
+            if (ActiveLook)
             {
                 switch (e.Button)
                 {
                     case MouseButtons.Left:
-                        this.moveForward = true;
+                        moveForward = true;
                         break;
                     case MouseButtons.Right:
-                        this.moveBackward = true;
+                        moveBackward = true;
                         break;
                 }
             }
 
-            this.mouseDragOn = false;
+            mouseDragOn = false;
         }
 
         private void Control_MouseDown(object sender, MouseEventArgs e)
         {
-            if (this.ActiveLook)
+            if (ActiveLook)
             {
                 switch (e.Button)
                 {
-                    case MouseButtons.Left :
-                        this.moveForward = true;
+                    case MouseButtons.Left:
+                        moveForward = true;
                         break;
-                    case MouseButtons.Right :
-                        this.moveBackward = true;
+                    case MouseButtons.Right:
+                        moveBackward = true;
                         break;
                 }
             }
-            this.mouseDragOn = true;
+            mouseDragOn = true;
         }
 
         private void Control_SizeChanged(object sender, EventArgs e)
         {
-            this.screen = (sender as Control).ClientRectangle;
-            this.screen = (sender as Control).ClientRectangle;
-            this.camera.Aspect = (sender as OpenTK.GLControl).AspectRatio;
-            this.camera.UpdateProjectionMatrix();
+            screen = (sender as Control).ClientRectangle;
+            screen = (sender as Control).ClientRectangle;
+            camera.Aspect = (sender as OpenTK.GLControl).AspectRatio;
+            camera.UpdateProjectionMatrix();
 
-            this.viewHalfX = screen.Width / 2;
-            this.viewHalfY = screen.Height / 2;
+            viewHalfX = screen.Width / 2;
+            viewHalfY = screen.Height / 2;
         }
 
         public void Update(float delta)
         {
-            if (this.Enabled == false) return;
+            if (Enabled == false) return;
 
-            if (this.HeightSpeed)
+            if (HeightSpeed)
             {
-                float y = this.camera.Position.Y.Clamp(this.HeightMin, this.HeightMax);
-                float heightDelta = y - this.HeightMin;
-                this.AutoSpeedFactor = delta * (heightDelta * this.HeightCoef);
+                float y = camera.Position.Y.Clamp(HeightMin, HeightMax);
+                float heightDelta = y - HeightMin;
+                AutoSpeedFactor = delta * (heightDelta * HeightCoef);
             }
             else
             {
-                this.AutoSpeedFactor = 0.0f;
+                AutoSpeedFactor = 0.0f;
             }
 
-            var actualMoveSpeed = delta * this.MovementSpeed;
-            
-            if(this.moveForward || this.AutoForward && !this.moveBackward)
-                this.camera.Position.Z = this.camera.Position.Z - (actualMoveSpeed + this.AutoSpeedFactor);
-            
-            if(this.moveBackward)
-                this.camera.Position.Z = this.camera.Position.Z + actualMoveSpeed;
+            var actualMoveSpeed = delta * MovementSpeed;
 
-            if(this.moveLeft)
-                this.camera.Position.X = this.camera.Position.X - actualMoveSpeed;
+            if (moveForward || AutoForward && !moveBackward)
+                camera.Position.Z = camera.Position.Z - (actualMoveSpeed + AutoSpeedFactor);
 
-            if(this.moveRight)
-                this.camera.Position.X = this.camera.Position.X + actualMoveSpeed;
+            if (moveBackward)
+                camera.Position.Z = camera.Position.Z + actualMoveSpeed;
 
-            if(this.moveUp)
-                this.camera.Position.Y = this.camera.Position.Y + actualMoveSpeed;
+            if (moveLeft)
+                camera.Position.X = camera.Position.X - actualMoveSpeed;
 
-            if(this.moveDown)
-                this.camera.Position.Y = this.camera.Position.Y - actualMoveSpeed;
+            if (moveRight)
+                camera.Position.X = camera.Position.X + actualMoveSpeed;
+
+            if (moveUp)
+                camera.Position.Y = camera.Position.Y + actualMoveSpeed;
+
+            if (moveDown)
+                camera.Position.Y = camera.Position.Y - actualMoveSpeed;
 
 
-            var actualLookSpeed = delta * this.LookSpeed;
+            var actualLookSpeed = delta * LookSpeed;
 
-            if (!this.ActiveLook)
+            if (!ActiveLook)
             {
                 actualMoveSpeed = 0;
             }
 
             float verticalLookRatio = 1;
 
-            if (this.ConstrainVertical)
+            if (ConstrainVertical)
             {
-                verticalLookRatio = (float)System.Math.PI / (this.VerticalMax - this.VerticalMin);
+                verticalLookRatio = (float)System.Math.PI / (VerticalMax - VerticalMin);
             }
 
-            this.lon += this.mouseX * actualLookSpeed;
-            if (this.LookVertical)
-                this.lat -= this.mouseY * actualLookSpeed * verticalLookRatio;
+            lon += mouseX * actualLookSpeed;
+            if (LookVertical)
+                lat -= mouseY * actualLookSpeed * verticalLookRatio;
 
-            this.lat = System.Math.Max(-85, System.Math.Min(85, this.lat));
-            this.phi = THREE.Math.MathUtils.DegToRad(90 - this.lat);
-            this.theta = THREE.Math.MathUtils.DegToRad(this.lon);
+            lat = System.Math.Max(-85, System.Math.Min(85, lat));
+            phi = MathUtils.DegToRad(90 - lat);
+            theta = MathUtils.DegToRad(lon);
 
-            if (this.ConstrainVertical)
+            if (ConstrainVertical)
             {
-                this.phi = THREE.Math.MathUtils.mapLinear(this.phi, 0,System.Math.PI, this.VerticalMin, this.VerticalMax);
+                phi = MathUtils.mapLinear(phi, 0, System.Math.PI, VerticalMin, VerticalMax);
             }
 
-            var targetPosition = this.target;
-            var position = this.camera.Position;
+            var targetPosition = target;
+            var position = camera.Position;
 
-            targetPosition.X = position.X + (float)(100 * System.Math.Sin(this.phi) * System.Math.Cos(this.theta));
-            targetPosition.Y = position.Y + (float)(100 * System.Math.Cos(this.phi));
-            targetPosition.Z = position.Z + (float)(100 * System.Math.Sin(this.phi) * System.Math.Sin(this.theta));
+            targetPosition.X = position.X + (float)(100 * System.Math.Sin(phi) * System.Math.Cos(theta));
+            targetPosition.Y = position.Y + (float)(100 * System.Math.Cos(phi));
+            targetPosition.Z = position.Z + (float)(100 * System.Math.Sin(phi) * System.Math.Sin(theta));
 
-            this.camera.LookAt(targetPosition);
+            camera.LookAt(targetPosition);
         }
     }
 }

@@ -12,7 +12,7 @@ using THREE.Math;
 using THREE.Renderers.gl;
 namespace THREE.Materials
 {
-    public class Material : Hashtable,IDisposable,ICloneable
+    public class Material : Hashtable,IDisposable
     {
         private static int materialIdCount;
 
@@ -243,93 +243,101 @@ namespace THREE.Materials
         {
         }
 
-        protected Material(Material source)
+        protected Material(Material source) : base()
         {
+
             type = source.type;
+
+            Defines = source.Defines.Clone() as Hashtable;
 
             Name = source.Name;
 
-		    Fog = source.Fog;
+            Fog = source.Fog;
 
-		    Blending = source.Blending;
-		    
+            Blending = source.Blending;
+
             Side = source.Side;
-		    
+
             FlatShading = source.FlatShading;
-		    
+
+            VertexTangents = source.VertexTangents;
+
             VertexColors = source.VertexColors;
 
-		    Opacity = source.Opacity;
-		    
+            Opacity = source.Opacity;
+
             Transparent = source.Transparent;
+            
+            if (source.Color != null) Color = source.Color.Value;
 
-		    BlendSrc = source.BlendSrc;
-		    
+            Specular = source.Specular;
+
+
+
+            BlendSrc = source.BlendSrc;
+
             BlendDst = source.BlendDst;
-		    
-            BlendEquation = source.BlendEquation;
-		    
-            BlendSrcAlpha = source.BlendSrcAlpha;
-		    
-            BlendDstAlpha = source.BlendDstAlpha;
-		    
-            BlendEquationAlpha = source.BlendEquationAlpha;
 
-		    DepthFunc = source.DepthFunc;
-		    
+            BlendEquation = source.BlendEquation;
+
+            if(source.BlendSrcAlpha!=null) BlendSrcAlpha = source.BlendSrcAlpha.Value;
+            if (source.BlendDstAlpha != null) BlendDstAlpha = source.BlendDstAlpha.Value;
+            if (source.BlendEquationAlpha != null) BlendEquationAlpha = source.BlendEquationAlpha.Value;
+
+
+            DepthFunc = source.DepthFunc;
+
             DepthTest = source.DepthTest;
-		    
+
             DepthWrite = source.DepthWrite;
 
-		    StencilWrite = source.StencilWrite;
-		    
             StencilWriteMask = source.StencilWriteMask;
-		    
+
             StencilFunc = source.StencilFunc;
-		    
+
             StencilRef = source.StencilRef;
-		    
-            StencilFuncMask = source.StencilFuncMask;
-		    
+
+            StencilFuncMask = source.StencilRef;
+
             StencilFail = source.StencilFail;
-		    
+
             StencilZFail = source.StencilZFail;
-		    
+
             StencilZPass = source.StencilZPass;
 
-		    ColorWrite = source.ColorWrite;
+            StencilWrite = source.StencilWrite;
 
-		    Precision = source.Precision;
+            ClippingPlanes = source.ClippingPlanes.ToList();
 
-		    PolygonOffset = source.PolygonOffset;
-		    
-            PolygonOffsetFactor = source.PolygonOffsetFactor;
-		    
-            PolygonOffsetUnits = source.PolygonOffsetUnits;
-
-		    Dithering = source.Dithering;
-
-		    AlphaTest = source.AlphaTest;
-		    
-            PremultipliedAlpha = source.PremultipliedAlpha;
-
-		    Visible = source.Visible;
-
-		    ToneMapped = source.ToneMapped;
-
-		    UserData = (Hashtable)source.UserData.Clone();
-
-            NeedsUpdate = source.NeedsUpdate;
-
-            ClipShadows = source.ClipShadows;
-		    
             ClipIntersection = source.ClipIntersection;
 
-            ClippingPlanes = source.ClippingPlanes.GetRange(0, source.ClippingPlanes.Count);
+            ClipShadows = source.ClipShadows;
 
-		    ShadowSide = source.ShadowSide;
+            ShadowSide = source.ShadowSide;
 
-            Version = source.Version;
+            ColorWrite = source.ColorWrite;
+
+            Precision = source.Precision;
+
+            PolygonOffset = source.PolygonOffset;
+
+            PolygonOffsetFactor = source.PolygonOffsetFactor;
+
+            PolygonOffsetUnits = source.PolygonOffsetUnits;
+
+            Dithering = source.Dithering;
+
+            AlphaTest = source.AlphaTest;
+
+            PremultipliedAlpha = source.PremultipliedAlpha;
+
+            Visible = source.Visible;
+
+            ToneMapped = source.ToneMapped;
+
+            UserData = source.UserData.Clone() as Hashtable;
+
+            NeedsUpdate = source.NeedsUpdate;
 
             glslVersion = source.glslVersion;
 
@@ -339,11 +347,42 @@ namespace THREE.Materials
 
             MorphNormals = source.MorphNormals;
 
+            if(source.Map!=null)
+                Map = source.Map.Clone();
+
+            if (source.AlphaMap != null)
+                AlphaMap = source.AlphaMap.Clone();
+
+            if (source.SpecularMap != null)
+                SpecularMap = source.SpecularMap.Clone();
+
+            if (source.EnvMap != null)
+                EnvMap = source.EnvMap.Clone();
+
+            if (source.NormalMap != null)
+                NormalMap = source.NormalMap.Clone();
+
             NormalMapType = source.NormalMapType;
 
-            NormalScale = source.NormalScale;
+            if (source.NormalScale != null)
+                NormalScale = source.NormalScale.Clone();
+
+            if (source.BumpMap != null)
+                BumpMap = source.BumpMap.Clone();
 
             BumpScale = source.BumpScale;
+
+            if (source.LightMap != null)
+                LightMap = source.LightMap.Clone();
+
+            if (source.AoMap != null)
+                AoMap = source.AoMap.Clone();
+
+            if (source.EmissiveMap != null)
+                EmissiveMap = source.EmissiveMap.Clone();
+
+            if (source.DisplacementMap != null)
+                DisplacementMap = source.DisplacementMap.Clone();
 
             DisplacementScale = source.DisplacementScale;
 
@@ -351,9 +390,31 @@ namespace THREE.Materials
 
             Clearcoat = source.Clearcoat;
 
+            if (source.ClearcoatMap != null)
+                ClearcoatMap = source.ClearcoatMap.Clone();
+
             ClearcoatRoughness = source.ClearcoatRoughness;
 
-            ClearcoatNormalScale = source.ClearcoatNormalScale;
+            if (source.ClearcoatRoughnessMap != null)
+                ClearcoatRoughnessMap = source.ClearcoatRoughnessMap.Clone();
+
+            if (source.ClearcoatNormalScale != null)
+                ClearcoatNormalScale = source.ClearcoatNormalScale.Clone();
+
+            if (source.ClearcoatNormalMap != null)
+                ClearcoatNormalMap = source.ClearcoatNormalMap.Clone();
+
+            if (source.RoughnessMap != null)
+                RoughnessMap = source.RoughnessMap.Clone();
+
+            if (source.MetalnessMap != null)
+                MetalnessMap = source.MetalnessMap.Clone();
+
+            if (source.GradientMap != null)
+                GradientMap = source.GradientMap.Clone();
+
+            if (source.TransmissionMap != null)
+                TransmissionMap = source.TransmissionMap.Clone();
 
             Sheen = source.Sheen;
 
@@ -363,13 +424,15 @@ namespace THREE.Materials
 
             Combine = source.Combine;
 
+            SizeAttenuation = source.SizeAttenuation;
+
+            Skinning = source.Skinning;
+
             DepthPacking = source.DepthPacking;
 
-            Program = source.Program;
+            numSupportedMorphTargets = source.numSupportedMorphTargets;
 
             numSupportedMorphNormals = source.numSupportedMorphNormals;
-
-            numSupportedMorphTargets = source.numSupportedMorphTargets;
 
             Clipping = source.Clipping;
 
@@ -395,13 +458,16 @@ namespace THREE.Materials
 
             WireframeLineJoin = source.WireframeLineJoin;
 
+            Shininess = source.Shininess;
+
+            Version = source.Version;
+
             Roughness = source.Roughness;
 
             Metalness = source.Metalness;
-            
-        }
+    }
 
-        public new object Clone() 
+        public new Material Clone() 
         {
             return new Material(this);
         }

@@ -26,7 +26,7 @@ namespace THREE.Objects
         {
 
         }
-        public LineSegments ComputeLineDistances()
+        public override Line ComputeLineDistances()
         {
             var geometry = this.Geometry;
 

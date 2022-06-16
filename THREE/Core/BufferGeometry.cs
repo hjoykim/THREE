@@ -34,9 +34,7 @@ namespace THREE.Core
 
         public bool MorphTargetsRelative = false;
 
-        public DrawRange DrawRange = new DrawRange { Start = 0, MaterialIndex = -1, Count = float.PositiveInfinity };
-
-        public List<DrawRange> Groups = new List<DrawRange>();
+        public DrawRange DrawRange = new DrawRange { Start = 0, MaterialIndex = -1, Count = float.PositiveInfinity };              
 
         private Box3 _box = new Box3();
 
@@ -87,11 +85,13 @@ namespace THREE.Core
             return this.Attributes[name] as GLAttribute;
         }
 
-        public void SetAttribute(string name, GLAttribute attribute)
+        public BufferGeometry SetAttribute(string name, GLAttribute attribute)
         {
             this.Attributes[name] = attribute;
             //if (!AttributesKeys.Contains(name))
             //    this.AttributesKeys.Add(name);
+
+            return this;
 
         }
 
@@ -133,7 +133,7 @@ namespace THREE.Core
             this.DrawRange.Count = count;
         }
 
-        public new BufferGeometry ApplyMatrix(Matrix4 matrix)
+        public BufferGeometry ApplyMatrix(Matrix4 matrix)
         {
             if (this.Attributes.ContainsKey("position"))
             {
@@ -297,7 +297,20 @@ namespace THREE.Core
             }
             return this;
         }
+        public new BufferGeometry setFromPoints(List<Vector3> points)
+        {
+            List<float> position = new List<float>();
 
+            for(int i = 0; i < points.Count; i++)
+            {
+                Vector3 point = points[i];
+                position.Add(point.X, point.Y, point.Z);
+                    
+            }
+            this.SetAttribute("position", new BufferAttribute<float>(position.ToArray(), 3));
+
+            return this;
+        }
         public BufferGeometry SetFromPoints(Vector3[] points)
         {
             List<float> position = new List<float>();
@@ -446,9 +459,6 @@ namespace THREE.Core
             float[] positions = new float[geometry.Vertices.Count * 3];
 
             this.SetAttribute("position", new BufferAttribute<float>(positions, 3).CopyVector3sArray(geometry.Vertices.ToArray()));
-
-            if (geometry.Indices != null && geometry.Indices.Count > 0)
-                this.Index = new BufferAttribute<int>(geometry.Indices.ToArray<int>(), 1);
 
             if (geometry.Normals.Count > 0)
             {

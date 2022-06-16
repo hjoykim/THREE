@@ -76,7 +76,7 @@ namespace THREE.Renderers
 
         public GLExtensions extensions;
 
-        GLCapabilities capabilities;
+        public GLCapabilities capabilities;
 
         public GLState state;
 
@@ -1545,54 +1545,40 @@ namespace THREE.Renderers
                 p_uniforms.SetOptional(object3D, "bindMatrix" );
 			    p_uniforms.SetOptional(object3D, "bindMatrixInverse" );
 
-                Skeleton skeleton = null;
-                if(object3D is SkinnedMesh)
-                    skeleton = (object3D as SkinnedMesh).Skeleton;
+			    var skeleton = (object3D as SkinnedMesh).Skeleton;
 
-                if ( skeleton!=null && skeleton.Bones.Length > 0) {
+			    if ( skeleton!=null ) {
 
 				    var bones = skeleton.Bones;
 
 				    if ( capabilities.floatVertexTextures) {
 
-					    if ( skeleton.BoneTexture == null) {
+					    if ( skeleton.BoneTexture !=null ) {
 
-                            // layout (1 matrix = 4 pixels)
-                            //      RGBA RGBA RGBA RGBA (=> column1, column2, column3, column4)
-                            //  with  8x8  pixel texture max   16 bones * 4 pixels =  (8 * 8)
-                            //       16x16 pixel texture max   64 bones * 4 pixels = (16 * 16)
-                            //       32x32 pixel texture max  256 bones * 4 pixels = (32 * 32)
-                            //       64x64 pixel texture max 1024 bones * 4 pixels = (64 * 64)
+						    // layout (1 matrix = 4 pixels)
+						    //      RGBA RGBA RGBA RGBA (=> column1, column2, column3, column4)
+						    //  with  8x8  pixel texture max   16 bones * 4 pixels =  (8 * 8)
+						    //       16x16 pixel texture max   64 bones * 4 pixels = (16 * 16)
+						    //       32x32 pixel texture max  256 bones * 4 pixels = (32 * 32)
+						    //       64x64 pixel texture max 1024 bones * 4 pixels = (64 * 64)
 
 
-                            var size = (float)System.Math.Sqrt(bones.Length * 4); // 4 pixels needed for 1 matrix
-                            size = MathUtils.CeilPowerOfTwo(size);
-                            size = System.Math.Max(size, 4);
+						    var size = (float)System.Math.Sqrt( bones.Length * 4 ); // 4 pixels needed for 1 matrix
+						    size = MathUtils.CeilPowerOfTwo( size );
+						    size = System.Math.Max( size, 4 );
 
-                            var data = new byte[(int)(size * size * 4)]; // 4 floats per RGBA pixel
-                            for (var i = 0; i < size - 4; i += 4)
-                            {
-                                data[i] = (byte)System.Math.Round(skeleton.BoneMatrices[i] * 255);
-                                data[i + 1] = (byte)System.Math.Round(skeleton.BoneMatrices[i + 1] * 255);
-                                data[i + 2] = (byte)System.Math.Round(skeleton.BoneMatrices[i + 2] * 255);
-                                data[i + 3] = 255;
-                            }
-                            unsafe
-                            {
-                                fixed (byte* ptr = data)
-                                {
-                                    System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(1, (int)size, (int)size,
-                                    System.Drawing.Imaging.PixelFormat.Format32bppArgb, new IntPtr(ptr));
+						    var boneMatrices = new float[ (int)(size * size * 4) ]; // 4 floats per RGBA pixel
+						    Array.Copy(skeleton.BoneMatrices, boneMatrices,skeleton.BoneMatrices.Length ); // copy current values
 
-                                    var boneTexture = new DataTexture(bitmap, (int)size, (int)size, (int)PixelFormat.Rgba, Constants.FloatType);
-                                    skeleton.BoneTexture = boneTexture;
-                                    skeleton.BoneTextureSize = (int)size;
-                                }
-                            }
+                            TypeConverter tc = TypeDescriptor.GetConverter(typeof(System.Drawing.Bitmap));
+                            System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)tc.ConvertFrom(boneMatrices);
 
-                            //var boneMatrices = new float[(int)(size * size * 4)]; // 4 floats per RGBA pixel
-                            //Array.Copy(skeleton.BoneMatrices, boneMatrices, skeleton.BoneMatrices.Length); // copy current values
-                            //skeleton.BoneMatrices = boneMatrices;
+						    var boneTexture = new DataTexture(bitmap, (int)size, (int)size, Constants.RGBAFormat, Constants.FloatType);
+                            
+       
+						    skeleton.BoneMatrices = boneMatrices;
+						    skeleton.BoneTexture = boneTexture;
+						    skeleton.BoneTextureSize = (int)size;
 
 					    }
 
@@ -1662,7 +1648,7 @@ namespace THREE.Renderers
 
             }
 
-            if (material is SpriteMaterial && object3D is Sprite)
+            if (material is SpriteMaterial)
             {
                 p_uniforms.SetValue("center", (object3D as Sprite).Center);
             }

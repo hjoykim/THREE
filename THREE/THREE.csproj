@@ -61,16 +61,21 @@
   <ItemGroup>
     <Compile Include="Cameras\ArrayCamera.cs" />
     <Compile Include="Cameras\Camera.cs" />
-    <Compile Include="Cameras\Controlls\FirstPersonControls.cs" />
-    <Compile Include="Cameras\Controlls\FlyControls.cs" />
-    <Compile Include="Cameras\Controlls\ICameraControl.cs" />
-    <Compile Include="Cameras\Controlls\OrbitControls.cs" />
-    <Compile Include="Cameras\Controlls\PointerLockControls.cs" />
-    <Compile Include="Cameras\Controlls\TrackballControls.cs" />
+    <Compile Include="Controls\Arcball.cs" />
+    <Compile Include="Controls\ArcballControls.cs" />
+    <Compile Include="Controls\DragControls.cs" />
+    <Compile Include="Controls\FirstPersonControls.cs" />
+    <Compile Include="Controls\FlyControls.cs" />
+    <Compile Include="Controls\ICameraControl.cs" />
+    <Compile Include="Controls\OrbitControls.cs" />
+    <Compile Include="Controls\PointerLockControls.cs" />
+    <Compile Include="Controls\SpinCameraControls.cs" />
+    <Compile Include="Controls\TrackballControls.cs" />
     <Compile Include="Cameras\CubeCamera.cs" />
     <Compile Include="Cameras\OrthographicCamera.cs" />
     <Compile Include="Cameras\PerspectiveCamera.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Controls\TransformControls.cs" />
     <Compile Include="Core\BaseGeometry.cs" />
     <Compile Include="Core\BasicObject.cs" />
     <Compile Include="Core\BufferAttribute.cs" />
@@ -138,6 +143,7 @@
     <Compile Include="Helpers\ArrowHelper.cs" />
     <Compile Include="Helpers\AxesHelper.cs" />
     <Compile Include="Helpers\CameraHelper.cs" />
+    <Compile Include="Helpers\GridHelper.cs" />
     <Compile Include="Helpers\PointLightHelper.cs" />
     <Compile Include="Helpers\RectAreaLightHelper.cs" />
     <Compile Include="Helpers\SpotLightHelper.cs" />
