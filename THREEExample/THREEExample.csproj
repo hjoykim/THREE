@@ -140,11 +140,9 @@
     <Compile Include="ThreeImGui\ImGuiManager.cs" />
     <Compile Include="Three\Interactive\InteractiveCubesExample.cs" />
     <Compile Include="Three\Misc\Controls\ArcballControlsExample.cs" />
-    <Compile Include="Three\Misc\Controls\ArcballExampleTest.cs" />
+ 
     <Compile Include="Three\Misc\Controls\ControlsExampleTemplate.cs" />
     <Compile Include="Three\Misc\Controls\DragControlsExample.cs" />
-    <Compile Include="Three\Misc\Controls\GizmosExamples.cs" />
-    <Compile Include="Three\Misc\Controls\SpinCameraControlExample.cs" />
     <Compile Include="Three\Misc\Controls\TransControlsExample.cs" />
     <Compile Include="Three\Modifier\ModifierCurve.cs" />
   </ItemGroup>
