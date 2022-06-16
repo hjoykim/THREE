@@ -60,16 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cameras\ArrayCamera.cs" />
-    <Compile Include="Cameras\Camera.cs" />
-    <Compile Include="Controls\Arcball.cs" />
+    <Compile Include="Cameras\Camera.cs" />    
     <Compile Include="Controls\ArcballControls.cs" />
     <Compile Include="Controls\DragControls.cs" />
     <Compile Include="Controls\FirstPersonControls.cs" />
     <Compile Include="Controls\FlyControls.cs" />
     <Compile Include="Controls\ICameraControl.cs" />
     <Compile Include="Controls\OrbitControls.cs" />
-    <Compile Include="Controls\PointerLockControls.cs" />
-    <Compile Include="Controls\SpinCameraControls.cs" />
+    <Compile Include="Controls\PointerLockControls.cs" />    
     <Compile Include="Controls\TrackballControls.cs" />
     <Compile Include="Cameras\CubeCamera.cs" />
     <Compile Include="Cameras\OrthographicCamera.cs" />
