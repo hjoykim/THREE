@@ -28,7 +28,7 @@ namespace THREE.Controls
         MIDDLE = MOUSE.DOLLY,
         RIGHT = MOUSE.PAN
     }
-    public class OrbitControls
+    public class OrbitControls : IDisposable
     {
 
         public ControlMouseButtons mouseButtons;
@@ -40,6 +40,7 @@ namespace THREE.Controls
         public bool Enabled = true;
 
         public Vector3 target = new Vector3();
+
 
         public float MinDistance = 0;
         public float MaxDistance = float.PositiveInfinity;
@@ -102,7 +103,7 @@ namespace THREE.Controls
             this.camera = camera;
             this.control = control;
 
-            this.control.MouseDown += onPointerDown; ;
+            this.control.MouseDown += OnPointerDown; ;
             //this.control.MouseMove += Control_MouseMove;
             //this.control.MouseUp += Control_MouseUp;
             this.control.MouseWheel += Control_MouseWheel;
@@ -114,7 +115,43 @@ namespace THREE.Controls
             zoom0 = camera.Zoom;
 
         }
+        #region Dispose      
+        public event EventHandler<EventArgs> Disposed;
+        public virtual void Dispose()
+        {
+            control.MouseDown -= OnPointerDown;
+            //this.control.MouseMove -= Control_MouseMove;
+            //this.control.MouseUp -= Control_MouseUp;
+            this.control.MouseWheel -= Control_MouseWheel;
+            this.control.KeyDown -= Control_KeyDown;
 
+            Dispose(disposed);
+
+        }
+        protected virtual void RaiseDisposed()
+        {
+            var handler = this.Disposed;
+            if (handler != null)
+                handler(this, new EventArgs());
+        }
+
+        private bool disposed;
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed) return;
+            try
+            {
+                this.RaiseDisposed();
+                this.disposed = true;
+            }
+            finally
+            {
+                this.disposed = true;
+            }
+        }
+        #endregion
         public float GetAutoRotationAngle()
         {
             return 2 * (float)System.Math.PI / 60 / 60 * AutoRotateSpeed;
@@ -680,7 +717,7 @@ namespace THREE.Controls
             Control_MouseUp(sender, e);
         }
 
-        private void onPointerDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void OnPointerDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             Control_MouseDown(sender, e);
         }
