@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using ImGuiNET;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using THREE.Controls;
 using THREE.Lights;
 using THREE.Math;
 using THREE.Scenes;
+using THREEExample.ThreeImGui;
 
 namespace THREEExample.Three.Misc.Controls
 {
@@ -20,6 +22,8 @@ namespace THREEExample.Three.Misc.Controls
         public Camera camera;
 
         public TrackballControls controls;
+
+        public ImGuiManager imGuiManager;
 
         public ControlsExampleTemplate() : base() 
         {
@@ -77,17 +81,35 @@ namespace THREEExample.Three.Misc.Controls
             base.Load(control);
 
             Init();
+
+            imGuiManager = new ImGuiManager(this.glControl);
         }
         public override void Render()
         {
             controls.Update();
             renderer.Render(scene, camera);
+            ShowGUIControls();
         }
         public override void Resize(System.Drawing.Size clientSize)
         {
             base.Resize(clientSize);
             camera.Aspect = this.glControl.AspectRatio;
             camera.UpdateProjectionMatrix();
+        }
+        public virtual void ShowGUIControls()
+        {
+            ImGui.NewFrame();
+            ImGui.Begin("Controls");
+
+            AddGuiControls();
+
+            ImGui.End();
+            ImGui.Render();
+            imGuiManager.ImGui_ImplOpenGL3_RenderDrawData(ImGui.GetDrawData());
+        }
+        public virtual void AddGuiControls()
+        {
+
         }
     }
 }

@@ -57,6 +57,13 @@
         {
             return (1 - t) * x + t * y;
         }
-       
+        public static float Clamp(float val, float min, float max)
+        {
+            //if (val.CompareTo(min) < 0) return min;
+            //else if (val.CompareTo(max) > 0) return max;
+            //else return val;
+
+            return (float)System.Math.Max(min, System.Math.Min(max, val));
+        }
     }
 }

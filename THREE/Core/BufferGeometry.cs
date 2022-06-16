@@ -297,7 +297,20 @@ namespace THREE.Core
             }
             return this;
         }
+        public new BufferGeometry setFromPoints(List<Vector3> points)
+        {
+            List<float> position = new List<float>();
 
+            for(int i = 0; i < points.Count; i++)
+            {
+                Vector3 point = points[i];
+                position.Add(point.X, point.Y, point.Z);
+                    
+            }
+            this.SetAttribute("position", new BufferAttribute<float>(position.ToArray(), 3));
+
+            return this;
+        }
         public BufferGeometry SetFromPoints(Vector3[] points)
         {
             List<float> position = new List<float>();
