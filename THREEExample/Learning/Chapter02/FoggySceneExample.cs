@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using THREE.Math;
 using THREE.Scenes;
 
 namespace THREEExample.Learning.Chapter02
@@ -13,7 +14,7 @@ namespace THREEExample.Learning.Chapter02
 
         public FoggySceneExample() : base()
         {
-            scene.Fog = new Fog(System.Drawing.Color.FromArgb(0xffffff), 0.015f, 100f);
+            scene.Fog = new Fog(Color.Hex(0xffffff), 0.015f, 100f);
         }
     }
 }
