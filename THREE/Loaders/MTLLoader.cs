@@ -136,7 +136,9 @@ namespace THREE.Loaders
                 {
                     if(key=="ka" || key=="kd" || key=="ks" || key=="ke")
                     {
-                        value = value.Substring(3).Trim();
+                        //value = value.Substring(3).Trim();
+                        value = (pos >= 0) ? line.Substring(pos - 1) : "";
+                        value = value.Substring(pos).Trim();
                         var ss = Regex.Split(value, delimiter_pattern);
                         info.Add(key, new float[] { float.Parse(ss[0]), float.Parse(ss[1]), float.Parse(ss[2]) });
                     }
