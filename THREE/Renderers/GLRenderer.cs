@@ -20,7 +20,7 @@ using THREE.Textures;
 
 namespace THREE.Renderers
 {
-    public class GLRenderer : IDisposable
+    public class GLRenderer : DisposableObject
     {
         public OpenTK.Graphics.IGraphicsContext Context;
 
@@ -1694,34 +1694,59 @@ namespace THREE.Renderers
         {
             return _currentActiveMipmapLevel;
         }
-        #region Dispose implementation
-        public virtual void Dispose()
+        public override void Dispose()
         {
-            Dispose(disposed);
-            GC.SuppressFinalize(this);
-        }
-        protected virtual void RaiseDisposed()
-        {
-            var handler = this.Disposed;
-            if (handler != null)
-                handler(this, new EventArgs());
-        }
-        private bool disposed;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (this.disposed) return;
-            try
-            {
-                this.RaiseDisposed();
-                this.disposed = true;
-            }
-            finally
+            GL.Disable(EnableCap.Blend);
+            GL.Disable(EnableCap.CullFace);
+            GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.PolygonOffsetFill);
+            GL.Disable(EnableCap.ScissorTest);
+            GL.Disable(EnableCap.StencilTest);
+            GL.Disable(EnableCap.SampleAlphaToCoverage);
+
+            GL.BlendEquation(BlendEquationMode.FuncAdd);
+            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.Zero);
+            GL.BlendFuncSeparate(BlendingFactorSrc.One, BlendingFactorDest.Zero, BlendingFactorSrc.One, BlendingFactorDest.Zero);
+
+            GL.ColorMask(true, true, true, true);
+            GL.ClearColor(0, 0, 0, 0);
+
+            GL.DepthMask(true);
+            GL.DepthFunc(DepthFunction.Less);
+            GL.ClearDepth(1);
+
+            GL.StencilMask(0xffffffff);
+            GL.StencilFunc(StencilFunction.Always, 0, 0xffffffff);
+            GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Keep);
+            GL.ClearStencil(0);
+
+            GL.CullFace(CullFaceMode.Back);
+            GL.FrontFace(FrontFaceDirection.Ccw);
+
+            GL.PolygonOffset(0, 0);
+
+            GL.ActiveTexture(TextureUnit.Texture0);
+
+            GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+
+            if (capabilities.IsGL2 == true)
             {
 
+                GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+                GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
+
             }
-            this.disposed = true;
+
+            GL.UseProgram(0);
+
+            GL.LineWidth(1);
+
+            GL.Scissor(0, 0, Width, Height);
+            GL.Viewport(0, 0, Width, Height);
+
+
+            base.Dispose();
         }
-        #endregion
-       
+
     }
 }
