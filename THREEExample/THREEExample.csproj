@@ -103,6 +103,7 @@
     <Compile Include="Learning\Chapter05\Basic2D_Geometries_Shape.cs" />
     <Compile Include="Learning\Chapter05\Basic3D_Geometries_Torus.cs" />
     <Compile Include="Learning\Chapter05\Basic3D_Geometries_Torus_knot.cs" />
+    <Compile Include="Learning\Chapter08\LoadObjMTLExample.cs" />
     <Compile Include="Learning\Chapter10\AlphaMapExample.cs" />
     <Compile Include="Learning\Chapter10\EmissiveMapExample.cs" />
     <Compile Include="Learning\Chapter10\EnvMapDynamicExample.cs" />
@@ -140,7 +141,6 @@
     <Compile Include="ThreeImGui\ImGuiManager.cs" />
     <Compile Include="Three\Interactive\InteractiveCubesExample.cs" />
     <Compile Include="Three\Misc\Controls\ArcballControlsExample.cs" />
- 
     <Compile Include="Three\Misc\Controls\ControlsExampleTemplate.cs" />
     <Compile Include="Three\Misc\Controls\DragControlsExample.cs" />
     <Compile Include="Three\Misc\Controls\TransControlsExample.cs" />
