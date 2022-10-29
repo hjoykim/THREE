@@ -103,6 +103,8 @@
     <Compile Include="Learning\Chapter05\Basic2D_Geometries_Shape.cs" />
     <Compile Include="Learning\Chapter05\Basic3D_Geometries_Torus.cs" />
     <Compile Include="Learning\Chapter05\Basic3D_Geometries_Torus_knot.cs" />
+    <Compile Include="Learning\Chapter06\BinaryOperationExample.cs" />
+    <Compile Include="Learning\Chapter06\TextGeometryExample.cs" />
     <Compile Include="Learning\Chapter08\LoadObjMTLExample.cs" />
     <Compile Include="Learning\Chapter10\AlphaMapExample.cs" />
     <Compile Include="Learning\Chapter10\EmissiveMapExample.cs" />

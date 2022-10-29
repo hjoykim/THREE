@@ -20,7 +20,7 @@ namespace THREEExample.Learning
         public Camera camera;
         public Scene scene;
         public TrackballControls controls;
-        public ImGuiManager imguiManager;
+        public ImGuiManager imGuiManager;
 
         public ExampleTemplate() : base()
         {
@@ -65,6 +65,8 @@ namespace THREEExample.Learning
             InitRenderer();
             InitCamera();
             InitCameraController();
+
+            imGuiManager = new ImGuiManager(this.glControl);
         }
         public override void Render()
         {

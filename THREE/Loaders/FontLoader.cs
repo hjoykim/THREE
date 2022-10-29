@@ -14,7 +14,7 @@ namespace THREE.Loaders
         {
 
         }
-        public Font Load(string jsonFile)
+        public static Font Load(string jsonFile)
         {
             return new Font(jsonFile);
 
