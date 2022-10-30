@@ -101,16 +101,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if not exist "$(TargetDir)\Renderers" mkdir "$(TargetDir)\Renderers"
-if not exist "$(TargetDir)\Renderers\Shaders" mkdir "$(TargetDir)\Renderers\Shaders"
-if not exist "$(TargetDir)\Renderers\Shaders\ShaderChunk" mkdir "$(TargetDir)\Renderers\Shaders\ShaderChunk"
-if not exist "$(TargetDir)\Renderers\Shaders\ShaderLib" mkdir "$(TargetDir)\Renderers\Shaders\ShaderLib"
-
-robocopy $(SolutionDir)\THREE\Renderers\Shaders\ShaderChunk "$(TargetDir)\Renderers\Shaders\ShaderChunk" /s /xn &gt;output.log
-
-robocopy $(SolutionDir)\THREE\Renderers\Shaders\ShaderLib "$(TargetDir)\Renderers\Shaders\ShaderLib" /s /xn &gt; output.log
-
-del output.log
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

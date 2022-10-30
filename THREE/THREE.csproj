@@ -60,14 +60,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cameras\ArrayCamera.cs" />
-    <Compile Include="Cameras\Camera.cs" />    
+    <Compile Include="Cameras\Camera.cs" />
     <Compile Include="Controls\ArcballControls.cs" />
     <Compile Include="Controls\DragControls.cs" />
     <Compile Include="Controls\FirstPersonControls.cs" />
     <Compile Include="Controls\FlyControls.cs" />
     <Compile Include="Controls\ICameraControl.cs" />
     <Compile Include="Controls\OrbitControls.cs" />
-    <Compile Include="Controls\PointerLockControls.cs" />    
+    <Compile Include="Controls\PointerLockControls.cs" />
     <Compile Include="Controls\TrackballControls.cs" />
     <Compile Include="Cameras\CubeCamera.cs" />
     <Compile Include="Cameras\OrthographicCamera.cs" />
@@ -292,7 +292,9 @@
     <Compile Include="Renderers\gl\SingleUniform.cs" />
     <Compile Include="Renderers\gl\StructuredUniform.cs" />
     <Compile Include="Renderers\Projector.cs" />
+    <Compile Include="Renderers\Shaders\ShaderChunk.cs" />
     <Compile Include="Renderers\Shaders\ShaderLib.cs" />
+    <Compile Include="Renderers\Shaders\ShaderLibVariable.cs" />
     <Compile Include="Renderers\Shaders\UniformsLib.cs" />
     <Compile Include="Renderers\Shaders\UniformsUtils.cs" />
     <Compile Include="Scenes\Fog.cs" />

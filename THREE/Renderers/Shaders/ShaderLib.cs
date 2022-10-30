@@ -32,30 +32,165 @@ namespace THREE.Renderers.Shaders
 
         public ShaderLib()
         {
-            // ShaderChunk folder
-            var glslFiles = Directory.EnumerateFiles(@".\Renderers\Shaders\ShaderChunk", "*.glsl");
-            if (glslFiles.Count() <= 0)
+            ShaderChunkDictionary = new Dictionary<string, string>()
             {
-                throw new FileNotFoundException(".glsl files not found - check the path in ShaderLib.cs, line 25");
-            }
 
-            foreach (var path in glslFiles)
-            {
-                this.ShaderChunkDictionary.Add(Path.GetFileNameWithoutExtension(path), path);
-            }
+{"alphamap_fragment", ShaderChunk.alphamap_fragment},
+{"alphamap_pars_fragment", ShaderChunk.alphamap_pars_fragment},
+{"alphatest_fragment", ShaderChunk.alphatest_fragment},
+{"aomap_fragment", ShaderChunk.aomap_fragment},
+{"aomap_pars_fragment", ShaderChunk.aomap_pars_fragment},
+{"begin_vertex", ShaderChunk.begin_vertex},
+{"beginnormal_vertex", ShaderChunk.beginnormal_vertex},
+{"bsdfs", ShaderChunk.bsdfs},
+{"bumpmap_pars_fragment", ShaderChunk.bumpmap_pars_fragment},
+{"clipping_planes_fragment", ShaderChunk.clipping_planes_fragment},
+{"clipping_planes_pars_fragment", ShaderChunk.clipping_planes_pars_fragment},
+{"clipping_planes_pars_vertex", ShaderChunk.clipping_planes_pars_vertex},
+{"clipping_planes_vertex", ShaderChunk.clipping_planes_vertex},
+{"color_fragment", ShaderChunk.color_fragment},
+{"color_pars_fragment", ShaderChunk.color_pars_fragment},
+{"color_pars_vertex", ShaderChunk.color_pars_vertex},
+{"color_vertex", ShaderChunk.color_vertex},
+{"common", ShaderChunk.common},
+{"cube_uv_reflection_fragment", ShaderChunk.cube_uv_reflection_fragment},
+{"defaultnormal_vertex", ShaderChunk.defaultnormal_vertex},
+{"displacementmap_pars_vertex", ShaderChunk.displacementmap_pars_vertex},
+{"displacementmap_vertex", ShaderChunk.displacementmap_vertex},
+{"emissivemap_fragment", ShaderChunk.emissivemap_fragment},
+{"emissivemap_pars_fragment", ShaderChunk.emissivemap_pars_fragment},
+{"encodings_fragment", ShaderChunk.encodings_fragment},
+{"encodings_pars_fragment", ShaderChunk.encodings_pars_fragment},
+{"envmap_fragment", ShaderChunk.envmap_fragment},
+{"envmap_common_pars_fragment", ShaderChunk.envmap_common_pars_fragment},
+{"envmap_pars_fragment", ShaderChunk.envmap_pars_fragment},
+{"envmap_pars_vertex", ShaderChunk.envmap_pars_vertex},
+{"envmap_physical_pars_fragment", ShaderChunk.envmap_physical_pars_fragment},
+{"envmap_vertex", ShaderChunk.envmap_vertex},
+{"fog_vertex", ShaderChunk.fog_vertex},
+{"fog_pars_vertex", ShaderChunk.fog_pars_vertex},
+{"fog_fragment", ShaderChunk.fog_fragment},
+{"fog_pars_fragment", ShaderChunk.fog_pars_fragment},
+{"gradientmap_pars_fragment", ShaderChunk.gradientmap_pars_fragment},
+{"lightmap_fragment", ShaderChunk.lightmap_fragment},
+{"lightmap_pars_fragment", ShaderChunk.lightmap_pars_fragment},
+{"lights_lambert_vertex", ShaderChunk.lights_lambert_vertex},
+{"lights_pars_begin", ShaderChunk.lights_pars_begin},
+{"lights_toon_fragment", ShaderChunk.lights_toon_fragment},
+{"lights_toon_pars_fragment", ShaderChunk.lights_toon_pars_fragment},
+{"lights_phong_fragment", ShaderChunk.lights_phong_fragment},
+{"lights_phong_pars_fragment", ShaderChunk.lights_phong_pars_fragment},
+{"lights_physical_fragment", ShaderChunk.lights_physical_fragment},
+{"lights_physical_pars_fragment", ShaderChunk.lights_physical_pars_fragment},
+{"lights_fragment_begin", ShaderChunk.lights_fragment_begin},
+{"lights_fragment_maps", ShaderChunk.lights_fragment_maps},
+{"lights_fragment_end", ShaderChunk.lights_fragment_end},
+{"logdepthbuf_fragment", ShaderChunk.logdepthbuf_fragment},
+{"logdepthbuf_pars_fragment", ShaderChunk.logdepthbuf_pars_fragment},
+{"logdepthbuf_pars_vertex", ShaderChunk.logdepthbuf_pars_vertex},
+{"logdepthbuf_vertex", ShaderChunk.logdepthbuf_vertex},
+{"map_fragment", ShaderChunk.map_fragment},
+{"map_pars_fragment", ShaderChunk.map_pars_fragment},
+{"map_particle_fragment", ShaderChunk.map_particle_fragment},
+{"map_particle_pars_fragment", ShaderChunk.map_particle_pars_fragment},
+{"metalnessmap_fragment", ShaderChunk.metalnessmap_fragment},
+{"metalnessmap_pars_fragment", ShaderChunk.metalnessmap_pars_fragment},
+{"morphnormal_vertex", ShaderChunk.morphnormal_vertex},
+{"morphtarget_pars_vertex", ShaderChunk.morphtarget_pars_vertex},
+{"morphtarget_vertex", ShaderChunk.morphtarget_vertex},
+{"normal_fragment_begin", ShaderChunk.normal_fragment_begin},
+{"normal_fragment_maps", ShaderChunk.normal_fragment_maps},
+{"normalmap_pars_fragment", ShaderChunk.normalmap_pars_fragment},
+{"clearcoat_normal_fragment_begin", ShaderChunk.clearcoat_normal_fragment_begin},
+{"clearcoat_normal_fragment_maps", ShaderChunk.clearcoat_normal_fragment_maps},
+{"clearcoat_pars_fragment", ShaderChunk.clearcoat_pars_fragment},
+{"packing", ShaderChunk.packing},
+{"premultiplied_alpha_fragment", ShaderChunk.premultiplied_alpha_fragment},
+{"project_vertex", ShaderChunk.project_vertex},
+{"dithering_fragment", ShaderChunk.dithering_fragment},
+{"dithering_pars_fragment", ShaderChunk.dithering_pars_fragment},
+{"roughnessmap_fragment", ShaderChunk.roughnessmap_fragment},
+{"roughnessmap_pars_fragment", ShaderChunk.roughnessmap_pars_fragment},
+{"shadowmap_pars_fragment", ShaderChunk.shadowmap_pars_fragment},
+{"shadowmap_pars_vertex", ShaderChunk.shadowmap_pars_vertex},
+{"shadowmap_vertex", ShaderChunk.shadowmap_vertex},
+{"shadowmask_pars_fragment", ShaderChunk.shadowmask_pars_fragment},
+{"skinbase_vertex", ShaderChunk.skinbase_vertex},
+{"skinning_pars_vertex", ShaderChunk.skinning_pars_vertex},
+{"skinning_vertex", ShaderChunk.skinning_vertex},
+{"skinnormal_vertex", ShaderChunk.skinnormal_vertex},
+{"specularmap_fragment", ShaderChunk.specularmap_fragment},
+{"specularmap_pars_fragment", ShaderChunk.specularmap_pars_fragment},
+{"tonemapping_fragment", ShaderChunk.tonemapping_fragment},
+{"tonemapping_pars_fragment", ShaderChunk.tonemapping_pars_fragment},
+{"transmissionmap_fragment", ShaderChunk.transmissionmap_fragment},
+{"transmissionmap_pars_fragment", ShaderChunk.transmissionmap_pars_fragment},
+{"uv_pars_fragment", ShaderChunk.uv_pars_fragment},
+{"uv_pars_vertex", ShaderChunk.uv_pars_vertex},
+{"uv_vertex", ShaderChunk.uv_vertex},
+{"uv2_pars_fragment", ShaderChunk.uv2_pars_fragment},
+{"uv2_pars_vertex", ShaderChunk.uv2_pars_vertex},
+{"uv2_vertex", ShaderChunk.uv2_vertex},
+{"worldpos_vertex", ShaderChunk.worldpos_vertex},
+
+{"background_frag", ShaderLibVariable.background_frag},
+{"background_vert", ShaderLibVariable.background_vert},
+{"cube_frag", ShaderLibVariable.cube_frag},
+{"cube_vert", ShaderLibVariable.cube_vert},
+{"depth_frag", ShaderLibVariable.depth_frag},
+{"depth_vert", ShaderLibVariable.depth_vert},
+{"distanceRGBA_frag", ShaderLibVariable.distanceRGBA_frag},
+{"distanceRGBA_vert", ShaderLibVariable.distanceRGBA_vert},
+{"equirect_frag", ShaderLibVariable.equirect_frag},
+{"equirect_vert", ShaderLibVariable.equirect_vert},
+{"linedashed_frag", ShaderLibVariable.linedashed_frag},
+{"linedashed_vert", ShaderLibVariable.linedashed_vert},
+{"meshbasic_frag", ShaderLibVariable.meshbasic_frag},
+{"meshbasic_vert", ShaderLibVariable.meshbasic_vert},
+{"meshlambert_frag", ShaderLibVariable.meshlambert_frag},
+{"meshlambert_vert", ShaderLibVariable.meshlambert_vert},
+{"meshmatcap_frag", ShaderLibVariable.meshmatcap_frag},
+{"meshmatcap_vert", ShaderLibVariable.meshmatcap_vert},
+{"meshtoon_frag", ShaderLibVariable.meshtoon_frag},
+{"meshtoon_vert", ShaderLibVariable.meshtoon_vert},
+{"meshphong_frag", ShaderLibVariable.meshphong_frag},
+{"meshphong_vert", ShaderLibVariable.meshphong_vert},
+{"meshphysical_frag", ShaderLibVariable.meshphysical_frag},
+{"meshphysical_vert", ShaderLibVariable.meshphysical_vert},
+{"normal_frag", ShaderLibVariable.normal_frag},
+{"normal_vert", ShaderLibVariable.normal_vert},
+{"points_frag", ShaderLibVariable.points_frag},
+{"points_vert", ShaderLibVariable.points_vert},
+{"shadow_frag", ShaderLibVariable.shadow_frag},
+{"shadow_vert", ShaderLibVariable.shadow_vert},
+{"sprite_frag", ShaderLibVariable.sprite_frag},
+{"sprite_vert", ShaderLibVariable.sprite_vert }
+
+            };
+            //// ShaderChunk folder
+            //var glslFiles = Directory.EnumerateFiles(@".\Renderers\Shaders\ShaderChunk", "*.glsl");
+            //if (glslFiles.Count() <= 0)
+            //{
+            //    throw new FileNotFoundException(".glsl files not found - check the path in ShaderLib.cs, line 25");
+            //}
+
+            //foreach (var path in glslFiles)
+            //{
+            //    this.ShaderChunkDictionary.Add(Path.GetFileNameWithoutExtension(path), path);
+            //}
 
 
-            // ShaderLib folder
-            glslFiles = Directory.EnumerateFiles(@".\Renderers\Shaders\ShaderLib", "*.glsl");
-            if (glslFiles.Count() <= 0)
-            {
-                throw new FileNotFoundException(".glsl files not found - check the path in ShaderLib.cs, line 25");
-            }
+            //// ShaderLib folder
+            //glslFiles = Directory.EnumerateFiles(@".\Renderers\Shaders\ShaderLib", "*.glsl");
+            //if (glslFiles.Count() <= 0)
+            //{
+            //    throw new FileNotFoundException(".glsl files not found - check the path in ShaderLib.cs, line 25");
+            //}
 
-            foreach (var path in glslFiles)
-            {
-                this.ShaderChunkDictionary.Add(Path.GetFileNameWithoutExtension(path), path);
-            }
+            //foreach (var path in glslFiles)
+            //{
+            //    this.ShaderChunkDictionary.Add(Path.GetFileNameWithoutExtension(path), path);
+            //}
 
             this.Add("basic", this.BasicShader());
             this.Add("lambert", this.LambertShader());
@@ -78,8 +213,9 @@ namespace THREE.Renderers.Shaders
         }
         public string getChunk(string chunkName)
         {
-            string path;
-            return this.ShaderChunkDictionary.TryGetValue(chunkName, out path) ? File.ReadAllText(path) : string.Empty;
+            return ShaderChunkDictionary[chunkName];
+            //string path;
+            //return this.ShaderChunkDictionary.TryGetValue(chunkName, out path) ? File.ReadAllText(path) : string.Empty;
             //return this.ShaderChunk.getChunk(chunkName);
         }
         #region Basic Shader
