@@ -88,9 +88,9 @@ namespace THREE.Renderers.gl
 
             foreach (string name in morphAttributes.Keys)
             {
-                BufferAttribute<float>[] array = (BufferAttribute<float>[])morphAttributes[name];
+                List<BufferAttribute<float>> array = (List<BufferAttribute<float>>)morphAttributes[name];
 
-                for (int i = 0; i < array.Length; i++)
+                for (int i = 0; i < array.Count; i++)
                 {
                     Attributes.Update<float>(array[i], BufferTarget.ArrayBuffer);
                 }

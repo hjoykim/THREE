@@ -18,6 +18,7 @@ namespace THREE.Core
 
     public class BufferGeometry : Geometry
     {
+       
         protected static int BufferGeometryIdCount=0;
 
         public GLAttributes Attributes;
@@ -30,7 +31,7 @@ namespace THREE.Core
 
         public BufferAttribute<int> Index = null;
 
-        public GLAttributes MorphAttributes;
+        public Hashtable MorphAttributes;
 
         public bool MorphTargetsRelative = false;
 
@@ -57,7 +58,7 @@ namespace THREE.Core
 
             this.Attributes = new GLAttributes();
 
-            this.MorphAttributes = new GLAttributes();
+            this.MorphAttributes = new Hashtable();
 
             this.Offsets = this.Drawcalls;
 

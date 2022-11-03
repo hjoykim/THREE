@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using THREE.Core;
 using THREE.Materials;
 using THREE.Math;
+using THREE.Renderers.gl;
+
 namespace THREE.Objects
 {
     public class Mesh : Object3D
@@ -92,27 +94,33 @@ namespace THREE.Objects
             if (geometry != null && geometry is BufferGeometry)
             {
                 var morphAttributes = geometry.MorphAttributes;
+				var keys = morphAttributes.Keys;
 
-                if (morphAttributes.Keys.Count > 0)
+                //if (keys.Count > 0)
+				if(morphAttributes!=null && morphAttributes.Count>0)
                 {
-                    var morphAttribute = (Hashtable)morphAttributes[morphAttributes.Keys.ElementAt(0)];
 
-                    if (morphAttribute != null)
-                    {
-                        this.MorphTargetInfluences = new List<float>();
-                        this.MorphTargetDictionary = new Hashtable();
+					foreach (DictionaryEntry entry in morphAttributes)
+					{
+						var morphAttribute = morphAttributes[entry.Key] as List<BufferAttribute<float>>;
 
-                        for (int m = 0; m < morphAttribute.Count; m++)
-                        {
-                            string name = morphAttribute[m] != null ? (string)morphAttribute[m] : m.ToString();
+						if (morphAttribute != null)
+						{
+							this.MorphTargetInfluences = new List<float>();
+							this.MorphTargetDictionary = new Hashtable();
 
-                            this.MorphTargetInfluences.Add(0);
-                            if (this.MorphTargetDictionary.ContainsKey(name))
-                                this.MorphTargetDictionary[name] = m;
-                            else
-                                this.MorphTargetDictionary.Add(name, m);
-                        }
-                    }
+							for (int m = 0; m < morphAttribute.Count; m++)
+							{
+								string name = morphAttribute[m] != null ? (morphAttribute[m] as BufferAttribute<float>).Name : m.ToString();
+
+								this.MorphTargetInfluences.Add(0);
+								if (this.MorphTargetDictionary.ContainsKey(name))
+									this.MorphTargetDictionary[name] = m;
+								else
+									this.MorphTargetDictionary.Add(name, m);
+							}
+						}
+					}
                 }               
             }
             else
@@ -279,7 +287,10 @@ namespace THREE.Objects
 							int b = i + 1;
 							int c = i + 2;
 
-							intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>, bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>, bufferGeometry.MorphTargetsRelative, bufferGeometry.Attributes["uv"] as BufferAttribute<float>, bufferGeometry.Attributes["uv2"] as BufferAttribute<float>, a, b, c);
+							intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>,
+								bufferGeometry.MorphAttributes.ContainsKey("position")?bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>:null,bufferGeometry.MorphTargetsRelative, 
+								bufferGeometry.Attributes.ContainsKey("uv") ?bufferGeometry.Attributes["uv"] as BufferAttribute<float>:null, 
+								bufferGeometry.Attributes.ContainsKey("uv2")?bufferGeometry.Attributes["uv2"] as BufferAttribute<float>:null, a, b, c);
 
 							if (intersection!=null)
 							{

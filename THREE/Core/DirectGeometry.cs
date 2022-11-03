@@ -73,7 +73,7 @@ namespace THREE.Core
 
                 foreach(string key in morphTargets.Keys)
                 {
-                    morphTargetsPosition.Add(new MorphTarget{Name=((MorphTarget)(morphTargets[key])).Name,Data=new List<Vector3>()});
+                    morphTargetsPosition.Add(new MorphTarget{Name= key, Data=new List<Vector3>()});
                     morphTargetKeys.Add(key);
                 }
                 this.MorphTargets.Add("position",morphTargetsPosition);
@@ -89,7 +89,7 @@ namespace THREE.Core
             {
                 foreach(string key in morphNormals.Keys)
                 {
-                    morphTargetsNormal.Add(new MorphTarget{Name=((MorphTarget)morphNormals[key]).Name,Data=new List<Vector3>()});
+                    morphTargetsNormal.Add(new MorphTarget{Name=key,Data=new List<Vector3>()});
                     morphTargetsNormalKeys.Add(key);
                 }
                 this.MorphTargets.Add("normal", morphTargetsNormal);
@@ -190,14 +190,14 @@ namespace THREE.Core
                 }
 
                 // morphs
-                for(int j=0;i<morphTargetKeys.Count;j++)
+                for(int j=0;j<morphTargetKeys.Count;j++)
                 {
                     string key = morphTargetKeys[j];
-                    var morphTarget = ((MorphTarget)geometry.MorphTargets[key]).Data;
+                    var morphTarget = geometry.MorphTargets[key] as List<Vector3>;
 
-                    morphTargetsPosition[j].Data.Add(morphTarget[face.a]);
-                    morphTargetsPosition[j].Data.Add(morphTarget[face.b]);
-                    morphTargetsPosition[j].Data.Add(morphTarget[face.c]);
+                    (morphTargetsPosition[j].Data as List<Vector3>).Add(morphTarget[face.a]);
+                    (morphTargetsPosition[j].Data as List<Vector3>).Add(morphTarget[face.b]);
+                    (morphTargetsPosition[j].Data as List<Vector3>).Add(morphTarget[face.c]);
                 }
 
                 for(int j=0;j<morphTargetsNormalKeys.Count;j++)

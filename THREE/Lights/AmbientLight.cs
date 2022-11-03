@@ -9,7 +9,7 @@ namespace THREE.Lights
 {
     public class AmbientLight : Light
     {
-        public AmbientLight(Color color, int? intensity = null)
+        public AmbientLight(Color color, float? intensity = null)
             : base(color, intensity)
         {
             this.type = "AmbientLight";

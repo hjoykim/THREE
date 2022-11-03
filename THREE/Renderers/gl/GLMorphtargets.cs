@@ -15,8 +15,15 @@ namespace THREE.Renderers.gl
 
         public float[] MorphInfluences = new float[8];
 
+        public List<float[]> WorkInfluences = new List<float[]>();
         public GLMorphtargets()
         {
+            for (var i = 0; i < 8; i++)
+            {
+
+                WorkInfluences.Add(new float[2] { i, 0 });
+
+            }
         }
 
         public void Update(Object3D object3D, BufferGeometry geometry, Material material, GLProgram program)
@@ -26,10 +33,10 @@ namespace THREE.Renderers.gl
             // When object doesn't have morph target influences defined, we treat it as a 0-length array
             // This is important to make sure we set up morphTargetBaseInfluence / morphTargetInfluences
 
-            var length = objectInfluences == null ? 0 : objectInfluences.Count;
+            int length = objectInfluences == null ? 0 : objectInfluences.Count;
 
             List<float[]> influences = null;
-
+            
             if (!InfluencesList.ContainsKey(geometry.Id))
             {
                 influences = new List<float[]>();
@@ -46,21 +53,21 @@ namespace THREE.Renderers.gl
                 influences = (List<float[]>)InfluencesList[geometry.Id];
             }
 
-            GLAttribute[] morphTargets = geometry.MorphAttributes.ContainsKey("position") ? (GLAttribute[])geometry.MorphAttributes["position"] : null;
-            GLAttribute[] morphNormals = geometry.MorphAttributes.ContainsKey("normal") ? (GLAttribute[])geometry.MorphAttributes["normal"] : null;
+            //List<BufferAttribute<float>> morphTargets = geometry.MorphAttributes.ContainsKey("position") ? (List<BufferAttribute<float>>)geometry.MorphAttributes["position"] : null;
+            //List<BufferAttribute<float>> morphNormals = geometry.MorphAttributes.ContainsKey("normal") ? (List<BufferAttribute<float>>)geometry.MorphAttributes["normal"] : null;
 
-            // Remove current morphAttributes
+            //// Remove current morphAttributes
 
-            for (int i = 0; i < length; i++)
-            {
-                var influence = influences[i];
+            //for (int i = 0; i < length; i++)
+            //{
+            //    var influence = influences[i];
 
-                if (influence[1] != 0)
-                {
-                    if (morphTargets!=null) geometry.deleteAttribute("morphTarget" + i);
-                    if (morphNormals!=null) geometry.deleteAttribute("morphNormal" + i);
-                }
-            }
+            //    if (influence[1] != 0)
+            //    {
+            //        if (morphTargets!=null) geometry.deleteAttribute("morphTarget" + i);
+            //        if (morphNormals!=null) geometry.deleteAttribute("morphNormal" + i);
+            //    }
+            //}
 
             // Collect influences
 
@@ -78,33 +85,88 @@ namespace THREE.Renderers.gl
                 return (int)(System.Math.Abs(b[1]) - System.Math.Abs(a[1]));
             });
 
-            // Add morphAttributes
-
-            float morphInfluencesSum = 0;
-
             for (int i = 0; i < 8; i++)
             {
-                var influence = influences[i];
 
-                if (influence != null)
+                if (i < length && influences[i][1]>0)
                 {
-                    var index = influence[0];
-                    var value = influence[1];
 
-                    if (value != null)
-                    {
-                        if (morphTargets!=null) geometry.SetAttribute("morphTarget" + i,morphTargets[(int)index]);
-                        if (morphNormals != null) geometry.SetAttribute("morphNormal" + i, morphNormals[(int)index]);
+                    WorkInfluences[i][0] = influences[i][0];
+                    WorkInfluences[i][1] = influences[i][1];
 
-                        this.MorphInfluences[i] = value;
-                        morphInfluencesSum += value;
-                        continue;
-                    }
                 }
-                this.MorphInfluences[i] = 0;
+                else
+                {
+
+                    WorkInfluences[i][0] = int.MaxValue;
+                    WorkInfluences[i][1] = 0;
+
+                }
+
             }
 
-            var MorphBaseInfluence = geometry.MorphTargetsRelative ? 1 : System.Math.Max(0, 1 - morphInfluencesSum);
+            WorkInfluences.Sort(delegate (float[] a, float[] b)
+            {
+                return (int)(a[0] - b[0]);
+            });
+
+            List<BufferAttribute<float>> morphTargets = material.MorphTargets && geometry.MorphAttributes.ContainsKey("position") ?geometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null;
+            List<BufferAttribute<float>> morphNormals = material.MorphNormals && geometry.MorphAttributes.ContainsKey("normal") ? geometry.MorphAttributes["normal"]  as List<BufferAttribute<float>> : null;
+            float morphInfluencesSum = 0;
+
+            if (influences.Count > 0)
+            {
+
+                for (int i = 0; i < 8; i++)
+                {
+                    var influence = influences[i];
+
+                    if (influence != null)
+                    {
+                        int index = (int)influence[0];
+                        var value = influence[1];
+
+                        if (index != int.MaxValue && value > 0)
+                        {
+                            if (morphTargets != null && geometry.Attributes.ContainsKey("morphTarget" + i) && (geometry.Attributes["morphTarget" + i] != morphTargets[index]))
+                            {
+                                geometry.SetAttribute("morphTarget" + i, morphTargets[index]);
+                            }
+                            if (morphTargets != null && geometry.Attributes.ContainsKey("morphNormal" + i) && (geometry.Attributes["morphNormal" + i] != morphTargets[index]))
+                            {
+                                geometry.SetAttribute("morphTarget" + i, morphNormals[index]);
+                            }
+
+                            this.MorphInfluences[i] = value;
+                            morphInfluencesSum += value;
+                            continue;
+                        }
+                        else
+                        {
+                            if (morphTargets != null && geometry.Attributes.ContainsKey("morphTarget" + i) == false)
+                            {
+
+                                geometry.deleteAttribute("morphTarget" + i);
+
+                            }
+
+                            if (morphNormals != null && geometry.Attributes.ContainsKey("morphNormal" + i) == false)
+                            {
+
+                                geometry.deleteAttribute("morphNormal" + i);
+
+                            }
+                            this.MorphInfluences[i] = 0;
+                        }
+                    }
+
+                }
+            }
+
+            // GLSL shader uses formula baseinfluence * base + sum(target * influence)
+            // This allows us to switch between absolute morphs and relative morphs without changing shader code
+            // When baseinfluence = 1 - sum(influence), the above is equivalent to sum((target - base) * influence)
+            var MorphBaseInfluence = geometry.MorphTargetsRelative ? 1 : 1 - morphInfluencesSum;
 
             program.GetUniforms().SetValue("morphTargetBaseInfluence", MorphBaseInfluence);
             program.GetUniforms().SetValue("morphTargetInfluences", this.MorphInfluences);

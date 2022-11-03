@@ -191,7 +191,7 @@ namespace THREE.Renderers.gl
             return false;
         }
 
-        private void saveCache(Geometry geometry,BufferAttribute<int> index)
+        private void saveCache(Geometry geometry,BufferAttribute<int> index,GLProgram program,Material material)
         {
             Hashtable cache = new Hashtable();
 
@@ -210,6 +210,11 @@ namespace THREE.Renderers.gl
             currentState.attributes = cache;
 
             currentState.index = index;
+
+            Hashtable programMap = bindingStates[geometry.Id] as Hashtable;
+            Hashtable stateMap = programMap[program.Id] as Hashtable;
+            bool wireframe = material.Wireframe;
+            stateMap[wireframe] = currentState;
         }
         public void InitAttributes()
         {
@@ -236,7 +241,7 @@ namespace THREE.Renderers.gl
 
                 updateBuffers = needsUpdate(geometry, index);
 
-                if (updateBuffers) saveCache(geometry, index);
+                if (updateBuffers) saveCache(geometry, index,program,material);
             }
             else
             {

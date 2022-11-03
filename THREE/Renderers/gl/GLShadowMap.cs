@@ -396,8 +396,8 @@ namespace THREE.Renderers.gl
                 {
                     if (geometry is BufferGeometry)
                     {
-                        GLAttributes attributes = (geometry as BufferGeometry).MorphAttributes;
-                        useMorphing = attributes.Count > 0 && attributes.ContainsKey("position") && (attributes["position"] as BufferAttribute<float>).count > 0;
+                        Hashtable attributes = (geometry as BufferGeometry).MorphAttributes;
+                        useMorphing = attributes.Count > 0 && attributes.ContainsKey("position") && (attributes["position"] as List<BufferAttribute<float>>).Count > 0;
                     }
                     else if (geometry is Geometry)
                     {
