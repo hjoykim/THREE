@@ -36,7 +36,7 @@ namespace THREE.Renderers.gl
             int length = objectInfluences == null ? 0 : objectInfluences.Count;
 
             List<float[]> influences = null;
-            
+
             if (!InfluencesList.ContainsKey(geometry.Id))
             {
                 influences = new List<float[]>();

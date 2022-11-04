@@ -94,6 +94,11 @@ namespace THREEExample.Learning.Chapter10
         }
         public override void Render()
         {
+            if (!imguiManager.ImWantMouse)
+                controls.Enabled = true;
+            else
+                controls.Enabled = false;
+
             controls.Update();
             cube1.Visible = false;
             cubeCamera.Update(this.renderer, scene);

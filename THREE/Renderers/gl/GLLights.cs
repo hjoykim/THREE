@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using THREE.Cameras;
 using THREE.Lights;
 using THREE.Loaders;
 using THREE.Math;
-using THREE.Renderers.Shaders;
 using THREE.Textures;
 namespace THREE.Renderers.gl
 {
@@ -150,7 +146,7 @@ namespace THREE.Renderers.gl
                     };
 
             Vector3 Zero = Vector3.Zero();
-            state["probe"] = new List<Vector3>() { Zero, Zero, Zero, Zero, Zero, Zero, Zero, Zero, Zero };
+            state["probe"] = new Vector3[] { Zero, Zero, Zero, Zero, Zero, Zero, Zero, Zero, Zero };
         }
 
         public void Setup(List<Light> lights, Camera camera)
@@ -225,7 +221,7 @@ namespace THREE.Renderers.gl
                     Vector3[] probe = (Vector3[])state["probe"];
                     for (int j = 0; j < 9; j++)
                     {
-                        probe[j] += light.sh.Coefficients[j] * intensity;
+                        probe[j] = light.sh.Coefficients[j] * intensity;
                     }
                 }
                 else if (light is DirectionalLight)

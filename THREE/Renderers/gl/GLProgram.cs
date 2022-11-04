@@ -550,7 +550,8 @@ namespace THREE.Renderers.gl
                 case 3003://Constants.LogLuvEncoding
                     return new string[2] { "LogLuv", "( value )" };
                 default:
-                    throw new Exception("Unsupported encoding:" + encoding);
+                    Debug.WriteLine("Unsupported encoding:" + encoding);
+                    return new string[2] { "Linear", "( Value )" };
             }
         }
 
@@ -600,20 +601,22 @@ namespace THREE.Renderers.gl
 			        toneMappingName = "Reinhard";
 			        break;
 
-		        case 3 : //Constants.Uncharted2ToneMapping:
-			        toneMappingName = "Uncharted2";
+		        case 3: //Constants.CineonToneMapping:
+                    toneMappingName = "OptimizedCineon";
 			        break;
 
-		        case 4 : //Constants.CineonToneMapping:
-			        toneMappingName = "OptimizedCineon";
+		        case 4: //Constants.ACESFilmicToneMapping:
+                    toneMappingName = "ACESFilmic";
 			        break;
 
-		        case 5 : //Constants.ACESFilmicToneMapping:
-			        toneMappingName = "ACESFilmic";
+		        case 5 : //Constants.CustomToneMapping:
+			        toneMappingName = "Custom";
 			        break;
 
 		        default:
-			        throw new Exception( "unsupported toneMapping: " + toneMapping );
+			        Trace.WriteLine( "unsupported toneMapping: " + toneMapping );
+                    toneMappingName = "Linear";
+                    break;
 
 	        }
 
@@ -841,14 +844,14 @@ namespace THREE.Renderers.gl
                         envMapTypeDefine = "ENVMAP_TYPE_CUBE_UV";
                         break;
 
-                    case 303://Constants.EquirectangularReflectionMapping:
-                    case 304://Constants.EquirectangularRefractionMapping:
-                        envMapTypeDefine = "ENVMAP_TYPE_EQUIREC";
-                        break;
+                    //case 303://Constants.EquirectangularReflectionMapping:
+                    //case 304://Constants.EquirectangularRefractionMapping:
+                    //    envMapTypeDefine = "ENVMAP_TYPE_EQUIREC";
+                    //    break;
 
-                    case 305://Constants.SphericalReflectionMapping:
-                        envMapTypeDefine = "ENVMAP_TYPE_SPHERE";
-                        break;
+                    //case 305://Constants.SphericalReflectionMapping:
+                    //    envMapTypeDefine = "ENVMAP_TYPE_SPHERE";
+                    //    break;
 
                 }
 

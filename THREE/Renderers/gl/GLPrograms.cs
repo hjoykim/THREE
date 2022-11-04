@@ -50,10 +50,7 @@ namespace THREE.Renderers.gl
         private GLClipping clipping;
         public GLPrograms(GLRenderer renderer,GLCubeMap cubeMaps, GLExtensions extension, GLCapabilities capabilities,GLBindingStates bindingStates,GLClipping clipping)
         {
-            this.isGL2 = capabilities.IsGL2;
-            this.logarithmicDepthBuffer = capabilities.logarithmicDepthBuffer;
-            this.floatVertexTextures = capabilities.floatVertexTextures;
-            this.precision = capabilities.precision;
+           
             this.maxVertexUniforms = capabilities.maxVertexUniforms;
             this.vertexTextures = capabilities.vertexTextures;
 
@@ -64,6 +61,12 @@ namespace THREE.Renderers.gl
             this.cubeMaps = cubeMaps;
             this.bindingStates = bindingStates;
             this.clipping = clipping;
+
+            this.isGL2 = capabilities.IsGL2;
+            this.logarithmicDepthBuffer = capabilities.logarithmicDepthBuffer;
+            this.floatVertexTextures = capabilities.floatVertexTextures;
+
+            this.precision = capabilities.precision;
 
             shaderIDs.Add("MeshDepthMaterial", "depth");
 		    shaderIDs.Add("MeshDistanceMaterial", "distanceRGBA");
@@ -82,11 +85,11 @@ namespace THREE.Renderers.gl
             shaderIDs.Add("SpriteMaterial", "sprite");
 
             parameterNames = new List<string>() {
-                "precision", "isGL2", "supportsVertexTextures", "outputEncoding", "instancing", "numMultiviewViews",
+                "precision", "isGL2", "supportsVertexTextures", "outputEncoding", "instancing", "instancingColor",
 		        "map", "mapEncoding", "matcap", "matcapEncoding", "envMap", "envMapMode", "envMapEncoding", "envMapCubeUV",
-		        "lightMap", "aoMap", "emissiveMap", "emissiveMapEncoding", "bumpMap", "normalMap", "objectSpaceNormalMap", "tangentSpaceNormalMap", "clearcoatNormalMap", "displacementMap", "specularMap",
+		        "lightMap", "lightMapEncoding","aoMap", "emissiveMap", "emissiveMapEncoding", "bumpMap", "normalMap", "objectSpaceNormalMap", "tangentSpaceNormalMap", "clearcoatNormalMap", "displacementMap", "specularMap",
 		        "roughnessMap", "metalnessMap", "gradientMap",
-		        "alphaMap", "combine", "vertexColors", "vertexTangents", "vertexUvs", "fog", "useFog", "fogExp2",
+		        "alphaMap", "combine", "vertexColors", "vertexTangents", "vertexUvs", "uvsVertexOnly","fog", "useFog", "fogExp2",
 		        "flatShading", "sizeAttenuation", "logarithmicDepthBuffer", "skinning",
 		        "maxBones", "useVertexTexture", "morphTargets", "morphNormals",
 		        "maxMorphTargets", "maxMorphNormals", "premultipliedAlpha",
@@ -98,28 +101,37 @@ namespace THREE.Renderers.gl
                 
         }
 
-        public GLUniforms GetUniforms(Material material)
+        private int GetMaxBones(SkinnedMesh skinnedMesh)
         {
-            string shaderId = "";
-            
-            if(shaderIDs.ContainsKey(material.type))
-                shaderId=shaderIDs[material.type];
+            var skeleton = skinnedMesh.Skeleton;
+            var bones = skeleton.Bones;
 
-           
-
-            GLUniforms uniforms;
-
-            if (!string.IsNullOrEmpty(shaderId))
+            if (this.floatVertexTextures)
             {
-                gl.GLShader shader = (gl.GLShader)ShaderLib[shaderId];
-                uniforms = (GLUniforms)UniformsUtils.CloneUniforms(shader.Uniforms);
+                return 1024;
             }
             else
             {
-                uniforms = (material as ShaderMaterial).Uniforms;
-            }
+                // default for when object is not specified
+                // ( for example when prebuilding shader to be used with multiple objects )
+                //
+                //  - leave some extra space for other uniforms
+                //  - limit here is ANGLE's 254 max uniform vectors
+                //    (up to 54 should be safe)
 
-            return uniforms;
+                var nVertexUniforms = maxVertexUniforms;
+                var nVertexMatrices = (int)System.Math.Floor((float)((nVertexUniforms - 20) / 4));
+
+                var maxBones = System.Math.Min(nVertexMatrices, bones.Length);
+
+                if (maxBones < bones.Length)
+                {
+                    Trace.TraceWarning("THREE.Renderers.GLRenderer: Skeleton has" + bones.Length + " bones. This GPU supports " + maxBones + ".");
+                    return 0;
+                }
+
+                return maxBones;
+            }
         }
         private int GetTextureEncodingFromMap(Texture map)
         {
@@ -135,12 +147,14 @@ namespace THREE.Renderers.gl
             }
             else if (map is GLRenderTarget)
             {
-            //    Trace.TraceWarning("THREE.Renderers.gl.GLPrograms.GetTextureEncodingFromMap: don't use render targets as textures. Use their property instead.");
+                //    Trace.TraceWarning("THREE.Renderers.gl.GLPrograms.GetTextureEncodingFromMap: don't use render targets as textures. Use their property instead.");
                 encoding = (map as GLRenderTarget).Texture.Encoding;
-            }           
+            }
 
             return encoding;
         }
+       
+      
         public Hashtable GetParameter(Material material, GLLights lights, List<Light> shadows, Scene scene,Object3D object3D)
         {
 
@@ -154,7 +168,7 @@ namespace THREE.Renderers.gl
             if (shaderIDs.ContainsKey(material.type))
                 shaderID = shaderIDs[material.type];
 
-            int maxBones = object3D is SkinnedMesh ? AllocateBones((SkinnedMesh)object3D) : 0;
+            int maxBones = object3D is SkinnedMesh ? GetMaxBones((SkinnedMesh)object3D) : 0;
                         
             if (!string.IsNullOrEmpty(material.Precision))
             {
@@ -186,11 +200,11 @@ namespace THREE.Renderers.gl
             //int numMultiviewViews = currentRenderTarget != null && currentRenderTarget.IsGLMultiviewRenderTarget ? currentRenderTarget.NumViews : 0;
 
             Hashtable parameters = new Hashtable();
-                parameters.Add("isGL2",isGL2);
+            parameters.Add("isGL2",isGL2);
 
-                parameters.Add("shaderId",shaderID);
+            parameters.Add("shaderId",shaderID);
 
-                parameters.Add("shaderName", material.type);
+            parameters.Add("shaderName", material.type);
 
             parameters.Add("vertexShader", vertexShader);
             parameters.Add("fragmentShader", fragmentShader);
@@ -198,146 +212,146 @@ namespace THREE.Renderers.gl
             parameters.Add("isRawShaderMaterial", material is RawShaderMaterial);
             parameters.Add("glslVersion", material.glslVersion);
             
-                parameters.Add("precision",precision);
+            parameters.Add("precision",precision);
 
-                parameters.Add("instancing", object3D is InstancedMesh ? true:false);
+            parameters.Add("instancing", object3D is InstancedMesh ? true:false);
             parameters.Add("instancingColor", object3D is InstancedMesh && (object3D as InstancedMesh).InstanceColor != null);
-                parameters.Add("supportsVertexTextures",vertexTextures);
+            parameters.Add("supportsVertexTextures",vertexTextures);
 
-                //parameters.Add("numMultiviewViews",numMultiviewViews);
+            //parameters.Add("numMultiviewViews",numMultiviewViews);
 
-                parameters.Add("outputEncoding", GetTextureEncodingFromMap(currentRenderTarget == null ? null : currentRenderTarget.Texture));
-
-                parameters.Add("map",material.Map!=null);
-                
-                parameters.Add("mapEncoding",GetTextureEncodingFromMap(material.Map));
-
-                parameters.Add("matcap", material is MeshMatcapMaterial ? (material as MeshMatcapMaterial).Matcap!=null:false);
-
-                parameters.Add("matcapEncoding",material is MeshMatcapMaterial ? GetTextureEncodingFromMap((material as MeshMatcapMaterial).Matcap):Constants.LinearEncoding);
-
-                parameters.Add("envMap", envMap!=null);
-
-                parameters.Add("envMapMode", material.EnvMap!=null? material.EnvMap.Mapping :(int?)null);
-
-                parameters.Add("envMapEncoding", GetTextureEncodingFromMap( material.EnvMap));
-
-                parameters.Add("envMapCubeUV",material.EnvMap!=null && ( ( material.EnvMap.Mapping == Constants.CubeUVReflectionMapping ) || ( material.EnvMap.Mapping == Constants.CubeUVRefractionMapping )));
-
-                parameters.Add("lightMap", material.LightMap!=null);
-
+            parameters.Add("outputEncoding", GetTextureEncodingFromMap(currentRenderTarget == null ? null : currentRenderTarget.Texture));
+            
+            parameters.Add("map",material.Map!=null);
+            
+            parameters.Add("mapEncoding",GetTextureEncodingFromMap(material.Map));
+            
+            parameters.Add("matcap", material is MeshMatcapMaterial ? (material as MeshMatcapMaterial).Matcap!=null:false);
+            
+            parameters.Add("matcapEncoding",material is MeshMatcapMaterial ? GetTextureEncodingFromMap((material as MeshMatcapMaterial).Matcap):Constants.LinearEncoding);
+            
+            parameters.Add("envMap", envMap!=null);
+            
+            parameters.Add("envMapMode", material.EnvMap!=null? material.EnvMap.Mapping :(int?)null);
+            
+            parameters.Add("envMapEncoding", GetTextureEncodingFromMap( material.EnvMap));
+            
+            parameters.Add("envMapCubeUV",material.EnvMap!=null && ( ( material.EnvMap.Mapping == Constants.CubeUVReflectionMapping ) || ( material.EnvMap.Mapping == Constants.CubeUVRefractionMapping )));
+            
+            parameters.Add("lightMap", material.LightMap!=null);
+            
             parameters.Add("lightMapEncoding", GetTextureEncodingFromMap(material.LightMap));
 
-                parameters.Add("aoMap", material.AoMap!=null);
+            parameters.Add("aoMap", material.AoMap!=null);
 
-                parameters.Add("emissiveMap", material.EmissiveMap!=null);
+            parameters.Add("emissiveMap", material.EmissiveMap!=null);
 
-                parameters.Add("emissiveMapEncoding", GetTextureEncodingFromMap( material.EmissiveMap));
+            parameters.Add("emissiveMapEncoding", GetTextureEncodingFromMap( material.EmissiveMap));
 
-                parameters.Add("bumpMap",material.BumpMap!=null);
+            parameters.Add("bumpMap",material.BumpMap!=null);
 
-                parameters.Add("normalMap",material.NormalMap!=null);
+            parameters.Add("normalMap",material.NormalMap!=null);
 
-                parameters.Add("objectSpaceNormalMap", material.NormalMapType == Constants.ObjectSpaceNormalMap);
+            parameters.Add("objectSpaceNormalMap", material.NormalMapType == Constants.ObjectSpaceNormalMap);
 
-                parameters.Add("tangentSpaceNormalMap", material.NormalMapType == Constants.TangentSpaceNormalMap);
+            parameters.Add("tangentSpaceNormalMap", material.NormalMapType == Constants.TangentSpaceNormalMap);
 
             parameters.Add("clearcoatMap", material.ClearcoatMap != null);
 
             parameters.Add("clearcoatRoughnessMap", material.ClearcoatRoughnessMap != null);
 
-                parameters.Add("clearcoatNormalMap", material.ClearcoatNormalMap!=null);
-                
-                parameters.Add("displacementMap", material.DisplacementMap!=null);
-                
-                parameters.Add("roughnessMap", material.RoughnessMap!=null);
-                
-                parameters.Add("metalnessMap", material.MetalnessMap!=null);
-                
-                parameters.Add("specularMap", material.SpecularMap!=null);
+            parameters.Add("clearcoatNormalMap", material.ClearcoatNormalMap!=null);
+            
+            parameters.Add("displacementMap", material.DisplacementMap!=null);
+            
+            parameters.Add("roughnessMap", material.RoughnessMap!=null);
+            
+            parameters.Add("metalnessMap", material.MetalnessMap!=null);
+            
+            parameters.Add("specularMap", material.SpecularMap!=null);
 
-                parameters.Add("alphaMap",  material.AlphaMap!=null);
+            parameters.Add("alphaMap",  material.AlphaMap!=null);
 
-                parameters.Add("gradientMap",material.GradientMap!=null);
+            parameters.Add("gradientMap",material.GradientMap!=null);
 
-                parameters.Add("sheen", material.Sheen!=null);
+            parameters.Add("sheen", material.Sheen!=null);
 
-                parameters.Add("combine", material.Combine != 0 ? material.Combine : (int?)null);
+            parameters.Add("combine", material.Combine != 0 ? material.Combine : (int?)null);
 
             parameters.Add("transmissionMap", material.TransmissionMap!=null);
 
                 
 
-                parameters.Add("vertexTangents", ( material.NormalMap!=null && material.VertexTangents ));
-
-                parameters.Add("vertexColors", material.VertexColors);
-                
-                parameters.Add("vertexUvs", material.Map!=null || material.BumpMap!=null || material.NormalMap!=null || material.SpecularMap!=null || material.AlphaMap!=null || material.EmissiveMap!=null || material.RoughnessMap!=null || material.MetalnessMap!=null || material.ClearcoatNormalMap!=null);
-
-                parameters.Add("uvsVertexOnly",!(material.Map!=null || material.BumpMap!=null || material.NormalMap!=null || material.SpecularMap!=null || material.AlphaMap!=null || material.EmissiveMap!=null || material.RoughnessMap!=null || material.MetalnessMap!=null || material.ClearcoatNormalMap!=null ) && material.DisplacementMap!=null);
-
-                parameters.Add("fog", fog!=null);
-                
-                parameters.Add("useFog", material.Fog);
-
-                parameters.Add("fogExp2", ( fog!=null && fog is FogExp2 ));
-
-                parameters.Add("flatShading", material.FlatShading);
-
-                parameters.Add("sizeAttenuation", material.SizeAttenuation);
-
-                parameters.Add("logarithmicDepthBuffer", logarithmicDepthBuffer);
-
-                parameters.Add("skinning", material.Skinning && maxBones > 0);
-                
-                parameters.Add("maxBones", maxBones);
-
-                parameters.Add("useVertexTexture", floatVertexTextures);
-
-                parameters.Add("morphTargets", material.MorphTargets);
-
-                parameters.Add("morphNormals", material.MorphNormals);
-                
-                parameters.Add("maxMorphTargets", renderer.MaxMorphTargets);
-
-                parameters.Add("maxMorphNormals", renderer.MaxMorphNormals);
-
-                parameters.Add("numDirLights", lights.state["directional"] != null ? (lights.state["directional"] as Hashtable[]).Length : 0);
-
-                parameters.Add("numPointLights", lights.state["point"] != null ? (lights.state["point"] as Hashtable[]).Length : 0);
-
-                parameters.Add("numSpotLights", lights.state["spot"] != null ? (lights.state["spot"] as Hashtable[]).Length : 0);
-
-                parameters.Add("numRectAreaLights", lights.state["rectArea"] != null ? (lights.state["rectArea"] as Hashtable[]).Length : 0);
-
-                parameters.Add("numHemiLights", lights.state["hemi"] != null ? (lights.state["hemi"] as Hashtable[]).Length : 0);
-
-                parameters.Add("numDirLightShadows", lights.state["directionalShadowMap"] != null ? (lights.state["directionalShadowMap"] as Texture[]).Length : 0);
-
-                parameters.Add("numPointLightShadows", lights.state["pointShadowMap"] != null ? (lights.state["pointShadowMap"] as Texture[]).Length : 0);
-
-                parameters.Add("numSpotLightShadows", lights.state["spotShadowMap"] != null ? (lights.state["spotShadowMap"] as Texture[]).Length : 0);
-
-                parameters.Add("numClippingPlanes", clipping.numPlanes);
-                parameters.Add("numClipIntersection", clipping.numIntersection);
-
-                parameters.Add("dithering", material.Dithering);
-
-                parameters.Add("shadowMapEnabled", renderer.ShadowMap.Enabled && shadows.Count > 0);
-                parameters.Add("shadowMapType", renderer.ShadowMap.type);
-
-                parameters.Add("toneMapping", material.ToneMapped ? renderer.ToneMapping : Constants.NoToneMapping);
-                parameters.Add("physicallyCorrectLights", renderer.PhysicallyCorrectLights);
-
-                parameters.Add("premultipliedAlpha", material.PremultipliedAlpha);
-
-                parameters.Add("alphaTest", material.AlphaTest);
-                parameters.Add("doubleSided", material.Side == Constants.DoubleSide);
-                parameters.Add("flipSided", material.Side == Constants.BackSide);
-
-                parameters.Add("depthPacking",material is MeshDepthMaterial ? (material as MeshDepthMaterial).DepthPacking : 0);
-
-            parameters.Add("indexOfAttributeName", material.IndexOfAttributeName);
+            parameters.Add("vertexTangents", ( material.NormalMap!=null && material.VertexTangents ));
+            
+            parameters.Add("vertexColors", material.VertexColors);
+            
+            parameters.Add("vertexUvs", material.Map!=null || material.BumpMap!=null || material.NormalMap!=null || material.SpecularMap!=null || material.AlphaMap!=null || material.EmissiveMap!=null || material.RoughnessMap!=null || material.MetalnessMap!=null || material.ClearcoatNormalMap!=null);
+            
+            parameters.Add("uvsVertexOnly",!(material.Map!=null || material.BumpMap!=null || material.NormalMap!=null || material.SpecularMap!=null || material.AlphaMap!=null || material.EmissiveMap!=null || material.RoughnessMap!=null || material.MetalnessMap!=null || material.ClearcoatNormalMap!=null ) && material.DisplacementMap!=null);
+            
+            parameters.Add("fog", fog!=null);
+            
+            parameters.Add("useFog", material.Fog);
+            
+            parameters.Add("fogExp2", ( fog!=null && fog is FogExp2 ));
+            
+            parameters.Add("flatShading", material.FlatShading);
+            
+            parameters.Add("sizeAttenuation", material.SizeAttenuation);
+            
+            parameters.Add("logarithmicDepthBuffer", logarithmicDepthBuffer);
+            
+            parameters.Add("skinning", material.Skinning && maxBones > 0);
+            
+            parameters.Add("maxBones", maxBones);
+            
+            parameters.Add("useVertexTexture", floatVertexTextures);
+            
+            parameters.Add("morphTargets", material.MorphTargets);
+            
+            parameters.Add("morphNormals", material.MorphNormals);
+            
+            parameters.Add("maxMorphTargets", renderer.MaxMorphTargets);
+            
+            parameters.Add("maxMorphNormals", renderer.MaxMorphNormals);
+            
+            parameters.Add("numDirLights", lights.state["directional"] != null ? (lights.state["directional"] as Hashtable[]).Length : 0);
+            
+            parameters.Add("numPointLights", lights.state["point"] != null ? (lights.state["point"] as Hashtable[]).Length : 0);
+            
+            parameters.Add("numSpotLights", lights.state["spot"] != null ? (lights.state["spot"] as Hashtable[]).Length : 0);
+            
+            parameters.Add("numRectAreaLights", lights.state["rectArea"] != null ? (lights.state["rectArea"] as Hashtable[]).Length : 0);
+            
+            parameters.Add("numHemiLights", lights.state["hemi"] != null ? (lights.state["hemi"] as Hashtable[]).Length : 0);
+            
+            parameters.Add("numDirLightShadows", lights.state["directionalShadowMap"] != null ? (lights.state["directionalShadowMap"] as Texture[]).Length : 0);
+            
+            parameters.Add("numPointLightShadows", lights.state["pointShadowMap"] != null ? (lights.state["pointShadowMap"] as Texture[]).Length : 0);
+            
+            parameters.Add("numSpotLightShadows", lights.state["spotShadowMap"] != null ? (lights.state["spotShadowMap"] as Texture[]).Length : 0);
+            
+            parameters.Add("numClippingPlanes", clipping.numPlanes);
+            parameters.Add("numClipIntersection", clipping.numIntersection);
+            
+            parameters.Add("dithering", material.Dithering);
+            
+            parameters.Add("shadowMapEnabled", renderer.ShadowMap.Enabled && shadows.Count > 0);
+            parameters.Add("shadowMapType", renderer.ShadowMap.type);
+            
+            parameters.Add("toneMapping", material.ToneMapped ? renderer.ToneMapping : Constants.NoToneMapping);
+            parameters.Add("physicallyCorrectLights", renderer.PhysicallyCorrectLights);
+            
+            parameters.Add("premultipliedAlpha", material.PremultipliedAlpha);
+            
+            parameters.Add("alphaTest", material.AlphaTest);
+            parameters.Add("doubleSided", material.Side == Constants.DoubleSide);
+            parameters.Add("flipSided", material.Side == Constants.BackSide);
+            
+            parameters.Add("depthPacking",material is MeshDepthMaterial ? (material as MeshDepthMaterial).DepthPacking : 0);
+            
+            parameters.Add("indexOfAttributeName", material.IndexOAttributeName);
 
             parameters.Add("extensionDerivatives", (material is ShaderMaterial) && (material as ShaderMaterial).extensions.derivatives);
 
@@ -358,7 +372,6 @@ namespace THREE.Renderers.gl
 
             return parameters;
         }
-
         public string getProgramCacheKey(Material material, Hashtable parameters)
         {
             var array = new List<string>();
@@ -380,7 +393,7 @@ namespace THREE.Renderers.gl
                     array.Add((string)entry.Key);
                     array.Add((string)entry.Value);
                 }
-              
+
             }
 
             if ((bool)parameters["isRawShaderMaterial"] == false)
@@ -400,7 +413,29 @@ namespace THREE.Renderers.gl
 
             return string.Join(",", array);
         }
+        public GLUniforms GetUniforms(Material material)
+        {
+            string shaderId = "";
 
+            if (shaderIDs.ContainsKey(material.type))
+                shaderId = shaderIDs[material.type];
+
+
+
+            GLUniforms uniforms;
+
+            if (!string.IsNullOrEmpty(shaderId))
+            {
+                gl.GLShader shader = (gl.GLShader)ShaderLib[shaderId];
+                uniforms = (GLUniforms)UniformsUtils.CloneUniforms(shader.Uniforms);
+            }
+            else
+            {
+                uniforms = (material as ShaderMaterial).Uniforms;
+            }
+
+            return uniforms;
+        }
         public GLProgram AcquireProgram(Hashtable parameters, string cacheKey)
         {
             GLProgram program = null;
@@ -418,12 +453,15 @@ namespace THREE.Renderers.gl
 
             if (program == null)
             {
-                program = new GLProgram(renderer, cacheKey, parameters,bindingStates);
+                program = new GLProgram(renderer, cacheKey, parameters, bindingStates);
                 Programs.Add(program);
             }
 
             return program;
         }
+       
+
+       
 
         public void ReleaseProgram(GLProgram program)
         {
@@ -435,38 +473,7 @@ namespace THREE.Renderers.gl
             }
         }
 
-        private int AllocateBones(SkinnedMesh skinnedMesh)
-        {
-            var skeleton = skinnedMesh.Skeleton;
-            var bones = skeleton.Bones;
-
-            if (this.floatVertexTextures)
-            {
-                return 2014;
-            }
-            else
-            {
-                // default for when object is not specified
-                // ( for example when prebuilding shader to be used with multiple objects )
-                //
-                //  - leave some extra space for other uniforms
-                //  - limit here is ANGLE's 254 max uniform vectors
-                //    (up to 54 should be safe)
-
-                var nVertexUniforms = maxVertexUniforms;
-                var nVertexMatrices = (int)System.Math.Floor((float)((nVertexUniforms - 20) / 4));
-
-                var maxBones = System.Math.Min(nVertexMatrices, bones.Length);
-
-                if (maxBones < bones.Length)
-                {
-                    Trace.TraceWarning("THREE.Renderers.GLRenderer: Skeleton has" + bones.Length + " bones. This GPU supports " + maxBones + ".");
-                    return 0;
-                }
-
-                return maxBones;
-            }
-        }
+       
 
 
     }

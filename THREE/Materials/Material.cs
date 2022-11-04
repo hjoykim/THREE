@@ -129,7 +129,7 @@ namespace THREE.Materials
 
         public string glslVersion ="";
 
-        public string IndexOfAttributeName;
+        public string IndexOAttributeName;
 
         public bool MorphTargets ;
 
@@ -341,7 +341,7 @@ namespace THREE.Materials
 
             glslVersion = source.glslVersion;
 
-            IndexOfAttributeName = source.IndexOfAttributeName;
+            IndexOAttributeName = source.IndexOAttributeName;
 
             MorphTargets = source.MorphTargets;
 

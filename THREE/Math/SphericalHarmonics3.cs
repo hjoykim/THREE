@@ -83,5 +83,33 @@ namespace THREE.Math
         {
             return new SphericalHarmonics3(this);
         }
+
+        // evaluate the basis functions
+        // shBasis is an Array[ 9 ]
+        public static void GetBasisAt(Vector3 normal, float[] shBasis)
+        {
+
+            // normal is assumed to be unit length
+
+            var x = normal.X;
+            var y = normal.Y;
+            var z = normal.Z;
+
+            // band 0
+            shBasis[0] = 0.282095f;
+
+            // band 1
+            shBasis[1] = 0.488603f * y;
+            shBasis[2] = 0.488603f * z;
+            shBasis[3] = 0.488603f * x;
+
+            // band 2
+            shBasis[4] = 1.092548f * x * y;
+            shBasis[5] = 1.092548f * y * z;
+            shBasis[6] = 0.315392f * (3 * z * z - 1);
+            shBasis[7] = 1.092548f * x * z;
+            shBasis[8] = 0.546274f * (x * x - y * y);
+
+        }
     }
 }

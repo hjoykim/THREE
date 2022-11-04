@@ -14,7 +14,7 @@ using Matrix4 = THREE.Math.Matrix4;
 namespace THREEExample.Learning.Chapter06
 {
     [Example("07-Text-Geometry", ExampleCategory.LearnThreeJS, "Chapter06")]
-    public class TextGeometryExample : MaterialExampleTemplate
+    public class TextGeometryExample : Chapter04.MaterialExampleTemplate
     {
         public Mesh appliedMesh;
 

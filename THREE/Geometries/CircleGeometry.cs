@@ -55,23 +55,23 @@ namespace THREE.Geometries
 
             List<int> indices = new List<int>();
 
-            List<Vector3> vertices = new List<Vector3>();
+            List<float> vertices = new List<float>();
 
-            List<Vector3> normals = new List<Vector3>();
+            List<float> normals = new List<float>();
 
-            List<Vector2> uvs = new List<Vector2>();
+            List<float> uvs = new List<float>();
 
-            vertices.Add(new Vector3(0, 0, 0));
+            vertices.Add(0,0,0);
 
-            normals.Add(new Vector3(0, 0, 1));
+            normals.Add(0,0,1);
 
-            uvs.Add(new Vector2(0.5f, 0.5f));
+            uvs.Add(0.5f, 0.5f);
 
             Vector3 vertex = new Vector3();
 
             Vector2 uv = new Vector2();
 
-            for (int s = 0,i=0; s <= segments; s++,i++)
+            for (int s = 0,i=3; s <= segments; s++,i+=3)
             {
 
                 var segment = thetaStart + s / segments * thetaLength;
@@ -81,18 +81,18 @@ namespace THREE.Geometries
                 vertex.X = (float)(radius * System.Math.Cos(segment.Value));
                 vertex.Y = (float)(radius * System.Math.Sin(segment.Value));
 
-                vertices.Add((Vector3)vertex.Clone());
+                vertices.Add(vertex.X,vertex.Y,vertex.Z);
 
                 // normal
 
-                normals.Add(new Vector3(0, 0, 1));
+                normals.Add(0, 0, 1);
 
                 // uvs
 
-                uv.X = (vertices[i].X / radius.Value + 1) / 2.0f;
-                uv.Y = (vertices[i+1].X / radius.Value + 1) / 2.0f;
+                uv.X = (vertices[i] / radius.Value + 1) / 2.0f;
+                uv.Y = (vertices[i+1] / radius.Value + 1) / 2.0f;
 
-                uvs.Add((Vector2)uv.Clone());
+                uvs.Add(uv.X, uv.Y);
 
             }
 
@@ -105,23 +105,15 @@ namespace THREE.Geometries
 
             // build geometry
 
-            this.SetIndex(indices);
+            this.SetIndex(indices);              
 
-            BufferAttribute<float> positions = new BufferAttribute<float>();
-            positions.ItemSize = 3;
-            positions.Type = typeof(float);            
+            this.SetAttribute("position", new BufferAttribute<float>(vertices.ToArray(),3));
 
-            this.SetAttribute("position", positions.CopyVector3sArray(vertices.ToArray()));
 
-            BufferAttribute<float> normalAttributes = new BufferAttribute<float>();
-            normalAttributes.ItemSize = 3;
-            normalAttributes.Type = typeof(float);
-            this.SetAttribute("normal", normalAttributes.CopyVector3sArray(normals.ToArray()));
+            this.SetAttribute("normal", new BufferAttribute<float>(normals.ToArray(),3));
 
-            BufferAttribute<float> uvAttributes = new BufferAttribute<float>();
-            uvAttributes.ItemSize = 2;
-            uvAttributes.Type = typeof(float);
-            this.SetAttribute("uv",uvAttributes.CopyVector2sArray(uvs.ToArray()));
+
+            this.SetAttribute("uv",new BufferAttribute<float>(uvs.ToArray(),2));
 
         }
     }

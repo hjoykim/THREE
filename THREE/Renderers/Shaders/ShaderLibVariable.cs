@@ -53,7 +53,6 @@ void main() {
 
 
 ";
-
 public static string background_vert = @"
 
 varying vec2 vUv;
@@ -97,7 +96,6 @@ void main() {
 
 
 ";
-
 public static string cube_frag = @"
 
 #include <envmap_common_pars_fragment>
@@ -150,7 +148,6 @@ void main() {
 
 
 ";
-
 public static string cube_vert = @"
 
 varying vec3 vWorldDirection;
@@ -198,7 +195,6 @@ void main() {
 
 
 ";
-
 public static string depth_frag = @"
 
 #if DEPTH_PACKING == 3200
@@ -280,7 +276,6 @@ void main() {
 
 
 ";
-
 public static string depth_vert = @"
 
 #include <common>
@@ -352,7 +347,6 @@ void main() {
 
 
 ";
-
 public static string distanceRGBA_frag = @"
 
 #define DISTANCE
@@ -417,7 +411,6 @@ void main () {
 
 
 ";
-
 public static string distanceRGBA_vert = @"
 
 #define DISTANCE
@@ -487,7 +480,6 @@ void main() {
 
 
 ";
-
 public static string equirect_frag = @"
 
 uniform sampler2D tEquirect;
@@ -541,7 +533,6 @@ void main() {
 
 
 ";
-
 public static string equirect_vert = @"
 
 varying vec3 vWorldDirection;
@@ -587,7 +578,6 @@ void main() {
 
 
 ";
-
 public static string linedashed_frag = @"
 
 uniform vec3 diffuse;
@@ -661,7 +651,6 @@ void main() {
 
 
 ";
-
 public static string linedashed_vert = @"
 
 uniform float scale;
@@ -720,7 +709,6 @@ void main() {
 
 
 ";
-
 public static string meshbasic_frag = @"
 
 uniform vec3 diffuse;
@@ -825,7 +813,6 @@ void main() {
 
 
 ";
-
 public static string meshbasic_vert = @"
 
 #include <common>
@@ -898,7 +885,6 @@ void main() {
 
 
 ";
-
 public static string meshlambert_frag = @"
 
 uniform vec3 diffuse;
@@ -1028,7 +1014,6 @@ void main() {
 
 
 ";
-
 public static string meshlambert_vert = @"
 
 #define LAMBERT
@@ -1111,7 +1096,6 @@ void main() {
 
 
 ";
-
 public static string meshmatcap_frag = @"
 
 #define MATCAP
@@ -1213,7 +1197,6 @@ void main() {
 
 
 ";
-
 public static string meshmatcap_vert = @"
 
 #define MATCAP
@@ -1297,7 +1280,6 @@ void main() {
 
 
 ";
-
 public static string meshphong_frag = @"
 
 #define PHONG
@@ -1404,7 +1386,6 @@ void main() {
 
 
 ";
-
 public static string meshphong_vert = @"
 
 #define PHONG
@@ -1495,7 +1476,6 @@ void main() {
 
 
 ";
-
 public static string meshphysical_frag = @"
 
 #define STANDARD
@@ -1654,7 +1634,6 @@ void main() {
 
 
 ";
-
 public static string meshphysical_vert = @"
 
 #define STANDARD
@@ -1757,15 +1736,12 @@ void main() {
 
 
 ";
-
 public static string meshtoon_frag = @"
 
 #define TOON
 
 uniform vec3 diffuse;
 uniform vec3 emissive;
-uniform vec3 specular;
-uniform float shininess;
 uniform float opacity;
 
 #include <common>
@@ -1787,7 +1763,6 @@ uniform float opacity;
 #include <shadowmap_pars_fragment>
 #include <bumpmap_pars_fragment>
 #include <normalmap_pars_fragment>
-#include <specularmap_pars_fragment>
 #include <logdepthbuf_pars_fragment>
 #include <clipping_planes_pars_fragment>
 
@@ -1804,7 +1779,6 @@ void main() {
 	#include <color_fragment>
 	#include <alphamap_fragment>
 	#include <alphatest_fragment>
-	#include <specularmap_fragment>
 	#include <normal_fragment_begin>
 	#include <normal_fragment_maps>
 	#include <emissivemap_fragment>
@@ -1818,7 +1792,7 @@ void main() {
 	// modulation
 	#include <aomap_fragment>
 
-	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;
+	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + totalEmissiveRadiance;
 
 	gl_FragColor = vec4( outgoingLight, diffuseColor.a );
 
@@ -1859,8 +1833,7 @@ void main() {
 
 
 
-";
-
+";		
 public static string meshtoon_vert = @"
 
 #define TOON
@@ -1949,7 +1922,6 @@ void main() {
 
 
 ";
-
 public static string normal_frag = @"
 
 #define NORMAL
@@ -2023,7 +1995,6 @@ void main() {
 
 
 ";
-
 public static string normal_vert = @"
 
 #define NORMAL
@@ -2124,7 +2095,6 @@ void main() {
 
 
 ";
-
 public static string points_frag = @"
 
 uniform vec3 diffuse;
@@ -2190,7 +2160,6 @@ void main() {
 
 
 ";
-
 public static string points_vert = @"
 
 uniform float size;
@@ -2257,7 +2226,6 @@ void main() {
 
 
 ";
-
 public static string shadow_frag = @"
 
 uniform vec3 color;
@@ -2311,7 +2279,6 @@ void main() {
 
 
 ";
-
 public static string shadow_vert = @"
 
 #include <common>
@@ -2365,7 +2332,6 @@ void main() {
 
 
 ";
-
 public static string sprite_frag = @"
 
 uniform vec3 diffuse;
@@ -2431,7 +2397,6 @@ void main() {
 
 
 ";
-
 public static string sprite_vert = @"
 
 uniform float rotation;
@@ -2507,7 +2472,6 @@ void main() {
 
 
 ";
-
 public static string vsm_frag = @"
 
 uniform sampler2D shadow_pass;
@@ -2581,7 +2545,6 @@ void main() {
 
 
 ";
-
 public static string vsm_vert = @"
 
 void main() {
@@ -2619,9 +2582,9 @@ void main() {
 
 
 
-";
 
 
-		
+
+";		
 	}
 }

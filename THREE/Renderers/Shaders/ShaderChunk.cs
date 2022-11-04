@@ -164,7 +164,7 @@ vec3 F_Schlick_RoughnessDependent( const in vec3 F0, const in float dotNV, const
 
 // Microfacet Models for Refraction through Rough Surfaces - equation (34)
 // http://graphicrants.blogspot.com/2013/08/specular-brdf-reference.html
-// alpha is 'roughness squared' in Disney’s reparameterization
+// alpha is 'roughness squared' in Disney's reparameterization
 float G_GGX_Smith( const in float alpha, const in float dotNL, const in float dotNV ) {
 
 	// geometry term (normalized) = G(l)⋅G(v) / 4(n⋅l)(n⋅v)
@@ -497,17 +497,6 @@ public static string bumpmap_pars_fragment = @"
 	}
 
 #endif
-";
-
-public static string clearcoat_normalmap_pars_fragment = @"
-
-#ifdef USE_CLEARCOAT_NORMALMAP
-
-	uniform sampler2D clearcoatNormalMap;
-	uniform vec2 clearcoatNormalScale;
-
-#endif
-
 ";
 
 public static string clearcoat_normal_fragment_begin = @"
@@ -2334,22 +2323,22 @@ float clearcoatDHRApprox( const in float roughness, const in float dotNL ) {
 		rectCoords[ 2 ] = lightPos - halfWidth + halfHeight;
 		rectCoords[ 3 ] = lightPos + halfWidth + halfHeight;
 
-		//vec2 uv = LTC_Uv( normal, viewDir, roughness );
-		//
-		//vec4 t1 = texture2D( ltc_1, uv );
-		//vec4 t2 = texture2D( ltc_2, uv );
-		//
-		//mat3 mInv = mat3(
-		//	vec3( t1.x, 0, t1.y ),
-		//	vec3(    0, 1,    0 ),
-		//	vec3( t1.z, 0, t1.w )
-		//);
+		vec2 uv = LTC_Uv( normal, viewDir, roughness );
+
+		vec4 t1 = texture2D( ltc_1, uv );
+		vec4 t2 = texture2D( ltc_2, uv );
+
+		mat3 mInv = mat3(
+			vec3( t1.x, 0, t1.y ),
+			vec3(    0, 1,    0 ),
+			vec3( t1.z, 0, t1.w )
+		);
 
 		// LTC Fresnel Approximation by Stephen Hill
 		// http://blog.selfshadow.com/publications/s2016-advances/s2016_ltc_fresnel.pdf
-		//vec3 fresnel = ( material.specularColor * t2.x + ( vec3( 1.0 ) - material.specularColor ) * t2.y );
+		vec3 fresnel = ( material.specularColor * t2.x + ( vec3( 1.0 ) - material.specularColor ) * t2.y );
 
-		//reflectedLight.directSpecular += lightColor * fresnel * LTC_Evaluate( normal, viewDir, position, mInv, rectCoords );
+		reflectedLight.directSpecular += lightColor * fresnel * LTC_Evaluate( normal, viewDir, position, mInv, rectCoords );
 
 		reflectedLight.directDiffuse += lightColor * material.diffuseColor * LTC_Evaluate( normal, viewDir, position, mat3( 1.0 ), rectCoords );
 
@@ -2464,9 +2453,6 @@ public static string lights_toon_fragment = @"
 
 ToonMaterial material;
 material.diffuseColor = diffuseColor.rgb;
-material.specularColor = specular;
-material.specularShininess = shininess;
-material.specularStrength = specularStrength;
 ";
 
 public static string lights_toon_pars_fragment = @"
@@ -2483,9 +2469,7 @@ varying vec3 vViewPosition;
 struct ToonMaterial {
 
 	vec3 diffuseColor;
-	vec3 specularColor;
-	float specularShininess;
-	float specularStrength;
+
 };
 
 void RE_Direct_Toon( const in IncidentLight directLight, const in GeometricContext geometry, const in ToonMaterial material, inout ReflectedLight reflectedLight ) {
@@ -2500,8 +2484,6 @@ void RE_Direct_Toon( const in IncidentLight directLight, const in GeometricConte
 
 	reflectedLight.directDiffuse += irradiance * BRDF_Diffuse_Lambert( material.diffuseColor );
 
-	reflectedLight.directSpecular += irradiance * BRDF_Specular_BlinnPhong( directLight, geometry, material.specularColor, material.specularShininess ) * material.specularStrength;
-
 }
 
 void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContext geometry, const in ToonMaterial material, inout ReflectedLight reflectedLight ) {
@@ -2511,7 +2493,6 @@ void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContex
 }
 
 #define RE_Direct				RE_Direct_Toon
-
 #define RE_IndirectDiffuse		RE_IndirectDiffuse_Toon
 
 #define Material_LightProbeLOD( material )	(0)
@@ -2878,7 +2859,7 @@ vec3 unpackRGBToNormal( const in vec3 rgb ) {
 const float PackUpscale = 256. / 255.; // fraction -> 0..1 (including 1)
 const float UnpackDownscale = 255. / 256.; // 0..1 -> fraction (excluding 1)
 
-const vec3 PackFactors = vec3( 256. * 256. * 256., 256. * 256.,  256. );
+const vec3 PackFactors = vec3( 256. * 256. * 256., 256. * 256., 256. );
 const vec4 UnpackFactors = UnpackDownscale / vec4( PackFactors, 1. );
 
 const float ShiftRight8 = 1. / 256.;
@@ -3276,7 +3257,6 @@ public static string shadowmap_pars_fragment = @"
 	}
 
 #endif
-
 ";
 
 public static string shadowmap_pars_vertex = @"

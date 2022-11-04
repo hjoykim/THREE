@@ -18,7 +18,7 @@ namespace THREE.Core
 
     public class BufferGeometry : Geometry
     {
-       
+
         protected static int BufferGeometryIdCount=0;
 
         public GLAttributes Attributes;
@@ -35,7 +35,7 @@ namespace THREE.Core
 
         public bool MorphTargetsRelative = false;
 
-        public DrawRange DrawRange = new DrawRange { Start = 0, MaterialIndex = -1, Count = float.PositiveInfinity };              
+        public DrawRange DrawRange = new DrawRange { Start = 0, MaterialIndex = -1, Count = float.PositiveInfinity };
 
         private Box3 _box = new Box3();
 
@@ -221,7 +221,7 @@ namespace THREE.Core
 
         public new BufferGeometry Scale(float x, float y, float z)
         {
-            Matrix4 m = Matrix4.Identity().MakeScale(x,y,z);          
+            Matrix4 m = Matrix4.Identity().MakeScale(x,y,z);
 
             this.ApplyMatrix(m);
 
@@ -306,7 +306,7 @@ namespace THREE.Core
             {
                 Vector3 point = points[i];
                 position.Add(point.X, point.Y, point.Z);
-                    
+
             }
             this.SetAttribute("position", new BufferAttribute<float>(position.ToArray(), 3));
 
@@ -367,7 +367,7 @@ namespace THREE.Core
             object attribute = null;
 
             if (geometry.VerticesNeedUpdate == true)
-            {               
+            {
                 if (this.Attributes.TryGetValue("position", out attribute))
                 {
                     if (attribute != null)
@@ -608,10 +608,10 @@ namespace THREE.Core
             }
 
             BufferAttribute<float> position = null;
-            
+
             if(this.Attributes.ContainsKey("position"))
                 position = (BufferAttribute<float>)this.Attributes["position"];
-            
+
             List<BufferAttribute<float>> morphAttributesPosition = null;
             if(this.MorphAttributes.ContainsKey("position"))
                 morphAttributesPosition = this.MorphAttributes["position"] as List<BufferAttribute<float>>;
@@ -727,7 +727,7 @@ namespace THREE.Core
                 Vector3 cb = new Vector3();
                 Vector3 ab = new Vector3(); ;
 
-                
+
 
                 if (index != null)
                 {
@@ -925,6 +925,6 @@ namespace THREE.Core
         }
         //TODO
         // aplyMatrix,
-       
-    }        
+
+    }
 }

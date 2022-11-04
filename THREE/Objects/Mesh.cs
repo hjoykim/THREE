@@ -91,14 +91,14 @@ namespace THREE.Objects
         public void UpdateMorphTargets()
         {
             var geometry = this.Geometry as BufferGeometry;
-            if (geometry != null && geometry is BufferGeometry)
-            {
-                var morphAttributes = geometry.MorphAttributes;
+			if (geometry != null && geometry is BufferGeometry)
+			{
+				var morphAttributes = geometry.MorphAttributes;
 				var keys = morphAttributes.Keys;
 
-                //if (keys.Count > 0)
+				//if (keys.Count > 0)
 				if(morphAttributes!=null && morphAttributes.Count>0)
-                {
+				{
 
 					foreach (DictionaryEntry entry in morphAttributes)
 					{
@@ -121,15 +121,15 @@ namespace THREE.Objects
 							}
 						}
 					}
-                }               
-            }
-            else
-            {
-                if (geometry!=null && geometry.MorphTargets != null && geometry.MorphTargets.Count > 0)
-                {
-                    Trace.TraceError("THREE.Mesh.updateMorphTargets() no longer supports THREE.Geometry. Use THREE.BufferGeometry instead.");
-                }
-            }
+				}
+			}
+			else
+			{
+				if (geometry!=null && geometry.MorphTargets != null && geometry.MorphTargets.Count > 0)
+				{
+					Trace.TraceError("THREE.Mesh.updateMorphTargets() no longer supports THREE.Geometry. Use THREE.BufferGeometry instead.");
+				}
+			}
         }
 
         public override void Raycast(Raycaster raycaster, List<Intersection> intersects)
@@ -288,8 +288,8 @@ namespace THREE.Objects
 							int c = i + 2;
 
 							intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>,
-								bufferGeometry.MorphAttributes.ContainsKey("position")?bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>:null,bufferGeometry.MorphTargetsRelative, 
-								bufferGeometry.Attributes.ContainsKey("uv") ?bufferGeometry.Attributes["uv"] as BufferAttribute<float>:null, 
+								bufferGeometry.MorphAttributes.ContainsKey("position")?bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>:null,bufferGeometry.MorphTargetsRelative,
+								bufferGeometry.Attributes.ContainsKey("uv") ?bufferGeometry.Attributes["uv"] as BufferAttribute<float>:null,
 								bufferGeometry.Attributes.ContainsKey("uv2")?bufferGeometry.Attributes["uv2"] as BufferAttribute<float>:null, a, b, c);
 
 							if (intersection!=null)

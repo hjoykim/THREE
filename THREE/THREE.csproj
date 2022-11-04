@@ -152,6 +152,7 @@
     <Compile Include="Lights\HemisphereLight.cs" />
     <Compile Include="Lights\Light.cs" />
     <Compile Include="Lights\LightProbe.cs" />
+    <Compile Include="Lights\LightProbeGenerator.cs" />
     <Compile Include="Lights\LightShadow.cs" />
     <Compile Include="Lights\PointLight.cs" />
     <Compile Include="Lights\PointLightShadow.cs" />

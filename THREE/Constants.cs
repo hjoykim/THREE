@@ -8,7 +8,7 @@ namespace THREE
 {
     public class Constants
     {
-        public static string REVISION = "112";
+        public static string REVISION = "121";
         public enum MOUSE  { LEFT= 0, MIDDLE= 1, RIGHT= 2, ROTATE= 0, DOLLY= 1, PAN= 2 };
         public enum TOUCH  { ROTATE= 0, PAN= 1, DOLLY_PAN= 2, DOLLY_ROTATE= 3 };
         public static int LineStrip = 0;
@@ -67,9 +67,9 @@ namespace THREE
         public static int NoToneMapping = 0;
         public static int LinearToneMapping = 1;
         public static int ReinhardToneMapping = 2;
-        public static int Uncharted2ToneMapping = 3;
-        public static int CineonToneMapping = 4;
-        public static int ACESFilmicToneMapping = 5;
+        public static int CineonToneMapping = 3;
+        public static int ACESFilmicToneMapping = 4;
+        public static int CustomToneMapping = 5;
 
         public static int UVMapping = 300;
         public static int CubeReflectionMapping = 301;

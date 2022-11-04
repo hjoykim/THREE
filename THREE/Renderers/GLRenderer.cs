@@ -511,32 +511,7 @@ namespace THREE.Renderers
                         
             var program = SetProgram(camera, scene, material, object3D);
 
-            state.SetMaterial(material, frontFaceCW);
-
-            //var updateBuffers = false;
-
-            //if (_currentGeometryProgram.geometry != geometry.Id ||
-            //    _currentGeometryProgram.program != program.Id ||
-            //    _currentGeometryProgram.wireframe != (material.Wireframe == true))
-            //{
-
-            //    _currentGeometryProgram.geometry = geometry.Id;
-            //    _currentGeometryProgram.program = program.Id;
-            //    _currentGeometryProgram.wireframe = material.Wireframe == true;
-            //    updateBuffers = true;
-
-            //}
-
-            //if (object3D.MorphTargetInfluences.Count>0)
-            //{
-
-            //    morphtargets.Update(object3D, (BufferGeometry)geometry, material, program);
-
-            //    updateBuffers = true;
-
-            //}
-
-            //
+            state.SetMaterial(material, frontFaceCW);           
 
             var index = (geometry as BufferGeometry).Index;
             BufferAttribute<float> position = null;
@@ -1260,7 +1235,7 @@ namespace THREE.Renderers
 		    }            
         }
 
-        public void ReadRenderTargetPixels(GLRenderTarget renderTarget, Vector2 position, int width, int height, int? activeCubeFaceIndex, byte[] buffer)
+        public void ReadRenderTargetPixels(GLRenderTarget renderTarget, float x,float y, int width, int height, byte[] buffer,int? activeCubeFaceIndex)
         {
             if (renderTarget == null)
             {
@@ -1300,9 +1275,9 @@ namespace THREE.Renderers
                     }
 
                     // the following if statement ensures valid read requests (no out-of-bounds pixels, see Three.js Issue #8604)
-                    if ((position.X >= 0 && position.X <= (renderTarget.Width - width)) && (position.Y >= 0 && position.Y <= (renderTarget.Height - height)))
+                    if ((x >= 0 && x <= (renderTarget.Width - width)) && (y >= 0 && y <= (renderTarget.Height - height)))
                     {
-                        GL.ReadPixels((int)position.X, (int)position.Y, width, height, utils.Convert(textureFormat), utils.Convert(textureType), buffer);
+                        GL.ReadPixels((int)x, (int)y, width, height, utils.Convert(textureFormat), utils.Convert(textureType), buffer);
                     }
 
                 }
