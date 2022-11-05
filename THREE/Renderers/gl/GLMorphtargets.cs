@@ -119,7 +119,7 @@ namespace THREE.Renderers.gl
 
                 for (int i = 0; i < 8; i++)
                 {
-                    var influence = influences[i];
+                    var influence = WorkInfluences[i];
 
                     if (influence != null)
                     {
@@ -143,14 +143,14 @@ namespace THREE.Renderers.gl
                         }
                         else
                         {
-                            if (morphTargets != null && geometry.Attributes.ContainsKey("morphTarget" + i) == false)
+                            if (morphTargets != null && geometry.Attributes.ContainsKey("morphTarget" + i) == true)
                             {
 
                                 geometry.deleteAttribute("morphTarget" + i);
 
                             }
 
-                            if (morphNormals != null && geometry.Attributes.ContainsKey("morphNormal" + i) == false)
+                            if (morphNormals != null && geometry.Attributes.ContainsKey("morphNormal" + i) == true)
                             {
 
                                 geometry.deleteAttribute("morphNormal" + i);

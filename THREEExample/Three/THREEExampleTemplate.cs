@@ -23,6 +23,7 @@ namespace THREEExample.Three
         public THREEExampleTemplate() : base()
         {
             scene = new Scene();
+            camera = new PerspectiveCamera(); 
         }
         public virtual void InitRenderer()
         {
@@ -35,9 +36,12 @@ namespace THREEExample.Three
 
         public virtual void InitCamera()
         {
-            camera = new PerspectiveCamera(50, glControl.AspectRatio, 0.01f, 30000); ;
-            camera.Position.Set(1000, 500, 1000);
-            camera.LookAt(0, 200, 0);
+            camera.Fov = 45.0f;
+            camera.Aspect = this.glControl.AspectRatio;
+            camera.Near = 0.1f;
+            camera.Far = 1000.0f;
+            camera.Position.Set(0, 20, 40);
+            camera.LookAt(new THREE.Math.Vector3(10, 0, 0));
         }
         public virtual void InitCameraController()
         {
