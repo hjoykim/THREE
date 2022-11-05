@@ -28,6 +28,15 @@
             return (float)(rad * 180.0f / Math.PI);
         }
 
+        public static float RandFloat(float low,float high)
+        {
+            return low + (float)random.NextDouble()*(high-low);
+        }
+
+        public static float RandFloatSpread(float range)
+        {
+            return range * (float)(0.5f - random.NextDouble());
+        }
         public static float DegToRad(double deg)
         {
             return (float)(Math.PI * deg / 180.0f);

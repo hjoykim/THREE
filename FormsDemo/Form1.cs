@@ -185,5 +185,11 @@ namespace FormsDemo
         {
             this.Render();
         }
+
+        private void glControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (example != null)
+                example.KeyDown(e.KeyCode);
+        }
     }
 }

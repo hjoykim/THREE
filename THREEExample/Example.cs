@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Windows.Forms;
 using THREE.Renderers;
 
 namespace THREEExample
@@ -65,6 +66,11 @@ namespace THREEExample
         public virtual void Unload()
         {
             this.renderer.Dispose();
+        }
+
+        public virtual void KeyDown(Keys keyCode)
+        {
+            
         }
     }
 }

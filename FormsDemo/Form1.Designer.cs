@@ -133,6 +133,7 @@ namespace FormsDemo
             this.glControl.VSync = false;
             this.glControl.Load += new System.EventHandler(this.glControl_Load);
             this.glControl.Paint += new System.Windows.Forms.PaintEventHandler(this.glControl_Paint);
+            this.glControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.glControl_KeyDown);
             this.glControl.Resize += new System.EventHandler(this.glControl_Resize);
             // 
             // statusStrip2
