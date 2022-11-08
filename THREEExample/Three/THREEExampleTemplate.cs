@@ -88,9 +88,13 @@ namespace THREEExample.Three
                 controls.Enabled = true;
             else
                 controls.Enabled = false;
+            
             controls.Update();
             renderer.Render(scene, camera);
             ShowGUIControls();
+
+            this.renderer.state.currentProgram = -1;
+            this.renderer.bindingStates.currentState = this.renderer.bindingStates.defaultState;
         }
         public override void Resize(System.Drawing.Size clientSize)
         {

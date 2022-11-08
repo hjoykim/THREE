@@ -122,6 +122,9 @@ namespace THREEExample.Learning.Chapter02
             this.renderer.Render(scene, camera);
 
             ShowGUIControls();
+
+            this.renderer.state.currentProgram = -1;
+            this.renderer.bindingStates.currentState = this.renderer.bindingStates.defaultState;
         }
 
         public void Add()

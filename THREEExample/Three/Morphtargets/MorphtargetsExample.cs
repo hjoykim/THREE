@@ -37,13 +37,7 @@ namespace THREEExample.Three.Morphtargets
         }
         private void CreateObject()
         {
-
-            var groundGeometry = new PlaneGeometry(1000, 1000, 4, 4);
-            var groundMesh = new Mesh(groundGeometry, new MeshBasicMaterial() { Color = Color.Hex(0x777777) });
-            groundMesh.Rotation.X = (float)(-System.Math.PI / 2);
-            groundMesh.Position.Y = -100;
-            scene.Add(groundMesh);
-
+           
             var geometry = new BoxGeometry(100, 100, 100);
             var material = new MeshLambertMaterial() { Color = Color.Hex(0xff0000), MorphTargets = true };
 
@@ -91,9 +85,10 @@ namespace THREEExample.Three.Morphtargets
         }
         public override void Render()
         {
-            mesh.Rotation.Y += 0.01f;
+            mesh.Rotation.Y += 0.001f;
             base.Render();
         }
+
         float influence1 = 0;
         float influence2 = 0;
         float influence3 = 0;

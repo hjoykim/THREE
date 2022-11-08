@@ -128,15 +128,30 @@ namespace THREE.Renderers.gl
 
                         if (index != int.MaxValue && value > 0)
                         {
-                            if (morphTargets != null && geometry.Attributes.ContainsKey("morphTarget" + i) && (geometry.Attributes["morphTarget" + i] != morphTargets[index]))
+                            if (morphTargets != null)
                             {
-                                geometry.SetAttribute("morphTarget" + i, morphTargets[index]);
-                            }
-                            if (morphTargets != null && geometry.Attributes.ContainsKey("morphNormal" + i) && (geometry.Attributes["morphNormal" + i] != morphTargets[index]))
-                            {
-                                geometry.SetAttribute("morphTarget" + i, morphNormals[index]);
-                            }
+                                if (morphTargets[index] != null && !geometry.Attributes.ContainsKey("morphTarget" + i))
+                                {
 
+                                    geometry.SetAttribute("morphTarget" + i, morphTargets[index]);
+                                }
+                                else if (morphTargets[index] != null && geometry.Attributes["morphTarget" + i] != morphTargets[index])
+                                {
+                                    geometry.SetAttribute("morphTarget" + i, morphTargets[index]);
+                                }
+                            }
+                            if (morphNormals != null) 
+                            { 
+                                if (morphNormals[index] != null && !geometry.Attributes.ContainsKey("morphNormal" + i))
+                                {
+
+                                    geometry.SetAttribute("morphNormal" + i, morphNormals[index]);
+                                }
+                                else if (morphNormals != null && geometry.Attributes["morphNormal" + i] != morphNormals[index])
+                                {
+                                    geometry.SetAttribute("morphNormal" + i, morphTargets[index]);
+                                }
+                            }                            
                             this.MorphInfluences[i] = value;
                             morphInfluencesSum += value;
                             continue;
