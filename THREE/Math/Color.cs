@@ -187,13 +187,17 @@ namespace THREE.Math
         }
         public Color(float r, float? g=null, float? b=null)
         {
-            R = r;
-            if (g != null) G=g.Value;
-            else G=0.0f;
-
-            if (b != null) B = b.Value;
-            else B = 0.0f;
-           
+            R = 0;
+            G = 0;
+            B = 0;
+            if (g == null && b==null)
+            {
+                Set((int)r);
+            }
+            else
+            {
+                SetRGB(r, g.Value, b.Value);
+            }
         }
 
         public float Hue2RGB(float p, float q, float t)

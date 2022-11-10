@@ -156,6 +156,7 @@
     <Compile Include="Three\Buffergeometry\BuffergeometryExample.cs" />
     <Compile Include="Three\camera\CameraExample.cs" />
     <Compile Include="Three\Geometries\GeometriesExample.cs" />
+    <Compile Include="Three\Geometries\GeometryColorsLookupTable.cs" />
     <Compile Include="Three\Interactive\InteractiveCubesExample.cs" />
     <Compile Include="Three\Lights\LightProbeExample.cs" />
     <Compile Include="Three\Misc\Controls\ArcballControlsExample.cs" />
