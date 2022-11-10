@@ -123,8 +123,7 @@ namespace THREEExample.Learning.Chapter02
 
             ShowGUIControls();
 
-            this.renderer.state.currentProgram = -1;
-            this.renderer.bindingStates.currentState = this.renderer.bindingStates.defaultState;
+            
         }
 
         public void Add()
@@ -188,6 +187,9 @@ namespace THREEExample.Learning.Chapter02
             ImGui.End();
             ImGui.Render();
             imguiManager.ImGui_ImplOpenGL3_RenderDrawData(ImGui.GetDrawData());
+
+            this.renderer.state.currentProgram = -1;
+            this.renderer.bindingStates.currentState = this.renderer.bindingStates.defaultState;
         }
         public override void Resize(Size clientSize)
         {

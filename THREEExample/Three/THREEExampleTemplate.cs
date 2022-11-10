@@ -93,14 +93,14 @@ namespace THREEExample.Three
             renderer.Render(scene, camera);
             ShowGUIControls();
 
-            this.renderer.state.currentProgram = -1;
-            this.renderer.bindingStates.currentState = this.renderer.bindingStates.defaultState;
+           
         }
         public override void Resize(System.Drawing.Size clientSize)
         {
-            base.Resize(clientSize);
             camera.Aspect = this.glControl.AspectRatio;
             camera.UpdateProjectionMatrix();
+            base.Resize(clientSize);
+          
         }
         public virtual void ShowGUIControls()
         {
@@ -114,6 +114,8 @@ namespace THREEExample.Three
                 ImGui.End();
                 ImGui.Render();
                 imGuiManager.ImGui_ImplOpenGL3_RenderDrawData(ImGui.GetDrawData());
+                this.renderer.state.currentProgram = -1;
+                this.renderer.bindingStates.currentState = this.renderer.bindingStates.defaultState;
             }
         }
 

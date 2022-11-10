@@ -37,6 +37,12 @@ namespace THREE.Math
 
             return this;
         }
+        public Sphere Set(Vector3 center,float radius)
+        {
+            Center.Copy(center);
+            Radius = radius;
+            return this;
+        }
         public Sphere SetFromPoints(List<Vector3> points, Vector3 optionalCenter = null)
         {
             Vector3 center = this.Center;

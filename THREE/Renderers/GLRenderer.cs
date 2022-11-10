@@ -573,7 +573,7 @@ namespace THREE.Renderers
 
             //
 
-            var dataCount = (index != null) ? index.count : position.count;
+            var dataCount = (index != null) ? index.count : position is InterleavedBufferAttribute<float> ? (position as InterleavedBufferAttribute<float>).count : position.count;
 
             var rangeStart = (geometry as BufferGeometry).DrawRange.Start * rangeFactor;
             var rangeCount = (geometry as BufferGeometry).DrawRange.Count * rangeFactor;

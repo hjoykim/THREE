@@ -22,7 +22,7 @@ namespace THREE.Lights
            
             this.type = "DirectionalLight";
         }
-
+        public DirectionalLight(int color, float? intensity = null) : this(Color.Hex(color), intensity) { }
         protected DirectionalLight(DirectionalLight other) : base(other)
         {
             this.Target = other.Target;

@@ -79,7 +79,20 @@ namespace THREE.Renderers.gl
 
             foreach (string name in geometryAttributes.Keys)
             {
-                Attributes.Update<float>((BufferAttribute<float>)geometryAttributes[name], BufferTarget.ArrayBuffer);
+                if(geometryAttributes[name] is BufferAttribute<float>)
+                    Attributes.Update<float>((BufferAttribute<float>)geometryAttributes[name], BufferTarget.ArrayBuffer);
+
+                if (geometryAttributes[name] is BufferAttribute<int>)
+                    Attributes.Update<int>((BufferAttribute<int>)geometryAttributes[name], BufferTarget.ArrayBuffer);
+
+                if (geometryAttributes[name] is BufferAttribute<uint>)
+                    Attributes.Update<uint>((BufferAttribute<uint>)geometryAttributes[name], BufferTarget.ArrayBuffer);
+
+                if (geometryAttributes[name] is BufferAttribute<byte>)
+                    Attributes.Update<byte>((BufferAttribute<byte>)geometryAttributes[name], BufferTarget.ArrayBuffer);
+
+                if (geometryAttributes[name] is BufferAttribute<ushort>)
+                    Attributes.Update<ushort>((BufferAttribute<ushort>)geometryAttributes[name], BufferTarget.ArrayBuffer);
             }
 
             // morph targets

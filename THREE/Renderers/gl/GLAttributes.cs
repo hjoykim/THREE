@@ -61,6 +61,12 @@ namespace THREE.Renderers.gl
                 type = (int)VertexAttribPointerType.UnsignedInt;
                 bytePerElement = sizeof(uint);
             }
+            else if (attribute.Type == typeof(byte))
+            {
+                GL.BufferData(bufferType, (array.Length * sizeof(byte)), array as byte[], usage);
+                type = (int)VertexAttribPointerType.UnsignedInt;
+                bytePerElement = sizeof(byte);
+            }
             else
             {
                 GL.BufferData(bufferType, (array.Length * 2), array as short[], usage);
@@ -93,6 +99,10 @@ namespace THREE.Renderers.gl
                 {
                     GL.BufferSubData(bufferType, IntPtr.Zero, attribute.Length * sizeof(uint), array as uint[]);
                 }
+                else if (null != array as byte[])
+                {
+                    GL.BufferSubData(bufferType, IntPtr.Zero, attribute.Length * sizeof(byte), array as byte[]);
+                }
             }
             else
             {
@@ -113,7 +123,11 @@ namespace THREE.Renderers.gl
                 }
                 else if (null != array as uint[])
                 {
-                    GL.BufferSubData(bufferType, new IntPtr(updateRange.Offset * sizeof(uint)), length * sizeof(float), subarray as float[]);
+                    GL.BufferSubData(bufferType, new IntPtr(updateRange.Offset * sizeof(uint)), length * sizeof(uint), subarray as uint[]);
+                }
+                else if (null != array as byte[])
+                {
+                    GL.BufferSubData(bufferType, new IntPtr(updateRange.Offset * sizeof(byte)), length * sizeof(byte), subarray as byte[]);
                 }
 
                 attribute.UpdateRange.Count = -1;

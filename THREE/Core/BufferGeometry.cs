@@ -609,7 +609,13 @@ namespace THREE.Core
 
             BufferAttribute<float> position = null;
 
-            if(this.Attributes.ContainsKey("position"))
+            if (this.Attributes.ContainsKey("position") && this.Attributes["position"] is GLBufferAttribute)
+            {
+                BoundingSphere.Set(new Vector3(), float.PositiveInfinity);
+                return;
+            }
+
+            if (this.Attributes.ContainsKey("position"))
                 position = (BufferAttribute<float>)this.Attributes["position"];
 
             List<BufferAttribute<float>> morphAttributesPosition = null;
@@ -620,7 +626,10 @@ namespace THREE.Core
             {
                 var center = this.BoundingSphere.Center;
 
-                _box.SetFromBufferAttribute(position as BufferAttribute<float>);
+                if(position is InterleavedBufferAttribute<float>)
+                    _box.SetFromBufferAttribute(position as InterleavedBufferAttribute<float>);
+                else
+                    _box.SetFromBufferAttribute(position as BufferAttribute<float>);
 
                 if (morphAttributesPosition != null)
                 {
@@ -654,7 +663,7 @@ namespace THREE.Core
 
                 float maxRadiusSq = 0;
 
-                for (int i = 0; i < position.count; i++)
+                for (int i = 0; i <( position is InterleavedBufferAttribute<float> ? (position as InterleavedBufferAttribute<float>).count:position.count); i++)
                 {
                     _vector = _vector.FromBufferAttribute(position, i);
                     maxRadiusSq = System.Math.Max(maxRadiusSq, center.DistanceToSquared(_vector));

@@ -106,7 +106,7 @@ namespace THREE.Core
         public object Tag = null;
         #endregion
 
-        public List<float> MorphTargetInfluences = new List<float>();
+        public List<float> MorphTargetInfluences = new List<float>() { 0, 0, 0, 0, 0, 0, 0, 0 };
 
         public Hashtable MorphTargetDictionary = new Hashtable();
 

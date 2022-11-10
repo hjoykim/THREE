@@ -58,7 +58,8 @@ namespace THREE.Lights
             this.IsLight = true;
 
         }
-        
+        public Light(int color, float? intensity = null) : this(Color.Hex(color), intensity) { }
+
         protected Light(Light other) : base(other)
         {
             this.type = "Light";

@@ -23,6 +23,11 @@
             double val = (random.NextDouble() * (max - min) + min);
             return (float)val;
         }
+
+        public static float NextFloat()
+        {
+            return (float)random.NextDouble();
+        }
         public static float RadToDeg(double rad)
         {
             return (float)(rad * 180.0f / Math.PI);

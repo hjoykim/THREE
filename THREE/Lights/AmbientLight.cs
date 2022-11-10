@@ -14,5 +14,7 @@ namespace THREE.Lights
         {
             this.type = "AmbientLight";
         }
+        public AmbientLight(int color, float? intensity = null) : this(Color.Hex(color), intensity) { }
+
     }
 }

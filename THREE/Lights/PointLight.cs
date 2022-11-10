@@ -20,8 +20,8 @@ namespace THREE.Lights
             }
         }
 
-        public PointLight(Color color, float? itensity = null, float? distance = null, float? decay = null)
-            : base(color, itensity)
+        public PointLight(Color color, float? intensity = null, float? distance = null, float? decay = null)
+            : base(color, intensity)
         {
             this.Distance = distance != null ? (float)distance : 0;
             this.Decay = decay != null ? (float)decay : 1;
@@ -30,5 +30,6 @@ namespace THREE.Lights
 
             this.type = "PointLight";
         }
+        public PointLight(int color, float? intensity = null, float? distance = null, float? decay = null) : this(Color.Hex(color), intensity, distance, decay) { }
     }
 }

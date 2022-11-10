@@ -453,12 +453,39 @@ namespace THREE.Renderers.gl
                     if (geometryAttributes.TryGetValue(name,out geometryAttribute))
                     {
                         if (geometryAttribute != null) {
-
-                            var normalized = (geometryAttribute as BufferAttribute<float>).Normalized;
-                            var size = (geometryAttribute as BufferAttribute<float>).ItemSize;
-
-                            gl.BufferType attribute = attributes.Get<float>(geometryAttribute);
-
+                            var normalized = false;
+                            var size = 0;
+                            gl.BufferType attribute = null;
+                            if (geometryAttribute is BufferAttribute<float>)
+                            {
+                                normalized = (geometryAttribute as BufferAttribute<float>).Normalized;
+                                size = (geometryAttribute as BufferAttribute<float>).ItemSize;
+                                attribute = attributes.Get<float>(geometryAttribute);
+                            }
+                            if (geometryAttribute is BufferAttribute<int>)
+                            {
+                                normalized = (geometryAttribute as BufferAttribute<int>).Normalized;
+                                size = (geometryAttribute as BufferAttribute<int>).ItemSize;
+                                attribute = attributes.Get<int>(geometryAttribute);
+                            }
+                            if (geometryAttribute is BufferAttribute<uint>)
+                            {
+                                normalized = (geometryAttribute as BufferAttribute<uint>).Normalized;
+                                size = (geometryAttribute as BufferAttribute<uint>).ItemSize;
+                                attribute = attributes.Get<uint>(geometryAttribute);
+                            }
+                            if (geometryAttribute is BufferAttribute<byte>)
+                            {
+                                normalized = (geometryAttribute as BufferAttribute<byte>).Normalized;
+                                size = (geometryAttribute as BufferAttribute<byte>).ItemSize;
+                                attribute = attributes.Get<byte>(geometryAttribute);
+                            }
+                            if (geometryAttribute is BufferAttribute<ushort>)
+                            {
+                                normalized = (geometryAttribute as BufferAttribute<ushort>).Normalized;
+                                size = (geometryAttribute as BufferAttribute<ushort>).ItemSize;
+                                attribute = attributes.Get<ushort>(geometryAttribute);
+                            }
                             // TODO Attribute may not be available on context restore
 
                             if (attribute == null) continue;

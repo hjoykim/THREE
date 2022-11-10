@@ -31,5 +31,6 @@ namespace THREE.Scenes
             this.Far = far != null ? far.Value : 1000;
 
         }
+        public Fog(int color, float? near = null, float? far = null) : this(Color.Hex(color), near, far) { }
     }
 }
