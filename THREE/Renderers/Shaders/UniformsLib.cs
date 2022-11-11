@@ -12,6 +12,8 @@ namespace THREE.Renderers.Shaders
 {
     public class UniformsLib : Dictionary<string, GLUniforms>
     {
+        public static Texture LTC_FLOAT_1;
+        public static Texture LTC_FLOAT_2;
         public UniformsLib()
         {
             this.Add("common",          this.Common());
@@ -300,11 +302,11 @@ namespace THREE.Renderers.Shaders
                                             }
 
         	    },
-		        {"ltc_1", new GLUniform{{ "value", null}}},
-		        {"ltc_2", new GLUniform{{ "value", null}}}
+                {"ltc_1", new GLUniform{{ "value", null}}},
+                {"ltc_2", new GLUniform{{ "value", null}}}
             };
         }
-
+      
         private GLUniforms Points()
         {
             return new GLUniforms{

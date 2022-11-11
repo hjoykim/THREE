@@ -17,7 +17,7 @@ using THREEExample.Learning;
 namespace THREEExample.Three.Lights
 {
     [Example("lightProbe",ExampleCategory.ThreeJs,"lights")]
-    public class LightProbeExample : ExampleTemplate
+    public class LightProbeExample : THREEExampleTemplate
     {
         struct API
         {
@@ -43,7 +43,9 @@ namespace THREEExample.Three.Lights
             renderer.ToneMapping = Constants.NoToneMapping;
             renderer.outputEncoding = Constants.sRGBEncoding;
         }
-
+        public override void InitLighting()
+        {
+        }
         public override void InitCamera()
         {
             base.InitCamera();

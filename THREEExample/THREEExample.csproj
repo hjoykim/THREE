@@ -75,6 +75,8 @@
     <Compile Include="Learning\Chapter02\ForcedMaterialsExample.cs" />
     <Compile Include="Learning\Chapter02\GeometriesExample.cs" />
     <Compile Include="Learning\Chapter03\AmbientLightExample.cs" />
+    <Compile Include="Learning\Chapter03\AreaLightExample.cs" />
+    <Compile Include="Learning\Chapter03\DirectionalLightExample.cs" />
     <Compile Include="Learning\Chapter03\HemisphereLightExample.cs" />
     <Compile Include="Learning\Chapter03\LensflaresExample.cs" />
     <Compile Include="Learning\Chapter03\SpotLightExample.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="Three\Geometries\GeometriesExample.cs" />
     <Compile Include="Three\Geometries\GeometryColorsLookupTable.cs" />
     <Compile Include="Three\Interactive\InteractiveCubesExample.cs" />
+    <Compile Include="Three\Lights\RectArealightExample.cs" />
     <Compile Include="Three\Lights\LightProbeExample.cs" />
     <Compile Include="Three\Misc\Controls\ArcballControlsExample.cs" />
     <Compile Include="Three\Misc\Controls\ControlsExampleTemplate.cs" />

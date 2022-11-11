@@ -258,7 +258,7 @@ namespace THREE.Math
                 fixed(byte* ptr = data)
                 {
                     Bitmap image = new Bitmap(1, this.n.Value, 4, PixelFormat.Format32bppArgb, new IntPtr(ptr));
-                    image.Save(@"sprite.png");
+                    //image.Save(@"sprite.png");
                     texture.Image = image;
                 }
             }

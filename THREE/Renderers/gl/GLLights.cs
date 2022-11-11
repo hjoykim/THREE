@@ -5,6 +5,7 @@ using THREE.Cameras;
 using THREE.Lights;
 using THREE.Loaders;
 using THREE.Math;
+using THREE.Renderers.Shaders;
 using THREE.Textures;
 namespace THREE.Renderers.gl
 {
@@ -134,6 +135,8 @@ namespace THREE.Renderers.gl
                         {"spotShadowMap", null},
                         {"spotShadowMatrix", null},
                         {"rectArea", null},
+                        {"rectAreaLTC1",null },
+                        {"rectAreaLTC2",null },
                         {"point", null},
                         {"pointShadow",null },
                         {"pointShadowMap", null},
@@ -413,8 +416,16 @@ namespace THREE.Renderers.gl
 
             if (rectAreaLength > 0)
             {
-                if(state.Contains("rectAreaLTC1")) state["rectAreaLTC1"] = TextureLoader.LoadEmbedded("ltc_1.png");
-                if (state.Contains("rectAreaLTC2")) state["rectAreaLTC2"] = TextureLoader.LoadEmbedded("ltc_2.png");
+                if (UniformsLib.LTC_FLOAT_1 != null)
+                {
+                    state["rectAreaLTC1"] = UniformsLib.LTC_FLOAT_1;
+                }
+                if (UniformsLib.LTC_FLOAT_1 != null)
+                {
+                    state["rectAreaLTC2"] = UniformsLib.LTC_FLOAT_2;
+                }
+                //if (state.Contains("rectAreaLTC1")) state["rectAreaLTC1"] = TextureLoader.LoadEmbedded("ltc_1.png");
+                //if (state.Contains("rectAreaLTC2")) state["rectAreaLTC2"] = TextureLoader.LoadEmbedded("ltc_2.png");
             }
 
             state["ambient"] = ambientColor;

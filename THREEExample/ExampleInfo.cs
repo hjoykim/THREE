@@ -1,4 +1,7 @@
-﻿using System;
+﻿/**
+ * This WinForms project  and Example templates were created by referring to Three.cs( (https://github.com/lathoub/three.cs).  
+ * */
+using System;
 using THREEExample;
 
 namespace THREEExample

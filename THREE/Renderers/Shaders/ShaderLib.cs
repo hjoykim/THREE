@@ -23,10 +23,10 @@ namespace THREE.Renderers.Shaders
         private const int FOURCC_DXT3 = 0x33545844; // Equivalent to "DXT3" in ASCII
         private const int FOURCC_DXT5 = 0x35545844; // Equivalent to "DXT5" in ASCII       
 
-        public readonly UniformsLib UniformsLib = new UniformsLib();
+        public UniformsLib UniformsLib = new UniformsLib();
 
 
-        public readonly Dictionary<string, string> ShaderChunkDictionary = new Dictionary<string, string>();
+        public Dictionary<string, string> ShaderChunkDictionary = new Dictionary<string, string>();
        
         //public readonly ShaderChunk ShaderChunk = new ShaderChunk();
 
@@ -225,12 +225,12 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],
-                                        this.UniformsLib["specularmap"],
-                                        this.UniformsLib["envmap"],
-                                        this.UniformsLib["aomap"],
-                                        this.UniformsLib["lightmap"],
-                                        this.UniformsLib["fog"]
+                                        UniformsLib["common"],
+                                        UniformsLib["specularmap"],
+                                        UniformsLib["envmap"],
+                                        UniformsLib["aomap"],
+                                        UniformsLib["lightmap"],
+                                        UniformsLib["fog"]
                                     });
 
             shader.VertexShader =  getChunk("meshbasic_vert");
@@ -247,14 +247,14 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],
-                                        this.UniformsLib["specularmap"],
-                                        this.UniformsLib["envmap"],
-                                        this.UniformsLib["aomap"],
-                                        this.UniformsLib["lightmap"],
-                                        this.UniformsLib["emissivemap"],
-                                        this.UniformsLib["fog"],
-                                        this.UniformsLib["lights"],
+                                        UniformsLib["common"],
+                                        UniformsLib["specularmap"],
+                                        UniformsLib["envmap"],
+                                        UniformsLib["aomap"],
+                                        UniformsLib["lightmap"],
+                                        UniformsLib["emissivemap"],
+                                        UniformsLib["fog"],
+                                        UniformsLib["lights"],
                                         new GLUniforms {{"emissive",new GLUniform{{"value",Vector3.Zero()}}}}
                                     });
 
@@ -273,18 +273,18 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],
-                                        this.UniformsLib["specularmap"],
-                                        this.UniformsLib["envmap"],
-                                        this.UniformsLib["aomap"],
-                                        this.UniformsLib["lightmap"],
-                                        this.UniformsLib["emissivemap"],
-                                        this.UniformsLib["bumpmap"],
-                                        this.UniformsLib["normalmap"],
-                                        this.UniformsLib["displacementmap"],
-                                        this.UniformsLib["gradientmap"],
-                                        this.UniformsLib["fog"],
-                                        this.UniformsLib["lights"],
+                                        UniformsLib["common"],
+                                        UniformsLib["specularmap"],
+                                        UniformsLib["envmap"],
+                                        UniformsLib["aomap"],
+                                        UniformsLib["lightmap"],
+                                        UniformsLib["emissivemap"],
+                                        UniformsLib["bumpmap"],
+                                        UniformsLib["normalmap"],
+                                        UniformsLib["displacementmap"],
+                                        UniformsLib["gradientmap"],
+                                        UniformsLib["fog"],
+                                        UniformsLib["lights"],
                                         new GLUniforms 
                                         {
                                             {"emissive",new GLUniform{{"value",new Color().SetHex(0x000000)}}},
@@ -307,20 +307,20 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],
-                                        this.UniformsLib["specularmap"],
-                                        this.UniformsLib["envmap"],
-                                        this.UniformsLib["aomap"],
-                                        this.UniformsLib["lightmap"],
-                                        this.UniformsLib["emissivemap"],
-                                        this.UniformsLib["bumpmap"],
-                                        this.UniformsLib["normalmap"],
-                                        this.UniformsLib["displacementmap"],
-                                        this.UniformsLib["roughnessmap"],
-                                        this.UniformsLib["metalnessmap"],
-                                        this.UniformsLib["gradientmap"],
-                                        this.UniformsLib["fog"],
-                                        this.UniformsLib["lights"],
+                                        UniformsLib["common"],
+                                        UniformsLib["specularmap"],
+                                        UniformsLib["envmap"],
+                                        UniformsLib["aomap"],
+                                        UniformsLib["lightmap"],
+                                        UniformsLib["emissivemap"],
+                                        UniformsLib["bumpmap"],
+                                        UniformsLib["normalmap"],
+                                        UniformsLib["displacementmap"],
+                                        UniformsLib["roughnessmap"],
+                                        UniformsLib["metalnessmap"],
+                                        UniformsLib["gradientmap"],
+                                        UniformsLib["fog"],
+                                        UniformsLib["lights"],
                                         new GLUniforms 
                                         {
                                             {"emissive",new GLUniform{{"value",new Color().SetHex(0x000000)}}},
@@ -344,17 +344,17 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],
-                                        this.UniformsLib["specularmap"],                                       
-                                        this.UniformsLib["aomap"],
-                                        this.UniformsLib["lightmap"],
-                                        this.UniformsLib["emissivemap"],
-                                        this.UniformsLib["bumpmap"],
-                                        this.UniformsLib["normalmap"],
-                                        this.UniformsLib["displacementmap"],                                       
-                                        this.UniformsLib["gradientmap"],
-                                        this.UniformsLib["fog"],
-                                        this.UniformsLib["lights"],
+                                        UniformsLib["common"],
+                                        UniformsLib["specularmap"],                                       
+                                        UniformsLib["aomap"],
+                                        UniformsLib["lightmap"],
+                                        UniformsLib["emissivemap"],
+                                        UniformsLib["bumpmap"],
+                                        UniformsLib["normalmap"],
+                                        UniformsLib["displacementmap"],                                       
+                                        UniformsLib["gradientmap"],
+                                        UniformsLib["fog"],
+                                        UniformsLib["lights"],
                                         new GLUniforms
                                         {
                                             {"emissive",new GLUniform{{"value",new Color().SetHex(0x000000)}}},
@@ -377,11 +377,11 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],
-                                        this.UniformsLib["bumpmap"],
-                                        this.UniformsLib["normalmap"],
-                                        this.UniformsLib["displacementmap"],
-                                        this.UniformsLib["fog"],
+                                        UniformsLib["common"],
+                                        UniformsLib["bumpmap"],
+                                        UniformsLib["normalmap"],
+                                        UniformsLib["displacementmap"],
+                                        UniformsLib["fog"],
                                         new GLUniforms 
                                         {
                                             {"matcap",new GLUniform{{"value",null}}},
@@ -402,8 +402,8 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["points"],
-                                        this.UniformsLib["fog"],                                       
+                                        UniformsLib["points"],
+                                        UniformsLib["fog"],                                       
                                     });
 
             shader.VertexShader = getChunk("points_vert");
@@ -420,8 +420,8 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],                                        
-                                        this.UniformsLib["fog"],
+                                        UniformsLib["common"],                                        
+                                        UniformsLib["fog"],
                                         new GLUniforms 
                                         {
                                             {"scale",new GLUniform{{"value",1}}},
@@ -444,8 +444,8 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],                                       
-                                        this.UniformsLib["displacementmap"],                                        
+                                        UniformsLib["common"],                                       
+                                        UniformsLib["displacementmap"],                                        
                                     });
 
             shader.VertexShader = getChunk("depth_vert");
@@ -462,10 +462,10 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],                                       
-                                        this.UniformsLib["bumpmap"],
-                                        this.UniformsLib["normalmap"],
-                                        this.UniformsLib["displacementmap"],                                        
+                                        UniformsLib["common"],                                       
+                                        UniformsLib["bumpmap"],
+                                        UniformsLib["normalmap"],
+                                        UniformsLib["displacementmap"],                                        
                                         new GLUniforms 
                                         {
                                             {"opacity",new GLUniform{{"value",1.0f}}},
@@ -486,8 +486,8 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["sprite"],
-                                        this.UniformsLib["fog"],
+                                        UniformsLib["sprite"],
+                                        UniformsLib["fog"],
                                     });
 
             shader.VertexShader = getChunk("sprite_vert");
@@ -522,7 +522,7 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["envmap"],
+                                        UniformsLib["envmap"],
                                         new GLUniforms
                                         {
                                             {"opacity",new GLUniform{{"value",1.0f}}}
@@ -560,8 +560,8 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["common"],
-                                        this.UniformsLib["displacementmap"],
+                                        UniformsLib["common"],
+                                        UniformsLib["displacementmap"],
                                         new GLUniforms 
                                         {
                                             {"referencePosition",new GLUniform{{"value",Vector3.Zero()}}},
@@ -584,8 +584,8 @@ namespace THREE.Renderers.Shaders
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
-                                        this.UniformsLib["lights"],
-                                        this.UniformsLib["fog"],
+                                        UniformsLib["lights"],
+                                        UniformsLib["fog"],
                                         new GLUniforms 
                                         {
                                             {"color",new GLUniform{{"value",new Color().SetHex(0x000000)}}},

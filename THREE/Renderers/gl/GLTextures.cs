@@ -110,6 +110,8 @@ namespace THREE.Renderers.gl
         {
             float scale = 1.0f;
 
+            if (image == null) return image;
+
             if (image.Width > maxSize || image.Height > maxSize)
             {
                 scale = maxSize / (float)System.Math.Max(image.Width, image.Height);
@@ -318,7 +320,7 @@ namespace THREE.Renderers.gl
             if (texture.version > 0 && textureVersion != texture.version)
             {
                 
-                if(texture.Image==null && texture.ImageSize.Width>0 && texture.ImageSize.Height > 0)
+                if(texture.Image==null && texture.ImageSize.Width>0 && texture.ImageSize.Height > 0 && !(texture is DataTexture))
                 {
                     byte[] data = new byte[texture.ImageSize.Width * texture.ImageSize.Height];
                     Bitmap bitmap = new Bitmap(texture.ImageSize.Width, texture.ImageSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -330,7 +332,7 @@ namespace THREE.Renderers.gl
                     
                     texture.Image = bitmap;
                 }
-                if (texture.Image == null)
+                if (texture.Image == null && !(texture is DataTexture))
                 {
                     Trace.TraceWarning("THREE.Renderers.gl.GLTextures.SetTexture2D : Texture marked for update but image is undefined");
                 }
@@ -797,15 +799,36 @@ namespace THREE.Renderers.gl
 			    } else {
                     //var data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);//System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     //state.TexImage2D(TextureTarget2d.Texture2D, 0, (TextureComponentCount)glInternalFormat, image.Width, image.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, data.Scan0);
+                    if (texture.Image != null)
+                    {
+                        Bitmap image1 = (Bitmap)image.Clone();
+                        var data = image1.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);//System.Drawing.Imaging.PixelFormat.Format32bppArgb);                   
+                        image1.UnlockBits(data);
+                        GL.TexImage2D(All.Texture2D, 0, (All)glInternalFormat, image.Width, image.Height, 0, All.BgraImg, glType, data.Scan0);
 
-                    Bitmap image1 = (Bitmap)image.Clone();
-                    var data = image1.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);//System.Drawing.Imaging.PixelFormat.Format32bppArgb);                   
-                    image1.UnlockBits(data);
-                    GL.TexImage2D(All.Texture2D, 0, (All)glInternalFormat, image.Width, image.Height, 0, All.BgraImg, glType, data.Scan0);
-                  
-
-
-                    textureProperties["maxMipLevel"] = 0;
+                        textureProperties["maxMipLevel"] = 0;
+                    }
+                    else
+                    {
+                        if((texture as DataTexture).byteData!=null || (texture as DataTexture).intData != null|| (texture as DataTexture).floatData != null)
+                        {
+                            switch((texture as DataTexture).Type)
+                            {
+                                case 1015:// Constants.FloatType:
+                                    GL.TexImage2D(TextureTarget2d.Texture2D, 0, (TextureComponentCount)glInternalFormat, (texture as DataTexture).ImageSize.Width, (texture as DataTexture).ImageSize.Height, 0, OpenTK.Graphics.ES30.PixelFormat.Rgba, (PixelType)glType, (texture as DataTexture).floatData);
+                                    textureProperties["maxMipLevel"] = 0;
+                                    break;
+                                case 1013: //Constants.IntType:
+                                    GL.TexImage2D(TextureTarget2d.Texture2D, 0, (TextureComponentCount)glInternalFormat, (texture as DataTexture).ImageSize.Width, (texture as DataTexture).ImageSize.Height, 0, OpenTK.Graphics.ES30.PixelFormat.Rgba, (PixelType)glType, (texture as DataTexture).intData);
+                                    textureProperties["maxMipLevel"] = 0;
+                                    break;
+                                case 1010: //Constants.ByteType:
+                                    GL.TexImage2D(TextureTarget2d.Texture2D, 0, (TextureComponentCount)glInternalFormat, (texture as DataTexture).ImageSize.Width, (texture as DataTexture).ImageSize.Height, 0, OpenTK.Graphics.ES30.PixelFormat.Rgba, (PixelType)glType, (texture as DataTexture).byteData);
+                                    textureProperties["maxMipLevel"] = 0;
+                                    break;
+                            }
+                        }
+                    }
 
 			    }
 
