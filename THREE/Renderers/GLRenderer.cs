@@ -949,8 +949,8 @@ namespace THREE.Renderers
 
                         if (object3D.Layers.Test(camera2.Layers))
                         {
-                            
-                            //state.Viewport(_currentViewport
+
+                            state.Viewport(_currentViewport.Copy(camera2.Viewport));
 
                             CurrentRenderState.SetupLights(camera2);
                             RenderObject(object3D, scene, camera2,geometry, material, group);

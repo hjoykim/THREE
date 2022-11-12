@@ -10,6 +10,7 @@ namespace THREE.Lights
 {
     public class DirectionalLight : Light,ICloneable
     {
+
         public DirectionalLight(Color color, float? intensity = null) : base(color,intensity)
         {
             this.Position.Copy(Object3D.DefaultUp);
@@ -22,6 +23,7 @@ namespace THREE.Lights
            
             this.type = "DirectionalLight";
         }
+        public DirectionalLight() : this(new Color(),null) { }
         public DirectionalLight(int color, float? intensity = null) : this(Color.Hex(color), intensity) { }
         protected DirectionalLight(DirectionalLight other) : base(other)
         {

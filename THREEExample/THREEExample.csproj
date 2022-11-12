@@ -145,6 +145,7 @@
     <Compile Include="Learning\Chapter11\SimplePassExample2.cs" />
     <Compile Include="Learning\Chapter11\SimplePassExample1.cs" />
     <Compile Include="Learning\Chapter11\Util11.cs" />
+    <Compile Include="Learning\ExampleTemplateWithMaterial.cs" />
     <Compile Include="Learning\ExampleTemplate.cs" />
     <Compile Include="Learning\Utils\DemoUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Three\Buffergeometry\BuffergeometrySelectedDrawExample.cs" />
     <Compile Include="Three\Buffergeometry\BuffergeometryUintExample.cs" />
     <Compile Include="Three\Buffergeometry\BuffergeometryExample.cs" />
+    <Compile Include="Three\camera\ArrayCameraExample.cs" />
     <Compile Include="Three\camera\CameraExample.cs" />
     <Compile Include="Three\Geometries\GeometriesExample.cs" />
     <Compile Include="Three\Geometries\GeometryColorsLookupTable.cs" />

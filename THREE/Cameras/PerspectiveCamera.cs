@@ -7,7 +7,7 @@ namespace THREE.Cameras
     {
         public int FilmGauge = 35;
 
-        public int FilmOffset = 9;
+        public int FilmOffset = 0;
 
         public float focus = 10.0f;
 
@@ -21,13 +21,13 @@ namespace THREE.Cameras
 
             this.UpdateProjectionMatrix();
 
-            View.Enabled = true;
-            View.FullWidth = 1;
-            View.FullHeight = 1;
-            View.OffsetX = 0;
-            View.OffsetY = 0;
-            View.Width = 1;
-            View.Height = 1;
+            //View.Enabled = true;
+            //View.FullWidth = 1;
+            //View.FullHeight = 1;
+            //View.OffsetX = 0;
+            //View.OffsetY = 0;
+            //View.Width = 1;
+            //View.Height = 1;
         }
 
         protected PerspectiveCamera(PerspectiveCamera other) : base(other)
@@ -69,7 +69,7 @@ namespace THREE.Cameras
 
             this.ProjectionMatrix = this.ProjectionMatrix.MakePerspective(left, left + width, top, top - height, near, this.Far);
             
-		        this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
+		    this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
 
         }
 

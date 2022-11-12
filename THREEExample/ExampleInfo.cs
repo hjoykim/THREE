@@ -8,12 +8,12 @@ namespace THREEExample
 {
     public class ExampleInfo
     {
-        public readonly Type Demo;
+        public readonly Type Example;
         public readonly ExampleAttribute Attribute;
 
-        public ExampleInfo(Type demo, ExampleAttribute attr)
+        public ExampleInfo(Type example, ExampleAttribute attr)
         {
-            Demo = demo;
+            Example = example;
             Attribute = attr;
         }
 

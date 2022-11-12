@@ -12,6 +12,7 @@ using THREE.Scenes;
 using THREE.Math;
 using THREEExample.ThreeImGui;
 using OpenTK;
+using ImGuiNET;
 
 namespace THREEExample.Learning
 {
@@ -57,14 +58,25 @@ namespace THREEExample.Learning
             controls.StaticMoving = true;
             controls.DynamicDampingFactor = 0.3f;
         }
+        public virtual void InitLighting()
+        {
+           
+        }
+        public virtual void Init()
+        {
+            InitRenderer();
 
+            InitCamera();
+
+            InitCameraController();
+
+            InitLighting();
+        }
         public override void Load(GLControl control)
         {
             base.Load(control);
 
-            InitRenderer();
-            InitCamera();
-            InitCameraController();
+            Init();
 
             imGuiManager = new ImGuiManager(this.glControl);
         }
@@ -76,6 +88,7 @@ namespace THREEExample.Learning
                 controls.Enabled = false;
             controls.Update();
             renderer.Render(scene, camera);
+            ShowGUIControls();
         }
         public override void Resize(System.Drawing.Size clientSize)
         {
@@ -83,5 +96,23 @@ namespace THREEExample.Learning
             camera.Aspect = this.glControl.AspectRatio;
             camera.UpdateProjectionMatrix();
         }
+        public virtual void ShowGUIControls()
+        {
+            if (AddGuiControlsAction != null)
+            {
+                ImGui.NewFrame();
+                ImGui.Begin("Controls");
+
+                AddGuiControlsAction();
+
+                ImGui.End();
+                ImGui.Render();
+                imGuiManager.ImGui_ImplOpenGL3_RenderDrawData(ImGui.GetDrawData());
+                this.renderer.state.currentProgram = -1;
+                this.renderer.bindingStates.currentState = this.renderer.bindingStates.defaultState;
+            }
+        }
+
+        public Action AddGuiControlsAction;
     }
 }

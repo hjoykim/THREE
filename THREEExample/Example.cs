@@ -75,5 +75,9 @@ namespace THREEExample
         {
             
         }
+        public virtual void KeyUp(Keys keyCode)
+        {
+
+        }
     }
 }

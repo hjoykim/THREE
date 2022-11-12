@@ -54,13 +54,13 @@ namespace FormsDemo
             foreach (var type in types)
             {
                 var attributes = type.GetCustomAttributes(false);
-                //foreach (var example in attributes.OfType<DemoAttribute>())
+
                 foreach (var exampleType in attributes)
                 {
                     if (exampleType is ExampleAttribute)
                     {
                         var example = exampleType as ExampleAttribute;
-                        //var index = -1;
+
                         TreeNode rootItem = null;
                         foreach (var item in treeView1.Nodes)
                         {
@@ -85,8 +85,8 @@ namespace FormsDemo
                         var treeItem = new TreeNode();
                         treeItem.Text = example.Title;
 
-                        //int u = (int)(example.LevelComplete * 5);
-                        //treeItem.Foreground = new SolidColorBrush(loC[u]);
+
+
                         treeItem.Tag = new ExampleInfo(type, example);
 
                         rootItem.Nodes.Add(treeItem);
@@ -136,18 +136,16 @@ namespace FormsDemo
 
             Application.Idle -= Application_Idle;
 
-            example = (Example)Activator.CreateInstance(e.Demo);
+            example = (Example)Activator.CreateInstance(e.Example);
             if (null != example)
             {
                 this.glControl.MakeCurrent();
 
                 example.Load(this.glControl);
 
-                statusStrip1.Text = e.Demo.Name.Replace("_", " - ");
-                statusStrip1.Tag = e.Demo.Name;
+                statusStrip1.Text = e.Example.Name.Replace("_", " - ");
+                statusStrip1.Tag = e.Example.Name;
 
-                // Ensure that the viewport and projection matrix are set correctly.
-               
 
                 GL.Viewport(0, 0, glControl.ClientSize.Width, glControl.ClientSize.Height);
                 example.Resize(glControl.ClientSize);

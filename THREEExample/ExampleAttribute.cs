@@ -36,8 +36,9 @@ namespace THREEExample
     public enum ExampleCategory
     {
         OpenTK=0,
-        LearnThreeJS,
-        ThreeJs,
-        Misc
+        LearnThreeJS=1,
+        ThreeJs=2,
+        Misc=3,
+        Others=4
     }
 }

@@ -10,10 +10,15 @@ namespace THREE.Cameras
     {
         public List<Camera> Cameras = new List<Camera>();
 
+
+        public ArrayCamera() : base()
+        {
+
+        }
         public ArrayCamera(List<Camera> array)
             : base()
         {
             this.Cameras = array;
-        }
+        }        
     }
 }

@@ -63,6 +63,8 @@ namespace THREE.Cameras
 
         public float CameraRight;
 
+        public Vector4 Viewport;
+
         public Camera()
         {
             this.IsCamera = true;

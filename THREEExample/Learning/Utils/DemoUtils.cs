@@ -47,6 +47,17 @@ namespace THREEExample.Learning.Utils
             scene.Add(wallTopMesh);
         }
 
+        internal static Mesh AppliyMeshNormalMaterial(Geometry geometry, Material material = null)
+        {
+
+            if (material == null || material.type != "MeshNormalMaterial")
+            {
+                material = new MeshNormalMaterial();
+                material.Side = Constants.DoubleSide;
+            }
+            return new Mesh(geometry, material);
+        }
+
         internal static void InitDefaultDirectionalLighting(Scene scene,Vector3 initialPosition=null)
         {
             var position = (initialPosition != null) ? initialPosition : new Vector3(100, 200, 200);
