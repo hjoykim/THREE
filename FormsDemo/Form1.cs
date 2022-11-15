@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using THREEExample;
@@ -19,6 +20,7 @@ namespace FormsDemo
     public partial class Form1 : Form
     {
         private Example example;
+        private int SleepTime = 5;
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +31,8 @@ namespace FormsDemo
             while (glControl.IsIdle)
             {
                 Render();
+
+                Thread.Sleep(SleepTime);
             }
         }
         private void Render()

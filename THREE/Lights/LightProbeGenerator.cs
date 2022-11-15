@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Graphics.ES30;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
@@ -158,7 +159,7 @@ namespace THREE.Lights
 				var data = new byte[imageWidth * imageWidth * 4];
 				renderer.ReadRenderTargetPixels(cubeRenderTarget, 0, 0, imageWidth, imageWidth, data, faceIndex);
 
-				var pixelSize = 2 / imageWidth;
+				var pixelSize = 2.0f / imageWidth;
 
 				for (int i = 0; i< data.Length; i += 4)
 				{ // RGBA assumed
@@ -231,6 +232,16 @@ namespace THREE.Lights
 				shCoefficients[j].X *= norm;
 				shCoefficients[j].Y *= norm;
 				shCoefficients[j].Z *= norm;
+
+			}
+
+			GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+
+			if (renderer.capabilities.IsGL2 == true)
+			{
+
+				GL.BindFramebuffer(FramebufferTarget.DrawFramebuffer, 0);
+				GL.BindFramebuffer(FramebufferTarget.ReadFramebuffer, 0);
 
 			}
 

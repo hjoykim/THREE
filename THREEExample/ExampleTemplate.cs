@@ -14,7 +14,7 @@ using THREEExample.ThreeImGui;
 using OpenTK;
 using ImGuiNET;
 
-namespace THREEExample.Learning
+namespace THREEExample
 {
     public class ExampleTemplate : Example
     {

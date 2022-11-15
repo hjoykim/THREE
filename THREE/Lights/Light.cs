@@ -70,5 +70,10 @@ namespace THREE.Lights
 
             this.IsLight = true;
         }
+        public Light Copy(Light source)
+        {
+            return new Light(source);
+
+        }
     }
 }

@@ -15,7 +15,7 @@ using OpenTK;
 using ImGuiNET;
 using THREE.Materials;
 
-namespace THREEExample.Learning
+namespace THREEExample
 {
     public class ExampleTemplateWithMaterial : ExampleTemplate
     {

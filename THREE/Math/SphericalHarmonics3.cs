@@ -24,10 +24,7 @@ namespace THREE.Math
 
         public SphericalHarmonics3 Set(List<Vector3> coefficients)
         {
-            for (int i = 0; i < 9; i++)
-            {
-                this.Coefficients[i] = coefficients[i];
-            }
+            Coefficients = coefficients.ToList();
 
             return this;
         }

@@ -128,7 +128,7 @@ namespace WPFDemo
                 currentWindow.Dispose();
                 currentWindow = null;
             }
-            currentExample = (Example)Activator.CreateInstance(info.Demo);
+            currentExample = (Example)Activator.CreateInstance(info.Example);
             currentWindow = new GLRenderWindow(currentExample);
             currentExample.Load(currentExample.glControl);
 
