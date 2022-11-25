@@ -165,11 +165,11 @@ namespace THREE.Objects
 			{
 				BufferGeometry bufferGeometry = Geometry as BufferGeometry;
 				//const index = geometry.index;
-				//const position = geometry.attributes.position;
-				//const morphPosition = geometry.morphAttributes.position;
-				//const morphTargetsRelative = geometry.morphTargetsRelative;
-				//const uv = geometry.attributes.uv;
-				//const uv2 = geometry.attributes.uv2;
+				BufferAttribute<float> position = bufferGeometry.Attributes.ContainsKey("position") ? bufferGeometry.Attributes["position"] as BufferAttribute<float> : null;
+				List<BufferAttribute<float>> morphPosition = bufferGeometry.MorphAttributes.ContainsKey("position") ? bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null;
+				var morphTargetsRelative = bufferGeometry.MorphTargetsRelative;
+				BufferAttribute<float> uv = bufferGeometry.Attributes.ContainsKey("uv") ? bufferGeometry.Attributes["uv"] as BufferAttribute<float> : null; ;
+				BufferAttribute<float> uv2 = bufferGeometry.Attributes.ContainsKey("uv2") ? bufferGeometry.Attributes["uv2"] as BufferAttribute<float> : null; ;
 				//const groups = geometry.groups;
 				//const drawRange = geometry.drawRange;
 
@@ -197,7 +197,7 @@ namespace THREE.Objects
 								var b = bufferGeometry.Index.getX(j + 1);
 								var c = bufferGeometry.Index.getX(j + 2);
 
-								intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>, bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>, bufferGeometry.MorphTargetsRelative, bufferGeometry.Attributes["uv"] as BufferAttribute<float>, bufferGeometry.Attributes["uv2"] as BufferAttribute<float>, a, b, c);
+								intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
 
 								if (intersection!=null)
 								{

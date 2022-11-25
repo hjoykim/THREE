@@ -20,7 +20,7 @@ namespace THREE.Extras.Core
 			Data = File.ReadAllText(path);
 		}
 
-		public List<Shape> GenerateShapes(string text, int? size)
+		public List<Shape> GenerateShapes(string text, float? size)
 		{
 
 			if (size == null) size = 100;

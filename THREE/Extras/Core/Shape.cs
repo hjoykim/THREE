@@ -43,6 +43,7 @@ namespace THREE.Extras.Core
 
             for(int i = 0; i < this.Holes.Count; i++)
             {
+                if (this.Holes[i] == null) continue;
                 holePts.Add(this.Holes[i].GetPoints(divisions));
             }
 

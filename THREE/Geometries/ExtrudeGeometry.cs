@@ -195,7 +195,7 @@ namespace THREE.Geometries
 
                 bevelThickness = options.ContainsKey("bevelThickness") ? (int)options["bevelThickness"] : 6;
 
-                bevelSize = options.ContainsKey("bevelSize") ? (float)options["bevelSize"] : (float)(bevelThickness - 2);
+                bevelSize = options.ContainsKey("bevelSize") ? (int)options["bevelSize"] : (int)(bevelThickness - 2);
 
                 bevelOffset = options.ContainsKey("bevelOffset") ? (int)options["bevelOffset"] : 0;
 

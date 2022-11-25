@@ -391,7 +391,10 @@ namespace THREE.Renderers.gl
                 foreach (DictionaryEntry entry in material.Defines)
                 {
                     array.Add((string)entry.Key);
-                    array.Add((string)entry.Value);
+                    if (entry.Value is string)
+                        array.Add((string)entry.Value);
+                    else
+                        array.Add(Convert.ToString(entry.Value));
                 }
 
             }

@@ -52,7 +52,7 @@ namespace THREE.Geometries
 
             var font = (Font)parameters["font"];
 
-            var shapes = font.GenerateShapes(text, parameters.ContainsKey("size") ? (int?)parameters["size"] : null);
+            var shapes = font.GenerateShapes(text, parameters.ContainsKey("size") ? (float?)parameters["size"] : null);
 
             if (!parameters.ContainsKey("bevelThickness") || parameters["bevelThickness"]==null) parameters["bevelThickness"] = 10;
             if (!parameters.ContainsKey("bevelSize") || parameters["bevelSize"] == null) parameters["bevelSize"] = 8;

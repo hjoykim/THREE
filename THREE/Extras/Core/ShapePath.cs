@@ -328,9 +328,10 @@ namespace THREE.Extras.Core
 				shapes.Add(tmpShape );
 				Hashtable tmpHoles = (Hashtable)newShapeHoles[i];
 
-				for (int j = 0, jl = tmpHoles.Count; j<jl; j ++ ) {
-
-					tmpShape.Holes.Add((Path)(tmpHoles[j] as Hashtable)["h"]);
+				for (int j = 0, jl = tmpHoles.Count; j<jl; j ++ ) 
+				{
+					if(tmpHoles[j] is Hashtable)
+						tmpShape.Holes.Add((Path)(tmpHoles[j] as Hashtable)["h"]);
 
 				}
 
