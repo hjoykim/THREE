@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>THREE</RootNamespace>
     <AssemblyName>THREE</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -42,7 +42,13 @@
     <Reference Include="OpenTK.GLControl, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>..\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="Pfim, Version=0.11.1.0, Culture=neutral, PublicKeyToken=c0ebc20d008ae134, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pfim.0.11.1\lib\netstandard2.0\Pfim.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="StbImageSharp, Version=2.27.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StbImageSharp.2.27.13\lib\net471\StbImageSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -165,6 +171,7 @@
     <Compile Include="Loaders\FontLoader.cs" />
     <Compile Include="Loaders\MTLLoader.cs" />
     <Compile Include="Loaders\OBJLoader.cs" />
+    <Compile Include="Loaders\STLLoader.cs" />
     <Compile Include="Loaders\TextureLoader.cs" />
     <Compile Include="Materials\IAttributes.cs" />
     <Compile Include="Materials\IMap.cs" />
@@ -307,6 +314,7 @@
     <Compile Include="Scenes\SceneUtils.cs" />
     <Compile Include="Shaders\BleachBypassShader.cs" />
     <Compile Include="Shaders\BokehShader.cs" />
+    <Compile Include="Shaders\BokehShader2.cs" />
     <Compile Include="Shaders\BrightnessContrastShader.cs" />
     <Compile Include="Shaders\ColorCorrectionShader.cs" />
     <Compile Include="Shaders\ColorifyShader.cs" />

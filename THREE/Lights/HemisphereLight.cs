@@ -22,7 +22,7 @@ namespace THREE.Lights
 
             this.type = "HemisphereLight";
         }
-
+        public HemisphereLight(int color, int gcolor, float? intensity) : this(Color.Hex(color), Color.Hex(gcolor), intensity) { }
         protected HemisphereLight(HemisphereLight other) : base(other)
         {
             this.type = "HemisphereLight";

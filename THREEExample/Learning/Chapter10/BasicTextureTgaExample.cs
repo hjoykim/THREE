@@ -61,14 +61,14 @@ namespace THREEExample.Learning.Chapter09
             scene.Add(new AmbientLight(new THREE.Math.Color(0x444444)));
 
             var polyhedron = new IcosahedronBufferGeometry(8, 0);
-            polyhedronMesh = AddGeometry(scene, polyhedron, "polyhedron", TextureLoader.Load("../../../assets/textures/tga/dried_grass.jpg"));
+            polyhedronMesh = AddGeometry(scene, polyhedron, "polyhedron", TextureLoader.LoadTGA("../../../assets/textures/tga/dried_grass.tga"));
             polyhedronMesh.Position.X = 20;
 
             var sphere = new SphereBufferGeometry(5, 20, 20);
-            sphereMesh = AddGeometry(scene, sphere, "sphere", TextureLoader.Load("../../../assets/textures/tga/grass.jpg"));
+            sphereMesh = AddGeometry(scene, sphere, "sphere", TextureLoader.LoadTGA("../../../assets/textures/tga/grass.tga"));
 
             var cube = new BoxBufferGeometry(10, 10, 10);
-            cubeMesh = AddGeometry(scene, cube, "cube", TextureLoader.Load("../../../assets/textures/tga/moss.jpg"));
+            cubeMesh = AddGeometry(scene, cube, "cube", TextureLoader.LoadTGA("../../../assets/textures/tga/moss.tga"));
             cubeMesh.Position.X = -20;
         }
     }

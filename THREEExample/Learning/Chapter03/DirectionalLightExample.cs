@@ -20,8 +20,8 @@ namespace THREEExample.Learning.Chapter03
     {
 
         float step = 0;
-        float rotationSpeed = 0.001f;
-        float bouncingSpeed = 0.003f;
+        float rotationSpeed = 0.03f;
+        float bouncingSpeed = 0.03f;
         AmbientLight ambientLight;
         DirectionalLight directionalLight;
         CameraHelper shadowCamera;

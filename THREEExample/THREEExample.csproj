@@ -114,6 +114,7 @@
     <Compile Include="Learning\Chapter06\TextGeometryExample.cs" />
     <Compile Include="Learning\Chapter08\LoadObjMTLExample.cs" />
     <Compile Include="Learning\Chapter10\AlphaMapExample.cs" />
+    <Compile Include="Learning\Chapter10\BasicTextureDDSExample.cs" />
     <Compile Include="Learning\Chapter10\EmissiveMapExample.cs" />
     <Compile Include="Learning\Chapter10\EnvMapDynamicExample.cs" />
     <Compile Include="Learning\Chapter10\EnvMapStaticExample.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="Three\Lights\LightprobeCubeCamera.cs" />
     <Compile Include="Three\Lights\RectArealightExample.cs" />
     <Compile Include="Three\Lights\LightProbeExample.cs" />
+    <Compile Include="Three\Loader\STLLoaderSample.cs" />
     <Compile Include="Three\Misc\Controls\ArcballControlsExample.cs" />
     <Compile Include="Three\Misc\Controls\ControlsExampleTemplate.cs" />
     <Compile Include="Three\Misc\Controls\DragControlsExample.cs" />
