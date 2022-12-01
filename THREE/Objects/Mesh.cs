@@ -222,7 +222,7 @@ namespace THREE.Objects
 							int b = bufferGeometry.Index.getX(i + 1);
 							int c = bufferGeometry.Index.getX(i + 2);
 
-							intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>, bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>, bufferGeometry.MorphTargetsRelative, bufferGeometry.Attributes["uv"] as BufferAttribute<float>, bufferGeometry.Attributes["uv2"] as BufferAttribute<float>, a, b, c);
+							intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
 							
 							if (intersection!=null)
 							{

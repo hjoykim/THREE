@@ -170,6 +170,12 @@ namespace THREE.Renderers.gl
             {
                 SetValue((int)v);
             }
+            else if (this.UniformType == ActiveUniformType.Bool)
+            {
+                bool value = Convert.ToBoolean(v);
+                SetValue(value == true ? 1 : 0);
+                this.UniformType = ActiveUniformType.Int;
+            }
             else if (this.UniformType == ActiveUniformType.Float)
             {
                 SetValue(Convert.ToSingle(v));
