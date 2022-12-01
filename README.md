@@ -84,7 +84,12 @@ There is C++ port of Three.js   (https://github.com/hjoykim/ThreeCpp)
 ![image](https://user-images.githubusercontent.com/3807476/168407251-463a878f-53db-46e9-81dd-bc5534dd0100.png)
 ### Chapter05-Basic-3D-Geometries-Polyhedron
 ![image](https://user-images.githubusercontent.com/3807476/168426813-a28b1eca-0a9b-4052-adf2-fc9dc248f249.png)
-### Chapter06~Chapter08 - All the examples have been completed, but they have not been committed yet
+### Chapter06 Text Geometry, Binary Operation
+![image](https://user-images.githubusercontent.com/3807476/204721196-4dc0e357-3d1f-4c82-a625-8e8b4e795b23.png)
+![image](https://user-images.githubusercontent.com/3807476/204721359-40c8da64-b2a4-4d65-96c2-3230bb05e930.png)
+### Cahpter07 -All the examples have been completed, but they have not been committed yet
+### Chapter08 - Load Obj file with MTL
+![image](https://user-images.githubusercontent.com/3807476/204721568-f90fdbed-8a9a-43d9-b8db-cc0344825e77.png)
 #### Chapter09 - Trackball controls
 ![image](https://user-images.githubusercontent.com/3807476/166919252-6cb474c5-a971-474c-bf7c-a8b565bc4cd4.png)
 #### Chapter10 env map
