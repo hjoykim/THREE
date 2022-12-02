@@ -168,7 +168,15 @@ namespace THREE.Renderers.gl
             }
             else if(this.UniformType==ActiveUniformType.Int)
             {
-                SetValue((int)v);
+                if (v is bool)
+                {
+                    bool value = Convert.ToBoolean(v);
+                    SetValue(value == true ? 1 : 0);
+                    this.UniformType = ActiveUniformType.Int;
+                }
+                else {
+                    SetValue((int)v);
+                }
             }
             else if (this.UniformType == ActiveUniformType.Bool)
             {

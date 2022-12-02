@@ -30,7 +30,7 @@ namespace THREE.Extras.Core
 
 			for (int p = 0, pl = paths.Count; p < pl; p++)
 			{							
-				shapes.Concat(paths[p].ToShapes(false,false));
+				shapes = shapes.Concat(paths[p].ToShapes(false,false)).ToList();
 			}
 
 			return shapes;
