@@ -20,9 +20,27 @@ namespace THREE.Core
 
         public int? MaxInstanceCount;
 
+        public int InstanceCount = int.MaxValue;
+
         public InstancedBufferGeometry() : base()
         {
 
+        }
+        protected InstancedBufferGeometry(InstancedBufferGeometry source)
+        {
+            Copy(source);            
+        }
+        public new InstancedBufferGeometry Clone()
+        {
+            return new InstancedBufferGeometry(this);
+        }
+        public InstancedBufferGeometry Copy(InstancedBufferGeometry source)
+        {
+            this.Groups = new List<InstancedGroups>(source.Groups);
+            this.MaxInstanceCount = source.MaxInstanceCount;
+            this.InstanceCount = source.InstanceCount;
+
+            return this;
         }
         public override void AddGroup(int start,int count,int instances)
         {

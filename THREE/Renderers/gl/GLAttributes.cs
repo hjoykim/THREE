@@ -27,7 +27,7 @@ namespace THREE.Renderers.gl
         public GLAttributes()
         {
         }
-
+        
         public BufferType CreateBuffer<T>(BufferAttribute<T> attribute, BufferTarget bufferType)
         {
             var array = attribute.Array;

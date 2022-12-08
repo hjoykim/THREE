@@ -127,6 +127,10 @@ namespace THREE.Core
 
             this.Normalized = normalized != null && normalized.Value==true ? true : false;
         }
+        protected BufferAttribute(BufferAttribute<T> source)
+        {
+            Copy(source);
+        }
 
         public int Length
         {
@@ -141,10 +145,18 @@ namespace THREE.Core
             this.Usage = hint;
         }
 
-        public BufferAttribute<T> Copy(BufferAttribute<T> source)
+        public BufferAttribute<T> Clone()
         {
+            return new BufferAttribute<T>(this);
+        }
+        public BufferAttribute<T> Copy(BufferAttribute<T> source)
+        {           
             this.Name = source.Name;
-            source.Array.CopyTo(this.Array, 0);
+            if (source.Array != null)
+            {
+                this.Array = new T[source.Array.Length];
+                source.Array.CopyTo(this.Array, 0);
+            }
             this.ItemSize = source.ItemSize;
             this.Normalized = source.Normalized;
             this.Usage = source.Usage;

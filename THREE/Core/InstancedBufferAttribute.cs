@@ -8,27 +8,31 @@ namespace THREE.Core
 {
     public class InstancedBufferAttribute<T> : BufferAttribute<T>
     {
-        public int MeshPerAttribute
-        {
-            get
-            {
-                return (int)this["meshPerAttribute"];
-            }
-            set
-            {
-                this["meshPerAttribute"] = value;
-            }
-        }
+        public int MeshPerAttribute = 1;
+  
 
         public InstancedBufferAttribute()
         {
-            this.Add("meshPerAttribute", 1);
+            
         }
 
-        public InstancedBufferAttribute(T[] array, int itemSize, bool? normalized, int? meshPerAttribute)
+        public InstancedBufferAttribute(T[] array, int itemSize, bool? normalized=null, int? meshPerAttribute=null)
             :base(array,itemSize,normalized)
         {
             
         }
+        protected InstancedBufferAttribute(InstancedBufferAttribute<T> source) : this(source.Array,source.ItemSize,source.Normalized,source.MeshPerAttribute)
+        {
+
+        }
+        public InstancedBufferAttribute<T> Clone()
+        {
+            return new InstancedBufferAttribute<T>(this);
+        }
+        public InstancedBufferAttribute<T> Copy(InstancedBufferAttribute<T> source)
+        {
+            return new InstancedBufferAttribute<T>(source);
+        }
+
     }
 }

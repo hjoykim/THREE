@@ -25,9 +25,9 @@ namespace THREE.Core
 
         //public List<string> AttributesKeys { get; set; }
 
-        public IList<DrawRange> Drawcalls = new List<DrawRange>();
+        //public IList<DrawRange> Drawcalls = new List<DrawRange>();
 
-        public IList<DrawRange> Offsets;
+        //public IList<DrawRange> Offsets;
 
         public BufferAttribute<int> Index = null;
 
@@ -60,7 +60,7 @@ namespace THREE.Core
 
             this.MorphAttributes = new Hashtable();
 
-            this.Offsets = this.Drawcalls;
+            //this.Offsets = this.Drawcalls;
 
             this.BoundingBox = null;
 
@@ -71,7 +71,127 @@ namespace THREE.Core
             //AttributesKeys = new List<string>();
 
         }
+        protected BufferGeometry(BufferGeometry source)
+        {
+            Copy(source);
+        }
+        public new BufferGeometry Clone()
+        {
+            return new BufferGeometry(this);
+        }
+        public BufferGeometry Copy(BufferGeometry source) 
+        {
+            this.Index = null;
+            this.Attributes = new GLAttributes();
 
+            this.MorphAttributes = (Hashtable)source.MorphAttributes.Clone();
+
+            this.Groups = new List<DrawRange>(source.Groups);
+            this.BoundingBox = null;
+            this.BoundingSphere = null;
+
+            // used for storing cloned, shared data
+
+
+            // name
+
+            this.Name = source.Name;
+
+            // index
+
+            var index = source.Index;
+
+            if (index != null)
+            {
+
+                this.Index =source.Index.Clone();
+
+            }
+
+            // attributes
+
+            var attributes = source.Attributes;
+            foreach(var entry in attributes)
+            {
+                if(entry.Value is BufferAttribute<float>)
+                    Attributes.Add(entry.Key, (entry.Value as BufferAttribute<float>).Clone());
+                if (entry.Value is BufferAttribute<int>)
+                    Attributes.Add(entry.Key, (entry.Value as BufferAttribute<int>).Clone());
+                if (entry.Value is BufferAttribute<byte>)
+                    Attributes.Add(entry.Key, (entry.Value as BufferAttribute<byte>).Clone());
+            }
+            //for ( const name in attributes ) {
+
+            //    const attribute = attributes[name];
+            //    this.setAttribute(name, attribute.clone(data));
+
+            //}
+
+            // morph attributes
+
+
+            //for ( const name in morphAttributes ) {
+
+            //    const array = [];
+            //    const morphAttribute = morphAttributes[name]; // morphAttribute: array of Float32BufferAttributes
+
+            //    for (let i = 0, l = morphAttribute.length; i < l; i++)
+            //    {
+
+            //        array.push(morphAttribute[i].clone(data));
+
+            //    }
+
+            //    this.morphAttributes[name] = array;
+
+            //}
+
+            this.MorphTargetsRelative = source.MorphTargetsRelative;
+
+            // groups
+            //const groups = source.groups;
+
+            //for (let i = 0, l = groups.length; i < l; i++)
+            //{
+
+            //    const group = groups[i];
+            //    this.addGroup(group.start, group.count, group.materialIndex);
+
+            //}
+
+            // bounding box
+
+            var boundingBox = source.BoundingBox;
+
+            if (boundingBox != null)
+            {
+
+                this.BoundingBox = (Box3)boundingBox.Clone();
+
+            }
+
+            // bounding sphere
+
+            var boundingSphere = source.BoundingSphere;
+
+            if (boundingSphere != null)
+            {
+
+                this.BoundingSphere = (Sphere)boundingSphere.Clone();
+
+            }
+
+            // draw range
+
+            this.DrawRange.Start = source.DrawRange.Start;
+            this.DrawRange.Count = source.DrawRange.Count;
+
+            // user data
+
+            this.UserData = (Hashtable)source.UserData.Clone();
+
+            return this;
+        }
         public BufferAttribute<int> GetIndex()
         {
             return this.Index;

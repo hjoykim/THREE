@@ -151,6 +151,7 @@
     <Compile Include="Learning\Utils\DemoUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreeImGui\ImGuiManager.cs" />
+    <Compile Include="Three\Buffergeometry\BufferGeometryInstancingExample.cs" />
     <Compile Include="Three\Buffergeometry\BuffergeometryLineExample.cs" />
     <Compile Include="Three\Buffergeometry\BuffergeometryPointExample.cs" />
     <Compile Include="Three\Buffergeometry\BuffergeometryPointsInterleaved.cs" />

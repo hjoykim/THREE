@@ -38,7 +38,7 @@ namespace THREE.Renderers.gl
 
             if (!UpdateList.ContainsKey(bufferGeometry.Id) || (int)UpdateList[bufferGeometry.Id] != frame)
             {
-                if (geometry.IsBufferGeometry==false)
+                if (!(geometry is BufferGeometry))
                 {
                     (bufferGeometry as BufferGeometry).UpdateFromObject(object3D);
                 }

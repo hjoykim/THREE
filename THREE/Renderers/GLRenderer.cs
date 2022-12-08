@@ -660,8 +660,8 @@ namespace THREE.Renderers
             }
             else if (geometry is InstancedBufferGeometry)
             {
-
-                renderer.RenderInstances(geometry, (int)drawStart, (int)drawCount, (geometry as InstancedBufferGeometry).MaxInstanceCount.Value);
+                var instanceCount = System.Math.Min((geometry as InstancedBufferGeometry).InstanceCount, (geometry as InstancedBufferGeometry).MaxInstanceCount.Value);
+                renderer.RenderInstances(geometry, (int)drawStart, (int)drawCount, instanceCount);
 
             }
             else

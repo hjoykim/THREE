@@ -114,12 +114,14 @@ namespace THREE.Core
 
             this.IsBufferGeometry = false;
         }
-
-        public Geometry(Geometry source) : this()
+        
+        protected Geometry(Geometry source) : this()
         {
-            Id = GeometryIdCount;
-            GeometryIdCount += 1;
-
+            this.Copy(source);
+        }
+       
+        public Geometry Copy(Geometry source)
+        {
             this.Name = source.Name;
             var vertices = source.Vertices;
 
@@ -132,11 +134,11 @@ namespace THREE.Core
             this.SkinWeights = new List<Vector4>(source.SkinWeights);
             this.SkinIndices = new List<Vector4>(source.SkinIndices);
             this.LineDistances = new List<float>(source.LineDistances);
-            
-            if(source.BoundingBox!=null)
+
+            if (source.BoundingBox != null)
                 this.BoundingBox = (Box3)source.BoundingBox.Clone();
 
-            if(source.BoundingSphere!=null)
+            if (source.BoundingSphere != null)
                 this.BoundingSphere = (Sphere)source.BoundingSphere.Clone();
 
             this.ElementsNeedUpdate = source.ElementsNeedUpdate;
@@ -146,8 +148,9 @@ namespace THREE.Core
             this.ColorsNeedUpdate = source.ColorsNeedUpdate;
             this.LineDistancesNeedUpdate = source.LineDistancesNeedUpdate;
             this.GroupsNeedUpdate = source.GroupsNeedUpdate;
-        }
 
+            return this;
+        }
         public virtual Geometry ApplyMatrix4(Matrix4 matrix)
         {
             var normalMatrix = new Matrix3().GetNormalMatrix(matrix);
