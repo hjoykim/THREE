@@ -291,7 +291,10 @@ namespace THREE.Renderers
         {
             this.background.SetClearColor(color,alpha);
         }
-
+        public void SetClearColor(int color,float alpha = 1)
+        {
+            SetClearColor(Color.Hex(color), alpha);
+        }
         public void SetViewport(int width, int height)
         {
             _viewport.Set(0, 0, width, height);
@@ -1052,7 +1055,8 @@ namespace THREE.Renderers
 
                 parameters["uniforms"] = programCache.GetUniforms(material);
 
-                // material.onBeforeCompile()
+                if (material.OnBeforeCompile != null)
+                    material.OnBeforeCompile(parameters,this);
 
                 program = programCache.AcquireProgram(parameters, programCacheKey);
                               

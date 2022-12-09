@@ -806,7 +806,7 @@ namespace THREE.Core
             return diff;
         }
 
-        public Geometry setFromPoints(List<Vector3> points)
+        public Geometry SetFromPoints(List<Vector3> points)
         {
             this.Vertices.Clear();
             for(int i = 0; i < points.Count; i++)

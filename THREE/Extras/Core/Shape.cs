@@ -12,22 +12,22 @@ namespace THREE.Extras.Core
     {
         public Guid Uuid = Guid.NewGuid();
 
-        public List<Curve> Holes;
+        public List<Path> Holes;
 
         public Shape(List<Vector3> points=null) : base(points)
         {
-            Holes = new List<Curve>();
+            Holes = new List<Path>();
         }
 
         protected Shape(Shape source)
         {
-            Holes = new List<Curve>();
+            Holes = new List<Path>();
             for (int i = 0;i< source.Holes.Count;i++)
             {
 
                 var hole = source.Holes[i];
 
-                this.Holes.Add(hole.Clone() as Curve);
+                this.Holes.Add(hole.Clone() as Path);
 
             }
 

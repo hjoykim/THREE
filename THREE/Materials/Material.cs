@@ -10,6 +10,8 @@ using THREE.Textures;
 using OpenTK.Graphics.ES30;
 using THREE.Math;
 using THREE.Renderers.gl;
+using THREE.Renderers;
+
 namespace THREE.Materials
 {
     public class Material : Hashtable,IDisposable
@@ -238,7 +240,9 @@ namespace THREE.Materials
         public float Metalness = 0.5f;
 
         public event EventHandler<EventArgs> Disposed;
-                
+
+        public Action<Hashtable,GLRenderer> OnBeforeCompile;
+
         public Material()
         {
         }

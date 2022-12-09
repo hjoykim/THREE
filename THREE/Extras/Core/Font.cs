@@ -19,7 +19,10 @@ namespace THREE.Extras.Core
 
 			Data = File.ReadAllText(path);
 		}
-
+		public static Font Load(string path)
+        {
+			return new Font(path);
+        }
 		public List<Shape> GenerateShapes(string text, float? size)
 		{
 
@@ -38,8 +41,8 @@ namespace THREE.Extras.Core
 		public List<ShapePath> CreatePaths(string text, float size, string data)
 		{
 
-			
-			var chars = text.ToCharArray();// Array.from ? Array.from(text) : String(text).split(''); // see #13988
+			text = text.Replace("\\n", "\n");
+			var chars = text.ToArray();// Array.from ? Array.from(text) : String(text).split(''); // see #13988
 			JObject array = JObject.Parse(data);
 			var res = (float ?)array["resolution"];
 			var scale = size / res;

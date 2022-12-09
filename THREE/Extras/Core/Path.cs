@@ -49,6 +49,11 @@ namespace THREE.Extras.Core
 
             return this;
         }
+		public Path MoveTo(float x,float y)
+        {
+			this.CurrentPoint.Set(x, y, 0);
+			return this;
+        }
         public Path LineTo(float x, float y,float z )
         {
 
@@ -59,7 +64,15 @@ namespace THREE.Extras.Core
 
             return this;
         }
+		public Path LineTo(float x,float y)
+        {
+			var curve = new LineCurve3(this.CurrentPoint.Clone() as Vector3, new Vector3(x, y, 0));
+			this.Curves.Add(curve);
 
+			this.CurrentPoint.Set(x, y, 0);
+
+			return this;
+		}
 		public Path QuadraticCurveTo(float aCPx, float aCPy, float aX, float aY )
 		{
 

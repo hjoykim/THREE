@@ -30,9 +30,9 @@ namespace THREE.Geometries
         public Hashtable parameter;
 
         private List<int> indices = new List<int>();
-        private List<Vector3> vertices = new List<Vector3>();
-        private List<Vector3> normals = new List<Vector3>();
-        private List<Vector2> uvs = new List<Vector2>();
+        private List<float> vertices = new List<float>();
+        private List<float> normals = new List<float>();
+        private List<float> uvs = new List<float>();
 
         private float CurveSegments;
 
@@ -40,6 +40,34 @@ namespace THREE.Geometries
 
         int groupCount = 0;
 
+        public ShapeBufferGeometry(Shape shape,float? curveSegments = null) : base()
+        {
+            parameter = new Hashtable()
+            {
+                {"shapes",shape },
+                {"curveSegments",curveSegments }               
+            };
+
+            CurveSegments = curveSegments != null ? curveSegments.Value : 12;
+
+            AddShape(shape);
+
+            this.SetIndex(indices);
+
+            BufferAttribute<float> positions = new BufferAttribute<float>(vertices.ToArray(), 3);
+         
+
+            this.SetAttribute("position", positions);
+
+            BufferAttribute<float> normalAttributes = new BufferAttribute<float>(normals.ToArray(), 3);
+          
+            this.SetAttribute("normal", normalAttributes);
+
+            BufferAttribute<float> uvAttributes = new BufferAttribute<float>(uvs.ToArray(), 2);
+           
+            this.SetAttribute("uv", uvAttributes);
+
+        }
         public ShapeBufferGeometry(List<Shape> shapes, float? curveSegments = null) : base()
         {
             parameter = new Hashtable()
@@ -73,21 +101,21 @@ namespace THREE.Geometries
 
             this.SetIndex(indices);
 
-            BufferAttribute<float> positions = new BufferAttribute<float>();
-            positions.ItemSize = 3;
-            positions.Type = typeof(float);
+            BufferAttribute<float> positions = new BufferAttribute<float>(vertices.ToArray(),3);
+            //positions.ItemSize = 3;
+            //positions.Type = typeof(float);
 
-            this.SetAttribute("position", positions.CopyVector3sArray(vertices.ToArray()));
+            this.SetAttribute("position", positions);
 
-            BufferAttribute<float> normalAttributes = new BufferAttribute<float>();
-            normalAttributes.ItemSize = 3;
-            normalAttributes.Type = typeof(float);
-            this.SetAttribute("normal", normalAttributes.CopyVector3sArray(normals.ToArray()));
+            BufferAttribute<float> normalAttributes = new BufferAttribute<float>(normals.ToArray(),3);
+            //normalAttributes.ItemSize = 3;
+            //normalAttributes.Type = typeof(float);
+            this.SetAttribute("normal", normalAttributes);
 
-            BufferAttribute<float> uvAttributes = new BufferAttribute<float>();
-            uvAttributes.ItemSize = 2;
-            uvAttributes.Type = typeof(float);
-            this.SetAttribute("uv", uvAttributes.CopyVector2sArray(uvs.ToArray()));
+            BufferAttribute<float> uvAttributes = new BufferAttribute<float>(uvs.ToArray(),2);
+            //uvAttributes.ItemSize = 2;
+            //uvAttributes.Type = typeof(float);
+            this.SetAttribute("uv", uvAttributes);
         }
         private void AddShape(Shape shape)
         {
@@ -132,7 +160,7 @@ namespace THREE.Geometries
             {
 
                 shapeHole = shapeHoles[i];
-                shapeVertices.AddRange(shapeHole);
+                shapeVertices = shapeVertices.Concat(shapeHole);
 
             }
 
@@ -143,9 +171,9 @@ namespace THREE.Geometries
 
                 var vertex = shapeVertices[i];
 
-                vertices.Add(vertex);
-                normals.Add(new Vector3(0, 0, 1));
-                uvs.Add(new Vector2(vertex.X, vertex.Y)); // world uvs
+                vertices.Add(vertex.X,vertex.Y,vertex.Z);
+                normals.Add(0,0,1);
+                uvs.Add(vertex.X, vertex.Y); // world uvs
 
             }
 

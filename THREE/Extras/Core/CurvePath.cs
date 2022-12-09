@@ -93,7 +93,8 @@ namespace THREE.Extras.Core
 
         public override float GetLength()
         {
-            return base.GetLength();
+            var lens = this.GetCurveLengths();
+            return lens[lens.Count-1];
         }
 
         public List<float> GetCurveLengths()

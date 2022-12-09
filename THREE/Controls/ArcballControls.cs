@@ -517,7 +517,7 @@ namespace THREE.Controls
 			var newRadius = this._tbRadius / scale;
 			var curve = new EllipseCurve(0, 0, newRadius, newRadius);
 			var points = curve.GetPoints(this._curvePts);
-			var curveGeometry = new BufferGeometry().setFromPoints(points);
+			var curveGeometry = new BufferGeometry().SetFromPoints(points);
 
 
 			foreach (var gizmo in this._gizmos.Children)
@@ -575,7 +575,7 @@ namespace THREE.Controls
 
 			var curve = new EllipseCurve(0, 0, this._tbRadius, this._tbRadius);
 			var points = curve.GetPoints(this._curvePts);
-			var curveGeometry = new BufferGeometry().setFromPoints(points);
+			var curveGeometry = new BufferGeometry().SetFromPoints(points);
 
 
 			foreach (var gizmo in this._gizmos.Children)
@@ -639,7 +639,7 @@ namespace THREE.Controls
 			var points = curve.GetPoints(this._curvePts);
 
 			//geometry
-			var curveGeometry = new BufferGeometry().setFromPoints(points);
+			var curveGeometry = new BufferGeometry().SetFromPoints(points);
 
 			//material
 			var curveMaterialX = new LineBasicMaterial() { Color = Color.Hex(0xff8080), Fog = true, Transparent = true, Opacity = 0.6f };
@@ -1665,7 +1665,7 @@ namespace THREE.Controls
 					var newRadius = this._tbRadius / scale;
 					var curve = new EllipseCurve(0, 0, newRadius, newRadius);
 					var points = curve.GetPoints(this._curvePts);
-					var curveGeometry = new BufferGeometry().setFromPoints(points);
+					var curveGeometry = new BufferGeometry().SetFromPoints(points);
 
 					foreach (var gizmo in this._gizmos.Children)
 					{

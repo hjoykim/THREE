@@ -117,7 +117,7 @@ namespace THREEExample.Three.Misc.Controls
 
 			var curve = new EllipseCurve(0, 0, 0.001f, 0.001f);
 			var points = curve.GetPoints(128);
-			var curveGeometry = new BufferGeometry().setFromPoints(points);
+			var curveGeometry = new BufferGeometry().SetFromPoints(points);
 			var curveMaterialX = new LineBasicMaterial() { Color = Color.Hex(0xff8080), Fog = true, Transparent = true, Opacity = 0.6f };
 			var gizmoX = new Line(curveGeometry, curveMaterialX);
 			var rotation = (float)System.Math.PI * 0.5f;
