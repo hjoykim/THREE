@@ -13,6 +13,7 @@ using THREE.Math;
 using THREEExample.ThreeImGui;
 using OpenTK;
 using ImGuiNET;
+using OpenTK.Graphics.ES30;
 
 namespace THREEExample
 {

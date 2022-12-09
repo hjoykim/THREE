@@ -200,7 +200,10 @@ namespace THREE.Core
         {
             this.Index = new BufferAttribute<int>(index.ToArray<int>(), itemSize);
         }
-
+        public void SetIndex(BufferAttribute<int> index)
+        {
+            this.Index = index;
+        }
         public GLAttribute GetAttribute<T>(string name)
         {
             return this.Attributes[name] as GLAttribute;

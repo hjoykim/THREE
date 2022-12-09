@@ -20,7 +20,7 @@ using Vector3 = THREE.Math.Vector3;
 
 namespace THREEExample.Three.Geometries
 {
-    [Example("Shapes", ExampleCategory.ThreeJs, "Geometries")]
+    [Example("shapes", ExampleCategory.ThreeJs, "geometry")]
     public class GeometryShapeExample : ExampleTemplate
     {
         Group group = new Group();

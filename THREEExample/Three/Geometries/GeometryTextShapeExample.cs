@@ -15,7 +15,7 @@ using THREE.Objects;
 
 namespace THREEExample.Three.Geometries
 {
-	[Example("Text Shapes",ExampleCategory.ThreeJs,"Geometries")]
+	[Example("Text Shapes",ExampleCategory.ThreeJs,"geometry")]
     public class GeometryTextShapeExample : ExampleTemplate
     {
         public GeometryTextShapeExample() : base() 

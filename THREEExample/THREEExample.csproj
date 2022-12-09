@@ -280,9 +280,11 @@
     <Compile Include="Three\camera\CinematicCameraExample.cs" />
     <Compile Include="Three\Geometries\EdgesGeometryExample.cs" />
     <Compile Include="Three\Geometries\GeometriesExample.cs" />
+    <Compile Include="Three\Geometries\TeapotExample.cs" />
     <Compile Include="Three\Geometries\GeometryColorsLookupTable.cs" />
     <Compile Include="Three\Geometries\GeometryShapeExample.cs" />
     <Compile Include="Three\Geometries\GeometryTextShapeExample.cs" />
+    <Compile Include="Three\Geometries\TeapotBufferGeometry.cs" />
     <Compile Include="Three\Interactive\InteractiveCubesExample.cs" />
     <Compile Include="Three\Lights\LightprobeCubeCamera.cs" />
     <Compile Include="Three\Lights\RectArealightExample.cs" />

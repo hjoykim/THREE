@@ -14,7 +14,7 @@ using THREE.Objects;
 
 namespace THREEExample.Three.Geometries
 {
-    [Example("Geometries", ExampleCategory.ThreeJs, "Geometries")]
+    [Example("geometries", ExampleCategory.ThreeJs, "geometry")]
     public class GeometriesExample : THREEExampleTemplate
     {
 

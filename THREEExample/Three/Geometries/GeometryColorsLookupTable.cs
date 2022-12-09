@@ -15,7 +15,7 @@ using THREE.Objects;
 using THREE.Scenes;
 namespace THREEExample.Three.Geometries
 {
-    [Example("geometry colors lookuptable", ExampleCategory.ThreeJs, "Geometries")]
+    [Example("geometry colors lookuptable", ExampleCategory.ThreeJs, "geometry")]
     public class GeometryColorsLookupTable : THREEExampleTemplate
     {
         Camera orthoCamera;

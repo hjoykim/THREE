@@ -14,7 +14,7 @@ using THREE.Renderers;
 
 namespace THREEExample.Three.Geometries
 {
-    [Example("EdgesGeometry",ExampleCategory.ThreeJs,"Geometries")]
+    [Example("EdgesGeometry",ExampleCategory.ThreeJs,"geometry")]
     public class EdgesGeometryExample : ExampleTemplate
     {
         public EdgesGeometryExample() : base() { }
