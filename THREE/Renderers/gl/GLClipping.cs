@@ -34,7 +34,7 @@ namespace THREE.Renderers.gl
         {
             uniform = new GLUniform();
             uniform.Add("value", null);
-            uniform.Add("needUpdate", false);
+            uniform.Add("needsUpdate", false);
         }
 
         public bool Init(List<Plane> planes, bool enableLocalClipping, Camera camera)
@@ -79,7 +79,7 @@ namespace THREE.Renderers.gl
                 var nGlobal = renderingShadows ? 0 : numGlobalPlanes;
                 var lGlobal = nGlobal * 4;
 
-                List<float> dstArray = (List<float>)cache["clippingStata"];
+                List<float> dstArray = (List<float>)cache["clippingState"];
 
                 uniform["value"] = dstArray;
 
@@ -99,7 +99,7 @@ namespace THREE.Renderers.gl
 
         private void ResetGlobalState()
         {
-            if (!globalState.Equals(uniform["value"]))
+            if (globalState!=null && !globalState.Equals(uniform["value"]))
             {
                 uniform["value"] = globalState;
                 uniform["needsUpdate"] = numGlobalPlanes > 0;
@@ -112,12 +112,15 @@ namespace THREE.Renderers.gl
         {
             var nPlanes = planes != null ? planes.Count : 0;
             List<float> dstArray = null;
-
+            float[] array = null;
             if (nPlanes != 0)
             {
                 dstArray = (List<float>)uniform["value"];
-                float[] array = dstArray.ToArray();
-                if (skipTransform != null && ((bool)skipTransform != true || dstArray == null))
+
+                if(dstArray!=null)
+                    array = dstArray.ToArray();
+
+                if ((skipTransform == null || ((bool)skipTransform != true) || dstArray == null))
                 {
                     var flatSize = (int)dstOffset + nPlanes * 4;
                     var viewMatrix = camera.MatrixWorldInverse;
@@ -126,12 +129,12 @@ namespace THREE.Renderers.gl
 
                     if (dstArray == null || dstArray.Count < flatSize)
                     {
-                        dstArray = new List<float>();
+                        array = new float[flatSize];
                     }
 
                     for (int i = 0, i4 = (int)dstOffset; i != nPlanes; ++i, i4 += 4)
                     {
-                        plane = (planes[i].Clone() as Plane).ApplyMatrix4(viewMatrix, viewNormalMatrix);
+                        plane.Copy(planes[i]).ApplyMatrix4(viewMatrix, viewNormalMatrix);
                        
                         plane.Normal.ToArray(array, i4);
                         array[i4 + 3] = plane.Constant;
@@ -143,7 +146,7 @@ namespace THREE.Renderers.gl
                 uniform["needsUpdate"] = true;
             }
             this.numPlanes = nPlanes;
-
+            this.numIntersection = 0;
             return dstArray;
         }
     }

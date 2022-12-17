@@ -242,7 +242,10 @@ namespace THREE.Renderers
         {
             Clear(false, true, false);
         }
-
+        public void ClearStencil()
+        {
+            Clear(false, false, true);
+        }
         public Vector2 GetSize(Vector2 target=null)
         {
             if(target==null)

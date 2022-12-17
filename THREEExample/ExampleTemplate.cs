@@ -58,6 +58,7 @@ namespace THREEExample
             controls.NoRotate = false;
             controls.StaticMoving = true;
             controls.DynamicDampingFactor = 0.3f;
+            controls.Update();
         }
         public virtual void InitLighting()
         {

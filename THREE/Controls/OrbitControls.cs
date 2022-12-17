@@ -628,6 +628,7 @@ namespace THREE.Controls
 
         private void Control_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            if (Enabled==false) return;
             int mouseAction;
 
             switch (e.Button)

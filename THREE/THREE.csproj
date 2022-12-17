@@ -150,6 +150,7 @@
     <Compile Include="Helpers\CameraHelper.cs" />
     <Compile Include="Helpers\GridHelper.cs" />
     <Compile Include="Helpers\LightProbeHelper.cs" />
+    <Compile Include="Helpers\PlaneHelper.cs" />
     <Compile Include="Helpers\PointLightHelper.cs" />
     <Compile Include="Helpers\RectAreaLightHelper.cs" />
     <Compile Include="Helpers\SpotLightHelper.cs" />

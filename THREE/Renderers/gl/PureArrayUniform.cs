@@ -47,7 +47,14 @@ namespace THREE.Renderers.gl
 
         public void SetValue(float[] v)
         {
-            GL.Uniform1(this.Addr, v.Length, v);            
+            if (this.UniformType == ActiveUniformType.FloatVec4)
+            {
+                GL.Uniform4(this.Addr, this.Size, v);
+            }
+            else
+            {
+                GL.Uniform1(this.Addr, v.Length, v);
+            }
         }
 
         public void SetValue(Vector2 v)

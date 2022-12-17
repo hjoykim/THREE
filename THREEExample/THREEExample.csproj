@@ -278,6 +278,9 @@
     <Compile Include="Three\camera\ArrayCameraExample.cs" />
     <Compile Include="Three\camera\CameraExample.cs" />
     <Compile Include="Three\camera\CinematicCameraExample.cs" />
+    <Compile Include="Three\Clipping\ClippingExample.cs" />
+    <Compile Include="Three\Clipping\ClippingIntersectionExample.cs" />
+    <Compile Include="Three\Clipping\ClippingIntersectionSolidExample.cs" />
     <Compile Include="Three\Geometries\EdgesGeometryExample.cs" />
     <Compile Include="Three\Geometries\GeometriesExample.cs" />
     <Compile Include="Three\Geometries\TeapotExample.cs" />

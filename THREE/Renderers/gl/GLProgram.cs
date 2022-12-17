@@ -356,8 +356,7 @@ namespace THREE.Renderers.gl
 			         parameters["emissiveMapEncoding"]!=null ? GetTexelDecodingFunction( "emissiveMapTexelToLinear", (int)parameters["emissiveMapEncoding"] ) : "",
                      parameters["lightMapEncoding"]!=null ? GetTexelDecodingFunction("lightMapTexelToLinear",(int)parameters["lightMapEncoding"]) : "",
                      parameters["outputEncoding"]!=null ?GetTexelEncodingFunction("linearToOutputTexel",(int)parameters["outputEncoding"]) :"",
-			                     
-			         (int)parameters["depthPacking"]>0 ? "#define DEPTH_PACKING " + (int)parameters["depthPacking"] : "",
+			         !customDefines.Contains("DEPTH_PACKING") && parameters["depthPacking"]!= null  ? "#define DEPTH_PACKING " + (int)parameters["depthPacking"] : "",
                      "\n"			        
                 };
 

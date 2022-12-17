@@ -42,7 +42,8 @@ namespace THREE.Lights
 
             this.type = "SpotLight";
         }
-
+        public SpotLight(int color, float? intensity = null, float? distance = null, float? angle = null, float? penumbra = null, float? decay = null) :
+          this(Color.Hex(color), intensity, distance, angle, penumbra, decay) { }
         protected SpotLight(SpotLight other) : base(other)
         {
             this.Distance = other.Distance;

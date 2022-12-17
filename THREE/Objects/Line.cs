@@ -60,7 +60,25 @@ namespace THREE.Objects
             this.Mode = (int)Constants.LineStrip;
             if (null != type) this.Mode = type.Value;
         }
+        public void InitGeometry(Geometry geometry, Material material)
+        {
+            this.type = "Line";
 
+            this.Geometry = geometry ?? new Geometry();
+
+            if (material == null)
+            {
+                this.Material = new MeshBasicMaterial() { Color = new Color().SetHex(0xffffff) };
+                this.Materials.Add(Material);
+            }
+            else
+            {
+                this.Material = material;
+                this.Materials.Add(material);
+            }
+
+            this.Mode = (int)Constants.LineStrip;
+        }
         public void InitGeometry(Geometry geometry, List<Material> materials)
         {
             this.type = "Line";

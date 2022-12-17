@@ -28,7 +28,12 @@ namespace THREE.Math
         {
             return new Plane(this);
         }
-
+        public Plane Copy(Plane source)
+        {
+            this.Normal.Copy(source.Normal);
+            this.Constant = source.Constant;
+            return this;
+        }
         public Plane(Vector3 normal, float constant)
         {
             this.Normal = normal;
