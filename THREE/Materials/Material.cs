@@ -14,7 +14,7 @@ using THREE.Renderers;
 
 namespace THREE.Materials
 {
-    public class Material : Hashtable,IDisposable
+    public class Material : Hashtable,IDisposable,ICloneable
     {
         private static int materialIdCount;
 
@@ -249,7 +249,19 @@ namespace THREE.Materials
 
         protected Material(Material source) : base()
         {
+            Copy(source);
+        }
 
+        
+        public override object Clone() 
+        {
+            var material = new Material();
+            material.Copy(this);
+
+            return material;
+        }
+        public virtual object Copy(Material source)
+        {
             type = source.type;
 
             Defines = source.Defines.Clone() as Hashtable;
@@ -271,7 +283,7 @@ namespace THREE.Materials
             Opacity = source.Opacity;
 
             Transparent = source.Transparent;
-            
+
             if (source.Color != null) Color = source.Color.Value;
 
             Specular = source.Specular;
@@ -284,7 +296,7 @@ namespace THREE.Materials
 
             BlendEquation = source.BlendEquation;
 
-            if(source.BlendSrcAlpha!=null) BlendSrcAlpha = source.BlendSrcAlpha.Value;
+            if (source.BlendSrcAlpha != null) BlendSrcAlpha = source.BlendSrcAlpha.Value;
             if (source.BlendDstAlpha != null) BlendDstAlpha = source.BlendDstAlpha.Value;
             if (source.BlendEquationAlpha != null) BlendEquationAlpha = source.BlendEquationAlpha.Value;
 
@@ -351,7 +363,7 @@ namespace THREE.Materials
 
             MorphNormals = source.MorphNormals;
 
-            if(source.Map!=null)
+            if (source.Map != null)
                 Map = source.Map.Clone();
 
             if (source.AlphaMap != null)
@@ -469,13 +481,9 @@ namespace THREE.Materials
             Roughness = source.Roughness;
 
             Metalness = source.Metalness;
-    }
 
-        public new Material Clone() 
-        {
-            return new Material(this);
+            return this;
         }
-
         protected void SetValues(Hashtable values)
         {
             if (values == null)

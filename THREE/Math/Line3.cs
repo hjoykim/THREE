@@ -85,7 +85,7 @@ namespace THREE.Math
             {
                 target = new Vector3();
             }
-            return this.Delta(target) * t + this.Start;
+            return this.Delta(target).MultiplyScalar(t).Add(this.Start);
         }
 
         public void ApplyMatrix4(Matrix4 matrix)
