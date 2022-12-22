@@ -87,12 +87,12 @@ namespace THREEExample.Three.Geometries
 
             };
             var meshGeometry = new ConvexBufferGeometry(vertices.ToArray());
-            var mesh = new Mesh(geometry, meshMaterial);
+            var mesh = new Mesh(meshGeometry, meshMaterial);
             mesh.Material.Side = Constants.BackSide; // back faces
             mesh.RenderOrder = 0;
             group.Add(mesh);
 
-            mesh = new Mesh(geometry, meshMaterial.Clone() as MeshLambertMaterial);
+            mesh = new Mesh(meshGeometry, meshMaterial.Clone() as MeshLambertMaterial);
             mesh.Material.Side = Constants.FrontSide; // front faces
             mesh.RenderOrder = 1;
             group.Add(mesh);
