@@ -1,18 +1,8 @@
-﻿using System.Diagnostics;
-using ImGuiNET;
+﻿using ImGuiNET;
 using OpenTK;
-using THREE.Materials;
-using THREE.Renderers.gl;
-using THREE.Shaders;
-using THREE.Postprocessing;
-using THREEExample.ThreeImGui;
-using THREE.Lights;
-using THREE.Math;
-using THREE.Geometries;
-using THREE.Objects;
-using THREE.Loaders;
-using Vector2 = THREE.Math.Vector2;
 using THREE;
+using THREEExample.ThreeImGui;
+using Vector2 = THREE.Vector2;
 
 namespace THREEExample.Learning.Chapter11
 {
@@ -29,7 +19,7 @@ namespace THREEExample.Learning.Chapter11
         public override void Load(GLControl control)
         {
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;

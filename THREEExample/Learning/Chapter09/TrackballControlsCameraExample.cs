@@ -1,13 +1,5 @@
-﻿using OpenTK;
-using System;
+﻿using System;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Core;
-using THREE.Loaders;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
 using THREEExample.Learning.Utils;
 
 namespace THREEExample.Learning.Chapter09
@@ -25,7 +17,7 @@ namespace THREEExample.Learning.Chapter09
 
         public TrackballControlsCameraExample() : base()
         {
-            camera = new THREE.Cameras.PerspectiveCamera();
+            camera = new PerspectiveCamera();
             scene = new Scene();
         }
         private void InitRenderer()
@@ -43,7 +35,7 @@ namespace THREEExample.Learning.Chapter09
             camera.Position.X = -30;
             camera.Position.Y = 50;
             camera.Position.Z = 40;
-            camera.LookAt(THREE.Math.Vector3.Zero());
+            camera.LookAt(Vector3.Zero());
         }
 
         private void InitCameraController()
@@ -60,7 +52,7 @@ namespace THREEExample.Learning.Chapter09
             controls.DynamicDampingFactor = 0.2f;
         }
 
-        public override void Load(GLControl control)
+        public override void Load(OpenTK.GLControl control)
         {
             base.Load(control);
 

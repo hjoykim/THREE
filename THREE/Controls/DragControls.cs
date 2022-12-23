@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Math;
 
-namespace THREE.Controls
+namespace THREE
 {
     public class DragControls : IDisposable
     {

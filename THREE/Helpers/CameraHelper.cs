@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
 
-namespace THREE.Helpers
+namespace THREE
 {
     public class CameraHelper : LineSegments
     {

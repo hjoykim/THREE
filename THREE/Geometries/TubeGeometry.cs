@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Extras.Core;
-using THREE.Math;
 
-namespace THREE.Geometries
+namespace THREE
 {
     public class TubeGeometry : Geometry
     {

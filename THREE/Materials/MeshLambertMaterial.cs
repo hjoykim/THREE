@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-namespace THREE.Materials
+﻿namespace THREE
 {
     public class MeshLambertMaterial : Material
     {
@@ -12,11 +6,11 @@ namespace THREE.Materials
         {
             this.type = "MeshLambertMaterial";
 
-            this.Color = THREE.Math.Color.ColorName(ColorKeywords.white);
+            this.Color = THREE.Color.ColorName(ColorKeywords.white);
 
             this.Opacity = 1;
 
-            this.Emissive = new Color().SetHex(0x000000);
+            this.Emissive = THREE.Color.Hex(0x000000);
 
             this.Combine = Constants.MultiplyOperation;
 

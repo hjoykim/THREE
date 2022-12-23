@@ -1,16 +1,8 @@
 ﻿using OpenTK.Graphics.ES30;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Textures;
-using THREE.Math;
-using System.Windows;
 using System.Diagnostics;
-using System.Collections;
 
-namespace THREE.Renderers.gl
+namespace THREE
 {
     public class SingleUniform : GLUniform
     {

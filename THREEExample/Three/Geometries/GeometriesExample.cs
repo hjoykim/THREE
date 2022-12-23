@@ -1,16 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
 
 namespace THREEExample.Three.Geometries
 {
@@ -26,7 +16,7 @@ namespace THREEExample.Three.Geometries
         {
             camera = new PerspectiveCamera(45, glControl.AspectRatio, 0.1f, 1000); ;
             camera.Position.Set(0, 50, 60);
-            camera.LookAt(THREE.Math.Vector3.Zero());
+            camera.LookAt(THREE.Vector3.Zero());
         }
         public override void InitLighting()
         {

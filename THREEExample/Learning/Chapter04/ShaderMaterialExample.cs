@@ -3,22 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Renderers.gl;
+using THREE;
 
 namespace THREEExample.Learning.Chapter04
 {
     [Example("11.ShaderMaterial", ExampleCategory.LearnThreeJS, "Chapter04")]
     public class ShaderMaterialExample : MaterialExampleTemplate
     {
-        THREE.Math.Vector2 Resolution = new THREE.Math.Vector2();
+        THREE.Vector2 Resolution = new THREE.Vector2();
         private string vertexShaderCode = @"
         uniform float time;
         varying vec2 vUv;
@@ -349,7 +341,7 @@ namespace THREEExample.Learning.Chapter04
             camera.Near = 0.1f;
             camera.Far = 1000.0f;
             camera.Position.Set(0, 20, 40);
-            camera.LookAt(new THREE.Math.Vector3(10, 0, 0));
+            camera.LookAt(new THREE.Vector3(10, 0, 0));
         }
         public override void Load(GLControl control)
         {
@@ -376,7 +368,7 @@ namespace THREEExample.Learning.Chapter04
 
             Material meshMaterial = new MeshBasicMaterial()
             {
-                Color = THREE.Math.Color.Hex(0x7777ff),
+                Color = THREE.Color.Hex(0x7777ff),
                 Name = "Basic Material",
                 FlatShading = true,
                 Opacity = 0.01f,
@@ -388,11 +380,11 @@ namespace THREEExample.Learning.Chapter04
 
             scene.Add(cube);
 
-            var ambientLight = new AmbientLight(THREE.Math.Color.Hex(0x0c0c0c));
+            var ambientLight = new AmbientLight(THREE.Color.Hex(0x0c0c0c));
             scene.Add(ambientLight);
 
             // add spotlight for the shadows
-            var spotLight = new SpotLight(THREE.Math.Color.Hex(0xffffff));
+            var spotLight = new SpotLight(THREE.Color.Hex(0xffffff));
             spotLight.Position.Set(-40, 60, -10);
             spotLight.CastShadow = true;
             scene.Add(spotLight);

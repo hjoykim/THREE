@@ -3,14 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Textures;
 
-namespace THREE.Loaders
+namespace THREE
 {
    
    
@@ -188,7 +183,7 @@ namespace THREE.Loaders
             }
             public MaterialCreator(string path,MaterialCreatorOptions? options=null)
             {
-                FilePath = Path.GetDirectoryName(path);
+                FilePath = System.IO.Path.GetDirectoryName(path);
 
                 this.Options = options;
 
@@ -382,7 +377,7 @@ namespace THREE.Loaders
                 if (parameter.ContainsKey(mapType)) return;
 
                 var texParams = GetTextureParams((string)value, parameter);
-                var map = LoadTexture(Path.Combine(FilePath,(string)texParams["url"]));
+                var map = LoadTexture(System.IO.Path.Combine(FilePath,(string)texParams["url"]));
 
                 map.Repeat.Copy((Vector2)texParams["scale"]);
                 map.Offset.Copy((Vector2)texParams["offset"]);

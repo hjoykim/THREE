@@ -1,7 +1,5 @@
-﻿using THREE.Materials;
-using THREE.Renderers.gl;
-using THREE.Math;
-namespace THREE.Shaders
+﻿
+namespace THREE
 {
     public class SobelOperatorShader : ShaderMaterial
     {

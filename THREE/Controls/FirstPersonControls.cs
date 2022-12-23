@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using THREE.Cameras;
-using THREE.Math;
-using THREE.Renderers;
-namespace THREE.Controls
+using THREE;
+
+namespace THREE
 {
     public class FirstPersonControls
     {

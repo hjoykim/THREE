@@ -1,11 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+using THREE;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
 
@@ -25,7 +20,7 @@ namespace THREEExample.Learning.Chapter10
         {
 
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -55,7 +50,7 @@ namespace THREEExample.Learning.Chapter10
                 DisplacementMap = TextureLoader.Load("../../../assets/textures/w_d.png"),
                 Metalness=0.02f,
                 Roughness=0.07f,
-                Color = new THREE.Math.Color(0xffffff)
+                Color = new THREE.Color(0xffffff)
             };
 
             groundPlane.ReceiveShadow = true;

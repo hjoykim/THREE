@@ -1,16 +1,7 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Objects;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
 
@@ -21,7 +12,7 @@ namespace THREEExample.Learning.Chapter10
     {
         Mesh cubeMesh, sphereMesh, polyhedronMesh;
 
-        THREE.Math.Vector2 repeat = new THREE.Math.Vector2(1, 1);
+        THREE.Vector2 repeat = new THREE.Vector2(1, 1);
 
         bool repeatWrapping = true;
 
@@ -34,7 +25,7 @@ namespace THREEExample.Learning.Chapter10
             Debug.Assert(null != control);
 
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -55,7 +46,7 @@ namespace THREEExample.Learning.Chapter10
 
             DemoUtils.InitDefaultLighting(scene);
 
-            scene.Add(new AmbientLight(new THREE.Math.Color(0x444444)));
+            scene.Add(new AmbientLight(new THREE.Color(0x444444)));
 
             var polyhedron = new IcosahedronBufferGeometry(8, 0);
             polyhedronMesh = AddGeometry(scene, polyhedron, "polyhedron", TextureLoader.Load("../../../assets/textures/general/metal-rust.jpg"));

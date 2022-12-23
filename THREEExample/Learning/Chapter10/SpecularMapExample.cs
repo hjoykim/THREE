@@ -1,17 +1,7 @@
 ﻿using OpenTK;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Objects;
-using THREE.Scenes;
+using THREE;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
 
@@ -31,7 +21,7 @@ namespace THREEExample.Learning.Chapter10
 
             glControl = control;
 
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -57,7 +47,7 @@ namespace THREEExample.Learning.Chapter10
                 Map = TextureLoader.Load("../../../assets/textures/earth/Earth.png"),
                 NormalMap = TextureLoader.Load("../../../assets/textures/earth/EarthNormal.png"),
                 SpecularMap = TextureLoader.Load("../../../assets/textures/earth/EarthSpec.png"),
-                NormalScale = new THREE.Math.Vector2(6, 6)
+                NormalScale = new THREE.Vector2(6, 6)
             };
 
             var sphere = new SphereBufferGeometry(9, 50, 50);

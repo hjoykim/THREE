@@ -1,12 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+using THREE;
 
 namespace THREEExample.Learning.Chapter04
 {

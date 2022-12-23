@@ -1,23 +1,8 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Core;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Postprocessing;
-using THREE.Renderers.gl;
-using THREE.Scenes;
-using THREE.Textures;
 using THREEExample.ThreeImGui;
 namespace THREEExample.Learning.Chapter11
 {
@@ -111,7 +96,7 @@ namespace THREEExample.Learning.Chapter11
 
         public EffectComposerTemplate() : base()
         {
-            camera = new THREE.Cameras.PerspectiveCamera();
+            camera = new THREE.PerspectiveCamera();
             scene = new Scene();
             stopWatch.Start();
             
@@ -129,7 +114,7 @@ namespace THREEExample.Learning.Chapter11
             camera.Near = 0.1f;
             camera.Far = 1000.0f;
             camera.Position.Set(0, 20, 40);
-            camera.LookAt(THREE.Math.Vector3.Zero());
+            camera.LookAt(THREE.Vector3.Zero());
         }
         public void InitCameraController()
         {
@@ -208,11 +193,11 @@ namespace THREEExample.Learning.Chapter11
             {
                 if (ImGui.SliderFloat("centerX", ref centerX, 0.0f, 5.0f))
                 {
-                    (dot.uniforms["center"] as GLUniform)["value"] = new THREE.Math.Vector2(centerX,centerY);
+                    (dot.uniforms["center"] as GLUniform)["value"] = new THREE.Vector2(centerX,centerY);
                 }
                 if (ImGui.SliderFloat("centerY", ref centerY, 0.0f, 5.0f))
                 {
-                    (dot.uniforms["center"] as GLUniform)["value"] = new THREE.Math.Vector2(centerX, centerY);
+                    (dot.uniforms["center"] as GLUniform)["value"] = new THREE.Vector2(centerX, centerY);
                 }
                 if (ImGui.SliderFloat("angle", ref angle, 0.0f, 3.14f))
                 {

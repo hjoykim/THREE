@@ -1,23 +1,6 @@
-﻿using OpenTK.Graphics.ES30;
-using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Geometries;
-using THREE.Helpers;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Renderers;
-using THREE.Renderers.gl;
-using THREE.Textures;
-using THREEExample.Learning;
-using THREEExample.Learning.Utils;
 
 namespace THREEExample.Three.Lights
 {

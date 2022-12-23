@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Math;
+﻿using System.Collections.Generic;
 
-namespace THREE.Objects
+namespace THREE
 {
     public class InstancedMesh : Mesh
     {

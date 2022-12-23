@@ -1,20 +1,7 @@
 ﻿using OpenTK;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Postprocessing;
-using THREE.Scenes;
-using THREE.Shaders;
-using THREEExample.ThreeImGui;
-using THREE.Core;
 using ImGuiNET;
-using System.Collections;
 
 namespace THREEExample.Learning.Chapter11
 {
@@ -40,7 +27,7 @@ namespace THREEExample.Learning.Chapter11
             halftonePass = new HalftonePass();
             List<Object3D> selectLists = new List<Object3D>();
             selectLists.Add(earth);
-            outlinePass = new OutlinePass(new THREE.Math.Vector2(control.Width, control.Height), scene, camera, selectLists);
+            outlinePass = new OutlinePass(new THREE.Vector2(control.Width, control.Height), scene, camera, selectLists);
             unrealBloomPass = new UnrealBloomPass();
 
             var effectCopy = new ShaderPass(new CopyShader());

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Textures;
-using OpenTK.Graphics.ES30;
+﻿using System.Drawing;
 using System.Reflection;
 using Pfim;
 using System.Runtime.InteropServices;
@@ -13,7 +6,7 @@ using StbImageSharp;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace THREE.Loaders
+namespace THREE
 {
     public class TextureLoader
     {
@@ -92,7 +85,7 @@ namespace THREE.Loaders
         public static Texture LoadEmbedded(string EmbeddedPath)
         {
             string embeddedNameBase = "THREE.Resources.";
-            Bitmap bitmap = new Bitmap(typeof(THREE.Core.Object3D).GetTypeInfo().Assembly.GetManifestResourceStream(embeddedNameBase + EmbeddedPath));
+            Bitmap bitmap = new Bitmap(typeof(THREE.Object3D).GetTypeInfo().Assembly.GetManifestResourceStream(embeddedNameBase + EmbeddedPath));
 
             bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
             

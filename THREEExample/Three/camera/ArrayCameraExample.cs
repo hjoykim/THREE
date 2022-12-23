@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using Color = THREE.Math.Color;
+using THREE;
+using Color = THREE.Color;
 
 namespace THREEExample.Three.camera
 {
@@ -72,7 +64,7 @@ namespace THREEExample.Three.camera
         public void createObject()
         {
             var geometry = new PlaneBufferGeometry(100, 100);
-            var material = new MeshPhongMaterial() { Color = THREE.Math.Color.Hex(0x000066) };
+            var material = new MeshPhongMaterial() { Color = THREE.Color.Hex(0x000066) };
 
             var background = new Mesh(geometry, material);
             background.ReceiveShadow = true;

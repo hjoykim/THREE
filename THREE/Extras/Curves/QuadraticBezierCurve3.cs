@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Extras.Core;
-using THREE.Math;
-
-namespace THREE.Extras.Curves
+﻿namespace THREE
 {
     public class QuadraticBezierCurve3 : Curve
     {

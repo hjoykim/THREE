@@ -1,16 +1,7 @@
 ﻿using ImGuiNET;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
+using THREE;
 
 namespace THREEExample.Three.Morphtargets
 {

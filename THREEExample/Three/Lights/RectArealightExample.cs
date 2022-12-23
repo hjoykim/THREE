@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Geometries;
-using THREE.Helpers;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Renderers.Shaders;
-using THREE.Textures;
+
 
 namespace THREEExample.Three.Lights
 {

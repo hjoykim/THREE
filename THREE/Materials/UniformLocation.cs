@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
-
-namespace THREE.Materials
+﻿namespace THREE
 {
     public struct UniformLocation
     {

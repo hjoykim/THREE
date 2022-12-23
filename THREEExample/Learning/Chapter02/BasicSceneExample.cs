@@ -1,20 +1,7 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
 using THREEExample.ThreeImGui;
 
 namespace THREEExample.Learning.Chapter02
@@ -47,11 +34,11 @@ namespace THREEExample.Learning.Chapter02
             camera.Position.X = -30;
             camera.Position.Y = 40;
             camera.Position.Z = 30;
-            camera.LookAt(THREE.Math.Vector3.Zero());
+            camera.LookAt(THREE.Vector3.Zero());
         }
         private void InitRenderer()
         {
-            this.renderer.SetClearColor(new THREE.Math.Color().SetHex(0xEEEEEE), 1);
+            this.renderer.SetClearColor(new THREE.Color().SetHex(0xEEEEEE), 1);
             this.renderer.ShadowMap.Enabled = true;
             this.renderer.ShadowMap.type = Constants.PCFSoftShadowMap;
         }
@@ -82,7 +69,7 @@ namespace THREEExample.Learning.Chapter02
             imguiManager = new ImGuiManager(this.glControl);
 
             planeGeometry = new PlaneGeometry(60, 40, 1, 1);
-            MeshPhongMaterial planeMaterial = new MeshPhongMaterial() { Color = new THREE.Math.Color().SetHex(0xffffff) };
+            MeshPhongMaterial planeMaterial = new MeshPhongMaterial() { Color = new THREE.Color().SetHex(0xffffff) };
 
             plane = new Mesh(planeGeometry, planeMaterial);
             plane.ReceiveShadow = true;
@@ -94,10 +81,10 @@ namespace THREEExample.Learning.Chapter02
 
             scene.Add(plane);
 
-            var ambientLight = new AmbientLight(new THREE.Math.Color().SetHex(0x0c0c0c));
+            var ambientLight = new AmbientLight(new THREE.Color().SetHex(0x0c0c0c));
             scene.Add(ambientLight);
 
-            var spotLight = new SpotLight(new THREE.Math.Color().SetHex(0xffffff));
+            var spotLight = new SpotLight(new THREE.Color().SetHex(0xffffff));
             spotLight.Position.Set(-40, 60, -10);
             spotLight.CastShadow = true;
 
@@ -131,7 +118,7 @@ namespace THREEExample.Learning.Chapter02
             var cubeSize = (float)MathUtils.random.NextDouble() * 3;
             cubeSize = (int)System.Math.Ceiling((decimal)cubeSize);
             var cubeGeometry = new BoxGeometry(cubeSize, cubeSize, cubeSize);
-            var cubeMaterial = new MeshPhongMaterial() { Color = new THREE.Math.Color().Random() };
+            var cubeMaterial = new MeshPhongMaterial() { Color = new THREE.Color().Random() };
             var cube = new Mesh(cubeGeometry, cubeMaterial);
             cube.CastShadow = true;
             //cube.Name = "cube-" + BasicScene.scene.Children.Count;

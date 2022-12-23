@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-using THREE.Renderers;
-
-namespace THREE.Postprocessing
+﻿
+namespace THREE
 {
     public class ClearPass : Pass
     {

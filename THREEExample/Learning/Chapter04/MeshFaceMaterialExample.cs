@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+﻿using System.Collections.Generic;
+using THREE;
 
 namespace THREEExample.Learning.Chapter04
 {

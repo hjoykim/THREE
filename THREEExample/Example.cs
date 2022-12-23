@@ -3,12 +3,10 @@
  * */
 using OpenTK;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
-using THREE.Renderers;
+using THREE;
 
 namespace THREEExample
 {
@@ -27,7 +25,7 @@ namespace THREEExample
             Debug.Assert(null != control);
 
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;

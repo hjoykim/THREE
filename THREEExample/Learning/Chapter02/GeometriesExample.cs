@@ -2,20 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
-using Color = THREE.Math.Color;
-using Vector3 = THREE.Math.Vector3;
+using THREE;
+using Color = THREE.Color;
+using Vector3 = THREE.Vector3;
 
 namespace THREEExample.Learning.Chapter02
 {

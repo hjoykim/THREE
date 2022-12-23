@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-using THREE.Scenes;
-
+﻿using THREE;
 namespace THREEExample.Learning.Chapter02
 {
     [Example("02-Foggy Scene", ExampleCategory.LearnThreeJS, "Chapter02")]

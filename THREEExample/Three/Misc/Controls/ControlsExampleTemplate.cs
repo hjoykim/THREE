@@ -1,16 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Lights;
-using THREE.Math;
-using THREE.Scenes;
 using THREEExample.ThreeImGui;
 
 namespace THREEExample.Three.Misc.Controls

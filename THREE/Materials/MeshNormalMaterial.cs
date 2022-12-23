@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace THREE.Materials
+﻿
+namespace THREE
 {
     public class MeshNormalMaterial : Material
     {
@@ -17,7 +12,7 @@ namespace THREE.Materials
 
             this.NormalMap = null;
             this.NormalMapType = Constants.TangentSpaceNormalMap;
-            this.NormalScale = new Math.Vector2(1, 1);
+            this.NormalScale = new Vector2(1, 1);
 
             this.DisplacementMap = null;
             this.DisplacementScale = 1;

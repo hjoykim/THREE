@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Textures;
+﻿using System.Collections;
 
-namespace THREE.Renderers.gl
+namespace THREE
 {
     public class GLCubeMap
     {

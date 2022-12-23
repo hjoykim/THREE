@@ -1,6 +1,6 @@
 
 
-namespace THREE.Renderers.Shaders
+namespace THREE
 {
 	public static class ShaderLibVariable
 	{

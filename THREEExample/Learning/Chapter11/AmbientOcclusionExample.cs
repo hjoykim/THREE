@@ -1,16 +1,7 @@
 ﻿using OpenTK;
-using OpenTK.Graphics.ES30;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Postprocessing;
+using THREE;
 using THREEExample.ThreeImGui;
 
 namespace THREEExample.Learning.Chapter11
@@ -28,7 +19,7 @@ namespace THREEExample.Learning.Chapter11
             Debug.Assert(null != control);
 
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;

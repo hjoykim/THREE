@@ -2,12 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Objects;
 
-namespace THREE.Math
+
+namespace THREE
 {
     public class ThreeBSP
     {

@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Objects;
-using THREE.Renderers;
-using THREE.Scenes;
 
-namespace THREE.Postprocessing
+namespace THREE
 {
     
     public abstract class Pass

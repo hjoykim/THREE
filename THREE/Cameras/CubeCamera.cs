@@ -1,15 +1,5 @@
-﻿using OpenTK.Graphics.ES30;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Math;
-using THREE.Renderers;
-using THREE.Scenes;
-
-namespace THREE.Cameras
+﻿
+namespace THREE
 {
     public class CubeCamera : Camera
     {

@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Materials;
-using THREE.Renderers;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
-using THREE.Shaders;
-using THREE.Textures;
-
-namespace THREE.Postprocessing
+﻿namespace THREE
 {
     public class TexturePass : Pass
     {

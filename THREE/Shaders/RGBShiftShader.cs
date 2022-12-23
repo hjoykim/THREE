@@ -1,7 +1,4 @@
-﻿using THREE.Materials;
-using THREE.Renderers.gl;
-
-namespace THREE.Shaders
+﻿namespace THREE
 {
     public class RGBShiftShader : ShaderMaterial
     {

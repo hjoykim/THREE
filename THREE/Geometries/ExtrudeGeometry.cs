@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
-using THREE.Core;
-using THREE.Extras;
-using THREE.Extras.Core;
-using THREE.Math;
 
-namespace THREE.Geometries
+namespace THREE
 {
     public interface UVGenerator
     {

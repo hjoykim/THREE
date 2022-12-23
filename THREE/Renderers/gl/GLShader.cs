@@ -1,12 +1,6 @@
 ﻿using OpenTK.Graphics.ES30;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Renderers.Shaders;
 
-namespace THREE.Renderers.gl
+namespace THREE
 {
     public class GLShader
     {

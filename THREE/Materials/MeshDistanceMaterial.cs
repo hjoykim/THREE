@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-using THREE.Textures;
-
-namespace THREE.Materials
+﻿
+namespace THREE
 {
     public class MeshDistanceMaterial : Material
     {

@@ -1,18 +1,7 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Postprocessing;
-using THREE.Renderers.gl;
-using THREE.Shaders;
+using THREE;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
 
@@ -38,7 +27,7 @@ namespace THREEExample.Learning.Chapter11
             Debug.Assert(null != control);
 
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;

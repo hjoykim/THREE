@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Renderers.gl;
 
-namespace THREE.Objects
+
+namespace THREE
 {
     public class Mesh : Object3D
     {

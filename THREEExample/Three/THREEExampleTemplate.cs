@@ -1,11 +1,6 @@
 ﻿using System;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Math;
-using THREE.Scenes;
 using THREEExample.ThreeImGui;
 using THREE;
-using THREE.Lights;
 using OpenTK;
 using ImGuiNET;
 namespace THREEExample.Three
@@ -41,7 +36,7 @@ namespace THREEExample.Three
             camera.Near = 0.1f;
             camera.Far = 1000.0f;
             camera.Position.Set(0, 20, 40);
-            camera.LookAt(new THREE.Math.Vector3(10, 0, 0));
+            camera.LookAt(new THREE.Vector3(10, 0, 0));
         }
         public virtual void InitCameraController()
         {

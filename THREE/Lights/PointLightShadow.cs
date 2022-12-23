@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Math;
-namespace THREE.Lights
+﻿using System.Collections.Generic;
+
+namespace THREE
 {
     public class PointLightShadow : LightShadow
     {

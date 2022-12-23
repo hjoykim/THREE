@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using THREE.Cameras;
-using THREE.Math;
+﻿using System.Windows.Forms;
+using THREE;
 
-namespace THREE.Controls
+
+namespace THREE
 {
     public class FlyControls
     {

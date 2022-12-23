@@ -1,11 +1,4 @@
-﻿using System;
-
-using THREE.Core;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
-
+﻿using THREE;
 namespace THREEExample.Three.Buffergeometry
 {
     [Example("buffergeometry_point_interleaved", ExampleCategory.ThreeJs, "Buffergeometry")]

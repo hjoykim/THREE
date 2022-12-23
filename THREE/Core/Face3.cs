@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
 
-namespace THREE.Core
+namespace THREE
 {
     public class Face3 : ICloneable
     {

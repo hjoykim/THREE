@@ -1,19 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
 
@@ -40,7 +27,7 @@ namespace THREEExample.Learning.Chapter05
         int appliedMaterialIndex = 0;
         public Basic2D_Geometries_Plane() : base()
         {
-            camera = new THREE.Cameras.PerspectiveCamera();
+            camera = new THREE.PerspectiveCamera();
             scene = new Scene();
             stopWatch.Start();
         }

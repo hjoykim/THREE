@@ -1,22 +1,7 @@
 ﻿using OpenTK;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Controls;
-using THREE.Core;
-using THREE.Extras.Curves;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
-using Vector3 = THREE.Math.Vector3;
+using Vector3 = THREE.Vector3;
 
 namespace THREEExample.Three.Modifier
 {
@@ -41,7 +26,7 @@ namespace THREEExample.Three.Modifier
         
         public ModifierCurve() : base()
         {
-            camera = new THREE.Cameras.PerspectiveCamera();
+            camera = new THREE.PerspectiveCamera();
             scene = new Scene();
             stopWatch.Start();
         }

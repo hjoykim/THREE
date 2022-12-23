@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Scenes;
+﻿using System.Collections;
 
-namespace THREE.Renderers.gl
+namespace THREE
 {
     public class GLRenderLists : Hashtable
     {

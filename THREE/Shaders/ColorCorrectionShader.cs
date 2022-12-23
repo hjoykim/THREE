@@ -1,8 +1,5 @@
-﻿using THREE.Materials;
-using THREE.Math;
-using THREE.Renderers.gl;
-
-namespace THREE.Shaders
+﻿
+namespace THREE
 {
     public class ColorCorrectionShader : ShaderMaterial
     {

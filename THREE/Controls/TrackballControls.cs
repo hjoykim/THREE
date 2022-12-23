@@ -1,20 +1,13 @@
 ﻿using OpenTK;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using THREE.Cameras;
-using THREE.Math;
-using THREE.Renderers;
-using Quaternion = THREE.Math.Quaternion;
-using Vector2 = THREE.Math.Vector2;
-using Vector3 = THREE.Math.Vector3;
 
-namespace THREE.Controls
+using Quaternion = THREE.Quaternion;
+using Vector2 = THREE.Vector2;
+using Vector3 = THREE.Vector3;
+
+namespace THREE
 {
     public class TrackballControls
     {

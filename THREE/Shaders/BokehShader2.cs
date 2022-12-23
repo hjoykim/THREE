@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Renderers.gl;
-
-namespace THREE.Shaders
+﻿namespace THREE
 {
     public class BokehShader2 : ShaderMaterial
     {

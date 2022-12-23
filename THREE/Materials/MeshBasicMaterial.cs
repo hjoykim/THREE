@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Textures;
+﻿using System.Collections;
 
-namespace THREE.Materials
+namespace THREE
 {
     public class MeshBasicMaterial : Material
     {
@@ -68,7 +61,7 @@ namespace THREE.Materials
 
             this.Map = null;
 
-            this.Color = THREE.Math.Color.Hex(0xffffff); // emissive
+            this.Color = THREE.Color.Hex(0xffffff); // emissive
 
             //this.LightMap = null;
 

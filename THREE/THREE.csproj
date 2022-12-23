@@ -54,7 +54,6 @@
     <Compile Include="Controls\DragControls.cs" />
     <Compile Include="Controls\FirstPersonControls.cs" />
     <Compile Include="Controls\FlyControls.cs" />
-    <Compile Include="Controls\ICameraControl.cs" />
     <Compile Include="Controls\OrbitControls.cs" />
     <Compile Include="Controls\PointerLockControls.cs" />
     <Compile Include="Controls\TrackballControls.cs" />
@@ -84,7 +83,6 @@
     <Compile Include="Core\Object3D.cs" />
     <Compile Include="Core\Raycaster.cs" />
     <Compile Include="Extensions\ImageExtension.cs" />
-    <Compile Include="Extension\ConcurrentList.cs" />
     <Compile Include="Extras\Core\Curve.cs" />
     <Compile Include="Extras\Core\CurveInterface.cs" />
     <Compile Include="Extras\Core\CurvePath.cs" />
@@ -157,10 +155,6 @@
     <Compile Include="Loaders\OBJLoader.cs" />
     <Compile Include="Loaders\STLLoader.cs" />
     <Compile Include="Loaders\TextureLoader.cs" />
-    <Compile Include="Materials\IAttributes.cs" />
-    <Compile Include="Materials\IMap.cs" />
-    <Compile Include="Materials\IMorphTargets.cs" />
-    <Compile Include="Materials\IWireframe.cs" />
     <Compile Include="Materials\LineBasicMaterial.cs" />
     <Compile Include="Materials\LineDashedMaterial.cs" />
     <Compile Include="Materials\Material.cs" />
@@ -334,7 +328,6 @@
     <Compile Include="Textures\DataTexture2DArray.cs" />
     <Compile Include="Textures\DataTexture3D.cs" />
     <Compile Include="Textures\DepthTexture.cs" />
-    <Compile Include="Textures\ITexture.cs" />
     <Compile Include="Textures\Texture.cs" />
     <Compile Include="Textures\VideoTexture.cs" />
   </ItemGroup>

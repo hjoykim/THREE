@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Objects;
-using THREE.Renderers;
-using THREE.Renderers.gl;
-using THREE.Scenes;
-
-namespace THREE.Helpers
+﻿
+namespace THREE
 {
     public class LightProbeHelper : Mesh
     {

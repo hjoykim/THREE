@@ -1,16 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Renderers.gl;
-using THREE.Scenes;
+
 namespace THREEExample.Three.Buffergeometry
 {
     [Example("buffergeometry_rawshader", ExampleCategory.ThreeJs, "Buffergeometry")]

@@ -1,15 +1,7 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
 using System.Diagnostics;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
+using THREE;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
 
@@ -30,7 +22,7 @@ namespace THREEExample.Learning.Chapter10
 
             glControl = control;
 
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -59,13 +51,13 @@ namespace THREEExample.Learning.Chapter10
 
             var cubeMaterial = new MeshStandardMaterial
             {
-                Emissive = new THREE.Math.Color(0xffffff),
+                Emissive = new THREE.Color(0xffffff),
                 EmissiveMap = TextureLoader.Load("../../../assets/textures/emissive/lava.png"),
                 NormalMap = TextureLoader.Load("../../../assets/textures/emissive/lava-normals.png"),
                 MetalnessMap = TextureLoader.Load("../../../assets/textures/emissive/lava-smoothness.png"),
                 Metalness = 1,
                 Roughness = 0.4f,
-                NormalScale = new THREE.Math.Vector2(4, 4)
+                NormalScale = new THREE.Vector2(4, 4)
             };
 
             var cube = new BoxBufferGeometry(16, 16, 16);

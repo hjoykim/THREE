@@ -4,8 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using THREE.Math;
-namespace THREE.Extras.Core
+
+namespace THREE
 {
 	public class Font
 	{

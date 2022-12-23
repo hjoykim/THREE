@@ -1,23 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Math;
-using THREE.Scenes;
-using THREE.Helpers;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Objects;
 using OpenTK;
-using THREE.Lights;
 using THREEExample.Learning.Utils;
-using THREE.Core;
 using ImGuiNET;
 using THREEExample.ThreeImGui;
-using THREE.Controls;
 
 namespace THREEExample.Learning.Chapter09
 {
@@ -44,7 +31,7 @@ namespace THREEExample.Learning.Chapter09
         ImGuiManager imGuiManager;
         public SelectingObjectExample() : base()
         {
-            camera = new THREE.Cameras.PerspectiveCamera();
+            camera = new PerspectiveCamera();
             scene = new Scene();
         }
         private void InitRenderer()
@@ -62,7 +49,7 @@ namespace THREEExample.Learning.Chapter09
             camera.Position.X = -30;
             camera.Position.Y = 50;
             camera.Position.Z = 40;
-            camera.LookAt(THREE.Math.Vector3.Zero());
+            camera.LookAt(THREE.Vector3.Zero());
         }
         private void InitCameraController()
         {
@@ -158,7 +145,7 @@ namespace THREEExample.Learning.Chapter09
         {
 
 
-            var vector = new THREE.Math.Vector3(((float)e.X / this.glControl.Width) * 2 - 1, -((float)e.Y / this.glControl.Height) * 2 + 1, 0.5f);
+            var vector = new THREE.Vector3(((float)e.X / this.glControl.Width) * 2 - 1, -((float)e.Y / this.glControl.Height) * 2 + 1, 0.5f);
             vector = vector.UnProject(camera);
 
             var raycaster = new Raycaster(camera.Position, vector.Sub(camera.Position).Normalize());

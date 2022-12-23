@@ -1,6 +1,6 @@
-﻿namespace THREE.Math
+﻿using System;
+namespace THREE
 {
-    using System;
 
     public static class MathUtils
     {
@@ -30,7 +30,7 @@
         }
         public static float RadToDeg(double rad)
         {
-            return (float)(rad * 180.0f / Math.PI);
+            return (float)(rad * 180.0f /System.Math.PI);
         }
 
         public static float RandFloat(float low,float high)
@@ -44,7 +44,7 @@
         }
         public static float DegToRad(double deg)
         {
-            return (float)(Math.PI * deg / 180.0f);
+            return (float)(System.Math.PI * deg / 180.0f);
         }
         public static float mapLinear(double x, double a1, double a2, double b1, double b2)
         {
@@ -53,13 +53,13 @@
 
         public static float CeilPowerOfTwo(float value)
         {
-            return (float)System.Math.Pow(2, System.Math.Ceiling(System.Math.Log(value) / Math.Log(2)));
+            return (float)System.Math.Pow(2, System.Math.Ceiling(System.Math.Log(value) / System.Math.Log(2)));
 
         }
 
         public static float FloorPowerOfTwo(float value)
         {
-            return (float)System.Math.Pow(2, System.Math.Floor(System.Math.Log(value) / Math.Log(2)));
+            return (float)(System.Math.Pow(2, System.Math.Floor(System.Math.Log(value) / System.Math.Log(2))));
         }
 
         public static bool IsPowerOfTwo(int value ) 

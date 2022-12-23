@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-
+﻿using THREE;
 namespace THREEExample.Learning.Chapter04
 {
     [Example("07.Mesh-Phong-Material", ExampleCategory.LearnThreeJS, "Chapter04")]

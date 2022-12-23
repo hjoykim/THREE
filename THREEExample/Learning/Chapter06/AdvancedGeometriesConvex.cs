@@ -2,17 +2,10 @@
 using OpenTK;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+using THREE;
 using THREEExample.Learning.Chapter04;
 using THREEExample.Learning.Utils;
-using Vector3 = THREE.Math.Vector3;
+using Vector3 = THREE.Vector3;
 
 namespace THREEExample.Learning.Chapter06
 {

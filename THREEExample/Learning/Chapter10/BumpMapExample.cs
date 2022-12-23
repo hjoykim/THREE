@@ -1,15 +1,11 @@
 ﻿using OpenTK;
 using System.Diagnostics;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
+using THREE;
 using THREEExample.Learning.Chapter10;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
 using ImGuiNET;
-using THREE.Objects;
-using THREE.Materials;
-using THREE.Scenes;
+
 
 namespace THREEExample.Learning.Chapter09
 {
@@ -27,7 +23,7 @@ namespace THREEExample.Learning.Chapter09
             Debug.Assert(null != control);
 
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -50,7 +46,7 @@ namespace THREEExample.Learning.Chapter09
 
             DemoUtils.InitDefaultLighting(scene);
 
-            scene.Add(new AmbientLight(new THREE.Math.Color(0x444444)));
+            scene.Add(new AmbientLight(new THREE.Color(0x444444)));
 
             var cube = new BoxBufferGeometry(16, 16, 16);
             var cubeMaterial = new MeshStandardMaterial();

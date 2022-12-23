@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Core;
 
-namespace THREE.Math
+
+namespace THREE
 {
     public class Vector3 : IEquatable<Vector3>,INotifyPropertyChanged
     {

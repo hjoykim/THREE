@@ -1,23 +1,9 @@
 ﻿using OpenTK;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Math;
 using THREEExample.Learning.Chapter10;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
-using THREE.Textures;
 using THREE;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Runtime.InteropServices;
 
 namespace THREEExample.Learning.Chapter09
 {
@@ -35,7 +21,7 @@ namespace THREEExample.Learning.Chapter09
             Debug.Assert(null != control);
 
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -58,7 +44,7 @@ namespace THREEExample.Learning.Chapter09
 
             DemoUtils.InitDefaultLighting(scene);
 
-            scene.Add(new AmbientLight(new THREE.Math.Color(0x444444)));
+            scene.Add(new AmbientLight(new THREE.Color(0x444444)));
 
             var polyhedron = new IcosahedronBufferGeometry(8, 0);
             polyhedronMesh = AddGeometry(scene, polyhedron, "polyhedron", TextureLoader.LoadTGA("../../../assets/textures/tga/dried_grass.tga"));

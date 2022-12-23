@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Math;
-using THREE.Renderers;
-using THREE.Renderers.gl;
 
-namespace THREE.Lights
+namespace THREE
 {
     public class LightShadow : ICloneable
     {

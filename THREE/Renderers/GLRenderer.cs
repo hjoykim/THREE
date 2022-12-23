@@ -4,21 +4,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Windows.Forms;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Extras.Objects;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
-using THREE.Scenes;
-using THREE.Textures;
 
-namespace THREE.Renderers
+namespace THREE
 {
     public class GLRenderer : DisposableObject
     {
@@ -290,7 +277,7 @@ namespace THREE.Renderers
         {
             background.SetClearAlpha(alpha);
         }
-        public void SetClearColor(THREE.Math.Color color, float alpha=1)
+        public void SetClearColor(Color color, float alpha=1)
         {
             this.background.SetClearColor(color,alpha);
         }
@@ -443,7 +430,7 @@ namespace THREE.Renderers
             RenderBufferImmediate(object3D, program);
         }
 
-        private void RenderBufferImmediate(Object3D object3D, gl.GLProgram program)
+        private void RenderBufferImmediate(Object3D object3D, GLProgram program)
         {
             state.InitAttributes();
             /*
@@ -552,7 +539,7 @@ namespace THREE.Renderers
 
             bindingStates.Setup(object3D, material, program, geometry, index);
 
-            gl.BufferType attribute = null;
+            BufferType attribute = null;
             var renderer = bufferRenderer;
 
             if (index != null)

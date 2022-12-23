@@ -1,6 +1,4 @@
-﻿using THREE.Math;
-
-namespace THREE.Cameras
+﻿namespace THREE
 {
     using System;
     public class PerspectiveCamera : Camera

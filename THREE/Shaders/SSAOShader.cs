@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Renderers.gl;
-
-namespace THREE.Shaders
+﻿namespace THREE
 {
-    public class SSAOShader : ShaderMaterial
-    {
-        public SSAOShader()
-        {
-            Defines.Add("PERSPECTIVE_CAMERA", "1");
-            Defines.Add("KERNEL_SIZE", "32");
+	public class SSAOShader : ShaderMaterial
+	{
+		public SSAOShader()
+		{
+			Defines.Add("PERSPECTIVE_CAMERA", "1");
+			Defines.Add("KERNEL_SIZE", "32");
 
 			Uniforms = new GLUniforms{
 
@@ -172,22 +163,24 @@ namespace THREE.Shaders
 
 		";
 
-        }
+		}
 
-		public class SSAODepthShader : ShaderMaterial
-        {
-			public SSAODepthShader()
-            {
-				Defines.Add("PERSPECTIVE_CAMERA", "1");
+		
+	}
+	public class SSAODepthShader : ShaderMaterial
+	{
+		public SSAODepthShader()
+		{
+			Defines.Add("PERSPECTIVE_CAMERA", "1");
 
-				Uniforms = new GLUniforms{
+			Uniforms = new GLUniforms{
 
 				{ "tDepth", new GLUniform{{ "value", null } } },
 				{ "cameraNear", new GLUniform{{ "value", null } } },
 				{ "cameraFar", new GLUniform{{ "value", null } } }
 				};
 
-				VertexShader = @"
+			VertexShader = @"
 			varying vec2 vUv; 
 
              void main() {
@@ -199,7 +192,7 @@ namespace THREE.Shaders
 
                 ";
 
-				FragmentShader = @"
+			FragmentShader = @"
 		uniform sampler2D tDepth; 
 
 		uniform float cameraNear;
@@ -233,20 +226,20 @@ namespace THREE.Shaders
 		}
 
 		";
-			}
-        }
+		}
+	}
 
-		public class SSAOBlurShader : ShaderMaterial
+	public class SSAOBlurShader : ShaderMaterial
+	{
+		public SSAOBlurShader()
 		{
-			public SSAOBlurShader()
-			{
 
-				Uniforms = new GLUniforms{
+			Uniforms = new GLUniforms{
 				{ "tDiffuse", new GLUniform{{ "value", null } } },
 				{ "resolution", new GLUniform{{ "value", new Vector2() } } }
 				};
 
-				VertexShader = @"
+			VertexShader = @"
 				varying vec2 vUv; 
 
 				 void main() {
@@ -258,7 +251,7 @@ namespace THREE.Shaders
 
                 ";
 
-				FragmentShader = @"
+			FragmentShader = @"
 		uniform sampler2D tDiffuse; 
 
 		uniform vec2 resolution;
@@ -286,7 +279,7 @@ namespace THREE.Shaders
 		}
 ";
 
-			}
 		}
 	}
+
 }

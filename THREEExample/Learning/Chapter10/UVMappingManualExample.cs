@@ -3,17 +3,10 @@ using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Geometries;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+using THREE;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
-
+using Vector2 = THREE.Vector2;
 namespace THREEExample.Learning.Chapter10
 {
     [Example("20-uv-mapping-manual", ExampleCategory.LearnThreeJS, "Chapter10")]
@@ -31,7 +24,7 @@ namespace THREEExample.Learning.Chapter10
 
             glControl = control;
 
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -63,11 +56,11 @@ namespace THREEExample.Learning.Chapter10
             };
 
             geom = new BoxGeometry(14, 14, 14);
-            geom.FaceVertexUvs.Add(new List<List<THREE.Math.Vector2>>());
-            geom.FaceVertexUvs[0].Add(new List<THREE.Math.Vector2>());
-            geom.FaceVertexUvs[0][0].Add(new THREE.Math.Vector2());
-            geom.FaceVertexUvs[0][0].Add(new THREE.Math.Vector2());
-            geom.FaceVertexUvs[0][0].Add(new THREE.Math.Vector2());
+            geom.FaceVertexUvs.Add(new List<List<Vector2>>());
+            geom.FaceVertexUvs[0].Add(new List<Vector2>());
+            geom.FaceVertexUvs[0][0].Add(new Vector2());
+            geom.FaceVertexUvs[0][0].Add(new Vector2());
+            geom.FaceVertexUvs[0][0].Add(new Vector2());
 
             geom.FaceVertexUvs[0][0][0].X = 0.5f;
             geom.FaceVertexUvs[0][0][0].Y = 0.7f;

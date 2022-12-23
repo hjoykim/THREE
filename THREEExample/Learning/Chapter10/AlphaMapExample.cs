@@ -1,19 +1,6 @@
 ﻿using OpenTK;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ImGuiNET;
 using THREE;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Objects;
-using THREE.Scenes;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
 
@@ -31,7 +18,7 @@ namespace THREEExample.Learning.Chapter10
             Debug.Assert(null != control);
             glControl = control;
 
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -51,7 +38,7 @@ namespace THREEExample.Learning.Chapter10
 
             DemoUtils.InitDefaultLighting(scene);
 
-            scene.Add(new AmbientLight(new THREE.Math.Color(0x444444)));
+            scene.Add(new AmbientLight(new THREE.Color(0x444444)));
 
             var groundPlane = DemoUtils.AddLargeGroundPlane(scene, true);
             groundPlane.Position.Y = -8;
@@ -61,7 +48,7 @@ namespace THREEExample.Learning.Chapter10
                 AlphaMap = TextureLoader.Load("../../../assets/textures/alpha/partial-transparency.png"),
                 Metalness = 0.02f,
                 Roughness = 0.07f,
-                Color = new THREE.Math.Color(0xffffff),
+                Color = new THREE.Color(0xffffff),
                 AlphaTest = 0.5f
             };
 

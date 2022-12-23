@@ -1,18 +1,11 @@
 ﻿using OpenTK;
 using System;
 using System.Diagnostics;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
+using THREE;
 using THREEExample.ThreeImGui;
-using ImGuiNET;
-using THREE.Objects;
-using THREE.Materials;
-using THREE.Scenes;
-using THREE.Core;
+
 using System.Collections.Generic;
-using THREE.Textures;
-using THREE.Math;
+
 
 namespace THREEExample.Learning.Chapter10
 {
@@ -34,7 +27,7 @@ namespace THREEExample.Learning.Chapter10
             Debug.Assert(null != control);
 
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -52,13 +45,13 @@ namespace THREEExample.Learning.Chapter10
 
             imguiManager = new ImGuiManager(this.glControl);
            
-            scene.Add(new AmbientLight(new THREE.Math.Color(0x888888)));
+            scene.Add(new AmbientLight(new THREE.Color(0x888888)));
 
-            pointLight = new PointLight(new THREE.Math.Color(0xffffff));
+            pointLight = new PointLight(new THREE.Color(0xffffff));
             scene.Add(pointLight);
 
             var sphereLight = new SphereBufferGeometry(0.2f);
-            var sphereLightMaterial = new MeshStandardMaterial() { Color = new THREE.Math.Color(0xff5808) };
+            var sphereLightMaterial = new MeshStandardMaterial() { Color = new THREE.Color(0xff5808) };
             sphereLightMesh = new Mesh(sphereLight, sphereLightMaterial);
 
             scene.Add(sphereLightMesh);

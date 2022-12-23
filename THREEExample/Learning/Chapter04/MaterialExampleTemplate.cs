@@ -1,13 +1,7 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
 using System.Collections.Generic;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Scenes;
 using THREEExample.ThreeImGui;
 
 namespace THREEExample.Learning.Chapter04
@@ -30,7 +24,7 @@ namespace THREEExample.Learning.Chapter04
 
         public MaterialExampleTemplate() : base()
         {
-            camera = new THREE.Cameras.PerspectiveCamera();
+            camera = new THREE.PerspectiveCamera();
             scene = new Scene();
             stopWatch.Start();
         }
@@ -59,7 +53,7 @@ namespace THREEExample.Learning.Chapter04
             camera.Near = 0.1f;
             camera.Far = 1000.0f;
             camera.Position.Set(0, 20, 40);
-            camera.LookAt(new THREE.Math.Vector3(10,0,0));
+            camera.LookAt(new THREE.Vector3(10,0,0));
         }
         public virtual void InitCameraController()
         {

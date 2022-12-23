@@ -1,15 +1,7 @@
 ﻿using ImGuiNET;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Extras.Curves;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+using THREE;
 using THREEExample.Learning.Utils;
 
 namespace THREEExample.Learning.Chapter06

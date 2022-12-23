@@ -1,19 +1,8 @@
 ﻿using OpenTK;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
-using Vector3 = THREE.Math.Vector3;
+using Vector3 = THREE.Vector3;
 
 namespace THREEExample.Learning.Chapter08
 {
@@ -27,7 +16,7 @@ namespace THREEExample.Learning.Chapter08
         public override void InitRenderer()
         {
             base.InitRenderer();
-            this.renderer.SetClearColor(new THREE.Math.Color().SetHex(0x000000));
+            this.renderer.SetClearColor(new THREE.Color().SetHex(0x000000));
         }
         public override void InitCamera()
         {

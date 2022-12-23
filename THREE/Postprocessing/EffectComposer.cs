@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-using THREE.Renderers;
-using THREE.Shaders;
 
-namespace THREE.Postprocessing
+namespace THREE
 {
     public class EffectComposer
     {

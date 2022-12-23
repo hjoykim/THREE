@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Renderers.gl;
+using THREE;
 
-namespace THREE.Core
+namespace THREE
 {
     public struct DrawRange
     {

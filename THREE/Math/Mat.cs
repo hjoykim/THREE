@@ -1,6 +1,6 @@
-﻿namespace THREE.Math
-{
-    using System;
+﻿using System;
+
+namespace THREE { 
 
     public static class Mat
     {

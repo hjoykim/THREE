@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-namespace THREE.Materials
+﻿using System.Collections;
+
+namespace THREE
 {
     public class MeshPhongMaterial : Material
     {

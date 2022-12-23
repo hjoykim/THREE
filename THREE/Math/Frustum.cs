@@ -1,13 +1,6 @@
-﻿using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Objects;
-using THREE.Math;
-namespace THREE.Math
+﻿using System;
+
+namespace THREE
 {
     public class Frustum : ICloneable
     {

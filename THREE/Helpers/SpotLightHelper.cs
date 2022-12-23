@@ -1,17 +1,11 @@
 ﻿
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Lights;
-using THREE.Math;
 
-namespace THREE.Helpers
+namespace THREE
 {
-    using System;
-    using THREE.Materials;
-    using THREE.Objects;
+
+
     public class SpotLightHelper : Object3D
     {
         private Vector3 _vector = Vector3.Zero();

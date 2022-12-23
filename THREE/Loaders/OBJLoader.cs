@@ -4,12 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
 
-namespace THREE.Loaders
+namespace THREE
 {
     class Object
     {
@@ -514,12 +510,12 @@ namespace THREE.Loaders
             return int.Parse(value);
         }
 
-        public Objects.Group Parse(string path)
+        public Group Parse(string path)
         {
             return Parse(File.ReadAllText(path), path);
         }
 
-        public Objects.Group Parse(string objContents, string path)
+        public Group Parse(string objContents, string path)
         {
             Debug.WriteLine("OBJLoader");
 
@@ -654,8 +650,8 @@ namespace THREE.Loaders
                 {
                     if (string.IsNullOrWhiteSpace(path)) continue;
                     string matFileName = line.Substring(7, line.Length - 7).Trim();
-                    string directory = Path.GetDirectoryName(path);
-                    string matPath = Path.Combine(directory, matFileName);
+                    string directory = System.IO.Path.GetDirectoryName(path);
+                    string matPath = System.IO.Path.Combine(directory, matFileName);
                     //state.Object.StartMaterial(matPath, state.MaterialLibraries);
                     state.MaterialLibraries.Add(matPath);
                     continue;
@@ -687,7 +683,7 @@ namespace THREE.Loaders
 
             state.finalize();
 
-            var container = new Objects.Group();
+            var container = new Group();
 
             container.MaterialLibraries = state.MaterialLibraries.ToList();
 
@@ -879,7 +875,7 @@ namespace THREE.Loaders
             return container;
         }
 
-        public Objects.Group Load(string path)
+        public Group Load(string path)
         {
             return Parse(path);
         }

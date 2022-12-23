@@ -1,12 +1,6 @@
 ﻿using ImGuiNET;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Geometries;
-
+using THREE;
 namespace THREEExample.Learning.Chapter05
 {
     [Example("02.Basic-2D-Geometries-Circle", ExampleCategory.LearnThreeJS, "Chapter05")]

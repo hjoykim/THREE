@@ -1,15 +1,10 @@
 ﻿using ImGuiNET;
 using OpenTK;
 using System.Collections;
-using THREE.Extras.Core;
-using THREE.Geometries;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+using THREE;
 using THREEExample.Learning.Chapter04;
 using THREEExample.Learning.Utils;
-using Matrix4 = THREE.Math.Matrix4;
+using Matrix4 = THREE.Matrix4;
 
 namespace THREEExample.Learning.Chapter06
 {

@@ -1,21 +1,10 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
-using System.Collections.Generic;
+using THREE;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Loaders;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Postprocessing;
-using THREE.Renderers.gl;
-using THREE.Shaders;
 using THREEExample.ThreeImGui;
-using Vector3 = THREE.Math.Vector3;
-using Vector2 = THREE.Math.Vector2;
+using Vector3 = THREE.Vector3;
+using Vector2 = THREE.Vector2;
 namespace THREEExample.Learning.Chapter11
 {
     [Example("07-shader-pass-simple", ExampleCategory.LearnThreeJS, "Chapter11")]
@@ -29,7 +18,7 @@ namespace THREEExample.Learning.Chapter11
         float saturation = 0.0f;
         float sides = 6.0f;
         float angle = 0.0f;
-        Color defaultColor = Color.Hex(0x000000);
+        THREE.Color defaultColor = THREE.Color.Hex(0x000000);
         float luminosityThreshold = 1.0f;
         float smoothWidth = 1.0f;
         float defaultOpacity = 0.0f;
@@ -77,7 +66,7 @@ namespace THREEExample.Learning.Chapter11
             Debug.Assert(null != control);
 
             glControl = control;
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;

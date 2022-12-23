@@ -3,11 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-using THREE.Objects;
-namespace THREE.Core
+
+namespace THREE
 {
     public struct MorphTarget
     {

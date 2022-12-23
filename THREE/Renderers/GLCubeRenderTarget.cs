@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Objects;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
-using THREE.Scenes;
-using THREE.Textures;
-using GLShader = THREE.Renderers.gl.GLShader;
+﻿using System.Collections;
 
-namespace THREE.Renderers
+
+namespace THREE
 {
     public class GLCubeRenderTarget : GLRenderTarget
     {

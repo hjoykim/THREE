@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
 
-namespace THREE.Geometries
+namespace THREE
 {
    
     public class TetrahedronGeometry : Geometry

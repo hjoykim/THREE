@@ -1,13 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-using THREE.Cameras;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Math;
-using THREE.Renderers.Shaders;
-using THREE.Textures;
-namespace THREE.Renderers.gl
+namespace THREE
 {
     public class UniformsCache : Hashtable
     {

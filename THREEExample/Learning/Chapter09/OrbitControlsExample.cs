@@ -1,15 +1,6 @@
 ﻿
 using OpenTK;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
 namespace THREEExample.Learning.Chapter09
 {
     [Example("06-Controls-orbit", ExampleCategory.LearnThreeJS, "Chapter09")]
@@ -23,7 +14,7 @@ namespace THREEExample.Learning.Chapter09
 
         public OrbitControlsExample() : base()
         {
-            camera = new THREE.Cameras.PerspectiveCamera();
+            camera = new PerspectiveCamera();
             scene = new Scene();
             stopWatch.Start();
         }
@@ -42,7 +33,7 @@ namespace THREEExample.Learning.Chapter09
             camera.Position.X = -30;
             camera.Position.Y = 50;
             camera.Position.Z = 40;
-            camera.LookAt(THREE.Math.Vector3.Zero());
+            camera.LookAt(THREE.Vector3.Zero());
         }
         private void InitCameraController()
         {

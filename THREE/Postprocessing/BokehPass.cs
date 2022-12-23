@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Renderers;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
-using THREE.Scenes;
-using THREE.Shaders;
+﻿using System.Collections;
 
-namespace THREE.Postprocessing
+namespace THREE
 {
     public class BokehPass : Pass
     {

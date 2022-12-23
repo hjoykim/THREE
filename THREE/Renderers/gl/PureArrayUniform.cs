@@ -1,15 +1,10 @@
 ﻿using OpenTK.Graphics.ES30;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using THREE.Math;
-using THREE.Textures;
-namespace THREE.Renderers.gl
+
+namespace THREE
 {
     public class PureArrayUniform : GLUniform
     {

@@ -1,16 +1,12 @@
-﻿using OpenTK;
-using OpenTK.Graphics;
+﻿using OpenTK.Graphics;
 using OpenTK.Graphics.ES30;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Objects;
-using Geometry = THREE.Core.Geometry;
 
-namespace THREE.Renderers.gl
+using Geometry = THREE.Geometry;
+
+namespace THREE
 {
     public struct BindingStateStruct
     {
@@ -455,7 +451,7 @@ namespace THREE.Renderers.gl
                         if (geometryAttribute != null) {
                             var normalized = false;
                             var size = 0;
-                            gl.BufferType attribute = null;
+                            BufferType attribute = null;
                             if (geometryAttribute is BufferAttribute<float>)
                             {
                                 normalized = (geometryAttribute as BufferAttribute<float>).Normalized;
@@ -552,7 +548,7 @@ namespace THREE.Renderers.gl
                     else if (name.Equals("instanceMatrix"))
                     {
 
-                        gl.BufferType attribute = attributes.Get<float>((object3D as InstancedMesh).InstanceMatrix);
+                        BufferType attribute = attributes.Get<float>((object3D as InstancedMesh).InstanceMatrix);
 
                         // TODO Attribute may not be available on context restore
 

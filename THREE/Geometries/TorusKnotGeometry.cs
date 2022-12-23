@@ -1,15 +1,9 @@
-﻿using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
-namespace THREE.Geometries
+namespace THREE
 {
-	using System;
-	using System.Collections.Generic;
-	using THREE.Math;
-
 	public class TorusKnotGeometry : Geometry
 	{
 		public Hashtable parameters;

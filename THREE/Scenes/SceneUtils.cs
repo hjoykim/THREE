@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Objects;
+﻿using System.Collections.Generic;
 
-namespace THREE.Scenes
+
+namespace THREE
 {
     public class SceneUtils
     {

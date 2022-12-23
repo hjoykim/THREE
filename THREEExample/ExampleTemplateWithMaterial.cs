@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Geometries;
-using THREE.Objects;
-using THREE.Scenes;
-using THREE.Math;
-using THREEExample.ThreeImGui;
-using OpenTK;
+﻿using THREE;
 using ImGuiNET;
-using THREE.Materials;
+
 
 namespace THREEExample
 {

@@ -1,18 +1,11 @@
 ﻿using OpenTK.Graphics.ES30;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-using THREE.Renderers;
-using THREE.Textures;
-using Color = THREE.Math.Color;
-using Vector3 = THREE.Math.Vector3;
-namespace THREE.Lights
+using Color = THREE.Color;
+using Vector3 = THREE.Vector3;
+namespace THREE
 {
     public class LightProbeGenerator
     {

@@ -1,27 +1,7 @@
 ﻿using System;
 using THREE;
-using THREE.Cameras;
-using THREE.Math;
-using THREE.Scenes;
-using THREE.Helpers;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Objects;
-using OpenTK;
-using THREE.Controls;
-using THREE.Lights;
-using THREE.Core;
-using Vector3 = THREE.Math.Vector3;
-using Matrix4 = THREE.Math.Matrix4;
-using Quaternion = THREE.Math.Quaternion;
-using System.Collections;
-using System.Collections.Generic;
-using Vector2 = THREE.Math.Vector2;
-using System.Windows.Forms;
+
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using THREE.Loaders;
-using System.Diagnostics;
 
 namespace THREEExample.Three.Misc.Controls
 {

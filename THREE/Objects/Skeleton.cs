@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Textures;
-using THREE.Math;
-namespace THREE.Objects
+
+namespace THREE
 {
     public class Skeleton : Object3D
     {

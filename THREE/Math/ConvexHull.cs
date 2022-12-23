@@ -1,406 +1,404 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
 
-namespace THREE.Math
+
+namespace THREE
 {
-    public class VertexNode
-    {
-        public Vector3 Point=null;
-
-        public VertexNode Prev=null;
-
-        public VertexNode Next=null;
-
-        public Face Face=null;
-
-        public VertexNode(Vector3 point)
-        {
-            this.Point = point;
-
-        }
-    }
-
-    public class VertexList
-    {
-        public VertexNode Head;
-
-        public VertexNode Tail;
-
-        public VertexList()
-        {
-            this.Head = null;
-            this.Tail = null;
-        }
-
-        public VertexNode First()
-        {
-            return Head;
-        }
-
-        public VertexNode Last()
-        {
-            return Tail;
-        }
-
-        public void Clear()
-        {
-            Head = null;
-            Tail = null;
-        }
-
-        public VertexList InsertBefore(VertexNode target,VertexNode vertex)
-        {
-            vertex.Prev = target.Prev;
-            vertex.Next = target;
-
-            if (vertex.Prev == null)
-                this.Head = vertex;
-            else
-                vertex.Prev.Next = vertex;
-
-            target.Prev = vertex;
-
-            return this;
-        }
-
-        public VertexList InsertAfter(VertexNode target, VertexNode vertex )
-        {
-
-            vertex.Prev = target;
-            vertex.Next = target.Next;
-
-            if (vertex.Next == null)
-            {
-
-                this.Tail = vertex;
-
-            }
-            else
-            {
-
-                vertex.Next.Prev = vertex;
-
-            }
-
-            target.Next = vertex;
-
-            return this;
-
-        }
-
-		// Appends a vertex to the end of the linked list
-
-		public VertexList Append(VertexNode vertex )
-        {
-
-            if (this.Head == null)
-            {
-
-                this.Head = vertex;
-
-            }
-            else
-            {
-
-                this.Tail.Next = vertex;
-
-            }
-
-            vertex.Prev = this.Tail;
-            vertex.Next = null; // the tail has no subsequent vertex
-
-            this.Tail = vertex;
-
-            return this;
-
-        }
-
-		// Appends a chain of vertices where 'vertex' is the head.
-
-		public VertexList AppendChain(VertexNode vertex )
-        {
-
-            if (this.Head == null)
-            {
-
-                this.Head = vertex;
-
-            }
-            else
-            {
-
-                this.Tail.Next = vertex;
-
-            }
-
-            vertex.Prev = this.Tail;
-
-            // ensure that the 'tail' reference points to the last vertex of the chain
-
-            while (vertex.Next != null)
-            {
-
-                vertex = vertex.Next;
-
-            }
-
-            this.Tail = vertex;
-
-            return this;
-
-        }
-
-		// Removes a vertex from the linked list
-
-		public VertexList Remove(VertexNode vertex )
-        {
-
-            if (vertex.Prev == null)
-            {
-
-                this.Head = vertex.Next;
-
-            }
-            else
-            {
-
-                vertex.Prev.Next = vertex.Next;
-
-            }
-
-            if (vertex.Next == null)
-            {
-
-                this.Tail = vertex.Prev;
-
-            }
-            else
-            {
-
-                vertex.Next.Prev = vertex.Prev;
-
-            }
-
-            return this;
-
-        }
-
-		// Removes a list of vertices whose 'head' is 'a' and whose 'tail' is b
-
-		public VertexList RemoveSubList(VertexNode a, VertexNode b )
-        {
-
-            if (a.Prev == null)
-            {
-
-                this.Head = b.Next;
-
-            }
-            else
-            {
-
-                a.Prev.Next = b.Next;
-
-            }
-
-            if (b.Next == null)
-            {
-
-                this.Tail = a.Prev;
-
-            }
-            else
-            {
-
-                b.Next.Prev = a.Prev;
-
-            }
-
-            return this;
-
-        }
-
-		public bool IsEmpty()
-        {
-
-            return this.Head == null;
-
-        }
-
-
-    }
-    public class Face
-    {
-        public Vector3 Normal;
-
-        public Vector3 Midpoint;
-
-        public float Area = 0;
-
-        public float Constant = 0;
-
-        public VertexNode Outside = null;
-
-        public int Visible;
-
-		public int Mark;
-
-        public HalfEdge Edge = null;
-
-        public Face()
-        {
-            Normal = new Vector3();
-
-            Midpoint = new Vector3();
-
-        }
-        public static Face Create(VertexNode a,VertexNode b,VertexNode c)
-        {
-            var face = new Face();
-
-            var e0 = new HalfEdge(a, face);
-            var e1 = new HalfEdge(b, face);
-            var e2 = new HalfEdge(c, face);
-
-            e0.Next = e2.Prev = e1;
-            e1.Next = e0.Prev = e2;
-            e2.Next = e1.Prev = e0;
-
-            face.Edge = e0;
-
-            return face.Compute();
-        }
-        public HalfEdge GetEdge(int i)
-        {
-
-            var edge = this.Edge;
-
-            while (i > 0)
-            {
-
-                edge = edge.Next;
-                i--;
-
-            }
-
-            while (i < 0)
-            {
-
-                edge = edge.Prev;
-                i++;
-
-            }
-
-            return edge;
-
-        }
-
-		public Face Compute()
-        {
-
-            var triangle = new Triangle();
-
-            var a = this.Edge.Tail();
-            var b = this.Edge.Head();
-            var c = this.Edge.Next.Head();
-
-            triangle.Set(a.Point, b.Point, c.Point);
-
-            triangle.GetNormal(this.Normal);
-            triangle.GetMidpoint(this.Midpoint);
-            this.Area = triangle.GetArea();
-
-            this.Constant = this.Normal.Dot(this.Midpoint);
-
-            return this;
-        }
-        
-
-		public float DistanceToPoint(Vector3 point )
-        {
-
-            return this.Normal.Dot(point) - this.Constant;
-
-        }
-    }
-
-
-    public class HalfEdge
-    {
-        public VertexNode Vertex;
-
-        public HalfEdge Prev = null;
-
-        public HalfEdge Next = null;
-
-        public HalfEdge Twin = null;
-
-        public Face Face;
-
-        public HalfEdge(VertexNode vertex,Face face)
-        {
-            this.Vertex = vertex;
-            this.Face = face;
-
-        }
-
-        public VertexNode Head()
-        {
-            return this.Vertex;
-        }
-        public VertexNode Tail()
-        {
-            return this.Prev!=null ? this.Prev.Vertex : null;
-        }
-
-        public float Length()
-        {
-            var head = this.Head();
-            var tail = this.Tail();
-
-            if (tail != null)
-            {
-                return tail.Point.DistanceTo(head.Point);
-            }
-
-            return -1;
-        }
-
-        public float LengthSquared()
-        {
-
-            var head = this.Head();
-            var tail = this.Tail();
-
-            if (tail != null)
-            {
-
-                return tail.Point.DistanceToSquared(head.Point);
-
-            }
-
-            return -1;
-
-        }
-
-		public HalfEdge SetTwin(HalfEdge edge )
-        {
-
-            this.Twin = edge;
-            edge.Twin = this;
-
-            return this;
-
-        }
-    }
+   
     public class ConvexHull
     {
-        int Visible = 0;
+		public class VertexNode
+		{
+			public Vector3 Point = null;
+
+			public VertexNode Prev = null;
+
+			public VertexNode Next = null;
+
+			public Face Face = null;
+
+			public VertexNode(Vector3 point)
+			{
+				this.Point = point;
+
+			}
+		}
+
+		public class VertexList
+		{
+			public VertexNode Head;
+
+			public VertexNode Tail;
+
+			public VertexList()
+			{
+				this.Head = null;
+				this.Tail = null;
+			}
+
+			public VertexNode First()
+			{
+				return Head;
+			}
+
+			public VertexNode Last()
+			{
+				return Tail;
+			}
+
+			public void Clear()
+			{
+				Head = null;
+				Tail = null;
+			}
+
+			public VertexList InsertBefore(VertexNode target, VertexNode vertex)
+			{
+				vertex.Prev = target.Prev;
+				vertex.Next = target;
+
+				if (vertex.Prev == null)
+					this.Head = vertex;
+				else
+					vertex.Prev.Next = vertex;
+
+				target.Prev = vertex;
+
+				return this;
+			}
+
+			public VertexList InsertAfter(VertexNode target, VertexNode vertex)
+			{
+
+				vertex.Prev = target;
+				vertex.Next = target.Next;
+
+				if (vertex.Next == null)
+				{
+
+					this.Tail = vertex;
+
+				}
+				else
+				{
+
+					vertex.Next.Prev = vertex;
+
+				}
+
+				target.Next = vertex;
+
+				return this;
+
+			}
+
+			// Appends a vertex to the end of the linked list
+
+			public VertexList Append(VertexNode vertex)
+			{
+
+				if (this.Head == null)
+				{
+
+					this.Head = vertex;
+
+				}
+				else
+				{
+
+					this.Tail.Next = vertex;
+
+				}
+
+				vertex.Prev = this.Tail;
+				vertex.Next = null; // the tail has no subsequent vertex
+
+				this.Tail = vertex;
+
+				return this;
+
+			}
+
+			// Appends a chain of vertices where 'vertex' is the head.
+
+			public VertexList AppendChain(VertexNode vertex)
+			{
+
+				if (this.Head == null)
+				{
+
+					this.Head = vertex;
+
+				}
+				else
+				{
+
+					this.Tail.Next = vertex;
+
+				}
+
+				vertex.Prev = this.Tail;
+
+				// ensure that the 'tail' reference points to the last vertex of the chain
+
+				while (vertex.Next != null)
+				{
+
+					vertex = vertex.Next;
+
+				}
+
+				this.Tail = vertex;
+
+				return this;
+
+			}
+
+			// Removes a vertex from the linked list
+
+			public VertexList Remove(VertexNode vertex)
+			{
+
+				if (vertex.Prev == null)
+				{
+
+					this.Head = vertex.Next;
+
+				}
+				else
+				{
+
+					vertex.Prev.Next = vertex.Next;
+
+				}
+
+				if (vertex.Next == null)
+				{
+
+					this.Tail = vertex.Prev;
+
+				}
+				else
+				{
+
+					vertex.Next.Prev = vertex.Prev;
+
+				}
+
+				return this;
+
+			}
+
+			// Removes a list of vertices whose 'head' is 'a' and whose 'tail' is b
+
+			public VertexList RemoveSubList(VertexNode a, VertexNode b)
+			{
+
+				if (a.Prev == null)
+				{
+
+					this.Head = b.Next;
+
+				}
+				else
+				{
+
+					a.Prev.Next = b.Next;
+
+				}
+
+				if (b.Next == null)
+				{
+
+					this.Tail = a.Prev;
+
+				}
+				else
+				{
+
+					b.Next.Prev = a.Prev;
+
+				}
+
+				return this;
+
+			}
+
+			public bool IsEmpty()
+			{
+
+				return this.Head == null;
+
+			}
+
+
+		}
+		public class Face
+		{
+			public Vector3 Normal;
+
+			public Vector3 Midpoint;
+
+			public float Area = 0;
+
+			public float Constant = 0;
+
+			public VertexNode Outside = null;
+
+			public int Visible;
+
+			public int Mark;
+
+			public HalfEdge Edge = null;
+
+			public Face()
+			{
+				Normal = new Vector3();
+
+				Midpoint = new Vector3();
+
+			}
+			public static Face Create(VertexNode a, VertexNode b, VertexNode c)
+			{
+				var face = new Face();
+
+				var e0 = new HalfEdge(a, face);
+				var e1 = new HalfEdge(b, face);
+				var e2 = new HalfEdge(c, face);
+
+				e0.Next = e2.Prev = e1;
+				e1.Next = e0.Prev = e2;
+				e2.Next = e1.Prev = e0;
+
+				face.Edge = e0;
+
+				return face.Compute();
+			}
+			public HalfEdge GetEdge(int i)
+			{
+
+				var edge = this.Edge;
+
+				while (i > 0)
+				{
+
+					edge = edge.Next;
+					i--;
+
+				}
+
+				while (i < 0)
+				{
+
+					edge = edge.Prev;
+					i++;
+
+				}
+
+				return edge;
+
+			}
+
+			public Face Compute()
+			{
+
+				var triangle = new Triangle();
+
+				var a = this.Edge.Tail();
+				var b = this.Edge.Head();
+				var c = this.Edge.Next.Head();
+
+				triangle.Set(a.Point, b.Point, c.Point);
+
+				triangle.GetNormal(this.Normal);
+				triangle.GetMidpoint(this.Midpoint);
+				this.Area = triangle.GetArea();
+
+				this.Constant = this.Normal.Dot(this.Midpoint);
+
+				return this;
+			}
+
+
+			public float DistanceToPoint(Vector3 point)
+			{
+
+				return this.Normal.Dot(point) - this.Constant;
+
+			}
+		}
+
+
+		public class HalfEdge
+		{
+			public VertexNode Vertex;
+
+			public HalfEdge Prev = null;
+
+			public HalfEdge Next = null;
+
+			public HalfEdge Twin = null;
+
+			public Face Face;
+
+			public HalfEdge(VertexNode vertex, Face face)
+			{
+				this.Vertex = vertex;
+				this.Face = face;
+
+			}
+
+			public VertexNode Head()
+			{
+				return this.Vertex;
+			}
+			public VertexNode Tail()
+			{
+				return this.Prev != null ? this.Prev.Vertex : null;
+			}
+
+			public float Length()
+			{
+				var head = this.Head();
+				var tail = this.Tail();
+
+				if (tail != null)
+				{
+					return tail.Point.DistanceTo(head.Point);
+				}
+
+				return -1;
+			}
+
+			public float LengthSquared()
+			{
+
+				var head = this.Head();
+				var tail = this.Tail();
+
+				if (tail != null)
+				{
+
+					return tail.Point.DistanceToSquared(head.Point);
+
+				}
+
+				return -1;
+
+			}
+
+			public HalfEdge SetTwin(HalfEdge edge)
+			{
+
+				this.Twin = edge;
+				edge.Twin = this;
+
+				return this;
+
+			}
+		}
+		int Visible = 0;
         int Deleted = 1;
 
         float tolerance = -1;

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Math;
-namespace THREE.Objects
+﻿using System.Collections.Generic;
+
+namespace THREE
 {
     public struct LevelStruct
     {

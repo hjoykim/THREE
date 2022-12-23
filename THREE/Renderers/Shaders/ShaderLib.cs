@@ -3,14 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using OpenTK.Graphics.ES30;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
-using THREE.Math;
-using THREE.Renderers.gl;
 
-namespace THREE.Renderers.Shaders
+
+namespace THREE
 {
     public struct ShaderInfo
     {
@@ -219,9 +215,9 @@ namespace THREE.Renderers.Shaders
             //return this.ShaderChunk.getChunk(chunkName);
         }
         #region Basic Shader
-        private gl.GLShader BasicShader()
+        private GLShader BasicShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -241,9 +237,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Lambert Shader
-        private gl.GLShader LambertShader()
+        private GLShader LambertShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -267,9 +263,9 @@ namespace THREE.Renderers.Shaders
         #endregion Lambert Shader
 
         #region Phong Shader
-        private gl.GLShader PhongShader()
+        private GLShader PhongShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -301,9 +297,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Standard Shader
-        private gl.GLShader StandardShader()
+        private GLShader StandardShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -338,9 +334,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Toon Shader
-        private gl.GLShader ToonShader()
+        private GLShader ToonShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -371,9 +367,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Matcap Shader
-        private gl.GLShader MatcapShader()
+        private GLShader MatcapShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -396,9 +392,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Points Shader
-        private gl.GLShader PointsShader()
+        private GLShader PointsShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -414,9 +410,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Dashed Shader
-        private gl.GLShader DashedShader()
+        private GLShader DashedShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -438,9 +434,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Depth Shader
-        private gl.GLShader DepthShader()
+        private GLShader DepthShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -456,9 +452,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Normal Shader
-        private gl.GLShader NormalShader()
+        private GLShader NormalShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -480,9 +476,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Sprite Shader
-        private gl.GLShader SpriteShader()
+        private GLShader SpriteShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -498,9 +494,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Background Shader
-        private gl.GLShader BackgroundShader()
+        private GLShader BackgroundShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = new GLUniforms 
                                 {
@@ -516,9 +512,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Cube Shader
-        private gl.GLShader CubeShader()
+        private GLShader CubeShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -537,9 +533,9 @@ namespace THREE.Renderers.Shaders
         #endregion  
       
         #region Equirect Shader
-        private gl.GLShader EquirectShader()
+        private GLShader EquirectShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = new GLUniforms 
                                 {
@@ -554,9 +550,9 @@ namespace THREE.Renderers.Shaders
         #endregion  
 
         #region DistanceRGBA Shader
-        private gl.GLShader DistanceRGBAShader()
+        private GLShader DistanceRGBAShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -578,9 +574,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region Shadow Shader
-        private gl.GLShader ShadowShader()
+        private GLShader ShadowShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
@@ -601,9 +597,9 @@ namespace THREE.Renderers.Shaders
         #endregion
 
         #region PhysicalShader
-        private gl.GLShader PhysicalShader()
+        private GLShader PhysicalShader()
         {
-            var shader = new gl.GLShader();
+            var shader = new GLShader();
 
             shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {

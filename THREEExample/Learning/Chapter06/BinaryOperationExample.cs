@@ -1,14 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+using THREE;
 using THREEExample.Learning.Utils;
 
 namespace THREEExample.Learning.Chapter06
@@ -33,7 +25,7 @@ namespace THREEExample.Learning.Chapter06
 
         }
 
-        private Mesh CreateMesh(THREE.Core.Geometry geometry)
+        private Mesh CreateMesh(Geometry geometry)
         {
             var wireframeMaterial = new MeshBasicMaterial() { Transparent = true, Opacity = 0.5f, WireframeLineWidth = 0.5f, Wireframe = true };
 

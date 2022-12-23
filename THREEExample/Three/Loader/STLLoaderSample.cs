@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+
 
 namespace THREEExample.Three.Loader
 {
@@ -21,7 +12,7 @@ namespace THREEExample.Three.Loader
         public STLLoaderSample() : base()
         {
             scene.Background = Color.Hex(0x72645b);
-            scene.Fog = new THREE.Scenes.Fog(0x72645b, 2, 15);
+            scene.Fog = new Fog(0x72645b, 2, 15);
         }
         public override void InitRenderer()
         {

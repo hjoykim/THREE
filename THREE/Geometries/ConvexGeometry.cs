@@ -1,11 +1,8 @@
 ﻿using MIConvexHull;
 using System.Collections.Generic;
 using System.Linq;
-using THREE.Core;
-using THREE.Math;
-using ConvexHull = MIConvexHull.ConvexHull;
 
-namespace THREE.Geometries
+namespace THREE
 {
     public class ConvexGeometry :Geometry
     {
@@ -44,7 +41,7 @@ namespace THREE.Geometries
             {
                 vertices.Add(new TVertex(points[i].X, points[i].Y, points[i].Z));
             }
-            var convexHull = ConvexHull.Create<TVertex, TFace>(vertices);
+            var convexHull = MIConvexHull.ConvexHull.Create<TVertex, TFace>(vertices);
             var faces = convexHull.Result.Faces.ToList();
             (var positions, var normals) = ConvertThreeVertices(faces);
 

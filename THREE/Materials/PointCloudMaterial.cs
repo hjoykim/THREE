@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Textures;
+﻿using System.Collections;
 
-namespace THREE.Materials
+namespace THREE
 {
     public class PointCloudMaterial : Material
     {

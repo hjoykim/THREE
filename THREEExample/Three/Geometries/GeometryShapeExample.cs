@@ -1,22 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using THREE;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Extras.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Textures;
-using Vector3 = THREE.Math.Vector3;
+
+using Vector3 = THREE.Vector3;
 
 namespace THREEExample.Three.Geometries
 {

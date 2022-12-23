@@ -3,23 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Renderers;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
-using THREE.Scenes;
-using THREE.Shaders;
-using THREE.Textures;
-using static THREE.Shaders.SSAOShader;
-using Color = THREE.Math.Color;
 
-namespace THREE.Postprocessing
+using Color = THREE.Color;
+
+namespace THREE
 {
 	
 

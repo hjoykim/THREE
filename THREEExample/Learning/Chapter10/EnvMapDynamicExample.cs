@@ -2,16 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Geometries;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Objects;
-using THREE.Renderers;
-using THREE.Textures;
+using THREE;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
 
@@ -32,7 +23,7 @@ namespace THREEExample.Learning.Chapter10
 
             glControl = control;
 
-            this.renderer = new THREE.Renderers.GLRenderer();
+            this.renderer = new THREE.GLRenderer();
 
             this.renderer.Context = control.Context;
             this.renderer.Width = control.Width;
@@ -67,7 +58,7 @@ namespace THREEExample.Learning.Chapter10
             var cubeMaterial = new MeshStandardMaterial
             {
                 EnvMap = scene.Background as CubeTexture,
-                Color = new THREE.Math.Color(0xffffff),
+                Color = new THREE.Color(0xffffff),
                 Metalness = 1.0f,
                 Roughness = 0.0f,
             };

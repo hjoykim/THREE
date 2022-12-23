@@ -1,16 +1,5 @@
 ﻿using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Loaders;
-using THREE.Math;
-using THREE.Scenes;
 using THREEExample.Learning.Utils;
 
 namespace THREEExample.Learning.Chapter09
@@ -26,7 +15,7 @@ namespace THREEExample.Learning.Chapter09
 
         public FlyControlsCameraExample() : base()
         {
-            camera = new THREE.Cameras.PerspectiveCamera();
+            camera = new PerspectiveCamera();
             scene = new Scene();
             stopWatch.Start();
         }
@@ -45,7 +34,7 @@ namespace THREEExample.Learning.Chapter09
             camera.Position.X = -30;
             camera.Position.Y = 50;
             camera.Position.Z = 40;
-            camera.LookAt(THREE.Math.Vector3.Zero());
+            camera.LookAt(THREE.Vector3.Zero());
         }
         private void InitCameraController()
         {

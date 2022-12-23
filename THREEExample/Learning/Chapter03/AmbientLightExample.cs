@@ -1,20 +1,5 @@
 ﻿using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Renderers;
-using THREE.Scenes;
 using THREEExample.Learning.Utils;
 
 namespace THREEExample.Learning.Chapter03
@@ -52,7 +37,7 @@ namespace THREEExample.Learning.Chapter03
             camera.Position.X = -30;
             camera.Position.Y = 40;
             camera.Position.Z = 30;
-            camera.LookAt(THREE.Math.Vector3.Zero());
+            camera.LookAt(THREE.Vector3.Zero());
         }
 
         private void InitCameraController()

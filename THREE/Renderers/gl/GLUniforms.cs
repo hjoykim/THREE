@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenTK.Graphics.ES30;
 using System.Text.RegularExpressions;
-using THREE.Math;
 using System.Diagnostics;
 
-namespace THREE.Renderers.gl
+namespace THREE
 {
     public class GLUniforms : StructuredUniform 
     {

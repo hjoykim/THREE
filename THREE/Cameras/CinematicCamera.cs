@@ -1,22 +1,8 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.ES30;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Objects;
-using THREE.Renderers;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
-using THREE.Scenes;
-using THREE.Shaders;
 
-namespace THREE.Cameras
+namespace THREE
 {
     public class CinematicCamera : PerspectiveCamera
     {

@@ -4,8 +4,7 @@
 //-----------------------------------------------------
 
 using System;
-using THREE.Math;
-
+using THREE;
 namespace Typography.OpenFont
 {
     //https://en.wikipedia.org/wiki/B%C3%A9zier_curve

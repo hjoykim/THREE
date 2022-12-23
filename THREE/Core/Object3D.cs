@@ -2,20 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using THREE.Cameras;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Renderers;
-using THREE.Scenes;
+using THREE;
 
-namespace THREE.Core
+namespace THREE
 {
     public class Object3D : BasicObject,ICloneable
     {

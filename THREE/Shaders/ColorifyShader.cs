@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Materials;
-using THREE.Renderers.gl;
-using THREE.Math;
-namespace THREE.Shaders
+﻿namespace THREE
 {
     public class ColorifyShader : ShaderMaterial
     {
         public ColorifyShader()
         {
             Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
-            Uniforms.Add("color", new GLUniform { { "value", THREE.Math.Color.Hex(0xffffff) } });
+            Uniforms.Add("color", new GLUniform { { "value", THREE.Color.Hex(0xffffff) } });
 
             VertexShader = @"
                 varying vec2 vUv; 

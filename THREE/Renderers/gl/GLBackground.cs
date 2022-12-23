@@ -1,15 +1,6 @@
 ﻿using OpenTK.Graphics.ES30;
-using THREE.Cameras;
-using THREE.Scenes;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Textures;
-using THREE.Geometries;
-using THREE.Materials;
 using System.Collections;
-using THREE.Renderers.Shaders;
-using THREE.Core;
-namespace THREE.Renderers.gl
+namespace THREE
 {
     public class GLBackground
     {

@@ -1,15 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using THREE;
-using THREE.Math;
-using THREE.Scenes;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Objects;
-using THREE.Lights;
-using THREE.Core;
-using THREE.Loaders;
-using THREE.Extras.Core;
 
 namespace THREEExample.Learning.Utils
 {
@@ -428,7 +419,7 @@ namespace THREEExample.Learning.Utils
                     {
                         foreach (var m in object3D.Materials)
                         {
-                            m.Color = new THREE.Math.Color().Random();
+                            m.Color = new THREE.Color().Random();
                             if (m.Name.IndexOf("building") == 0)
                             {
                                 m.Emissive = new Color(0x444444);

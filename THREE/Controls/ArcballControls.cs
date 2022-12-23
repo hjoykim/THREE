@@ -1,20 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Extras.Curves;
-using THREE.Helpers;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
+using THREE;
 
-namespace THREE.Controls
+namespace THREE
 {
 	public class ArcballControls : IDisposable
 	{

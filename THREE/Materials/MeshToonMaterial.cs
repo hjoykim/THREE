@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-
-namespace THREE.Materials
+﻿namespace THREE
 {
     public class MeshToonMaterial : Material
     {
@@ -30,7 +23,7 @@ namespace THREE.Materials
             AoMap = null;
             AoMapIntensity = 1.0f;
 
-            Emissive = THREE.Math.Color.Hex(0x000000);
+            Emissive = THREE.Color.Hex(0x000000);
             EmissiveIntensity = 1.0f;
             EmissiveMap = null;
 

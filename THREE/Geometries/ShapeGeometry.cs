@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using THREE.Core;
-using THREE.Extras;
-using THREE.Extras.Core;
-using THREE.Math;
 
-namespace THREE.Geometries
+namespace THREE
 {
     public class ShapeGeometry : Geometry
     {

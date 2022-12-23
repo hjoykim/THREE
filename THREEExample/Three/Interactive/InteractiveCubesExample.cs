@@ -1,22 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Math;
-using THREE.Scenes;
-using THREE.Helpers;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Objects;
 using OpenTK;
-using THREE.Controls;
-using THREE.Lights;
-using THREE.Core;
 using THREE;
 using System.Windows.Forms;
-using Vector2 = THREE.Math.Vector2;
+using Vector2 = THREE.Vector2;
 
 namespace THREEExample.Three.Interactive
 {

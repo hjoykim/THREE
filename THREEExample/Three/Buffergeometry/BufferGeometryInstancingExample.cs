@@ -1,16 +1,7 @@
 ﻿using ImGuiNET;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Renderers.gl;
+
 
 namespace THREEExample.Three.Buffergeometry
 {

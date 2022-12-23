@@ -1,9 +1,5 @@
-﻿using THREE.Materials;
-using THREE.Math;
-using THREE.Renderers.gl;
-
-namespace THREE.Shaders
-{
+﻿
+namespace THREE { 
     public class PixelShader : ShaderMaterial
     {
         public PixelShader() : base()

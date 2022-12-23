@@ -1,17 +1,7 @@
 ﻿using ImGuiNET;
 using OpenTK;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Geometries;
-using THREE.Helpers;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+using THREE;
 
 namespace THREEExample.Learning.Chapter03
 {

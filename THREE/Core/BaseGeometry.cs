@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
-namespace THREE.Core
+using THREE;
+namespace THREE
 {
     public abstract class BaseGeometry : IDisposable
     {

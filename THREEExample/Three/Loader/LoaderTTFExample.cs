@@ -1,19 +1,8 @@
-﻿using DrawingGL;
-using DrawingGL.Text;
-using ImGuiNET;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Windows.Forms;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
-using Color = THREE.Math.Color;
+using THREE;
+using Color = THREE.Color;
 
 namespace THREEExample.Three.Loaders
 {

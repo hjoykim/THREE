@@ -1,18 +1,6 @@
-﻿using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
+﻿using System.Collections.Generic;
 
-namespace THREE.Renderers
+namespace THREE
 {
   
     public class RenderableObject

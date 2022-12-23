@@ -1,12 +1,7 @@
 ﻿using OpenTK.Graphics.ES30;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
 
-namespace THREE.Renderers.gl
+namespace THREE
 {
     public class GLIndexedBufferRenderer : GLBufferRenderer
     {
@@ -25,7 +20,7 @@ namespace THREE.Renderers.gl
         //    this.mode = value;
         //}
 
-        public void SetIndex(gl.BufferType value)
+        public void SetIndex(BufferType value)
         {
             var pointerType = (VertexAttribPointerType)Enum.ToObject(typeof(VertexAttribPointerType), value.Type);
             this.type = pointerType;

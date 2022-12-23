@@ -1,25 +1,10 @@
 ﻿using ImGuiNET;
 using OpenTK;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Scenes;
-using THREE.Textures;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
-using Vector3 = THREE.Math.Vector3;
+using Vector3 = THREE.Vector3;
 
 namespace THREEExample.Learning.Chapter10
 {
@@ -43,7 +28,7 @@ namespace THREEExample.Learning.Chapter10
         public Dictionary<string, Material> materialsLib = new Dictionary<string, Material>();
         public TemplateExample() : base()
         {
-            camera = new THREE.Cameras.PerspectiveCamera();
+            camera = new PerspectiveCamera();
             scene = new Scene();
             stopWatch.Start();
         }

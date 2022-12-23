@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Materials;
-using THREE.Math;
-
+﻿using THREE;
 namespace THREEExample.Learning.Chapter04
 {
     [Example("09.Mesh-Standard-Material", ExampleCategory.LearnThreeJS, "Chapter04")]

@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Lights;
-using THREE.Math;
-using THREE.Renderers.gl;
-using THREE.Textures;
-namespace THREE.Renderers.Shaders
+﻿using System.Collections.Generic;
+
+namespace THREE
 {
     public class UniformsLib : Dictionary<string, GLUniforms>
     {

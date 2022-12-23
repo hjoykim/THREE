@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Math;
+﻿using System.Collections.Generic;
 
-namespace THREE.Extras
+
+namespace THREE
 {
     public class ShapeUtils
     {

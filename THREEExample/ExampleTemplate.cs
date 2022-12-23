@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Cameras;
-using THREE.Controls;
-using THREE.Geometries;
-using THREE.Objects;
-using THREE.Scenes;
-using THREE.Math;
-using THREEExample.ThreeImGui;
 using OpenTK;
 using ImGuiNET;
-using OpenTK.Graphics.ES30;
+using THREEExample.ThreeImGui;
 
 namespace THREEExample
 {
@@ -38,11 +27,11 @@ namespace THREEExample
             camera.Position.X = -30;
             camera.Position.Y = 40;
             camera.Position.Z = 30;
-            camera.LookAt(THREE.Math.Vector3.Zero());
+            camera.LookAt(THREE.Vector3.Zero());
         }
         public virtual void InitRenderer()
         {
-            this.renderer.SetClearColor(new THREE.Math.Color().SetHex(0xEEEEEE), 1);
+            this.renderer.SetClearColor(new THREE.Color().SetHex(0xEEEEEE), 1);
             this.renderer.ShadowMap.Enabled = true;
             this.renderer.ShadowMap.type = Constants.PCFSoftShadowMap;
         }

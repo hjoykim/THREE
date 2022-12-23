@@ -2,17 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Lights;
-using THREE.Materials;
-using THREE.Objects;
-using THREE.Scenes;
-using THREE.Textures;
-using THREE.Renderers.Shaders;
-namespace THREE.Renderers.gl
+
+namespace THREE
 {
 
     public class GLPrograms
@@ -185,7 +176,7 @@ namespace THREE.Renderers.gl
 
             if(!string.IsNullOrEmpty(shaderID))
             {
-                gl.GLShader shader = (gl.GLShader)ShaderLib[shaderID];
+                GLShader shader = (GLShader)ShaderLib[shaderID];
                 vertexShader = shader.VertexShader;
                 fragmentShader = shader.FragmentShader;
             }
@@ -429,7 +420,7 @@ namespace THREE.Renderers.gl
 
             if (!string.IsNullOrEmpty(shaderId))
             {
-                gl.GLShader shader = (gl.GLShader)ShaderLib[shaderId];
+                GLShader shader = (GLShader)ShaderLib[shaderId];
                 uniforms = (GLUniforms)UniformsUtils.CloneUniforms(shader.Uniforms);
             }
             else

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using THREE.Cameras;
-using THREE.Math;
+using THREE;
 using static THREE.Constants;
 
-namespace THREE.Controls
+namespace THREE
 {
     public enum STATE
     {

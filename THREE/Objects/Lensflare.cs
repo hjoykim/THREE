@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Renderers;
-using THREE.Renderers.gl;
-using THREE.Scenes;
-using THREE.Textures;
-using THREE.Extensions;
-namespace THREE.Objects
+
+namespace THREE
 {
     public class LensflareElement : GLShader
     {
@@ -24,9 +11,9 @@ namespace THREE.Objects
 
         public float Distance;
 
-        public THREE.Math.Color Color;
+        public Color Color;
 
-        public LensflareElement(Texture texture=null,float? size=null,float? distance=null,THREE.Math.Color? color=null) : base() 
+        public LensflareElement(Texture texture=null,float? size=null,float? distance=null,Color? color=null) : base() 
         {
             this.Texture = texture;
 
@@ -34,7 +21,7 @@ namespace THREE.Objects
 
             this.Distance = distance != null ? (float)distance : 0;
 
-            this.Color = color != null ? (THREE.Math.Color)color : THREE.Math.Color.Hex(0xffffff);
+            this.Color = color != null ? (Color)color : Color.Hex(0xffffff);
 
             this.Uniforms = new GLUniforms() 
             { 
@@ -248,7 +235,7 @@ namespace THREE.Objects
                 { 
                     {"map", new GLUniform(){{"value",null}}},
                     {"occlusionMap",new GLUniform(){{"value",occlusionMap}}},
-                    {"color",new GLUniform(){{"value",THREE.Math.Color.Hex(0xffffff)}}},
+                    {"color",new GLUniform(){{"value",Color.Hex(0xffffff)}}},
                     {"scale",new GLUniform(){{"value",new Vector2()}}},
                     {"screenPosition",new GLUniform(){{"value",new Vector3()}}}
                 },

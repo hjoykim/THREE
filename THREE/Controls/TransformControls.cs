@@ -3,19 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
 
-namespace THREE.Controls
+namespace THREE
 {
 
     public class TransformControls : Object3D, INotifyPropertyChanged

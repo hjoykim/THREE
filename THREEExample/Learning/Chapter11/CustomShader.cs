@@ -1,5 +1,4 @@
-﻿using THREE.Materials;
-using THREE.Renderers.gl;
+﻿using THREE;
 
 namespace THREEExample.Learning.Chapter11
 {

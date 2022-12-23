@@ -1,25 +1,9 @@
 ﻿using ImGuiNET;
 using OpenTK;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-using THREE.Geometries;
-using THREE.Lights;
-using THREE.Loaders;
-using THREE.Materials;
-using THREE.Math;
-using THREE.Objects;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
-using THREE.Textures;
-using Color = THREE.Math.Color;
+
+using Color = THREE.Color;
 
 namespace THREEExample.Learning.Chapter03
 {

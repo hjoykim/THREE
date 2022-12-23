@@ -1,6 +1,4 @@
-﻿using THREE.Extras.Core;
-using THREE.Math;
-namespace THREE.Extras.Curves
+﻿namespace THREE
 {
     public class CubicBezierCurve3 : Curve
     {

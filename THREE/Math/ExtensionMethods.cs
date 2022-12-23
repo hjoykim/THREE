@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace THREE.Math
+namespace THREE
 {
     public static class ExtensionMethods
     {

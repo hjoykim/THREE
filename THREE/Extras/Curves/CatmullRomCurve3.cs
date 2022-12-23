@@ -11,10 +11,8 @@ but for three.js curve use, it could be possible inlined and flatten into a sing
 which can be placed in CurveUtils.
 */
 
-using System;
 using System.Collections.Generic;
-using THREE.Extras.Core;
-using THREE.Math;
+
 /**
 * @author zz85 https://github.com/zz85
 *
@@ -25,7 +23,7 @@ using THREE.Math;
 * curve.type accepts centripetal(default), chordal and catmullrom
 * curve.tension is used for catmullrom which defaults to 0.5
 */
-namespace THREE.Extras.Curves
+namespace THREE
 {
 
     class CubicPoly

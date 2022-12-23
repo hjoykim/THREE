@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Lights;
-using THREE.Renderers.gl;
+﻿using System.Collections.Generic;
 
-namespace THREE.Renderers.gl
+namespace THREE
 {
     
     public class GLRenderState

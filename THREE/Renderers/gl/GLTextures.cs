@@ -1,5 +1,4 @@
-﻿using OpenTK;
-using OpenTK.Graphics.ES30;
+﻿using OpenTK.Graphics.ES30;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,18 +6,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Math;
-using THREE.Textures;
-using THREE.Extensions;
 using System.Runtime.InteropServices;
 using OpenTK.Graphics;
 
-namespace THREE.Renderers.gl
+namespace THREE
 {
     public class GLTextures : DisposableObject
     {

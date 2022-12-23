@@ -1,21 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
-using THREE.Math;
-using THREE.Cameras;
-using THREE.Lights;
-using THREE.Geometries;
-using THREE.Materials;
-using THREE.Objects;
 using System.Windows.Forms;
 using System.Diagnostics;
+using THREE;
 using ImGuiNET;
-using THREE.Renderers.gl;
-using OpenTK.Graphics.ES30;
-using THREE.Scenes;
 
 namespace THREEExample.Three.camera
 {

@@ -1,14 +1,6 @@
-﻿using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Renderers.gl;
-using THREE.Renderers.Shaders;
+﻿using System.Collections;
 
-namespace THREE.Materials
+namespace THREE
 {
     
     public class ShaderMaterial : Material

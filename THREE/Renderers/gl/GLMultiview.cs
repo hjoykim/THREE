@@ -1,17 +1,9 @@
 ﻿using OpenTK.Graphics.ES30;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Cameras;
-using THREE.Core;
-using THREE.Math;
-using THREE.Renderers.Shaders;
 
-namespace THREE.Renderers.gl
+
+namespace THREE
 {
     public class GLMultiview
     {

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using THREE.Core;
+﻿using System.Collections.Generic;
 
-namespace THREE.Geometries
+namespace THREE
 {
     public class IcosahedronGeometry : Geometry
     {
