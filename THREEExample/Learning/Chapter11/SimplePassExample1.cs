@@ -52,6 +52,8 @@ namespace THREEExample.Learning.Chapter11
         }
         public override void Render()
         {
+            if (!imGuiManager.ImWantMouse) controls.Enabled = true;
+            else controls.Enabled = false;
             base.Render();
 
             renderer.AutoClear = false;

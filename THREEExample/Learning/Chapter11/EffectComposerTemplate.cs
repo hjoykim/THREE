@@ -151,6 +151,8 @@ namespace THREEExample.Learning.Chapter11
 
         public override void Render()
         {
+            if (!imGuiManager.ImWantMouse) controls.Enabled = true;
+            else controls.Enabled = false;
             controls.Update();
             earth.Rotation.Y += 0.001f;
             pivot.Rotation.Y += -0.0003f;
@@ -255,6 +257,8 @@ namespace THREEExample.Learning.Chapter11
         public override void Resize(System.Drawing.Size clientSize)
         {
             base.Resize(clientSize);
+            camera.Aspect = this.glControl.AspectRatio;
+            camera.UpdateProjectionMatrix();
         }
 
         public virtual void AddHalftonePassControl(string rootName,HalftonePass pass)

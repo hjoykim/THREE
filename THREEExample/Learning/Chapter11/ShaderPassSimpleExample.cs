@@ -106,6 +106,7 @@ namespace THREEExample.Learning.Chapter11
             hueSaturationShader = new ShaderPass(new HueSaturationShader());
             kaleidoShader = new ShaderPass(new KaleidoShader());
             luminosityHighPassShader = new ShaderPass(new LuminosityHighPassShader());
+            luminosityHighPassShader.Enabled = false;
             luminosityShader = new ShaderPass(new LuminosityShader());
             mirrorShader = new ShaderPass(new MirrorShader());
             pixelShader = new ShaderPass(new PixelShader());
@@ -139,11 +140,12 @@ namespace THREEExample.Learning.Chapter11
         }
         public override void Render()
         {
+            if (!imGuiManager.ImWantMouse) controls.Enabled=true;
+            else controls.Enabled = false;
             controls.Update();
             earth.Rotation.Y += 0.001f;
             pivot.Rotation.Y += -0.0003f;
             composer.Render();
-
             ShowControls();
         }
         public override void ShowControls()

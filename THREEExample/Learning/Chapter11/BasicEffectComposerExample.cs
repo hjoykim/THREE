@@ -27,6 +27,7 @@ namespace THREEExample.Learning.Chapter11
         }
         public override void Render()
         {
+
             base.Render();
 
             composer.Render();

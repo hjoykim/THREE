@@ -57,12 +57,14 @@ namespace THREEExample.Learning.Chapter11
         }
         public override void Render()
         {
+            if (!imGuiManager.ImWantMouse) controls.Enabled = true;
+            else controls.Enabled = false;
             base.Render();
 
             renderer.AutoClear = false;
             renderer.Clear();
 
-           
+
 
             renderer.SetViewport(0, 0, halfWidth, halfHeight);
             composer1.Render();
