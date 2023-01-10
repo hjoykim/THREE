@@ -266,6 +266,10 @@
     <Compile Include="Three\Geometries\ConvexGeometryExample.cs" />
     <Compile Include="Three\Geometries\EdgesGeometryExample.cs" />
     <Compile Include="Three\Geometries\GeometriesExample.cs" />
+    <Compile Include="Three\Geometries\GeometryTerrainExample.cs" />
+    <Compile Include="Three\Geometries\GeometryTerrainFogExample.cs" />
+    <Compile Include="Three\Geometries\GeometryTerrainRaycastExample.cs" />
+    <Compile Include="Three\Geometries\ImprovedNoise.cs" />
     <Compile Include="Three\Geometries\TeapotExample.cs" />
     <Compile Include="Three\Geometries\GeometryColorsLookupTable.cs" />
     <Compile Include="Three\Geometries\GeometryShapeExample.cs" />

@@ -135,5 +135,24 @@ namespace THREE
             return source;
 
         }
+        public static void Resize2<T>(this List<T> list, int size)
+        {
+            int count = list.Count;
+
+            if (size < count)
+            {
+                list.RemoveRange(size, count - size);
+            }
+            else if (size > count)
+            {
+                if (size > list.Capacity)
+                {
+                    list.Capacity = size;
+                }
+
+                list.AddRange(new T[size - count]);
+            }
+        }
+        
     }
 }

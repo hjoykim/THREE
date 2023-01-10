@@ -55,10 +55,11 @@ namespace THREE
 
         private int viewHalfX = 0;
         private int viewHalfY = 0;
-
+        private Control glControl;
         public FirstPersonControls(Control control, Camera camera)
         {
             this.camera = camera;
+            this.glControl = control;
             screen = control.ClientRectangle;
 
             control.MouseDown += Control_MouseDown;
@@ -180,15 +181,14 @@ namespace THREE
 
         private void Control_SizeChanged(object sender, EventArgs e)
         {
-            screen = (sender as Control).ClientRectangle;
-            screen = (sender as Control).ClientRectangle;
-            camera.Aspect = (sender as OpenTK.GLControl).AspectRatio;
-            camera.UpdateProjectionMatrix();
-
+            HandleResize();
+        }
+        public void HandleResize()
+        {
+            screen = glControl.ClientRectangle;
             viewHalfX = screen.Width / 2;
             viewHalfY = screen.Height / 2;
         }
-
         public void Update(float delta)
         {
             if (Enabled == false) return;

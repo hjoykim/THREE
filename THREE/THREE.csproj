@@ -187,7 +187,6 @@
     <Compile Include="Math\Frustum.cs" />
     <Compile Include="Math\Line3.cs" />
     <Compile Include="Math\Lut.cs" />
-    <Compile Include="Math\Mat.cs" />
     <Compile Include="Math\MathUtils.cs" />
     <Compile Include="Math\Matrix3.cs" />
     <Compile Include="Math\Matrix3d.cs" />

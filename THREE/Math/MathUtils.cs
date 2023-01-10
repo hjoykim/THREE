@@ -23,7 +23,10 @@ namespace THREE
             double val = (random.NextDouble() * (max - min) + min);
             return (float)val;
         }
-
+        public static int NextInt()
+        {
+            return (int)random.NextDouble();
+        }
         public static float NextFloat()
         {
             return (float)random.NextDouble();
