@@ -263,6 +263,7 @@
     <Compile Include="Three\Clipping\ClippingExample.cs" />
     <Compile Include="Three\Clipping\ClippingIntersectionExample.cs" />
     <Compile Include="Three\Clipping\ClippingIntersectionSolidExample.cs" />
+    <Compile Include="Three\CustomAttributes\CustomAttributesLines.cs" />
     <Compile Include="Three\Geometries\ConvexGeometryExample.cs" />
     <Compile Include="Three\Geometries\EdgesGeometryExample.cs" />
     <Compile Include="Three\Geometries\GeometriesExample.cs" />

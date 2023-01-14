@@ -32,6 +32,9 @@ namespace THREEExample.Three.Geometries
             camera.Position.Set(0, 150, 500);
             scene.Add(camera);
         }
+        public override void InitCameraController()
+        {
+        }
         public override void InitLighting()
         {
             var light = new PointLight(0xffffff, 0.8f);
