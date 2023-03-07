@@ -267,6 +267,8 @@
     <Compile Include="Three\Geometries\ConvexGeometryExample.cs" />
     <Compile Include="Three\Geometries\EdgesGeometryExample.cs" />
     <Compile Include="Three\Geometries\GeometriesExample.cs" />
+    <Compile Include="Three\Geometries\GeometryHierarchy2Example.cs" />
+    <Compile Include="Three\Geometries\GeometryHierarchyExample.cs" />
     <Compile Include="Three\Geometries\GeometryTerrainExample.cs" />
     <Compile Include="Three\Geometries\GeometryTerrainFogExample.cs" />
     <Compile Include="Three\Geometries\GeometryTerrainRaycastExample.cs" />
