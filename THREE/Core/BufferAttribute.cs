@@ -155,7 +155,7 @@ namespace THREE
             this.ItemSize = source.ItemSize;
             this.Normalized = source.Normalized;
             this.Usage = source.Usage;
-
+            this.Type = typeof(T);
             return this;
         }
 

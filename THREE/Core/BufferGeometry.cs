@@ -87,7 +87,7 @@ namespace THREE
             this.Groups = new List<DrawRange>(source.Groups);
             this.BoundingBox = null;
             this.BoundingSphere = null;
-
+            this.IsBufferGeometry = source.IsBufferGeometry;
             // used for storing cloned, shared data
 
 

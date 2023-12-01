@@ -100,6 +100,15 @@ namespace THREE
 
         public Hashtable MorphTargetDictionary = new Hashtable();
 
+        public bool IsGroup
+        {
+            get
+            {
+                if (Geometry != null && Geometry.IsBufferGeometry && (Geometry as BufferGeometry).Attributes.Count == 0) return true;
+                else return false;
+            }
+        }
+
         #region Public Events
         public event EventHandler<EventArgs> Added;
 
@@ -158,6 +167,27 @@ namespace THREE
 		    this.RenderOrder = source.RenderOrder;
 
             this.UserData = source.UserData;
+
+            /*
+            * if you deal with this cloned object to indivisual, you need to adopt real deep copy of source's Geometry, Material, Materials, and it's base class , Hashtable
+            * this will be accomplished by declaring Serialize all three class and  writing all class member to Memory stream , and deserializing...
+            * please refer to Deep copy of C# Class
+            * */
+            if (source.Geometry != null)
+            {
+                if(source.Geometry is BufferGeometry)
+                    this.Geometry = source.Geometry as BufferGeometry;
+                else
+                    this.Geometry = source.Geometry;
+            }
+            if (source.Material != null)
+            {
+                this.Material = source.Material;
+            }
+            if (source.Materials.Count > 0)
+            {
+                this.Materials = source.Materials;
+            }
 
             if (recursive == true)
             {

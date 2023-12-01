@@ -11,8 +11,6 @@ namespace THREE
     {
         public OpenTK.Graphics.IGraphicsContext Context;
 
-        public event EventHandler<EventArgs> Disposed;
-
         //public Dictionary<string,RenderInfo> sceneList = new Dictionary<string,RenderInfo>();
 
         private GLRenderState CurrentRenderState;
@@ -806,7 +804,7 @@ namespace THREE
 
             if (visible)
             {
-                if(object3D is Group)
+                if(object3D.IsGroup)
                 {
                     groupOrder = object3D.RenderOrder;
                 }
