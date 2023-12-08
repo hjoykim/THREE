@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using THREE.Renderers.Shaders;
+﻿using System.Collections;
 
 namespace THREE
 {
-    [Serializable]
     public class BloomPass : Pass
     {
         private float strength;
@@ -16,14 +13,14 @@ namespace THREE
         private GLRenderTarget renderTargetY;
         private ShaderMaterial materialCopy;
         private ShaderMaterial materialConvolution;
-        private Uniforms convolutionUniforms;
-        private Uniforms uniforms;
+        private GLUniforms convolutionUniforms;
+        private GLUniforms uniforms;
         private CopyShader copyShader;
 
         public static Vector2 BlurX = new Vector2(0.001953125f, 0.0f);
         public static Vector2 BlurY = new Vector2(0.0f, 0.001953125f);
 
-        public BloomPass(float? strength = null, int? kernelSize = null, float? sigma = null, int? resolution = null) : base()
+        public BloomPass(float? strength=null,int? kernelSize=null,float? sigma=null,int? resolution=null) : base()
         {
             this.strength = strength != null ? strength.Value : 1.0f;
             this.kernelSize = kernelSize != null ? kernelSize.Value : 25;
@@ -46,23 +43,22 @@ namespace THREE
 
             uniforms = UniformsUtils.CloneUniforms(copyShader.Uniforms);
 
-            (uniforms["opacity"] as Uniform)["value"] = this.strength;
+            (uniforms["opacity"] as GLUniform)["value"] = this.strength;
 
-            materialCopy = new ShaderMaterial
-            {
+            materialCopy = new ShaderMaterial { 
                 Uniforms = uniforms,
                 VertexShader = copyShader.VertexShader,
                 FragmentShader = copyShader.FragmentShader,
                 Blending = Constants.AdditiveBlending,
-                Transparent = true
+                Transparent = true            
             };
 
             ConvolutionShader convolutionShader = new ConvolutionShader();
 
             convolutionUniforms = UniformsUtils.CloneUniforms(convolutionShader.Uniforms);
 
-            (convolutionUniforms["uImageIncrement"] as Uniform)["value"] = BloomPass.BlurX;
-            (convolutionUniforms["cKernel"] as Uniform)["value"] = convolutionShader.BuildKernel(this.sigma);
+            (convolutionUniforms["uImageIncrement"] as GLUniform)["value"] = BloomPass.BlurX;
+            (convolutionUniforms["cKernel"] as GLUniform)["value"] = convolutionShader.BuildKernel(this.sigma);
 
             materialConvolution = new ShaderMaterial
             {
@@ -70,7 +66,7 @@ namespace THREE
                 VertexShader = convolutionShader.VertexShader,
                 FragmentShader = convolutionShader.FragmentShader
             };
-            materialConvolution.Defines.Add("KERNEL_SIZE_FLOAT", this.kernelSize.ToString() + ".0");
+            materialConvolution.Defines.Add("KERNEL_SIZE_FLOAT", this.kernelSize.ToString()+".0");
             materialConvolution.Defines.Add("KERNEL_SIZE_INT", this.kernelSize.ToString());
 
             this.NeedsSwap = false;
@@ -85,8 +81,8 @@ namespace THREE
 
             this.fullScreenQuad.material = this.materialConvolution;
 
-            (this.convolutionUniforms["tDiffuse"] as Uniform)["value"] = readBuffer.Texture;
-            (this.convolutionUniforms["uImageIncrement"] as Uniform)["value"] = BloomPass.BlurX;
+            (this.convolutionUniforms["tDiffuse"] as GLUniform)["value"] = readBuffer.Texture;
+            (this.convolutionUniforms["uImageIncrement"] as GLUniform)["value"] = BloomPass.BlurX;
 
             renderer.SetRenderTarget(this.renderTargetX);
             renderer.Clear();
@@ -95,8 +91,8 @@ namespace THREE
 
             // Render quad with blured scene into texture (convolution pass 2)
 
-            (this.convolutionUniforms["tDiffuse"] as Uniform)["value"] = this.renderTargetX.Texture;
-            (this.convolutionUniforms["uImageIncrement"] as Uniform)["value"] = BloomPass.BlurY;
+            (this.convolutionUniforms["tDiffuse"] as GLUniform)["value"] = this.renderTargetX.Texture;
+            (this.convolutionUniforms["uImageIncrement"] as GLUniform)["value"] = BloomPass.BlurY;
 
             renderer.SetRenderTarget(this.renderTargetY);
             renderer.Clear();
@@ -106,9 +102,9 @@ namespace THREE
 
             this.fullScreenQuad.material = this.materialCopy;
 
-            (this.uniforms["tDiffuse"] as Uniform)["value"] = this.renderTargetY.Texture;
+            (this.uniforms["tDiffuse"] as GLUniform)["value"] = this.renderTargetY.Texture;
 
-            if (maskActive != null && maskActive.Value == true) renderer.state.buffers.stencil.SetTest(true);
+            if (maskActive!=null && maskActive.Value==true) renderer.state.buffers.stencil.SetTest(true);
 
             renderer.SetRenderTarget(readBuffer);
             if (this.Clear) renderer.Clear();
@@ -118,7 +114,7 @@ namespace THREE
 
         public override void SetSize(float width, float height)
         {
-
+           
         }
     }
 }

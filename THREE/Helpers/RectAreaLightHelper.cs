@@ -1,18 +1,17 @@
 ﻿
 using System.Collections.Generic;
-using System;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
+    using System;
+
     public class RectAreaLightHelper : Line
     {
         private Light Light;
 
         private Color? Color;
 
-        public RectAreaLightHelper(Light light, Color? color = null) : base()
+        public RectAreaLightHelper(Light light, Color? color=null) : base()
         {
             this.type = "RectAreaLightHelper";
             this.Light = light;
@@ -23,15 +22,15 @@ namespace THREE
 
             this.Color = color;
 
-            var positions = new List<float>() { 1, 1, 0, -1, 1, 0, -1, -1, 0, 1, -1, 0, 1, 1, 0 };
+            var positions = new List<float>() { 1, 1, 0,  -1, 1, 0,  -1, -1, 0,  1, -1, 0,  1, 1, 0 };
 
             var geometry = new BufferGeometry();
             geometry.SetAttribute("position", new BufferAttribute<float>(positions.ToArray(), 3));
             geometry.ComputeBoundingSphere();
-
+            
             this.InitGeometry(geometry, new List<Material>() { new LineBasicMaterial() { Fog = false, ToneMapped = false } });
 
-            var positions2 = new List<float>() { 1, 1, 0, -1, 1, 0, -1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0 };
+            var positions2 = new List<float>() { 1, 1, 0,  -1, 1, 0,  -1, -1, 0,  1, 1, 0,  -1, -1, 0,  1, -1, 0 };
 
             var geometry2 = new BufferGeometry();
             geometry2.SetAttribute("position", new BufferAttribute<float>(positions2.ToArray(), 3));
@@ -40,8 +39,6 @@ namespace THREE
             this.Add(new Mesh(geometry2, new MeshBasicMaterial() { Side = Constants.BackSide, Fog = false }));
             this.Update();
         }
-
-        public RectAreaLightHelper(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public void Update()
         {

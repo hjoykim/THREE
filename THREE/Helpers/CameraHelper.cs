@@ -1,26 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public class CameraHelper : LineSegments
     {
         private List<float> Vertices = new List<float>();
-
+        
         private List<float> Colors = new List<float>();
-
+        
         private Hashtable PointMap = new Hashtable();
 
         private Camera Camera;
 
         private Vector3 _vector = Vector3.Zero();
 
-        public CameraHelper(Camera camera)
+        public CameraHelper(Camera camera) 
         {
             this.Geometry = new BufferGeometry();
-            this.Material = new LineBasicMaterial() { Color = Color.Hex(0xffffff), VertexColors = Constants.FaceColors > 0 ? true : false, ToneMapped = false };
+            this.Material = new LineBasicMaterial() { Color = Color.Hex(0xffffff), VertexColors = Constants.FaceColors>0?true:false ,ToneMapped=false};
 
             Color colorFrustum = Color.Hex(0xffaa00);
             Color colorCone = Color.Hex(0xff0000);
@@ -30,50 +28,50 @@ namespace THREE
 
             // near
 
-            AddLine("n1", "n2", colorFrustum);
-            AddLine("n2", "n4", colorFrustum);
-            AddLine("n4", "n3", colorFrustum);
-            AddLine("n3", "n1", colorFrustum);
+	        AddLine( "n1", "n2", colorFrustum );
+	        AddLine( "n2", "n4", colorFrustum );
+	        AddLine( "n4", "n3", colorFrustum );
+	        AddLine( "n3", "n1", colorFrustum );
 
-            // far
+	        // far
 
-            AddLine("f1", "f2", colorFrustum);
-            AddLine("f2", "f4", colorFrustum);
-            AddLine("f4", "f3", colorFrustum);
-            AddLine("f3", "f1", colorFrustum);
+	        AddLine( "f1", "f2", colorFrustum );
+	        AddLine( "f2", "f4", colorFrustum );
+	        AddLine( "f4", "f3", colorFrustum );
+	        AddLine( "f3", "f1", colorFrustum );
 
-            // sides
+	        // sides
 
-            AddLine("n1", "f1", colorFrustum);
-            AddLine("n2", "f2", colorFrustum);
-            AddLine("n3", "f3", colorFrustum);
-            AddLine("n4", "f4", colorFrustum);
+	        AddLine( "n1", "f1", colorFrustum );
+	        AddLine( "n2", "f2", colorFrustum );
+	        AddLine( "n3", "f3", colorFrustum );
+	        AddLine( "n4", "f4", colorFrustum );
 
-            // cone
+	        // cone
 
-            AddLine("p", "n1", colorCone);
-            AddLine("p", "n2", colorCone);
-            AddLine("p", "n3", colorCone);
-            AddLine("p", "n4", colorCone);
+	        AddLine( "p", "n1", colorCone );
+	        AddLine( "p", "n2", colorCone );
+	        AddLine( "p", "n3", colorCone );
+	        AddLine( "p", "n4", colorCone );
 
-            // up
+	        // up
 
-            AddLine("u1", "u2", colorUp);
-            AddLine("u2", "u3", colorUp);
-            AddLine("u3", "u1", colorUp);
+	        AddLine( "u1", "u2", colorUp );
+	        AddLine( "u2", "u3", colorUp );
+	        AddLine( "u3", "u1", colorUp );
 
-            // target
+	        // target
 
-            AddLine("c", "t", colorTarget);
-            AddLine("p", "c", colorCross);
+	        AddLine( "c", "t", colorTarget );
+	        AddLine( "p", "c", colorCross );
 
-            // cross
+	        // cross
 
-            AddLine("cn1", "cn2", colorCross);
-            AddLine("cn3", "cn4", colorCross);
+	        AddLine( "cn1", "cn2", colorCross );
+	        AddLine( "cn3", "cn4", colorCross );
 
-            AddLine("cf1", "cf2", colorCross);
-            AddLine("cf3", "cf4", colorCross);
+	        AddLine( "cf1", "cf2", colorCross );
+	        AddLine( "cf3", "cf4", colorCross );
 
             (Geometry as BufferGeometry).SetAttribute("position", new BufferAttribute<float>(Vertices.ToArray(), 3));
             (Geometry as BufferGeometry).SetAttribute("color", new BufferAttribute<float>(Colors.ToArray(), 3));
@@ -88,8 +86,6 @@ namespace THREE
 
             this.Update();
         }
-
-        public CameraHelper(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         private void AddLine(string a, string b, Color color)
         {
@@ -112,75 +108,73 @@ namespace THREE
         public void Update()
         {
             var geometry = this.Geometry;
-            var pointMap = this.PointMap;
+	        var pointMap = this.PointMap;
 
-            int w = 1, h = 1;
+	        int w = 1, h = 1;
 
             Camera _camera = new Camera();
-            // we need just camera projection matrix inverse
-            // world matrix must be identity
+	        // we need just camera projection matrix inverse
+	        // world matrix must be identity
 
-            _camera.ProjectionMatrixInverse.Copy(this.Camera.ProjectionMatrixInverse);
+	        _camera.ProjectionMatrixInverse.Copy( this.Camera.ProjectionMatrixInverse );
 
-            // center / target
+	        // center / target
 
-            SetPoint("c", pointMap, geometry, _camera, 0, 0, -1);
-            SetPoint("t", pointMap, geometry, _camera, 0, 0, 1);
+	        SetPoint( "c", pointMap, geometry, _camera, 0, 0, - 1 );
+	        SetPoint( "t", pointMap, geometry, _camera, 0, 0, 1 );
 
-            // near
+	        // near
 
-            SetPoint("n1", pointMap, geometry, _camera, -w, -h, -1);
-            SetPoint("n2", pointMap, geometry, _camera, w, -h, -1);
-            SetPoint("n3", pointMap, geometry, _camera, -w, h, -1);
-            SetPoint("n4", pointMap, geometry, _camera, w, h, -1);
+	        SetPoint( "n1", pointMap, geometry, _camera, - w, - h, - 1 );
+	        SetPoint( "n2", pointMap, geometry, _camera, w, - h, - 1 );
+	        SetPoint( "n3", pointMap, geometry, _camera, - w, h, - 1 );
+	        SetPoint( "n4", pointMap, geometry, _camera, w, h, - 1 );
 
-            // far
+	        // far
 
-            SetPoint("f1", pointMap, geometry, _camera, -w, -h, 1);
-            SetPoint("f2", pointMap, geometry, _camera, w, -h, 1);
-            SetPoint("f3", pointMap, geometry, _camera, -w, h, 1);
-            SetPoint("f4", pointMap, geometry, _camera, w, h, 1);
+	        SetPoint( "f1", pointMap, geometry, _camera, - w, - h, 1 );
+	        SetPoint( "f2", pointMap, geometry, _camera, w, - h, 1 );
+	        SetPoint( "f3", pointMap, geometry, _camera, - w, h, 1 );
+	        SetPoint( "f4", pointMap, geometry, _camera, w, h, 1 );
 
-            // up
+	        // up
 
-            SetPoint("u1", pointMap, geometry, _camera, w * 0.7f, h * 1.1f, -1);
-            SetPoint("u2", pointMap, geometry, _camera, -w * 0.7f, h * 1.1f, -1);
-            SetPoint("u3", pointMap, geometry, _camera, 0, h * 2, -1);
+	        SetPoint( "u1", pointMap, geometry, _camera, w * 0.7f, h * 1.1f, - 1 );
+	        SetPoint( "u2", pointMap, geometry, _camera, - w * 0.7f, h * 1.1f, - 1 );
+	        SetPoint( "u3", pointMap, geometry, _camera, 0, h * 2, - 1 );
 
-            // cross
+	        // cross
 
-            SetPoint("cf1", pointMap, geometry, _camera, -w, 0, 1);
-            SetPoint("cf2", pointMap, geometry, _camera, w, 0, 1);
-            SetPoint("cf3", pointMap, geometry, _camera, 0, -h, 1);
-            SetPoint("cf4", pointMap, geometry, _camera, 0, h, 1);
+	        SetPoint( "cf1", pointMap, geometry, _camera, - w, 0, 1 );
+	        SetPoint( "cf2", pointMap, geometry, _camera, w, 0, 1 );
+	        SetPoint( "cf3", pointMap, geometry, _camera, 0, - h, 1 );
+	        SetPoint( "cf4", pointMap, geometry, _camera, 0, h, 1 );
 
-            SetPoint("cn1", pointMap, geometry, _camera, -w, 0, -1);
-            SetPoint("cn2", pointMap, geometry, _camera, w, 0, -1);
-            SetPoint("cn3", pointMap, geometry, _camera, 0, -h, -1);
-            SetPoint("cn4", pointMap, geometry, _camera, 0, h, -1);
+	        SetPoint( "cn1", pointMap, geometry, _camera, - w, 0, - 1 );
+	        SetPoint( "cn2", pointMap, geometry, _camera, w, 0, - 1 );
+	        SetPoint( "cn3", pointMap, geometry, _camera, 0, - h, - 1 );
+	        SetPoint( "cn4", pointMap, geometry, _camera, 0, h, - 1 );
 
-            BufferAttribute<float> attribute = (geometry as BufferGeometry).GetAttribute<float>("position") as BufferAttribute<float>;
+	        BufferAttribute<float> attribute =(geometry as BufferGeometry).GetAttribute<float>("position") as BufferAttribute<float>;
             attribute.NeedsUpdate = true;
         }
 
         public void SetPoint(string point, Hashtable pointMap, Geometry geometry, Camera camera, float x, float y, float z)
         {
-            _vector.Set(x, y, z).UnProject(camera);
+            _vector.Set( x, y, z ).UnProject( camera );
 
-            var points = (List<int>)pointMap[point];
+	        var points = (List<int>)pointMap[ point ];
 
-            if (points != null)
-            {
+	        if ( points != null ) {
 
-                BufferAttribute<float> position = (geometry as BufferGeometry).GetAttribute<float>("position") as BufferAttribute<float>;
+                BufferAttribute<float> position =(geometry as BufferGeometry).GetAttribute<float>("position") as BufferAttribute<float>;
 
-                for (int i = 0; i < points.Count; i++)
-                {
+		        for ( int i = 0; i< points.Count;i ++ ) {
 
-                    position.setXYZ(points[i], _vector.X, _vector.Y, _vector.Z);
+			        position.setXYZ( points[ i ], _vector.X, _vector.Y, _vector.Z );
 
-                }
-            }
+		        }
+	        }
         }
     }
 }

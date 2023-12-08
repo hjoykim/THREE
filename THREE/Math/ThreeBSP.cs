@@ -6,7 +6,6 @@ using System.Diagnostics;
 
 namespace THREE
 {
-    [Serializable]
     public class ThreeBSP
     {
         public static float EPSILON = 1e-5f;
@@ -94,8 +93,8 @@ namespace THREE
                 geometry = (treeIsh as Mesh).Geometry;
             }
 
-
-
+           
+            
             for (int i = 0; i < geometry.Faces.Count; i++)
             {
                 var face = geometry.Faces[i];
@@ -110,14 +109,14 @@ namespace THREE
         {
             var us = this.Tree.Clone();
             var them = other.Tree.Clone();
-
+           
 
             us.Invert().ClipTo(them);
             them.ClipTo(us).Invert().ClipTo(us).Invert();
-
+            
 
             return new ThreeBSP(us.Build(them.AllPolygons()).Invert(), this.Matrix);
-
+            
         }
 
         public ThreeBSP Union(ThreeBSP other)
@@ -132,7 +131,7 @@ namespace THREE
             b.Invert();
             a.Build(b.AllPolygons());
 
-            return new ThreeBSP(a, this.Matrix);
+            return new ThreeBSP(a,this.Matrix);
         }
 
         public ThreeBSP Intersect(ThreeBSP other)
@@ -147,7 +146,7 @@ namespace THREE
             b.ClipTo(a);
             a.Build(b.AllPolygons());
             a.Invert();
-            return new ThreeBSP(a, this.Matrix);
+            return new ThreeBSP(a,this.Matrix);
         }
         public Geometry ToGeometry()
         {
@@ -157,34 +156,34 @@ namespace THREE
 
             var polygons = this.Tree.AllPolygons();
 
-            for (int i = 0; i < polygons.Count; i++)
+            for(int i = 0; i < polygons.Count; i++)
             {
                 var polygon = polygons[i];
                 List<Vertex> polyVerts = new List<Vertex>();
-                for (int j = 0; j < polygons[i].Vertices.Count; j++)
+                for(int j = 0; j < polygons[i].Vertices.Count; j++)
                 {
                     var v = polygon.Vertices[j];
                     polyVerts.Add(v.Clone().ApplyMatrix4(matrix));
                 }
 
-                for (int idx = 1; idx < polyVerts.Count; idx++)
+                for(int idx = 1; idx < polyVerts.Count; idx++)
                 {
                     var verts = new List<Vertex>() { polyVerts[0], polyVerts[idx - 1], polyVerts[idx] };
                     var vertUVs = new List<Vector2d>();
-                    for (int k = 0; k < verts.Count; k++)
+                    for(int k = 0; k < verts.Count; k++)
                     {
                         var u = verts[k];
-                        vertUVs.Add(new Vector2d(u.UV != null ? u.UV.X : 0, u.UV != null ? u.UV.Y : 0));
+                        vertUVs.Add(new Vector2d(u.UV != null ? u.UV.X : 0, u.UV != null ? u.UV.Y : 0));                       
                     }
 
                     int[] index = new int[verts.Count];
-                    for (int k = 0; k < verts.Count; k++)
+                    for(int k = 0; k < verts.Count; k++)
                     {
                         geometry.Vertices.Add(verts[k].ToVector3());
                         index[k] = geometry.Vertices.Count - 1;
-                    }
-                    var face = new Face3(index[0], index[1], index[2], polygon.Normal.Clone().ToVector3());
-
+                    }                   
+                    var face = new Face3(index[0],index[1],index[2],polygon.Normal.Clone().ToVector3());
+                    
                     geometry.Faces.Add(face);
                     if (geometry.FaceVertexUvs.Count == 0)
                     {
@@ -192,7 +191,7 @@ namespace THREE
                     }
                     List<Vector2> vertUVS2d = new List<Vector2>();
                     vertUVs.ForEach(delegate (Vector2d v) { vertUVS2d.Add(v.ToVector2()); });
-                    geometry.FaceVertexUvs[0].Add(vertUVS2d);
+                    geometry.FaceVertexUvs[0].Add(vertUVS2d);                   
                 }
             }
             return geometry;
@@ -286,7 +285,7 @@ namespace THREE
 
         }
 
-        public Mesh ToMesh(Material material = null)
+        public Mesh ToMesh(Material material=null)
         {
             var geometry = this.ToGeometry();
 
@@ -296,11 +295,11 @@ namespace THREE
             mesh.Position.SetFromMatrixPosition(this.Matrix.ToMatrix4f());
             mesh.Rotation.SetFromRotationMatrix(this.Matrix.ToMatrix4f());
 
-            return mesh;
+            return mesh; 
         }
     }
 
-    public class Polygon
+    public class Polygon 
     {
         public Vector3d Normal;
 
@@ -368,7 +367,7 @@ namespace THREE
 
             if (side < -ThreeBSP.EPSILON)
                 return ThreeBSP.BACK;
-            else if (side > ThreeBSP.EPSILON)
+            else if(side > ThreeBSP.EPSILON)
             {
                 return ThreeBSP.FRONT;
             }
@@ -413,7 +412,7 @@ namespace THREE
                 return ThreeBSP.COPLANAR;
             }
             return ThreeBSP.SPANNING;
-
+            
         }
 
         public List<Polygon> Tessellate(Polygon poly)
@@ -453,14 +452,14 @@ namespace THREE
 
             List<Polygon> polys = new List<Polygon>();
             if (f.Count >= 3)
-                polys.Add(new Polygon(f, w: this.W));
+                polys.Add(new Polygon(f,w:this.W));
 
             if (b.Count >= 3)
-                polys.Add(new Polygon(b, w: this.W));
+                polys.Add(new Polygon(b,w:this.W));
 
             return polys;
         }
-
+        
         public void SubDivide(Polygon polygon, List<Polygon> coplanar_front, List<Polygon> coplanar_back, List<Polygon> front, List<Polygon> back)
         {
             var _ref = this.Tessellate(polygon);
@@ -535,7 +534,7 @@ namespace THREE
         //    this.Z -= vertex.Z;
         //    return this;
         //}
-        public Vertex Lerp(Vertex v, double t)
+        public Vertex Lerp(Vertex v,double t)
         {
             this.X += (v.X - this.X) * t;
             this.Y += (v.Y - this.Y) * t;
@@ -545,14 +544,14 @@ namespace THREE
             Normal.Lerp(v, t);
             return this;
         }
-        public Vertex Interpolate(Vertex other, double t)
+        public Vertex Interpolate(Vertex other,double t)
         {
             return this.Clone().Lerp(other, t);
         }
 
         public new Vertex Clone()
         {
-            return new Vertex(this.X, this.Y, this.Z, this.Normal.Clone(), this.UV.Clone());
+            return new Vertex(this.X,this.Y,this.Z,this.Normal.Clone(),this.UV.Clone());
         }
 
         //public new Vertex Normalize()
@@ -591,7 +590,7 @@ namespace THREE
         }
 
     }
-    public class Node : Hashtable
+    public class Node :Hashtable
     {
         public List<Polygon> Polygons = new List<Polygon>();
 
@@ -608,7 +607,7 @@ namespace THREE
             get { return (Node)this["back"]; }
             set { this["back"] = value; }
         }
-
+        
 
         public Node(List<Polygon> polygons = null)
         {
@@ -622,7 +621,7 @@ namespace THREE
             Divider = other.Divider.Clone();
 
 
-            for (int i = 0; i < other.Polygons.Count; i++)
+            for(int i=0;i<other.Polygons.Count;i++)
             {
                 this.Polygons.Add(other.Polygons[i].Clone());
             }
@@ -657,14 +656,14 @@ namespace THREE
                 this.Divider.SubDivide(poly, this.Polygons, this.Polygons, front, back);
             }
 
-            foreach (string side in sides.Keys)
+            foreach(string side in sides.Keys)
             {
                 var polys = (List<Polygon>)sides[side];
                 if (polys.Count > 0)
                 {
-                    if (!this.ContainsKey(side) || this[side] == null)
+                    if (!this.ContainsKey(side) || this[side]==null)
                     {
-                        this[side] = new Node();
+                        this[side] = new Node();                       
                     }
                     (this[side] as Node).Build(polys);
 
@@ -702,10 +701,10 @@ namespace THREE
             }
             return true;
         }
-
+       
         public List<Polygon> AllPolygons()
         {
-            Polygons.Concat(this["front"] != null ? this.Front.AllPolygons() : new List<Polygon>()).Concat(this["back"] != null ? this.Back.AllPolygons() : new List<Polygon>());
+            Polygons.Concat(this["front"] != null ? this.Front.AllPolygons() : new List<Polygon>()).Concat(this["back"] != null ? this.Back.AllPolygons(): new List<Polygon>());
 
             return Polygons;
         }
@@ -713,7 +712,7 @@ namespace THREE
         public Node Invert()
         {
 
-            for (int i = 0; i < Polygons.Count; i++)
+            for (int i = 0; i <Polygons.Count; i++)
             {
                 Polygons[i].Invert();
             }
@@ -740,7 +739,7 @@ namespace THREE
         {
             ThreeBSP.INDEX++;
 
-            if (ThreeBSP.INDEX == 27601)
+            if(ThreeBSP.INDEX==27601)
             {
                 Debug.WriteLine("INDEX 3");
             }
@@ -765,7 +764,7 @@ namespace THREE
                 back = this.Back.ClipPolygons(back);
             }
 
-            if (this.Back != null)
+            if(this.Back!=null)
                 return front.Concat(back);
             else
                 return front;

@@ -1,9 +1,7 @@
 ﻿using OpenTK.Graphics.ES30;
 using System.Collections;
-
 namespace THREE
 {
-    [Serializable]
     public class GLBackground
     {
         public Color ClearColor = Color.ColorName(ColorKeywords.black);
@@ -29,7 +27,7 @@ namespace THREE
         private GLObjects objects;
 
         private GLCubeMap cubeMaps;
-        public GLBackground(GLRenderer renderer, GLCubeMap cubeMaps, GLState state, GLObjects objects, bool premultipliedAlpha)
+        public GLBackground(GLRenderer renderer,GLCubeMap cubeMaps, GLState state, GLObjects objects, bool premultipliedAlpha)
         {
             this.state = state;
 
@@ -47,7 +45,7 @@ namespace THREE
             return ClearColor;
         }
 
-        public void SetClearColor(Color color, float alpha = 1)
+        public void SetClearColor(Color color, float alpha=1)
         {
             ClearColor = color;
             ClearAlpha = alpha;
@@ -67,17 +65,17 @@ namespace THREE
             SetClear(this.ClearColor, this.ClearAlpha);
         }
 
-        public void SetClear(Color color, float alpha)
+        public void SetClear(Color color,float alpha)
         {
             state.buffers.color.SetClear(color.R, color.G, color.B, alpha, this.premultipliedAlpha);
 
-        }
+        }       
 
         public void Render(GLRenderList renderList, Scene scene, Camera camera, bool forceClear)
         {
-            var background = scene is Scene ? scene.Background : null;
+            var background =  scene is Scene ? scene.Background : null;
 
-            if (background != null && background is Texture)
+            if(background!=null && background is Texture)
             {
                 background = cubeMaps.Get(background as Texture);
             }
@@ -98,8 +96,8 @@ namespace THREE
 
             if (renderer.AutoClear || forceClear)
             {
-                renderer.Clear(renderer.AutoClearColor, renderer.AutoClearDepth, renderer.AutoClearStencil);
-                ErrorCode value = GL.GetError();
+               renderer.Clear(renderer.AutoClearColor, renderer.AutoClearDepth, renderer.AutoClearStencil);
+               ErrorCode value = GL.GetError();
             }
 
             if (background != null && (background is CubeTexture || background is GLCubeRenderTarget || (background is Texture && (background as Texture).Mapping == Constants.CubeUVReflectionMapping)))
@@ -108,46 +106,46 @@ namespace THREE
                 {
                     Hashtable parameters = new Hashtable();
 
-                    var shader = (renderer.ShaderLib["cube"] as GLShader);
+                    GLShader shader = (renderer.ShaderLib["cube"] as GLShader);
 
-                    parameters.Add("type", "BackgroundCubeMaterial");
-                    parameters.Add("uniforms", UniformsUtils.CloneUniforms(shader.Uniforms));
-                    parameters.Add("vertexShader", shader.VertexShader);
-                    parameters.Add("fragmentShader", shader.FragmentShader);
-                    parameters.Add("side", Constants.BackSide);
-                    parameters.Add("depthTest", false);
-                    parameters.Add("depthWrite", false);
-                    parameters.Add("fog", false);
+                    parameters.Add("type","BackgroundCubeMaterial");
+                    parameters.Add("uniforms",UniformsUtils.CloneUniforms(shader.Uniforms));
+					parameters.Add("vertexShader",shader.VertexShader);
+					parameters.Add("fragmentShader",shader.FragmentShader);
+					parameters.Add("side",Constants.BackSide);
+					parameters.Add("depthTest",false);
+					parameters.Add("depthWrite", false);
+					parameters.Add("fog",false);
 
                     BoxMesh = new Mesh(new BoxBufferGeometry(1, 1, 1), new ShaderMaterial(parameters));
 
                     (BoxMesh.Geometry as BufferGeometry).deleteAttribute("normal");
                     (BoxMesh.Geometry as BufferGeometry).deleteAttribute("uv");
-                    BoxMesh.OnBeforeRender = delegate (IGLRenderer r, Scene s, Camera c, Geometry g, Material m, DrawRange? d, GLRenderTarget gt)
+                    BoxMesh.OnBeforeRender = delegate (GLRenderer r, Scene s, Camera c, Geometry g, Material m, DrawRange? d, GLRenderTarget gt)
                     {
                         BoxMesh.MatrixWorld.CopyPosition(c.MatrixWorld);
                     };
 
-                    BoxMesh.Material.EnvMap = (Texture)(shader.Uniforms["envMap"] as Uniform)["value"];
+                    BoxMesh.Material.EnvMap = (Texture)(shader.Uniforms["envMap"] as GLUniform)["value"];
 
                     this.objects.Update(BoxMesh);
                 }
-
-                if (background is GLCubeRenderTarget)
+                
+                if(background is GLCubeRenderTarget)
                 {
                     background = (background as GLCubeRenderTarget).Texture;
                 }
 
-                (BoxMesh.Material as ShaderMaterial).Uniforms["envMap"] = new Uniform { { "value", background } };
-                ((BoxMesh.Material as ShaderMaterial).Uniforms["flipEnvMap"] as Uniform)["value"] = background is CubeTexture ? -1.0f : 1.0f;
+                (BoxMesh.Material as ShaderMaterial).Uniforms["envMap"] = new GLUniform { { "value", background } };
+                ((BoxMesh.Material as ShaderMaterial).Uniforms["flipEnvMap"] as GLUniform)["value"] = background is CubeTexture ? -1.0f : 1.0f;
                 BoxMesh.Material.EnvMap = (Texture)background;
 
+               
 
+                var texture = background is GLCubeRenderTarget ? (background as GLCubeRenderTarget).Texture : background;                             
 
-                var texture = background is GLCubeRenderTarget ? (background as GLCubeRenderTarget).Texture : background;
-
-                if (currentBackground != background || (!(texture is Color) && currentBackgroundVersion != (texture as CubeTexture).version)
-                    || (currentTonemapping != null && currentTonemapping.Value != renderer.ToneMapping))
+                if (currentBackground != background ||(!(texture is Color) && currentBackgroundVersion != (texture as CubeTexture).version)
+                    || (currentTonemapping!=null && currentTonemapping.Value !=renderer.ToneMapping))
                 {
                     BoxMesh.Material.NeedsUpdate = true;
 
@@ -165,37 +163,37 @@ namespace THREE
                 {
                     Hashtable parameters = new Hashtable();
 
-                    var shader = (renderer.ShaderLib["background"] as GLShader);
+                    GLShader shader = (renderer.ShaderLib["background"] as GLShader);
 
-                    parameters.Add("type", "BackgroundMaterial");
-                    parameters.Add("uniforms", UniformsUtils.CloneUniforms(shader.Uniforms));
-                    parameters.Add("vertexShader", shader.VertexShader);
-                    parameters.Add("fragmentShader", shader.FragmentShader);
-                    parameters.Add("side", Constants.FrontSide);
-                    parameters.Add("depthTest", false);
-                    parameters.Add("depthWrite", false);
-                    parameters.Add("fog", false);
+                    parameters.Add("type","BackgroundMaterial");
+                    parameters.Add("uniforms",UniformsUtils.CloneUniforms(shader.Uniforms));
+					parameters.Add("vertexShader",shader.VertexShader);
+					parameters.Add("fragmentShader",shader.FragmentShader);
+					parameters.Add("side",Constants.FrontSide);
+					parameters.Add("depthTest",false);
+					parameters.Add("depthWrite", false);
+					parameters.Add("fog",false);
 
-                    PlaneMesh = new Mesh(new PlaneBufferGeometry(2, 2), new ShaderMaterial(parameters));
+                    PlaneMesh = new Mesh(new PlaneBufferGeometry(2, 2), new ShaderMaterial(parameters));                   
 
                     (PlaneMesh.Geometry as BufferGeometry).deleteAttribute("normal");
 
-                    PlaneMesh.Material.Map = (Texture)(shader.Uniforms["t2D"] as Uniform)["value"];
+                    PlaneMesh.Material.Map = (Texture)(shader.Uniforms["t2D"] as GLUniform)["value"];
 
                     objects.Update(PlaneMesh);
                 }
 
-                (PlaneMesh.Material as ShaderMaterial).Uniforms["t2D"] = new Uniform { { "value", background } };
+                (PlaneMesh.Material as ShaderMaterial).Uniforms["t2D"] = new GLUniform { { "value", background } };
 
                 if ((background as Texture).MatrixAutoUpdate == true)
                 {
                     (background as Texture).UpdateMatrix();
                 }
 
-                (PlaneMesh.Material as ShaderMaterial).Uniforms["uvTransform"] = new Uniform { { "value", (background as Texture).Matrix } };
+                (PlaneMesh.Material as ShaderMaterial).Uniforms["uvTransform"] = new GLUniform { { "value", (background as Texture).Matrix } };
 
                 if (currentBackground != background || currentBackgroundVersion != (background as Texture).version
-                    || (currentTonemapping != null && currentTonemapping.Value != renderer.ToneMapping))
+                    || (currentTonemapping!=null && currentTonemapping.Value!=renderer.ToneMapping))
                 {
                     PlaneMesh.Material.NeedsUpdate = true;
 

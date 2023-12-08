@@ -2,20 +2,18 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using THREE.Renderers.Shaders;
 
 namespace THREE
 {
-    [Serializable]
     public class GlitchPass : Pass
     {
-        Uniforms uniforms;
+        GLUniforms uniforms;
         ShaderMaterial material;
         bool goWild = false;
         float curF = 0.0f;
         int randX = 0;
         Random random = new Random();
-        public GlitchPass(float? dt_size = null) : base()
+        public GlitchPass(float? dt_size=null) : base()
         {
             var shader = new DigitalGlitch();
 
@@ -23,10 +21,9 @@ namespace THREE
 
             if (dt_size == null) dt_size = 64;
             if (dt_size != null && dt_size.Value == 0) dt_size = 64;
-            (uniforms["tDisp"] as Uniform)["value"] = GenerateHeightmap(dt_size.Value);
+            (uniforms["tDisp"] as GLUniform)["value"] = GenerateHeightmap(dt_size.Value);
 
-            this.material = new ShaderMaterial
-            {
+            this.material = new ShaderMaterial {
                 Uniforms = this.uniforms,
                 VertexShader = shader.VertexShader,
                 FragmentShader = shader.FragmentShader
@@ -41,19 +38,19 @@ namespace THREE
 
         public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime = null, bool? maskActive = null)
         {
-            (this.uniforms["tDiffuse"] as Uniform)["value"] = readBuffer.Texture;
-            (this.uniforms["seed"] as Uniform)["value"] = (float)random.NextDouble();//default seeding
-            (this.uniforms["byp"] as Uniform)["value"] = 0;
+            (this.uniforms["tDiffuse"] as GLUniform)["value"] = readBuffer.Texture;
+            (this.uniforms["seed"]as GLUniform)["value"] = (float)random.NextDouble();//default seeding
+            (this.uniforms["byp"]as GLUniform)["value"] = 0;
 
             if (this.curF % this.randX == 0 || this.goWild == true)
             {
 
-                (this.uniforms["amount"] as Uniform)["value"] = (float)random.NextDouble() / 30;
-                (this.uniforms["angle"] as Uniform)["value"] = MathUtils.NextFloat((float)-System.Math.PI, (float)System.Math.PI);
-                (this.uniforms["seed_x"] as Uniform)["value"] = MathUtils.NextFloat(-1, 1);
-                (this.uniforms["seed_y"] as Uniform)["value"] = MathUtils.NextFloat(-1, 1);
-                (this.uniforms["distortion_x"] as Uniform)["value"] = MathUtils.NextFloat(0, 1);
-                (this.uniforms["distortion_y"] as Uniform)["value"] = MathUtils.NextFloat(0, 1);
+                (this.uniforms["amount"]as GLUniform)["value"] = (float)random.NextDouble() / 30;
+                (this.uniforms["angle"]as GLUniform)["value"] = MathUtils.NextFloat((float)-System.Math.PI,(float)System.Math.PI);
+                (this.uniforms["seed_x"]as GLUniform)["value"] = MathUtils.NextFloat(-1, 1);
+                (this.uniforms["seed_y"]as GLUniform)["value"] = MathUtils.NextFloat(-1, 1);
+                (this.uniforms["distortion_x"]as GLUniform)["value"] = MathUtils.NextFloat(0, 1);
+                (this.uniforms["distortion_y"]as GLUniform)["value"] = MathUtils.NextFloat(0, 1);
                 this.curF = 0;
                 this.GenerateTrigger();
 
@@ -61,18 +58,18 @@ namespace THREE
             else if (this.curF % this.randX < this.randX / 5)
             {
 
-                (this.uniforms["amount"] as Uniform)["value"] = (float)random.NextDouble() / 90;
-                (this.uniforms["angle"] as Uniform)["value"] = MathUtils.NextFloat(-(float)System.Math.PI, (float)System.Math.PI);
-                (this.uniforms["distortion_x"] as Uniform)["value"] = MathUtils.NextFloat(0, 1);
-                (this.uniforms["distortion_y"] as Uniform)["value"] = MathUtils.NextFloat(0, 1);
-                (this.uniforms["seed_x"] as Uniform)["value"] = MathUtils.NextFloat(-0.3f, 0.3f);
-                (this.uniforms["seed_y"] as Uniform)["value"] = MathUtils.NextFloat(-0.3f, 0.3f);
+                (this.uniforms["amount"]as GLUniform)["value"] = (float)random.NextDouble()/ 90;
+                (this.uniforms["angle"]as GLUniform)["value"] = MathUtils.NextFloat(-(float)System.Math.PI, (float)System.Math.PI);
+                (this.uniforms["distortion_x"]as GLUniform)["value"] = MathUtils.NextFloat(0, 1);
+                (this.uniforms["distortion_y"]as GLUniform)["value"] = MathUtils.NextFloat(0, 1);
+                (this.uniforms["seed_x"]as GLUniform)["value"] = MathUtils.NextFloat(-0.3f, 0.3f);
+                (this.uniforms["seed_y"]as GLUniform)["value"] = MathUtils.NextFloat(-0.3f, 0.3f);
 
             }
             else if (this.goWild == false)
             {
 
-                (this.uniforms["byp"] as Uniform)["value"] = 1;
+                (this.uniforms["byp"]as GLUniform)["value"] = 1;
 
             }
 
@@ -97,7 +94,7 @@ namespace THREE
 
         public override void SetSize(float width, float height)
         {
-
+            
         }
         private void GenerateTrigger()
         {
@@ -112,13 +109,13 @@ namespace THREE
             for (var i = 0; i < length; i++)
             {
 
-                var val = (byte)(random.NextDouble() * 255);
+                var val = (byte)(random.NextDouble()*255);
                 data_arr[i * 3 + 0] = val;
                 data_arr[i * 3 + 1] = val;
                 data_arr[i * 3 + 2] = val;
 
             }
-            Bitmap bitmap = new Bitmap((int)dt_size, (int)dt_size, PixelFormat.Format32bppArgb);
+            Bitmap bitmap = new Bitmap((int)dt_size,(int)dt_size,PixelFormat.Format32bppArgb);
             BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, (int)dt_size, (int)dt_size), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
             IntPtr iptr = bitmapData.Scan0;
 

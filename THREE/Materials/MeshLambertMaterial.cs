@@ -1,8 +1,5 @@
-﻿using System.Runtime.Serialization;
-
-namespace THREE
+﻿namespace THREE
 {
-    [Serializable]
     public class MeshLambertMaterial : Material
     {
         public MeshLambertMaterial() : base()
@@ -26,8 +23,6 @@ namespace THREE
             this.WireframeLineCap = "round";
             this.WireframeLineJoin = "round";
         }
-        public MeshLambertMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
         protected MeshLambertMaterial(MeshLambertMaterial source) : base()
         {
             Copy(source);

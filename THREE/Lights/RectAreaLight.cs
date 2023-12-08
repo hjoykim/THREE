@@ -1,11 +1,8 @@
-﻿using System.Runtime.Serialization;
-
-namespace THREE
+﻿namespace THREE
 {
-    [Serializable]
     public class RectAreaLight : Light
     {
-        public RectAreaLight(Color color, float? itensity = null, int? width = null, int? height = null) : base(color, itensity)
+        public RectAreaLight(Color color, float? itensity=null, int? width=null, int? height=null) : base(color,itensity)
         {
             this.Width = (width != null) ? (int)width : 10;
             this.Height = (height != null) ? (int)height : 10;
@@ -15,8 +12,6 @@ namespace THREE
         {
 
         }
-        public RectAreaLight(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
         protected RectAreaLight(RectAreaLight other) : base(other)
         {
             this.Width = other.Width;

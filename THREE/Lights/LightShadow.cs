@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace THREE
 {
-    [Serializable]
     public class LightShadow : ICloneable
     {
         public Camera Camera;
@@ -14,7 +13,7 @@ namespace THREE
 
         public float Radius;
 
-        public Vector2 MapSize;
+        public Vector2 MapSize;       
 
         public GLRenderTarget Map;
 

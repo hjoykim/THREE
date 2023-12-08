@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using THREE;
-
 namespace THREE
 {
-    [Serializable]
     public abstract class BaseGeometry : IDisposable
     {
         public Guid Uuid = Guid.NewGuid();
@@ -26,7 +24,7 @@ namespace THREE
         public abstract void ComputeBoundingBox();
 
         public abstract void ComputeVertexNormals(bool areaWeighted = false);
-
+        
         #region dynamic attribute
         public bool glInit = false;
 
@@ -90,7 +88,7 @@ namespace THREE
 
         public int glParticleCount = -1;
 
-        public List<IGLAttribute> glCustomAttributesList;
+        public List<GLAttribute> glCustomAttributesList;
 
         public bool initttedArrays;
 

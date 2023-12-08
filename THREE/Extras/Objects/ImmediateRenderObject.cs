@@ -2,7 +2,6 @@
 
 namespace THREE
 {
-    [Serializable]
     public class ImmediateRenderObject : Object3D
     {
         public ImmediateRenderObject(Material material) : base()

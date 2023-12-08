@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace THREE
 {
-    [Serializable]
     public class GLClipping
     {
         public GLUniform uniform;
@@ -47,7 +46,7 @@ namespace THREE
         public void BeginShadows()
         {
             renderingShadows = true;
-            ProjectPlanes();
+            ProjectPlanes();    
         }
 
         public void EndShadows()
@@ -56,7 +55,7 @@ namespace THREE
             ProjectPlanes();
         }
 
-        public void SetState(List<Plane> planes, bool clipIntersection, bool clipShadows, Camera camera, Hashtable cache, bool fromCache)
+        public void SetState(List<Plane> planes, bool clipIntersection,bool clipShadows, Camera camera, Hashtable cache, bool fromCache)
         {
             if (!localClippingEnabled || planes.Count == 0 || renderingShadows && !clipShadows)
             {
@@ -94,7 +93,7 @@ namespace THREE
 
         private void ResetGlobalState()
         {
-            if (globalState != null && !globalState.Equals(uniform["value"]))
+            if (globalState!=null && !globalState.Equals(uniform["value"]))
             {
                 uniform["value"] = globalState;
                 uniform["needsUpdate"] = numGlobalPlanes > 0;
@@ -103,7 +102,7 @@ namespace THREE
             numIntersection = 0;
         }
 
-        public List<float> ProjectPlanes(List<Plane> planes = null, Camera camera = null, int? dstOffset = null, bool? skipTransform = null)
+        public List<float> ProjectPlanes(List<Plane> planes = null, Camera camera = null, int? dstOffset = null, bool? skipTransform=null)
         {
             var nPlanes = planes != null ? planes.Count : 0;
             List<float> dstArray = null;
@@ -112,7 +111,7 @@ namespace THREE
             {
                 dstArray = (List<float>)uniform["value"];
 
-                if (dstArray != null)
+                if(dstArray!=null)
                     array = dstArray.ToArray();
 
                 if ((skipTransform == null || ((bool)skipTransform != true) || dstArray == null))
@@ -130,7 +129,7 @@ namespace THREE
                     for (int i = 0, i4 = (int)dstOffset; i != nPlanes; ++i, i4 += 4)
                     {
                         plane.Copy(planes[i]).ApplyMatrix4(viewMatrix, viewNormalMatrix);
-
+                       
                         plane.Normal.ToArray(array, i4);
                         array[i4 + 3] = plane.Constant;
                     }

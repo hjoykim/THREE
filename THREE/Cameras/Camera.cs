@@ -3,7 +3,6 @@ using System.Collections;
 
 namespace THREE
 {
-    [Serializable]
     public struct View
     {
         public Boolean Enabled;
@@ -20,7 +19,6 @@ namespace THREE
 
         public float Height;
     }
-    [Serializable]
     public class Camera : Object3D
     {
         public View View;
@@ -28,7 +26,7 @@ namespace THREE
         public Matrix4 MatrixWorldInverse = Matrix4.Identity();
 
         public Matrix4 ProjectionMatrixInverse = Matrix4.Identity();
-
+       
         public Matrix4 ProjectionMatrix = Matrix4.Identity();
 
         public float Fov;
@@ -78,7 +76,7 @@ namespace THREE
                 Height = 1
             };
         }
-        protected Camera(Camera source, bool recursive = true) : base(source, recursive)
+        protected Camera(Camera source, bool recursive = true) : base(source,recursive)
         {
             this.IsCamera = true;
             this.type = "Camera";
@@ -100,14 +98,14 @@ namespace THREE
 
             return target.Set(-e[8], -e[9], -e[10]).Normalize();
         }
-
+        
         public override void UpdateMatrixWorld(bool force = false)
         {
             base.UpdateMatrixWorld(force);
 
             this.MatrixWorldInverse.GetInverse(this.MatrixWorld);
         }
-        public override void UpdateWorldMatrix(bool updateParents, bool updateChildren)
+        public override void UpdateWorldMatrix(bool updateParents,bool updateChildren)
         {
             base.UpdateWorldMatrix(updateParents, updateChildren);
 
@@ -142,8 +140,8 @@ namespace THREE
         public override object Clone()
         {
 
-            Object3D object3D = base.Clone() as Object3D;
-
+            Object3D object3D = base.Clone() as Object3D;           
+           
             Camera cloned = new Camera(this);
 
             foreach (DictionaryEntry item in object3D)

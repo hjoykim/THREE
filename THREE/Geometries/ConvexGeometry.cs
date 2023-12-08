@@ -4,43 +4,40 @@ using System.Linq;
 
 namespace THREE
 {
-    [Serializable]
-    public class ConvexGeometry : Geometry
+    public class ConvexGeometry :Geometry
     {
-        public ConvexGeometry(Vector3[] points) : base()
+        public ConvexGeometry(Vector3[] points) : base() 
         {
             this.FromBufferGeometry(new ConvexBufferGeometry(points));
             this.MergeVertices();
         }
     }
 
-    [Serializable]
     public class ConvexBufferGeometry : BufferGeometry
     {
-        [Serializable]
-        private class TVertex : IVertex
+        class TVertex : IVertex
         {
             public double[] Position { get; set; }
 
-            public TVertex(double x, double y, double z)
+            public TVertex(double x,double y,double z)
             {
                 Position = new double[] { x, y, z };
             }
         }
-        [Serializable]
-        private class TFace : ConvexFace<TVertex, TFace>
+
+        class TFace : ConvexFace<TVertex, TFace>
         {
 
         }
-        public ConvexBufferGeometry() : base()
+
+        public ConvexBufferGeometry() : base() 
         {
         }
-
         public ConvexBufferGeometry(List<Vector3> points) : base()
         {
             List<TVertex> vertices = new List<TVertex>();
 
-            for (int i = 0; i < points.Count; i++)
+            for(int i = 0; i < points.Count; i++)
             {
                 vertices.Add(new TVertex(points[i].X, points[i].Y, points[i].Z));
             }
@@ -52,16 +49,16 @@ namespace THREE
             this.SetAttribute("normal", new BufferAttribute<float>(normals.ToArray(), 3));
 
         }
-        public ConvexBufferGeometry(Vector3[] points) : this(points.ToList())
+        public ConvexBufferGeometry(Vector3[] points) : this(points.ToList()) 
         {
-
+           
         }
-        private (List<float>, List<float>) ConvertThreeVertices(List<TFace> faces)
+        private (List<float>,List<float>) ConvertThreeVertices(List<TFace> faces)
         {
             List<float> tvertices = new List<float>();
             List<float> tnormals = new List<float>();
 
-            for (int i = 0; i < faces.Count; i++)
+            for(int i = 0; i < faces.Count; i++)
             {
                 var face = faces[i];
 

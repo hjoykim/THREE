@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace THREE
 {
-    [Serializable]
     public class MaskPass : Pass
     {
         public Scene scene;
@@ -15,7 +14,7 @@ namespace THREE
 
         public bool Inverse;
 
-        public MaskPass(Scene scene, Camera camera) : base()
+        public MaskPass(Scene scene,Camera camera) : base()
         {
             this.scene = scene;
             this.camera = camera;
@@ -23,7 +22,7 @@ namespace THREE
             this.NeedsSwap = false;
             this.Inverse = false;
         }
-        public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime = null, bool? maskActive = null)
+        public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer,float? deltaTime=null,bool? maskActive=null)
         {
             var state = renderer.state;
 
@@ -38,7 +37,7 @@ namespace THREE
 
             // set up stencil
 
-            int writeValue, clearValue;
+            int writeValue,clearValue;
 
             if (this.Inverse)
             {
@@ -92,7 +91,7 @@ namespace THREE
 
         public override void SetSize(float width, float height)
         {
-
+           
         }
     }
 
@@ -110,7 +109,7 @@ namespace THREE
 
         public override void SetSize(float width, float height)
         {
-
+            
         }
     }
 }

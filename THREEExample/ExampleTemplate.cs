@@ -2,8 +2,6 @@
 using THREE;
 using OpenTK;
 using ImGuiNET;
-//using THREEExample.ThreeImGui;
-using OpenTK.WinForms;
 using THREEExample.ThreeImGui;
 
 namespace THREEExample
@@ -75,10 +73,10 @@ namespace THREEExample
         }
         public override void Render()
         {
-            //if (!imGuiManager.ImWantMouse)
-            //    controls.Enabled = true;
-            //else
-            //    controls.Enabled = false;
+            if (!imGuiManager.ImWantMouse)
+                controls.Enabled = true;
+            else
+                controls.Enabled = false;
             controls.Update();
             renderer.Render(scene, camera);
             ShowGUIControls();

@@ -3,7 +3,6 @@ using System.Linq;
 
 namespace THREE
 {
-    [Serializable]
     public struct PlaneParameter
     {
         public float Width;
@@ -15,30 +14,28 @@ namespace THREE
         public float HeightSegments;
     }
 
-    [Serializable]
     public class PlaneGeometry : Geometry
     {
         public PlaneParameter parameters;
 
-        public PlaneGeometry(float width, float height, float widthSegments = 0, float heightSegments = 0) : base()
+        public PlaneGeometry(float width,float height,float widthSegments=0,float heightSegments=0) :base()
         {
 
             this.type = "PlaneGeometry";
-
-
-            parameters = new PlaneParameter
-            {
-                Width = width,
-                Height = height,
-                WidthSegments = widthSegments,
-                HeightSegments = heightSegments
+            
+         
+            parameters = new PlaneParameter { 
+                    Width = width, 
+                    Height = height, 
+                    WidthSegments = widthSegments, 
+                    HeightSegments = heightSegments 
             };
 
             this.FromBufferGeometry(new PlaneBufferGeometry(width, height, widthSegments, heightSegments));
             this.MergeVertices();
         }
     }
-    [Serializable]
+
     public class PlaneBufferGeometry : BufferGeometry
     {
         public PlaneParameter parameters;
@@ -100,7 +97,7 @@ namespace THREE
                     normals.Add(1);
 
                     uvs.Add(ix / (float)gridX);
-                    uvs.Add(1 - (iy / (float)gridY));
+                    uvs.Add(1 - (iy /(float)gridY));
                 }
             }
 

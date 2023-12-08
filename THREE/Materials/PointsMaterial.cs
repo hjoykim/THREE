@@ -1,8 +1,5 @@
-﻿using System.Runtime.Serialization;
-
-namespace THREE
+﻿namespace THREE
 {
-    [Serializable]
     public class PointsMaterial : Material
     {
         public float Size = 1;
@@ -23,6 +20,5 @@ namespace THREE
 
             this.MorphTargets = false;
         }
-        public PointsMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

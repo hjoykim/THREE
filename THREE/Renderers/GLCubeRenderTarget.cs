@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 
+
 namespace THREE
 {
-    [Serializable]
     public class GLCubeRenderTarget : GLRenderTarget
     {
-        public GLCubeRenderTarget(int size, Hashtable options = null) : base(size, size, options)
+        public GLCubeRenderTarget(int size,Hashtable options=null) : base(size,size,options)
         {
-
+            
         }
         public GLCubeRenderTarget FromEquirectangularTexture(GLRenderer renderer, Texture texture)
         {
@@ -21,7 +21,7 @@ namespace THREE
 
             GLShader shader = new GLShader
             {
-                Uniforms = new Uniforms { { "tEquirect", new Uniform { { "value", null } } } },
+                Uniforms = new GLUniforms { { "tEquirect", new GLUniform { { "value", null } } } },
                 VertexShader = @"
                     varying vec3 vWorldDirection;
 
@@ -40,7 +40,7 @@ namespace THREE
 
 			        }
                 ",
-                FragmentShader = @"
+                FragmentShader= @"
                     uniform sampler2D tEquirect;
 
 			        varying vec3 vWorldDirection;
@@ -63,7 +63,7 @@ namespace THREE
 
             var material = new ShaderMaterial
             {
-                Name = "CubemapFromEquirect",
+                Name="CubemapFromEquirect",
                 Uniforms = UniformsUtils.CloneUniforms(shader.Uniforms),
                 VertexShader = shader.VertexShader,
                 FragmentShader = shader.FragmentShader,
@@ -71,7 +71,7 @@ namespace THREE
                 Blending = Constants.NoBlending
             };
 
-            material.Uniforms["tEquirect"] = new Uniform { { "value", texture } };
+            material.Uniforms["tEquirect"] = new GLUniform { { "value", texture } };
 
             var mesh = new Mesh(geometry, material);
             var scene = new Scene();
@@ -89,5 +89,5 @@ namespace THREE
         }
     }
 
-
+    
 }

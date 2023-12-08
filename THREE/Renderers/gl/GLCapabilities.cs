@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace THREE
 {
-    [Serializable]
     public struct GLCapabilitiesParameters
     {
         public string precision;
@@ -14,7 +13,6 @@ namespace THREE
 
     }
 
-    [Serializable]
     public class GLCapabilities
     {
         public bool IsGL2;
@@ -50,10 +48,10 @@ namespace THREE
         public int maxSamples;
 
         private GLExtensions Extensions;
-
+        
         public GLCapabilities(GLExtensions Extensions, ref GLCapabilitiesParameters parameters)
         {
-            this.IsGL2 = Extensions.Get("GL_ARB_ES3_compatibility") > -1 ? true : false;
+            this.IsGL2 = Extensions.Get("GL_ARB_ES3_compatibility") >-1 ? true : false;
 
             //this.IsGL2 = false;
 
@@ -66,14 +64,14 @@ namespace THREE
 
             string maxPrecision = GetMaxPrecision(this.precision);
 
-            if (!maxPrecision.Equals(this.precision))
+            if(!maxPrecision.Equals(this.precision))
             {
                 this.precision = maxPrecision;
             }
 
             //this.logarithmicDepthBuffer = parameters.logarithmicDepthBuffer == true;
 
-            GL.GetInteger(GetPName.MaxTextureImageUnits, out this.maxTextures);
+            GL.GetInteger(GetPName.MaxTextureImageUnits,out this.maxTextures);
             GL.GetInteger(GetPName.MaxVertexTextureImageUnits, out this.maxVertexTextures);
             GL.GetInteger(GetPName.MaxTextureSize, out this.maxTextureSize);
             GL.GetInteger(GetPName.MaxCubeMapTextureSize, out this.maxCubemapSize);
@@ -89,9 +87,9 @@ namespace THREE
             GL.GetInteger(GetPName.MaxSamples, out this.maxSamples);
 
             this.maxSamples = IsGL2 ? this.maxSamples : 0;
-
+            
         }
-
+        
         public float GetMaxAnisotropy()
         {
 
@@ -106,14 +104,14 @@ namespace THREE
 
 
             throw new NotImplementedException();
-
+            
         }
 
         public string GetMaxPrecision(string precision)
         {
             if (precision.Equals("highp"))
             {
-                int range, value1, value2;
+                int range, value1,value2;
                 GL.GetShaderPrecisionFormat(ShaderType.VertexShader, ShaderPrecision.HighFloat, out range, out value1);
                 GL.GetShaderPrecisionFormat(ShaderType.FragmentShader, ShaderPrecision.HighFloat, out range, out value2);
 

@@ -1,9 +1,6 @@
 ﻿
-using System.Runtime.Serialization;
-
 namespace THREE
 {
-    [Serializable]
     public class SpriteMaterial : Material
     {
 
@@ -28,6 +25,5 @@ namespace THREE
             this.Transparent = true;
 
         }
-        public SpriteMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

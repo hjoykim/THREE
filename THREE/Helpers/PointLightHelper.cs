@@ -1,16 +1,13 @@
 ﻿
-using System.Runtime.Serialization;
-
 namespace THREE
 {
-    [Serializable]
     public class PointLightHelper : Mesh
     {
         public Light Light;
 
         public Color? Color;
 
-        public PointLightHelper(Light light, float? sphereSize = null, Color? color = null) : base()
+        public PointLightHelper(Light light,float? sphereSize=null,Color? color=null) : base() 
         {
             this.Light = light;
             this.Light.UpdateMatrixWorld();
@@ -18,10 +15,10 @@ namespace THREE
 
             this.Color = color;
 
-
-            var geometry = new SphereBufferGeometry(sphereSize != null ? sphereSize.Value : 1, 4, 2);
+            
+            var geometry = new SphereBufferGeometry(sphereSize!=null? sphereSize.Value:1, 4, 2);
             var material = new MeshBasicMaterial() { Wireframe = true, Fog = false };
-
+           
 
             this.InitGeometry(geometry, material);
 
@@ -31,7 +28,6 @@ namespace THREE
 
             this.Update();
         }
-        public PointLightHelper(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public void Update()
         {

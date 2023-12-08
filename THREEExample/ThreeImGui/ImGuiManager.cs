@@ -1,7 +1,6 @@
 ﻿using ImGuiNET;
 using OpenTK;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.WinForms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -50,27 +49,27 @@ namespace THREEExample.ThreeImGui
             io.BackendFlags |= ImGuiBackendFlags.HasMouseCursors;         // We can honor GetMouseCursor() values (optional)
             io.BackendFlags |= ImGuiBackendFlags.HasSetMousePos;          // We can honor io.WantSetMousePos requests (optional, rarely used)
             io.BackendFlags |= ImGuiBackendFlags.RendererHasVtxOffset;// We can honor the ImDrawCmd::VtxOffset field, allowing for large meshes.
-            //io.KeyMap[(int)ImGuiKey.Tab] = (int)System.Windows.Forms.Keys.Tab;
-            //io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)System.Windows.Forms.Keys.Left;
-            //io.KeyMap[(int)ImGuiKey.RightArrow] = (int)System.Windows.Forms.Keys.Right;
-            //io.KeyMap[(int)ImGuiKey.UpArrow] = (int)System.Windows.Forms.Keys.Up;
-            //io.KeyMap[(int)ImGuiKey.DownArrow] = (int)System.Windows.Forms.Keys.Down;
-            //io.KeyMap[(int)ImGuiKey.PageUp] = (int)System.Windows.Forms.Keys.Prior;
-            //io.KeyMap[(int)ImGuiKey.PageDown] = (int)System.Windows.Forms.Keys.Next;
-            //io.KeyMap[(int)ImGuiKey.Home] = (int)System.Windows.Forms.Keys.Home;
-            //io.KeyMap[(int)ImGuiKey.End] = (int)System.Windows.Forms.Keys.End;
-            //io.KeyMap[(int)ImGuiKey.Insert] = (int)System.Windows.Forms.Keys.Insert;
-            //io.KeyMap[(int)ImGuiKey.Delete] = (int)System.Windows.Forms.Keys.Delete;
-            //io.KeyMap[(int)ImGuiKey.Backspace] = (int)System.Windows.Forms.Keys.Back;
-            //io.KeyMap[(int)ImGuiKey.Space] = (int)System.Windows.Forms.Keys.Space;
-            //io.KeyMap[(int)ImGuiKey.Enter] = (int)System.Windows.Forms.Keys.Return;
-            //io.KeyMap[(int)ImGuiKey.Escape] = (int)System.Windows.Forms.Keys.Escape;
-            //io.KeyMap[(int)ImGuiKey.A] = (int)System.Windows.Forms.Keys.A;
-            //io.KeyMap[(int)ImGuiKey.C] = (int)System.Windows.Forms.Keys.C;
-            //io.KeyMap[(int)ImGuiKey.V] = (int)System.Windows.Forms.Keys.V;
-            //io.KeyMap[(int)ImGuiKey.X] = (int)System.Windows.Forms.Keys.X;
-            //io.KeyMap[(int)ImGuiKey.Y] = (int)System.Windows.Forms.Keys.Y;
-            //io.KeyMap[(int)ImGuiKey.Z] = (int)System.Windows.Forms.Keys.Z;
+            io.KeyMap[(int)ImGuiKey.Tab] = (int)System.Windows.Forms.Keys.Tab;
+            io.KeyMap[(int)ImGuiKey.LeftArrow] = (int)System.Windows.Forms.Keys.Left;
+            io.KeyMap[(int)ImGuiKey.RightArrow] = (int)System.Windows.Forms.Keys.Right;
+            io.KeyMap[(int)ImGuiKey.UpArrow] = (int)System.Windows.Forms.Keys.Up;
+            io.KeyMap[(int)ImGuiKey.DownArrow] = (int)System.Windows.Forms.Keys.Down;
+            io.KeyMap[(int)ImGuiKey.PageUp] = (int)System.Windows.Forms.Keys.Prior;
+            io.KeyMap[(int)ImGuiKey.PageDown] = (int)System.Windows.Forms.Keys.Next;
+            io.KeyMap[(int)ImGuiKey.Home] = (int)System.Windows.Forms.Keys.Home;
+            io.KeyMap[(int)ImGuiKey.End] = (int)System.Windows.Forms.Keys.End;
+            io.KeyMap[(int)ImGuiKey.Insert] = (int)System.Windows.Forms.Keys.Insert;
+            io.KeyMap[(int)ImGuiKey.Delete] = (int)System.Windows.Forms.Keys.Delete;
+            io.KeyMap[(int)ImGuiKey.Backspace] = (int)System.Windows.Forms.Keys.Back;
+            io.KeyMap[(int)ImGuiKey.Space] = (int)System.Windows.Forms.Keys.Space;
+            io.KeyMap[(int)ImGuiKey.Enter] = (int)System.Windows.Forms.Keys.Return;
+            io.KeyMap[(int)ImGuiKey.Escape] = (int)System.Windows.Forms.Keys.Escape;
+            io.KeyMap[(int)ImGuiKey.A] = (int)System.Windows.Forms.Keys.A;
+            io.KeyMap[(int)ImGuiKey.C] = (int)System.Windows.Forms.Keys.C;
+            io.KeyMap[(int)ImGuiKey.V] = (int)System.Windows.Forms.Keys.V;
+            io.KeyMap[(int)ImGuiKey.X] = (int)System.Windows.Forms.Keys.X;
+            io.KeyMap[(int)ImGuiKey.Y] = (int)System.Windows.Forms.Keys.Y;
+            io.KeyMap[(int)ImGuiKey.Z] = (int)System.Windows.Forms.Keys.Z;
             displaySize.X = glc.Width;
             displaySize.Y = glc.Height;
             io.DisplaySize = displaySize;
@@ -91,8 +90,8 @@ namespace THREEExample.ThreeImGui
             glc.MouseUp += Glc_MouseUp;
             glc.MouseMove += Glc_MouseMove;
             glc.MouseWheel += Glc_MouseWheel;
-            //glc.KeyDown += Glc_KeyDown;
-            //glc.KeyUp += Glc_KeyUp;
+            glc.KeyDown += Glc_KeyDown;
+            glc.KeyUp += Glc_KeyUp;
             glc.SizeChanged += Glc_SizeChanged;
         }
 
@@ -274,36 +273,36 @@ void main()
             DrawRequested?.Invoke(this, null);
         }
 
-        //private void Glc_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-        //{
-        //    var io = ImGui.GetIO();
-        //    if (e.KeyValue < 256)
-        //    {
-        //        io.KeysDown[e.KeyValue] = true;
+        private void Glc_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            var io = ImGui.GetIO();
+            if (e.KeyValue < 256)
+            {
+                io.KeysDown[e.KeyValue] = true;
 
-        //        //io.AddInputCharacter((uint)e.KeyValue);
-        //    }
-        //    io.KeyAlt = e.Alt;
-        //    io.KeyCtrl = e.Control;
-        //    io.KeyShift = e.Shift;
-        //    DrawRequested?.Invoke(this, null);
-        //}
+                //io.AddInputCharacter((uint)e.KeyValue);
+            }
+            io.KeyAlt = e.Alt;
+            io.KeyCtrl = e.Control;
+            io.KeyShift = e.Shift;
+            DrawRequested?.Invoke(this, null);
+        }
 
         private void Glc_CharInputed(object sender, char e)
         {
             var io = ImGui.GetIO();
             io.AddInputCharacter(e);
         }
-        //private void Glc_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-        //{
-        //    var io = ImGui.GetIO();
-        //    if (e.KeyValue < 256)
-        //        io.KeysDown[e.KeyValue] = false;
-        //    io.KeyAlt = e.Alt;
-        //    io.KeyCtrl = e.Control;
-        //    io.KeyShift = e.Shift;
-        //    DrawRequested?.Invoke(this, null);
-        //}
+        private void Glc_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            var io = ImGui.GetIO();
+            if (e.KeyValue < 256)
+                io.KeysDown[e.KeyValue] = false;
+            io.KeyAlt = e.Alt;
+            io.KeyCtrl = e.Control;
+            io.KeyShift = e.Shift;
+            DrawRequested?.Invoke(this, null);
+        }
         private void Glc_SizeChanged(object sender, EventArgs e)
         {
             var io = ImGui.GetIO();
@@ -360,7 +359,7 @@ void main()
             float R = draw_data.DisplayPos.X + draw_data.DisplaySize.X;
             float T = draw_data.DisplayPos.Y;
             float B = draw_data.DisplayPos.Y + draw_data.DisplaySize.Y;
-            OpenTK.Mathematics.Matrix4 ortho_projection = new OpenTK.Mathematics.Matrix4(
+            OpenTK.Matrix4 ortho_projection = new OpenTK.Matrix4(
               2.0f / (R - L), 0.0f, 0.0f, 0.0f,
               0.0f, 2.0f / (T - B), 0.0f, 0.0f,
               0.0f, 0.0f, -1.0f, 0.0f,
@@ -423,7 +422,7 @@ void main()
             // Render command lists
             for (int n = 0; n < draw_data.CmdListsCount; n++)
             {
-                var cmd_list = draw_data.CmdLists[n];
+                var cmd_list = draw_data.CmdListsRange[n];
 
 
                 GL.BufferData(BufferTarget.ArrayBuffer, cmd_list.VtxBuffer.Size * imDrawVertSize, cmd_list.VtxBuffer.Data, BufferUsageHint.StreamDraw);

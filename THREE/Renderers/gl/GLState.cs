@@ -6,7 +6,6 @@ using System.Diagnostics;
 
 namespace THREE
 {
-    [Serializable]
     public class GLColorBuffer
     {
         private bool locked = false;
@@ -280,7 +279,7 @@ namespace THREE
         public GLStencilBuffer stencil;
     }
     public class GLState
-    {
+    {        
 
         public GLStateBuffer buffers;
 
@@ -300,7 +299,7 @@ namespace THREE
 
         private byte[] attributeDivisors;
 
-
+       
 
         private GLExtensions Extensions;
 
@@ -385,7 +384,7 @@ namespace THREE
                 this.lineWidthAvailable = (this.version >= 1.0);
             }
 
-            emptyTextures.Add((int)TextureTarget.Texture2D, this.CreateTexture(TextureTarget.Texture2D, TextureTarget.Texture2D, 1));
+            emptyTextures.Add((int)TextureTarget.Texture2D,this.CreateTexture(TextureTarget.Texture2D, TextureTarget.Texture2D, 1));
             emptyTextures.Add((int)TextureTarget.TextureCubeMap, this.CreateTexture(TextureTarget.TextureCubeMap, TextureTarget.TextureCubeMapPositiveX, 6));
 
             colorBuffer.SetClear(0, 0, 0, 1);
@@ -408,7 +407,7 @@ namespace THREE
 
         private int CreateTexture(TextureTarget type, TextureTarget target, int count)
         {
-            byte[] data = new byte[4] { 0, 0, 0, 0 };
+            byte[] data = new byte[4]{0,0,0,0};
 
             int texture;
             GL.GenTextures(1, out texture);
@@ -422,9 +421,9 @@ namespace THREE
                 //Marshal.Copy(byteArrayPtr, data, 0, data.Length);
                 TextureTarget2d localTarget = (TextureTarget2d)Enum.ToObject(typeof(TextureTarget2d), (int)target + i);
 
-                GL.TexImage2D(localTarget, 0, TextureComponentCount.Rgba, 1, 1, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
-
-
+                GL.TexImage2D(localTarget, 0, TextureComponentCount.Rgba,1,1, 0, PixelFormat.Rgba, PixelType.UnsignedByte, data);
+                
+                
             }
             return texture;
         }
@@ -490,7 +489,7 @@ namespace THREE
 
         public void Disable(EnableCap enableCap)
         {
-            if (enabledCapabilities.Contains((int)enableCap))
+            if(enabledCapabilities.Contains((int)enableCap))
             {
                 bool value = (bool)enabledCapabilities[(int)enableCap];
                 if (value != false)
@@ -498,7 +497,7 @@ namespace THREE
                     GL.Disable(enableCap);
                     enabledCapabilities[(int)enableCap] = false;
                 }
-
+               
             }
             else
             {
@@ -512,7 +511,7 @@ namespace THREE
             if (this.compressedTextureFormats == null)
             {
                 compressedTextureFormats = new List<int>();
-
+                
                 int[] format = new int[100];
                 GL.GetInteger(GetPName.CompressedTextureFormats, format);
 
@@ -523,7 +522,7 @@ namespace THREE
                         compressedTextureFormats[i] = format[i];
                     }
                 }
-
+                
             }
             return compressedTextureFormats;
         }
@@ -539,7 +538,7 @@ namespace THREE
             return false;
         }
 
-        public void SetBlending(int blending, int? blendEquation = null, int? blendSrc = null, int? blendDst = null, int? blendEquationAlpha = null, int? blendSrcAlpha = null, int? blendDstAlpha = null, bool? premultipliedAlpha = null)
+        public void SetBlending(int blending, int? blendEquation=null, int? blendSrc=null, int? blendDst=null, int? blendEquationAlpha=null, int? blendSrcAlpha=null, int? blendDstAlpha=null, bool? premultipliedAlpha=null)
         {
             if (blending == Constants.NoBlending)
             {
@@ -610,7 +609,7 @@ namespace THREE
 
             // custom blending
 
-            blendEquationAlpha = blendEquationAlpha != null ? blendEquationAlpha : blendEquation;
+            blendEquationAlpha = blendEquationAlpha!=null ? blendEquationAlpha : blendEquation;
             blendSrcAlpha = blendSrcAlpha != null ? blendSrcAlpha : blendSrc;
             blendDstAlpha = blendDstAlpha != null ? blendDstAlpha : blendDst;
 
@@ -637,7 +636,7 @@ namespace THREE
             currentPremultipliedAlpha = null;
         }
 
-        public void SetMaterial(Material material, bool? frontFaceCW = null)
+        public void SetMaterial(Material material, bool? frontFaceCW=null)
         {
             if (material.Side == Constants.DoubleSide)
             {
@@ -652,7 +651,7 @@ namespace THREE
 
             var flipSided = material.Side == Constants.BackSide;
 
-            if (frontFaceCW != null && frontFaceCW.Value) flipSided = !flipSided;
+            if (frontFaceCW!=null && frontFaceCW.Value) flipSided = !flipSided;
 
             SetFlipSided(flipSided);
 
@@ -677,7 +676,7 @@ namespace THREE
             //    GL.Disable(EnableCap.DepthTest);
 
             var stencilWrite = material.StencilWrite;
-
+            
             stencilBuffer.SetTest(stencilWrite);
             //if (stencilWrite)
             //{
@@ -751,13 +750,13 @@ namespace THREE
             }
         }
 
-        public void SetPolygonOffset(bool polygonoffset, float? factor = null, float? units = null)
+        public void SetPolygonOffset(bool polygonoffset, float? factor=null, float? units=null)
         {
             if (polygonoffset)
             {
                 Enable(EnableCap.PolygonOffsetFill);
 
-                if ((factor != null && currentPolygonOffsetFactor != factor) || (units != null && currentPolygonOffsetUnits != units))
+                if ((factor!=null && currentPolygonOffsetFactor != factor) || (units!=null &&currentPolygonOffsetUnits != units))
                 {
                     GL.PolygonOffset(factor.Value, units.Value);
 
@@ -779,13 +778,13 @@ namespace THREE
                 Disable(EnableCap.ScissorTest);
         }
 
-        public void ActiveTexture(int? glSlot = null)
+        public void ActiveTexture(int? glSlot=null)
         {
             if (glSlot == null) glSlot = (int)TextureUnit.Texture0 + maxTextures - 1;
 
             if (currentTexturesSlot != glSlot)
-            {
-                TextureUnit unit = (TextureUnit)Enum.ToObject(typeof(TextureUnit), glSlot);
+            {                
+                TextureUnit unit = (TextureUnit)Enum.ToObject(typeof(TextureUnit),glSlot);
                 //if (glSlot > 34015)
                 //{
                 //    unit = TextureUnit.Texture31;
@@ -797,7 +796,7 @@ namespace THREE
             }
         }
 
-        public void BindTexture(int glType, int? glTexture)
+        public void BindTexture(int glType,int? glTexture)
         {
             if (currentTexturesSlot == null)
             {
@@ -814,7 +813,7 @@ namespace THREE
 
             if (boundTexture.Value.type != glType || boundTexture.Value.texture != glTexture)
             {
-                TextureTarget target = (TextureTarget)Enum.ToObject(typeof(TextureTarget), glType);
+                TextureTarget target = (TextureTarget)Enum.ToObject(typeof(TextureTarget),glType);
                 GL.BindTexture(target, glTexture != null ? glTexture.Value : emptyTextures[glType]);
 
                 BoundTexture newBoundTexture = new BoundTexture();
@@ -828,9 +827,9 @@ namespace THREE
         {
             BoundTexture? boundTexture = currentBoundTextures[currentTexturesSlot.Value];
 
-            if (boundTexture != null && boundTexture.Value.type != -1)
+            if (boundTexture != null && boundTexture.Value.type!=-1)
             {
-                TextureTarget target = (TextureTarget)Enum.ToObject(typeof(TextureTarget), boundTexture.Value.type);
+                TextureTarget target = (TextureTarget)Enum.ToObject(typeof(TextureTarget),boundTexture.Value.type);
                 GL.BindTexture(target, 0);
 
                 BoundTexture newBoundTexture = new BoundTexture();
@@ -841,15 +840,15 @@ namespace THREE
             }
         }
         // Same interface as https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/compressedTexImage2D
-        public void CompressedTexImage2D(TextureTarget2d target, int level, All internalFormat, int width, int height, int border, byte[] data)
+	    public void CompressedTexImage2D(TextureTarget2d target,int level,All internalFormat,int width,int height,int border,byte[] data)
         {
             //GL.CompressedTexImage2D(target, level, internalFormat, width, height, border, data.Length, data);
             //CompressedTexImage2D(TextureTarget2d target, int level, CompressedInternalFormat internalformat, int width, int height, int border, int imageSize, IntPtr data);
-            GL.CompressedTexImage2D<byte>(target, level, (CompressedInternalFormat)internalFormat, width, height, border, data.Length, data);
+            GL.CompressedTexImage2D<byte>(target, level, (CompressedInternalFormat)internalFormat, width, height, border,data.Length, data);
         }
-
-        // Same interface as https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/texImage2D
-        public void TexImage2D(TextureTarget2d target, int level, TextureComponentCount internalFormat, int width, int height, int border, PixelFormat format, PixelType type, byte[] pixels)
+		
+	    // Same interface as https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/texImage2D
+	    public void TexImage2D(TextureTarget2d target,int level,TextureComponentCount internalFormat,int width,int height,int border,PixelFormat format,PixelType type,byte[] pixels)
         {
             //GL.TexImage2D(target, level, internalFormat, width, height, border, format, type,pixels);
             GL.TexImage2D<byte>(target, level, internalFormat, width, height, border, format, type, pixels);
@@ -864,14 +863,14 @@ namespace THREE
             //GL.TexImage2D(target, level, internalformat, width, height, int border, All format, All type, IntPtr pixels);
         }
 
-        public void TexImage3D(All target, int level, All internalFormat, int width, int height, int depth, int border, All format, All type, byte[] pixels)
+        public void TexImage3D(All target,int level,All internalFormat,int width,int height,int depth,int border,All format,All type,byte[] pixels)
         {
             //GL.TexImage3D(target, level, internalFormat, width, height, depth, border, format, type, pixels);
             //TexImage3D<T9>(TextureTarget3d target, int level, TextureComponentCount internalformat, int width, int height, int depth, int border, PixelFormat format, PixelType type, T9[] pixels) where T9 : struct;
             GL.TexImage3D<byte>((TextureTarget3d)target, level, (TextureComponentCount)internalFormat, width, height, depth, border, (PixelFormat)format, (PixelType)type, pixels);
-        }
+    }
 
-        public void Scissor(Vector4 scissor)
+	    public void Scissor(Vector4 scissor)
         {
             if (!currentScissor.Equals(scissor))
             {
@@ -879,7 +878,7 @@ namespace THREE
                 currentScissor.Copy(scissor);
             }
         }
-        public void Viewport(Vector4 viewport)
+	    public void Viewport(Vector4 viewport)
         {
             if (!currentViewport.Equals(viewport))
             {

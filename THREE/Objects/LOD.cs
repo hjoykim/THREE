@@ -1,19 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public struct LevelStruct
     {
         public float distance;
         public Object3D object3D;
     }
 
-    [Serializable]
     public class LOD : Object3D
     {
-
+        
 
         public List<LevelStruct> Levels = new List<LevelStruct>();
 
@@ -27,8 +24,6 @@ namespace THREE
         {
             this.type = "LOD";
         }
-
-        public LOD(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         protected LOD(LOD other) : base(other)
         {
@@ -59,12 +54,12 @@ namespace THREE
                 }
             }
 
-            LevelStruct level = new LevelStruct { distance = distance.Value, object3D = object3D };
+            LevelStruct level = new LevelStruct { distance = distance.Value, object3D=object3D };
 
             if (l >= Levels.Count)
                 Levels.Add(level);
             else
-                Levels.Insert(l, level);
+                Levels.Insert(l,level);
 
             this.Add(object3D);
 
@@ -103,14 +98,14 @@ namespace THREE
 
             if (levels.Count > 1)
             {
-                v1.SetFromMatrixPosition(camera.MatrixWorld);
+                v1.SetFromMatrixPosition(camera.MatrixWorld); 
                 v2.SetFromMatrixPosition(this.MatrixWorld);
 
                 var distance = v1.DistanceTo(v2);
 
                 levels[0].object3D.Visible = true;
 
-                int i, l = levels.Count;
+                int i,l = levels.Count;
                 for (i = 1; i < l; i++)
                 {
                     if (distance >= levels[i].distance)

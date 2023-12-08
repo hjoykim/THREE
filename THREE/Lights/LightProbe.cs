@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
-    public class LightProbe : Light, ICloneable
+    public class LightProbe : Light,ICloneable
     {
 
         public LightProbe() : base(Color.ColorName(ColorKeywords.white), null)
         {
             sh = new SphericalHarmonics3();
         }
-        public LightProbe(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        public LightProbe(SphericalHarmonics3 sh, int? intensity) : base(Color.ColorName(ColorKeywords.white), intensity)
+        public LightProbe(SphericalHarmonics3 sh, int? intensity) : base(Color.ColorName(ColorKeywords.white),intensity)
         {
             if (sh != null) this.sh = sh;
             else sh = new SphericalHarmonics3();

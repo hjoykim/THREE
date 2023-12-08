@@ -1,14 +1,11 @@
-﻿using System.Runtime.Serialization;
-
-namespace THREE
+﻿namespace THREE
 {
-    [Serializable]
     public class ArrowHelper : Object3D
     {
-        Vector3 Dir = new Vector3(0, 0, 1);
+        Vector3 Dir = new Vector3(0,0,1);
         Vector3 Origin = Vector3.Zero();
         float Length = 1;
-        Color Color = Color.Hex(0xffff00);
+        Color Color =Color.Hex(0xffff00);
         float HeadLength;
         float HeadWidth;
 
@@ -17,7 +14,7 @@ namespace THREE
         CylinderBufferGeometry _coneGeometry;
         Line line;
         Mesh cone;
-        public ArrowHelper(Vector3 dir = null, Vector3 origin = null, float? length = null, Color? color = null, float? headLength = null, float? headWidth = null)
+        public ArrowHelper(Vector3 dir=null,Vector3 origin=null,float? length=null,Color? color=null,float? headLength=null,float? headWidth=null)
         {
             if (dir != null) Dir = dir;
 
@@ -31,7 +28,7 @@ namespace THREE
 
             HeadWidth = headWidth != null ? headWidth.Value : 0.2f * Length;
 
-            if (_lineGeometry == null)
+            if(_lineGeometry==null)
             {
                 _lineGeometry = new BufferGeometry();
                 _lineGeometry.SetAttribute("position", new BufferAttribute<float>(new float[] { 0, 0, 0, 0, 1, 0 }, 3));
@@ -42,11 +39,11 @@ namespace THREE
 
             Position.Copy(Origin);
 
-            line = new Line(_lineGeometry, new LineBasicMaterial() { Color = this.Color, ToneMapped = false });
+            line = new Line(_lineGeometry, new LineBasicMaterial() {Color=this.Color,ToneMapped=false });
             line.MatrixAutoUpdate = false;
             this.Add(line);
 
-            cone = new Mesh(_coneGeometry, new MeshBasicMaterial() { Color = this.Color, ToneMapped = false });
+            cone = new Mesh(_coneGeometry, new MeshBasicMaterial() { Color = this.Color ,ToneMapped=false});
             cone.MatrixAutoUpdate = false;
             this.Add(cone);
 
@@ -60,7 +57,6 @@ namespace THREE
             this.line = (Line)source.line.Clone();
             this.cone = (Mesh)source.cone.Clone();
         }
-        public ArrowHelper(SerializationInfo info, StreamingContext context) : base(info, context) { }
         public new object Clone()
         {
             return new ArrowHelper(this);
@@ -89,7 +85,7 @@ namespace THREE
             }
         }
 
-        private void SetLength(float length, float headLength, float headWidth)
+        private void SetLength(float length,float headLength,float headWidth)
         {
             this.line.Scale.Set(1, System.Math.Max(0.0001f, length - headLength), 1); // see #17458
 

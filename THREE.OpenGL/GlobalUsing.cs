@@ -1,1 +1,0 @@
-﻿global using IGraphicsContext = OpenTK.Windowing.Common.IGraphicsContext;

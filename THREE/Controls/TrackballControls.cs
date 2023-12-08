@@ -9,7 +9,6 @@ using Vector3 = THREE.Vector3;
 
 namespace THREE
 {
-    [Serializable]
     public class TrackballControls
     {
         public Camera camera;

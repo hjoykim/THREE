@@ -2,19 +2,18 @@
 
 namespace THREE
 {
-    [Serializable]
     public class GLObject
     {
-        public long Id { get; set; }
+        public long Id;
 
-        public BaseGeometry buffer {get;set; }
+        public BaseGeometry buffer;
 
-        public Object3D object3D { get; set; }
+        public Object3D object3D;
 
-        public Material material { get; set; }
+        public Material material;
 
-        public float z { get; set; }
+        public float z;
 
-        public bool render { get; set; }
+        public bool render;
     }
 }

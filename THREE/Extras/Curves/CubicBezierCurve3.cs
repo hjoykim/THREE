@@ -1,11 +1,10 @@
 ﻿namespace THREE
 {
-    [Serializable]
     public class CubicBezierCurve3 : Curve
     {
         public Vector3 V0, V1, V2, V3;
 
-        public CubicBezierCurve3(Vector3 v0 = null, Vector3 v1 = null, Vector3 v2 = null, Vector3 v3 = null)
+        public CubicBezierCurve3(Vector3 v0=null,Vector3 v1=null,Vector3 v2=null,Vector3 v3 = null)
         {
             this.V0 = v0 != null ? v0 : new Vector3();
             this.V1 = v1 != null ? v1 : new Vector3();

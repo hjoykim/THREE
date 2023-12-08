@@ -1,7 +1,6 @@
 ﻿
 namespace THREE
 {
-    [Serializable]
     public class Fog
     {
         public string Name;
@@ -15,7 +14,7 @@ namespace THREE
         public Fog()
         {
         }
-        public Fog(Color color, float? near = null, float? far = null)
+        public Fog(Color color, float? near=null, float? far=null)
         {
             this.Name = "";
 

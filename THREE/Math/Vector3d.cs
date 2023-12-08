@@ -4,8 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace THREE
 {
-    [Serializable]
-    public class Vector3d : IEquatable<Vector3d>, INotifyPropertyChanged
+    public class Vector3d : IEquatable<Vector3d>,INotifyPropertyChanged
     {
         public double X;
 
@@ -40,7 +39,7 @@ namespace THREE
         }
         public Vector3d()
         {
-            this.X = this.Y = this.Z = 0;
+            this.X = this.Y = this.Z = 0;           
         }
 
         public Vector3d(double x, double y, double z)
@@ -123,7 +122,7 @@ namespace THREE
 
         public Vector3d Clone()
         {
-            return new Vector3d(this.X, this.Y, this.Z);
+            return new Vector3d(this.X, this.Y,this.Z);
         }
 
         public Vector3d Copy(Vector3d v)
@@ -253,7 +252,7 @@ namespace THREE
             return this;
         }
 
-        public Vector3d MultiplyVectors(Vector3d a, Vector3d b)
+        public Vector3d MultiplyVectors(Vector3d a,Vector3d b)
         {
             this.X = a.X * b.X;
             this.Y = a.Y * b.Y;
@@ -285,7 +284,7 @@ namespace THREE
             return this.ApplyQuaternion(quaternion.SetFromEuler(euler));
         }
 
-        public Vector3d ApplyAxisAngle(Vector3d axis, double angle)
+        public Vector3d ApplyAxisAngle(Vector3d axis,double angle)
         {
             Quaterniond quaternion = new Quaterniond();
             return this.ApplyQuaternion(quaternion.SetFromAxisAngle(axis, angle));
@@ -423,7 +422,7 @@ namespace THREE
             return this;
         }
 
-
+        
         public Vector3d DivideScalar(double s)
         {
             return this.MultiplyScalar(1 / s);
@@ -547,9 +546,9 @@ namespace THREE
         }
         public double Dot(Vector3d v)
         {
-            return this.X * v.X + this.Y * v.Y + this.Z * v.Z;
+            return this.X * v.X + this.Y * v.Y + this.Z*v.Z;
         }
-
+        
         public double LengthSq()
         {
             return this.X * this.X + this.Y * this.Y + this.Z * this.Z;
@@ -562,14 +561,14 @@ namespace THREE
 
         public double ManhattanLength()
         {
-            return (double)(System.Math.Abs(this.X) + System.Math.Abs(this.Y) + System.Math.Abs(this.Z));
+            return (double)(System.Math.Abs(this.X) + System.Math.Abs(this.Y)+System.Math.Abs(this.Z));
         }
 
         public Vector3d Normalize()
         {
             return this.DivideScalar(this.Length() != 0 ? this.Length() : 1);
         }
-
+        
         public Vector3d SetLength(double length)
         {
             return this.Normalize().MultiplyScalar(length);
@@ -632,18 +631,18 @@ namespace THREE
 
         public double AngleTo(Vector3d v)
         {
-            var denominator = System.Math.Sqrt(this.LengthSq() * v.LengthSq());
+           var denominator = System.Math.Sqrt( this.LengthSq() * v.LengthSq() );
 
-            if (denominator == 0)
+		    if ( denominator == 0 )
             {
                 throw new Exception("THREE.Math.Vector3d: AngleTo() can\'t handle zero length vectors.");
             }
 
-            double theta = (double)(this.Dot(v) / denominator);
+		    double theta = (double)(this.Dot( v ) / denominator);
 
-            // clamp, to handle numerical problems
+		    // clamp, to handle numerical problems
 
-            return (double)System.Math.Acos(Clamp(theta, -1, 1));
+		    return (double)System.Math.Acos(Clamp(theta,-1,1));
         }
 
         public double Clamp(double value, double min, double max)
@@ -735,14 +734,14 @@ namespace THREE
             int index = 0;
             if (offset != null) index = offset.Value;
             int aLen = array.Length - 1;
-            this.X = index <= aLen ? array[index] : double.NaN;
-            this.Y = index <= aLen ? array[index + 1] : double.NaN;
-            this.Z = index <= aLen ? array[index + 2] : double.NaN;
+            this.X = index<=aLen ? array[index] : double.NaN;
+            this.Y = index<=aLen? array[index + 1] : double.NaN;
+            this.Z = index<=aLen? array[index + 2] : double.NaN;
 
             return this;
         }
 
-        public double[] ToArray(double[] array = null, int? offset = null)
+        public double[] ToArray(double[] array=null, int? offset = null)
         {
             int index = 0;
             if (array == null) array = new double[3];

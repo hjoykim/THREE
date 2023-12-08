@@ -2,7 +2,6 @@
 
 namespace THREE
 {
-    [Serializable]
     public class BoxGeometry : Geometry
     {
         public float Width;
@@ -17,7 +16,7 @@ namespace THREE
 
         public int DepthSegments;
 
-        public BoxGeometry(float width, float height, float depth, int widthSegments = 1, int heightSegments = 1, int depthSegments = 1) : base()
+        public BoxGeometry(float width, float height, float depth, int widthSegments=1, int heightSegments=1, int depthSegments=1) :base()
         {
 
             this.type = "BoxGeometry";
@@ -39,8 +38,6 @@ namespace THREE
             this.MergeVertices();
         }
     }
-
-    [Serializable]
     public class BoxBufferGeometry : BufferGeometry
     {
         public float Width;

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public class Skeleton : Object3D
     {
         public bool UseVertexTexture;
@@ -42,17 +40,15 @@ namespace THREE
                 //}
                 //else
                 //{
-                this.BoneInverses = new Matrix4[this.Bones.Length];
-                int bCount = 0;
-                for (int i = 0; i < this.Bones.Length; i++)
-                {
-                    this.BoneInverses[bCount++] = new Matrix4();
-                }
+                    this.BoneInverses = new Matrix4[this.Bones.Length];
+                    int bCount = 0;
+                    for (int i = 0; i < this.Bones.Length; i++)
+                    {
+                        this.BoneInverses[bCount++] = new Matrix4();
+                    }
                 //}
             }
         }
-
-        public Skeleton(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public void CalculateInverses()
         {

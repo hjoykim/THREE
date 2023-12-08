@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace THREE
 {
-    [Serializable]
     public class EffectComposer
     {
         public GLRenderer Renderer;
@@ -32,13 +30,13 @@ namespace THREE
         private Stopwatch stopwatch = new Stopwatch();
 
         private CopyShader copyShader = new CopyShader();
-        public EffectComposer(GLRenderer renderer, GLRenderTarget renderTarget = null)
+        public EffectComposer(GLRenderer renderer,GLRenderTarget renderTarget = null)
         {
             Renderer = renderer;
 
             Hashtable parameters = new Hashtable();
 
-            if (renderTarget == null)
+            if(renderTarget==null)
             {
                 parameters.Add("minFilter", Constants.LinearFilter);
                 parameters.Add("magFilter", Constants.LinearFilter);
@@ -92,7 +90,7 @@ namespace THREE
             pass.SetSize(width * pixelRatio, height * pixelRatio);
         }
 
-        public void InsertPass(Pass pass, int index)
+        public void InsertPass(Pass pass,int index)
         {
             //this.Passes.Splice(index, 0, pass);
             Passes.Insert(index, pass);
@@ -116,7 +114,7 @@ namespace THREE
             return true;
         }
 
-        public void Render(float? deltaTime = null)
+        public void Render(float? deltaTime=null)
         {
             if (deltaTime == null)
             {
@@ -129,7 +127,7 @@ namespace THREE
 
             var maskActive = false;
 
-            Pass pass;
+            Pass pass; 
             int il = this.Passes.Count;
 
             for (int i = 0; i < il; i++)
@@ -159,22 +157,22 @@ namespace THREE
                             this.CopyPass.Render(this.Renderer, this.WriteBuffer, this.ReadBuffer, deltaTime);
 
                             //context.stencilFunc( context.EQUAL, 1, 0xffffffff );
-                            stencil.SetFunc(Constants.EqualStencilFunc, 1, (int)0xffffffff);
+                            stencil.SetFunc(Constants.EqualStencilFunc, 1,(int)0xffffffff);
                         }
 
                     }
 
                     this.SwapBuffers();
 
-                }
+                }              
 
-                if (pass is MaskPass)
+                if (pass is MaskPass ) 
                 {
 
                     maskActive = true;
 
-                }
-                else if (pass is ClearMaskPass)
+                } 
+                else if (pass is ClearMaskPass ) 
                 {
                     maskActive = false;
 
@@ -183,10 +181,10 @@ namespace THREE
             }
 
 
-            this.Renderer.SetRenderTarget(currentRenderTarget);
+            this.Renderer.SetRenderTarget(currentRenderTarget );
         }
 
-        public void Reset(GLRenderTarget renderTarget = null)
+        public void Reset(GLRenderTarget renderTarget=null)
         {
             if (renderTarget == null)
             {
@@ -210,7 +208,7 @@ namespace THREE
             this.ReadBuffer = this.RenderTarget2;
         }
 
-        public void SetSize(float width, float height)
+        public void SetSize(float width,float height)
         {
             this.width = width;
             this.height = height;

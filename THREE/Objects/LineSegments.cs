@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public class LineSegments : Line
     {
         private Vector3 start = Vector3.Zero();
@@ -15,15 +13,13 @@ namespace THREE
         {
 
         }
-        public LineSegments(Geometry geometry, Material material) : base(geometry, material)
+        public LineSegments(Geometry geometry, Material material) : base(geometry,material)
         {
         }
-        public LineSegments(Geometry geometry, List<Material> materials) : base(geometry, materials)
+        public LineSegments(Geometry geometry,List<Material> materials) : base(geometry, materials)
         {
 
         }
-        public LineSegments(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
         public override Line ComputeLineDistances()
         {
             var geometry = this.Geometry;

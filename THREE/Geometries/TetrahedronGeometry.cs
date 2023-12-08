@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace THREE
 {
-    [Serializable]
+   
     public class TetrahedronGeometry : Geometry
     {
         public Hashtable parameters;
 
-        public TetrahedronGeometry(float? radius = null, float? detail = null) : base()
+        public TetrahedronGeometry(float? radius=null,float? detail=null) : base()
         {
             parameters = new Hashtable()
             {
@@ -21,7 +21,6 @@ namespace THREE
         }
     }
 
-    [Serializable]
     public class TetrahedronBufferGeometry : PolyhedronBufferGeometry
     {
         static List<float> vertices = new List<float>()
@@ -34,8 +33,8 @@ namespace THREE
                2, 1, 0,     0, 3, 2,    1, 3, 0,    2, 3, 1
             };
 
-        public TetrahedronBufferGeometry(float? radius = null, float? detail = null) : base(vertices, indices, radius, detail)
-        {
+        public TetrahedronBufferGeometry(float? radius=null,float? detail=null) : base(vertices,indices,radius,detail)
+        {         
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
+
+
     public class SpotLightHelper : Object3D
     {
         private Vector3 _vector = Vector3.Zero();
@@ -16,7 +16,7 @@ namespace THREE
 
         private LineSegments Cone;
 
-        public SpotLightHelper(Light light, Color? color = null) : base()
+        public SpotLightHelper(Light light, Color? color=null) : base()
         {
             this.type = "SpotLightHelper";
             this.Light = light;
@@ -33,11 +33,11 @@ namespace THREE
 
             var positions = new List<float>()
             {
-                0, 0, 0,    0, 0, 1,
-                0, 0, 0,    1, 0, 1,
-                0, 0, 0,    -1, 0, 1,
-                0, 0, 0,    0, 1, 1,
-                0, 0, 0,    0, -1, 1
+                0, 0, 0, 	0, 0, 1,
+		        0, 0, 0, 	1, 0, 1,
+		        0, 0, 0,	-1, 0, 1,
+		        0, 0, 0, 	0, 1, 1,
+		        0, 0, 0, 	0, -1, 1
             };
 
             for (int i = 0, j = 1, l = 32; i < l; i++, j++)
@@ -52,7 +52,7 @@ namespace THREE
 
             geometry.SetAttribute("position", new BufferAttribute<float>(positions.ToArray(), 3));
 
-            var material = new LineBasicMaterial() { Fog = false, ToneMapped = false };
+            var material = new LineBasicMaterial() { Fog = false,ToneMapped=false };
 
             this.Cone = new LineSegments(geometry, material);
 
@@ -62,33 +62,28 @@ namespace THREE
 
         }
 
-        public SpotLightHelper(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
         public void Update()
         {
             this.Light.UpdateMatrixWorld();
 
-            var coneLength = this.Light.Distance != 0 ? this.Light.Distance : 1000;
-            var coneWidth = coneLength * (float)Math.Tan(this.Light.Angle);
+	        var coneLength = this.Light.Distance!=0 ? this.Light.Distance : 1000;
+	        var coneWidth = coneLength * (float)Math.Tan( this.Light.Angle );
 
-            this.Cone.Scale.Set(coneWidth, coneWidth, coneLength);
+	        this.Cone.Scale.Set( coneWidth, coneWidth, coneLength );
 
-            _vector.SetFromMatrixPosition(this.Light.Target.MatrixWorld);
+	        _vector.SetFromMatrixPosition( this.Light.Target.MatrixWorld );
 
-            this.Cone.LookAt(_vector);
+	        this.Cone.LookAt( _vector );
 
-            if (this.Color != null)
-            {
+	        if ( this.Color != null ) {
 
-                this.Cone.Material.Color = this.Color;
+		        this.Cone.Material.Color = this.Color ;
 
-            }
-            else
-            {
+	        } else {
 
-                this.Cone.Material.Color = this.Light.Color;
+		        this.Cone.Material.Color = this.Light.Color;
 
-            }
+	        }
         }
 
         public override void Dispose()

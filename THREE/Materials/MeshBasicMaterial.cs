@@ -1,9 +1,7 @@
 ﻿using System.Collections;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public class MeshBasicMaterial : Material
     {
         // IMap
@@ -47,7 +45,7 @@ namespace THREE
         //public bool MorphTargets { get; set; }
         //
 
-
+  
 
 
         //public bool Skinning = false;
@@ -57,7 +55,7 @@ namespace THREE
 
         public MeshBasicMaterial(Hashtable parameters = null)
         {
-
+           
 
             this.type = "MeshBasicMaterial";
 
@@ -72,7 +70,7 @@ namespace THREE
             this.AlphaMap = null;
 
             this.EnvMap = null;
-
+           
 
             this.Wireframe = false;
 
@@ -81,7 +79,7 @@ namespace THREE
             this.WireframeLineCap = "round";
 
             this.WireframeLineJoin = "round";
-            // this.Fog = true;
+           // this.Fog = true;
 
             //this.Shading = (int)THREES.SmoothShading;
 
@@ -89,14 +87,13 @@ namespace THREE
 
             this.SetValues(parameters);
         }
-        public MeshBasicMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         protected MeshBasicMaterial(MeshBasicMaterial other)
             : base(other)
         {
-
+            
         }
-
+        
         public new MeshBasicMaterial Clone()
         {
             return new MeshBasicMaterial(this);

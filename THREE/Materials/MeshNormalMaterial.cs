@@ -1,12 +1,9 @@
 ﻿
-using System.Runtime.Serialization;
-
 namespace THREE
 {
-    [Serializable]
     public class MeshNormalMaterial : Material
     {
-        public MeshNormalMaterial() : base()
+        public MeshNormalMaterial() : base() 
         {
             this.type = "MeshNormalMaterial";
 
@@ -30,6 +27,5 @@ namespace THREE
             this.MorphTargets = false;
             this.MorphNormals = false;
         }
-        public MeshNormalMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

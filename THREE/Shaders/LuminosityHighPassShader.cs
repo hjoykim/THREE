@@ -1,18 +1,15 @@
 ﻿
-using System.Runtime.Serialization;
-
 namespace THREE
 {
-    [Serializable]
     public class LuminosityHighPassShader : ShaderMaterial
     {
         public LuminosityHighPassShader()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("luminosityThreshold", new Uniform { { "value", 1.0f } });
-            Uniforms.Add("smoothWidth", new Uniform { { "value", 1.0f } });
-            Uniforms.Add("defaultColor", new Uniform { { "value", new Color(0x000000) } });
-            Uniforms.Add("defaultOpacity", new Uniform { { "value", 0.0f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("luminosityThreshold", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("smoothWidth", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("defaultColor", new GLUniform { { "value", new Color(0x000000) } });
+            Uniforms.Add("defaultOpacity", new GLUniform { { "value", 0.0f } });
 
             VertexShader = @"
 varying vec2 vUv;
@@ -54,9 +51,7 @@ void main() {
 }
 
 ";
-
+           
         }
-
-        public LuminosityHighPassShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

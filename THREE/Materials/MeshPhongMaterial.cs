@@ -1,15 +1,13 @@
 ﻿using System.Collections;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public class MeshPhongMaterial : Material
     {
-        public MeshPhongMaterial(Hashtable parameter = null)
+        public MeshPhongMaterial(Hashtable parameter=null)
         {
             this.type = "MeshPhongMaterial";
-            this.Color = new Color().SetHex(0xffffff); ;
+            this.Color = new Color().SetHex(0xffffff);;
             this.Specular = new Color().SetHex(0x111111); ;
             this.Shininess = 30;
 
@@ -60,8 +58,5 @@ namespace THREE
                 this.SetValues(parameter);
         }
 
-        public MeshPhongMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
     }
-
 }

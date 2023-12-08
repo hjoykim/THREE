@@ -4,29 +4,28 @@ using System.Runtime.CompilerServices;
 
 namespace THREE
 {
-    [Serializable]
     public class Vector2d : IEquatable<Vector2d>, INotifyPropertyChanged
     {
         public double X;
 
         public double Y;
 
-
-        public int Width
+       
+        public int Width 
         {
             get
             {
                 return (int)X;
             }
-            set
+            set 
             {
                 X = value;
             }
         }
 
-        public int Height
+        public int Height 
         {
-            get
+            get 
             {
                 return (int)Y;
             }
@@ -50,7 +49,7 @@ namespace THREE
 
         public static Vector2d Zero()
         {
-            return new Vector2d(0, 0);
+             return new Vector2d(0, 0);
         }
 
         public Vector2d Set(double x, double y)
@@ -223,7 +222,7 @@ namespace THREE
             return this;
         }
 
-        public static Vector2d operator *(Vector2d a, Vector2d b)
+        public static Vector2d operator *(Vector2d a,Vector2d b)
         {
             Vector2d r = new Vector2d();
             r.X = a.X * b.X;
@@ -267,8 +266,8 @@ namespace THREE
         {
             Vector2d r = new Vector2d();
             r = a * (1 / s);
-
-            return r;
+            
+            return r ;
         }
 
         public Vector2d ApplyMatrix3(Matrix3 m)
@@ -328,7 +327,7 @@ namespace THREE
 
             return this;
         }
-
+        
         public bool Equals(Vector2d v)
         {
             return this.X == v.X && this.Y == v.Y;
@@ -393,7 +392,7 @@ namespace THREE
 
         public double LengthSq()
         {
-            return this.X * this.X + this.Y * this.Y;
+            return this.X*this.X+this.Y*this.Y;
         }
 
         public double Length()
@@ -456,20 +455,20 @@ namespace THREE
             return this.SubVectors(v2, v1).MultiplyScalar(alpha).Add(v1);
         }
 
-        public Vector2d FromArray(double[] array, int? offset = null)
+        public Vector2d FromArray(double[] array, int? offset=null)
         {
             int index = 0;
             if (offset != null) index = offset.Value;
 
             this.X = array[index];
-            this.Y = array[index + 1];
+            this.Y = array[index+1];
 
             return this;
         }
 
-        public double[] ToArray(double[] array = null, int? offset = null)
+        public double[] ToArray(double[] array=null, int? offset = null)
         {
-
+            
             int index = 0;
             if (array == null) array = new double[2];
             if (offset != null) index = offset.Value;

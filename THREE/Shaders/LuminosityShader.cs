@@ -1,15 +1,12 @@
 ﻿
-using System.Runtime.Serialization;
-
 namespace THREE
 {
-    [Serializable]
     public class LuminosityShader : ShaderMaterial
     {
         public LuminosityShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+          
 
             VertexShader = @"
                 varying vec2 vUv; 
@@ -46,7 +43,5 @@ namespace THREE
 
             ";
         }
-
-        public LuminosityShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

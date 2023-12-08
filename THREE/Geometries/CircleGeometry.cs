@@ -4,11 +4,10 @@ using System.Collections.Generic;
 
 namespace THREE
 {
-    [Serializable]
     public class CircleGeometry : Geometry
     {
         public Hashtable parameters;
-        public CircleGeometry(float? radius = null, float? segments = null, float? thetaStart = null, float? thetaLength = null) : base()
+        public CircleGeometry(float? radius=null,float? segments=null,float? thetaStart=null,float? thetaLength=null) : base()
         {
             this.type = "CircleGeometry";
 
@@ -26,7 +25,6 @@ namespace THREE
         }
     }
 
-    [Serializable]
     public class CircleBufferGeometry : BufferGeometry
     {
         public Hashtable parameters;
@@ -58,9 +56,9 @@ namespace THREE
 
             List<float> uvs = new List<float>();
 
-            vertices.Add(0, 0, 0);
+            vertices.Add(0,0,0);
 
-            normals.Add(0, 0, 1);
+            normals.Add(0,0,1);
 
             uvs.Add(0.5f, 0.5f);
 
@@ -68,7 +66,7 @@ namespace THREE
 
             Vector2 uv = new Vector2();
 
-            for (int s = 0, i = 3; s <= segments; s++, i += 3)
+            for (int s = 0,i=3; s <= segments; s++,i+=3)
             {
 
                 var segment = thetaStart + s / segments * thetaLength;
@@ -78,7 +76,7 @@ namespace THREE
                 vertex.X = (float)(radius * System.Math.Cos(segment.Value));
                 vertex.Y = (float)(radius * System.Math.Sin(segment.Value));
 
-                vertices.Add(vertex.X, vertex.Y, vertex.Z);
+                vertices.Add(vertex.X,vertex.Y,vertex.Z);
 
                 // normal
 
@@ -87,7 +85,7 @@ namespace THREE
                 // uvs
 
                 uv.X = (vertices[i] / radius.Value + 1) / 2.0f;
-                uv.Y = (vertices[i + 1] / radius.Value + 1) / 2.0f;
+                uv.Y = (vertices[i+1] / radius.Value + 1) / 2.0f;
 
                 uvs.Add(uv.X, uv.Y);
 
@@ -102,15 +100,15 @@ namespace THREE
 
             // build geometry
 
-            this.SetIndex(indices);
+            this.SetIndex(indices);              
 
-            this.SetAttribute("position", new BufferAttribute<float>(vertices.ToArray(), 3));
-
-
-            this.SetAttribute("normal", new BufferAttribute<float>(normals.ToArray(), 3));
+            this.SetAttribute("position", new BufferAttribute<float>(vertices.ToArray(),3));
 
 
-            this.SetAttribute("uv", new BufferAttribute<float>(uvs.ToArray(), 2));
+            this.SetAttribute("normal", new BufferAttribute<float>(normals.ToArray(),3));
+
+
+            this.SetAttribute("uv",new BufferAttribute<float>(uvs.ToArray(),2));
 
         }
     }

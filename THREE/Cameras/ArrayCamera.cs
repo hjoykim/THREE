@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace THREE
 {
-    [Serializable]
     public class ArrayCamera : PerspectiveCamera
     {
         public List<Camera> Cameras = new List<Camera>();
@@ -20,6 +19,6 @@ namespace THREE
             : base()
         {
             this.Cameras = array;
-        }
+        }        
     }
 }

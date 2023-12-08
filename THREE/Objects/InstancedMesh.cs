@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public class InstancedMesh : Mesh
     {
         public BufferAttribute<float> InstanceMatrix;
@@ -12,13 +10,12 @@ namespace THREE
 
         public int count;
 
-        public InstancedMesh(Geometry geometry, List<Material> material, int count) : base(geometry, material)
+        public InstancedMesh(Geometry geometry, List<Material> material, int count) : base(geometry,material)
         {
             this.type = "InstancedMesh";
 
             this.count = count;
         }
-        public InstancedMesh(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public Color getColorAt(int index, Color color)
         {

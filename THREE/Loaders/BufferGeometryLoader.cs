@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace THREE
 {
-    [Serializable]
     public class BufferGeometryLoader
     {
         Hashtable interleavedBufferMap = new Hashtable();
@@ -38,7 +37,7 @@ namespace THREE
 
             object indexObj = json["data"]["index"];
 
-            if (indexObj != null)
+            if(indexObj!=null)
             {
                 int[] index = indexObj as int[];
                 geometry.SetIndex(index.ToList<int>(), 1);
@@ -49,12 +48,12 @@ namespace THREE
             if (data != null)
             {
                 JObject attributes = (JObject)data["attributes"];
-                if (attributes != null)
+                if(attributes!=null)
                 {
-                    foreach (var o in attributes)
+                    foreach(var o in attributes)
                     {
                         JObject attribute = (JObject)attributes[o.Key];
-                        if (attribute != null)
+                        if(attribute!=null)
                         {
                             int itemSize = (int)attribute["itemSize"];
                             JToken arrayToken = attribute["array"];

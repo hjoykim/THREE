@@ -2,10 +2,9 @@
 
 namespace THREE
 {
-    [Serializable]
     public class Plane : ICloneable
     {
-        public Vector3 Normal = new Vector3(1, 0, 0);
+        public Vector3 Normal = new Vector3(1,0,0);
         public float Constant = 0;
 
         private Vector3 _vector1 = new Vector3();

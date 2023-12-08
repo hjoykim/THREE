@@ -8,8 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace THREE
 {
-    [Serializable]
-    public class GLProgram : DisposableObject, IGLProgram
+    public class GLProgram : DisposableObject
     {
         protected static int ProgramIdCount;
 
@@ -17,7 +16,7 @@ namespace THREE
 
         public string Code;
 
-        public int UsedTimes = 1;
+        public int UsedTimes=1;       
 
         public int program { get; set; }
 
@@ -48,7 +47,7 @@ namespace THREE
         public GLProgram()
         {
         }
-        public GLProgram(GLRenderer renderer, string cacheKey, Hashtable parameters, GLBindingStates bindingStates)
+        public GLProgram(GLRenderer renderer, string cacheKey, Hashtable parameters,GLBindingStates bindingStates)
         {
             this.renderer = renderer;
 
@@ -65,7 +64,7 @@ namespace THREE
 
             Hashtable defines = parameters["defines"] as Hashtable;
 
-
+           
 
             string shadowMapTypeDefine = GenerateShadowMapTypeDefine(parameters);
 
@@ -77,7 +76,7 @@ namespace THREE
 
             float gammaFactorDefine = (renderer.GammaFactor > 0) ? renderer.GammaFactor : 1.0f;
 
-            string[] customExtensions = (bool)parameters["isGL2"] == true ? new string[] { "" } : GenerateExtensions(parameters);
+            string[] customExtensions = (bool)parameters["isGL2"] == true ? new string[]{""} : GenerateExtensions(parameters);
 
             string customDefines = GenerateDefines(defines);
 
@@ -92,7 +91,7 @@ namespace THREE
             if ((bool)parameters["isRawShaderMaterial"])
             {
                 prefixVertex = string.Join("\n", customDefines);
-
+                
                 if (prefixVertex.Length > 0)
                     prefixVertex += "\n";
 
@@ -106,7 +105,7 @@ namespace THREE
             }
             else
             {
-
+               
                 string[] prefixVertexs = new string[]
                 {
                     //"#version 120",
@@ -121,17 +120,17 @@ namespace THREE
                     "#define SHADER_NAME "+parameters["shaderName"],
 
                     customDefines,
-
+                
                     (bool)parameters["instancing"]==true ? "#define USE_INSTANCING":"",
                 (bool)parameters["instancingColor"]==true? "#define USE_INSTANCING_COLOR":"",
                     (bool)parameters["supportsVertexTextures"] ? "#define VERTEX_TEXTURES" : "",
 
                     "#define GAMMA_FACTOR " + gammaFactorDefine.ToString(),
-
+               
                     "#define MAX_BONES " + parameters["maxBones"].ToString(),
                     ( (bool)parameters["useFog"] && (bool)parameters["fog"] ) ? "#define USE_FOG" : "",
                     ( (bool)parameters["useFog"] && (bool)parameters["fogExp2"] ) ? "#define FOG_EXP2" : "",
-
+                
                     (bool)parameters["map"] ? "#define USE_MAP" : "",
                     (bool)parameters["envMap"] ? "#define USE_ENVMAP" : "",
                     (bool)parameters["envMap"] ? "#define " + envMapModeDefine : "",
@@ -165,7 +164,7 @@ namespace THREE
                     (bool)parameters["morphNormals"] && (bool)parameters["flatShading"] == false ? "#define USE_MORPHNORMALS" : "",
                     (bool)parameters["doubleSided"] ? "#define DOUBLE_SIDED" : "",
                     (bool)parameters["flipSided"] ? "#define FLIP_SIDED" : "",
-
+               
                     (bool)parameters["shadowMapEnabled"] ? "#define USE_SHADOWMAP" : "",
                     (bool)parameters["shadowMapEnabled"] ? "#define " + shadowMapTypeDefine : "",
 
@@ -255,8 +254,8 @@ namespace THREE
                     //"#ifdef GL_ES",
                     "#version 300 es\n",
                     String.Join("\n",customExtensions),
-                    GeneratePrecision(parameters),
-
+                    GeneratePrecision(parameters), 
+                    
                     "#define varying in",
                     "out highp vec4 pc_fragColor;",
                     "#define gl_FragColor pc_fragColor",
@@ -275,83 +274,83 @@ namespace THREE
 
                     //String.Join("\n",customExtensions),                   
 
-                    customDefines,
-
-                    (float)parameters["alphaTest"]!=0 ? "#define ALPHATEST " + (float)parameters["alphaTest"] + ( (float)parameters["alphaTest"] % 1>0 ? "" : ".0" ) : "", // add ".0" if integer
+                    customDefines,                    
+                        
+			        (float)parameters["alphaTest"]!=0 ? "#define ALPHATEST " + (float)parameters["alphaTest"] + ( (float)parameters["alphaTest"] % 1>0 ? "" : ".0" ) : "", // add ".0" if integer
 
 			        "#define GAMMA_FACTOR " + gammaFactorDefine,
 
-                    (  (bool)parameters["useFog"] &&  (bool)parameters["fog"] ) ? "#define USE_FOG" : "",
-                    (  (bool)parameters["useFog"] &&  (bool)parameters["fogExp2"] ) ? "#define FOG_EXP2" : "",
+			        (  (bool)parameters["useFog"] &&  (bool)parameters["fog"] ) ? "#define USE_FOG" : "",
+			        (  (bool)parameters["useFog"] &&  (bool)parameters["fogExp2"] ) ? "#define FOG_EXP2" : "",
 
-                     (bool)parameters["map"] ? "#define USE_MAP" : "",
-                     (bool)parameters["matcap"] ? "#define USE_MATCAP" : "",
-                     (bool)parameters["envMap"] ? "#define USE_ENVMAP" : "",
-                     (bool)parameters["envMap"] ? "#define " + envMapTypeDefine : "",
-                     (bool)parameters["envMap"] ? "#define " + envMapModeDefine : "",
-                     (bool)parameters["envMap"] ? "#define " + envMapBlendingDefine : "",
-                     (bool)parameters["lightMap"] ? "#define USE_LIGHTMAP" : "",
-                     (bool)parameters["aoMap"] ? "#define USE_AOMAP" : "",
-                     (bool)parameters["emissiveMap"] ? "#define USE_EMISSIVEMAP" : "",
-                     (bool)parameters["bumpMap"] ? "#define USE_BUMPMAP" : "",
-                     (bool)parameters["normalMap"] ? "#define USE_NORMALMAP" : "",
-                    ((bool)parameters["normalMap"] &&  (bool)parameters["objectSpaceNormalMap"] ) ? "#define OBJECTSPACE_NORMALMAP" : "",
-                    ((bool)parameters["normalMap"] &&  (bool)parameters["tangentSpaceNormalMap"] ) ? "#define TANGENTSPACE_NORMALMAP" : "",
+			         (bool)parameters["map"] ? "#define USE_MAP" : "",
+			         (bool)parameters["matcap"] ? "#define USE_MATCAP" : "",
+			         (bool)parameters["envMap"] ? "#define USE_ENVMAP" : "",
+			         (bool)parameters["envMap"] ? "#define " + envMapTypeDefine : "",
+			         (bool)parameters["envMap"] ? "#define " + envMapModeDefine : "",
+			         (bool)parameters["envMap"] ? "#define " + envMapBlendingDefine : "",
+			         (bool)parameters["lightMap"] ? "#define USE_LIGHTMAP" : "",
+			         (bool)parameters["aoMap"] ? "#define USE_AOMAP" : "",
+			         (bool)parameters["emissiveMap"] ? "#define USE_EMISSIVEMAP" : "",
+			         (bool)parameters["bumpMap"] ? "#define USE_BUMPMAP" : "",              
+			         (bool)parameters["normalMap"] ? "#define USE_NORMALMAP" : "",
+			        ((bool)parameters["normalMap"] &&  (bool)parameters["objectSpaceNormalMap"] ) ? "#define OBJECTSPACE_NORMALMAP" : "",
+			        ((bool)parameters["normalMap"] &&  (bool)parameters["tangentSpaceNormalMap"] ) ? "#define TANGENTSPACE_NORMALMAP" : "",
                 (bool)parameters["clearcoatMap"] ? "#define USE_CLEARCOAT":"",
                 (bool)parameters["clearcoatRoughnessMap"] ? "#define USE_CLEARCOAT_ROUGHNESSMAP":"",
                      (bool)parameters["clearcoatNormalMap"] ? "#define USE_CLEARCOAT_NORMALMAP" : "",
-                     (bool)parameters["specularMap"] ? "#define USE_SPECULARMAP" : "",
-                     (bool)parameters["roughnessMap"] ? "#define USE_ROUGHNESSMAP" : "",
-                     (bool)parameters["metalnessMap"] ? "#define USE_METALNESSMAP" : "",
-                     (bool)parameters["alphaMap"] ? "#define USE_ALPHAMAP" : "",
+			         (bool)parameters["specularMap"] ? "#define USE_SPECULARMAP" : "",
+			         (bool)parameters["roughnessMap"] ? "#define USE_ROUGHNESSMAP" : "",
+			         (bool)parameters["metalnessMap"] ? "#define USE_METALNESSMAP" : "",
+			         (bool)parameters["alphaMap"] ? "#define USE_ALPHAMAP" : "",
 
-                     (bool)parameters["sheen"] ? "#define USE_SHEEN" : "",
+			         (bool)parameters["sheen"] ? "#define USE_SHEEN" : "",
 
                      (bool)parameters["transmissionMap"] ? "#define USE_TRANSMISSIONMAP" : "",
 
                      (bool)parameters["vertexTangents"] ? "#define USE_TANGENT" : "",
-                     (bool)parameters["vertexColors"] ||(bool)parameters["instancingColor"] ? "#define USE_COLOR" : "",
-                     (bool)parameters["vertexUvs"] ? "#define USE_UV" : "",
+			         (bool)parameters["vertexColors"] ||(bool)parameters["instancingColor"] ? "#define USE_COLOR" : "",
+			         (bool)parameters["vertexUvs"] ? "#define USE_UV" : "",
                 (bool)parameters["uvsVertexOnly"] ? "#define UVS_VERTEX_ONLY":"",
 
-                     (bool)parameters["gradientMap"] ? "#define USE_GRADIENTMAP" : "",
+			         (bool)parameters["gradientMap"] ? "#define USE_GRADIENTMAP" : "",
 
-                     (bool)parameters["flatShading"] ? "#define FLAT_SHADED" : "",
+			         (bool)parameters["flatShading"] ? "#define FLAT_SHADED" : "",
 
-                     (bool)parameters["doubleSided"] ? "#define DOUBLE_SIDED" : "",
-                     (bool)parameters["flipSided"] ? "#define FLIP_SIDED" : "",
+			         (bool)parameters["doubleSided"] ? "#define DOUBLE_SIDED" : "",
+			         (bool)parameters["flipSided"] ? "#define FLIP_SIDED" : "",
 
-                     (bool)parameters["shadowMapEnabled"] ? "#define USE_SHADOWMAP" : "",
-                     (bool)parameters["shadowMapEnabled"] ? "#define " + shadowMapTypeDefine : "",
+			         (bool)parameters["shadowMapEnabled"] ? "#define USE_SHADOWMAP" : "",
+			         (bool)parameters["shadowMapEnabled"] ? "#define " + shadowMapTypeDefine : "",
 
-                     (bool)parameters["premultipliedAlpha"] ? "#define PREMULTIPLIED_ALPHA" : "",
+			         (bool)parameters["premultipliedAlpha"] ? "#define PREMULTIPLIED_ALPHA" : "",
 
-                     (bool)parameters["physicallyCorrectLights"] ? "#define PHYSICALLY_CORRECT_LIGHTS" : "",
+			         (bool)parameters["physicallyCorrectLights"] ? "#define PHYSICALLY_CORRECT_LIGHTS" : "",
 
-                     (bool)parameters["logarithmicDepthBuffer"] ? "#define USE_LOGDEPTHBUF" : "",
-                     (bool)parameters["logarithmicDepthBuffer"] && (  (bool)parameters["rendererExtensionFragDepth"]) ? "#define USE_LOGDEPTHBUF_EXT" : "",
+			         (bool)parameters["logarithmicDepthBuffer"] ? "#define USE_LOGDEPTHBUF" : "",
+			         (bool)parameters["logarithmicDepthBuffer"] && (  (bool)parameters["rendererExtensionFragDepth"]) ? "#define USE_LOGDEPTHBUF_EXT" : "",
 
-                     ((bool)parameters["extensionShaderTextureLOD"] || (bool)parameters["envMap"]) && (bool)parameters["rendererExtensionShaderTextureLOD"] ? "#define TEXTURE_LOD_EXT" : "",
+			         ((bool)parameters["extensionShaderTextureLOD"] || (bool)parameters["envMap"]) && (bool)parameters["rendererExtensionShaderTextureLOD"] ? "#define TEXTURE_LOD_EXT" : "",
 
-                    "uniform mat4 viewMatrix;",
-                    "uniform vec3 cameraPosition;",
+			        "uniform mat4 viewMatrix;",
+			        "uniform vec3 cameraPosition;",
                     "uniform bool isOrthographic;",
 
-                    ( (int)parameters["toneMapping"] != Constants.NoToneMapping ) ? "#define TONE_MAPPING" : "",
-                    ( (int)parameters["toneMapping"] != Constants.NoToneMapping ) ? renderer.ShaderLib.getChunk( "tonemapping_pars_fragment") : "", // this code is required here because it is used by the toneMapping() function defined below
+			        ( (int)parameters["toneMapping"] != Constants.NoToneMapping ) ? "#define TONE_MAPPING" : "",
+			        ( (int)parameters["toneMapping"] != Constants.NoToneMapping ) ? renderer.ShaderLib.getChunk( "tonemapping_pars_fragment") : "", // this code is required here because it is used by the toneMapping() function defined below
 			        ( (int)parameters["toneMapping"] != Constants.NoToneMapping ) ? GetToneMappingFunction( "toneMapping", (int)parameters["toneMapping"] ) : "",
 
-                     (bool)parameters["dithering"] ? "#define DITHERING" : "",
-
-                     renderer.ShaderLib.getChunk("encodings_pars_fragment") , // this code is required here because it is used by the various encoding/decoding function defined below
+			         (bool)parameters["dithering"] ? "#define DITHERING" : "",
+		        
+ 			        renderer.ShaderLib.getChunk("encodings_pars_fragment") , // this code is required here because it is used by the various encoding/decoding function defined below
 			         parameters["mapEncoding"]!=null ? GetTexelDecodingFunction( "mapTexelToLinear", (int)parameters["mapEncoding"] ) : "",
-                     parameters["matcapEncoding"]!=null ? GetTexelDecodingFunction( "matcapTexelToLinear", (int)parameters["matcapEncoding"] ) : "",
-                     parameters["envMapEncoding"]!=null ? GetTexelDecodingFunction( "envMapTexelToLinear", (int)parameters["envMapEncoding"] ) : "",
-                     parameters["emissiveMapEncoding"]!=null ? GetTexelDecodingFunction( "emissiveMapTexelToLinear", (int)parameters["emissiveMapEncoding"] ) : "",
+			         parameters["matcapEncoding"]!=null ? GetTexelDecodingFunction( "matcapTexelToLinear", (int)parameters["matcapEncoding"] ) : "",
+			         parameters["envMapEncoding"]!=null ? GetTexelDecodingFunction( "envMapTexelToLinear", (int)parameters["envMapEncoding"] ) : "",
+			         parameters["emissiveMapEncoding"]!=null ? GetTexelDecodingFunction( "emissiveMapTexelToLinear", (int)parameters["emissiveMapEncoding"] ) : "",
                      parameters["lightMapEncoding"]!=null ? GetTexelDecodingFunction("lightMapTexelToLinear",(int)parameters["lightMapEncoding"]) : "",
                      parameters["outputEncoding"]!=null ?GetTexelEncodingFunction("linearToOutputTexel",(int)parameters["outputEncoding"]) :"",
-                     !customDefines.Contains("DEPTH_PACKING") && parameters["depthPacking"]!= null  ? "#define DEPTH_PACKING " + (int)parameters["depthPacking"] : "",
-                     "\n"
+			         !customDefines.Contains("DEPTH_PACKING") && parameters["depthPacking"]!= null  ? "#define DEPTH_PACKING " + (int)parameters["depthPacking"] : "",
+                     "\n"			        
                 };
 
                 prefixFragment = string.Join("\r\n", prefixFragments);
@@ -364,7 +363,7 @@ namespace THREE
             FragmentShader = ResolveIncludes(FragmentShader);
             FragmentShader = ReplaceLightsNums(FragmentShader, parameters);
             FragmentShader = ReplaceClippingPlaneNums(FragmentShader, parameters);
-
+            
             VertexShader = UnrollLoops(VertexShader);
             FragmentShader = UnrollLoops(FragmentShader);
 
@@ -372,7 +371,7 @@ namespace THREE
 
             //if ((bool)parameters["isGL2"] && !(bool)parameters["isRawShaderMaterial"])
             //{
-
+               
             //    versionString = @"#version 300 es\n";
 
 
@@ -404,23 +403,21 @@ namespace THREE
             //    prefixFragment = String.Join("\n", prefixFragments) + prefixFragment;
 
             //}  
-
-            string vertexGlsl = prefixVertex + VertexShader + "\r\n";
-            string fragmentGlsl = prefixFragment + FragmentShader + "\r\n";
+            
+            string vertexGlsl = prefixVertex + VertexShader+"\r\n";
+            string fragmentGlsl = prefixFragment + FragmentShader+"\r\n";
 
             //File.WriteAllText(parameters["shaderName"]+"_vshader.txt", vertexGlsl);
             //File.WriteAllText(parameters["shaderName"]+"_fshader.txt", fragmentGlsl);
-            GLShader glVertexShader = new GLShader();
-            glVertexShader.SetShaderType(ShaderType.VertexShader, vertexGlsl);
-            GLShader glFragmentShader = new GLShader();
-            glFragmentShader.SetShaderType(ShaderType.FragmentShader, fragmentGlsl);
+            GLShader glVertexShader = new GLShader(ShaderType.VertexShader, vertexGlsl);
+            GLShader glFragmentShader = new GLShader(ShaderType.FragmentShader, fragmentGlsl);
 
 
             //Debug.WriteLine(glVertexShader.Code);
             //Debug.WriteLine(glFragmentShader.Code);
-            GL.AttachShader(program, glVertexShader.ShaderId);
+            GL.AttachShader(program, glVertexShader.Shader);
             ErrorCode code1 = GL.GetError();
-            GL.AttachShader(program, glFragmentShader.ShaderId);
+            GL.AttachShader(program, glFragmentShader.Shader);
             ErrorCode code2 = GL.GetError();
 
             if (parameters["indexOfAttributeName"] != null)
@@ -437,8 +434,8 @@ namespace THREE
             if ((bool)renderer.debug["checkShaderErrors"])
             {
                 string programLog = GL.GetProgramInfoLog(program);
-                string vertexLog = GL.GetShaderInfoLog(glVertexShader.ShaderId);
-                string fragmentLog = GL.GetShaderInfoLog(glFragmentShader.ShaderId);
+                string vertexLog = GL.GetShaderInfoLog(glVertexShader.Shader);
+                string fragmentLog = GL.GetShaderInfoLog(glFragmentShader.Shader);
 
                 bool runnable = true;
                 bool haveDiagnostics = true;
@@ -447,26 +444,26 @@ namespace THREE
                 if (linkStatus == 0)
                 {
                     runnable = false;
-
+                    
                     string vertexErrors = GetShaderErrors(glVertexShader, "vertex");
                     if (!String.IsNullOrEmpty(vertexErrors))
                     {
                         Debug.WriteLine(vertexErrors);
                         Debug.WriteLine(glVertexShader.Code);
                     }
-
+                   
                     string fragmentErrors = GetShaderErrors(glFragmentShader, "fragment");
                     if (!String.IsNullOrEmpty(fragmentErrors))
                     {
                         Debug.WriteLine(fragmentErrors);
                         Debug.WriteLine(glFragmentShader.Code);
                     }
-                    int validateState;
-                    GL.GetProgram(program, GetProgramParameterName.ValidateStatus, out validateState);
+                        int validateState;
+                    GL.GetProgram(program,GetProgramParameterName.ValidateStatus,out validateState);
                     string errorMessage = String.Format("THREE.Renderers.gl.GLProgram: shader error {0}, GL.VALIDATE_STATUS {1}, GL.GetProgramInfoLog {2}",
-                        GL.GetError(), validateState, programLog + "\n" + vertexLog + "\n" + fragmentLog);
-
-
+                        GL.GetError(), validateState, programLog + "\n" + vertexLog + "\n" + fragmentLog);                                
+                    
+                    
                     throw new Exception(errorMessage);
                 }
                 else if (!String.IsNullOrEmpty(programLog))
@@ -484,7 +481,7 @@ namespace THREE
 
                 if (haveDiagnostics)
                 {
-                    this.Diagnostics.Add("runnable", runnable);
+                    this.Diagnostics.Add("runnable", runnable);                   
                     this.Diagnostics.Add("programLog", programLog);
                     this.Diagnostics.Add("vertexShader", new Hashtable() { { "log", vertexLog }, { "prefix", prefixVertex } });
                     this.Diagnostics.Add("fragmentShader", new Hashtable() { { "log", fragmentLog }, { "prefix", prefixFragment } });
@@ -492,12 +489,12 @@ namespace THREE
 
             }
 
-            GL.DeleteShader(glVertexShader.ShaderId);
-            GL.DeleteShader(glFragmentShader.ShaderId);
+            GL.DeleteShader(glVertexShader.Shader);
+            GL.DeleteShader(glFragmentShader.Shader);
 
             this.VertexShader = glVertexShader;
             this.FragmentShader = glFragmentShader;
-
+            
         }
 
         private string RemoveEmptyLines(string shaderSource)
@@ -525,10 +522,10 @@ namespace THREE
 
         private string[] GetEncodingComponents(int encoding)
         {
-
+            
             switch (encoding)
             {
-                case 3000: //Constants.LinearEncoding :
+                case 3000 : //Constants.LinearEncoding :
                     return new string[2] { "Linear", "( value )" };
                 case 3001://Constants.sRGBEncoding
                     return new string[2] { "sRGB", "( value )" };
@@ -553,16 +550,16 @@ namespace THREE
         private string GetShaderErrors(GLShader shader, string type)
         {
             int status;
-            GL.GetShader(shader.ShaderId, ShaderParameter.CompileStatus, out status);
+            GL.GetShader(shader.Shader, ShaderParameter.CompileStatus,out status);
 
-            string log = GL.GetShaderInfoLog(shader.ShaderId);
+            string log = GL.GetShaderInfoLog(shader.Shader);
 
             if (status == 1 && String.IsNullOrEmpty(log.Trim())) return "";
 
             int length;
             string source;
 
-            GL.GetShaderSource(shader.ShaderId, 4096000, out length, out source);
+            GL.GetShaderSource(shader.Shader, 4096000, out length, out source);
 
             return "THREE.Renderers.gl.GLProgram: GL.GetShaderInfoLog() " + type + "\n" + log + AddLineNumbers(source);
 
@@ -582,48 +579,46 @@ namespace THREE
             return "vec4 " + functionName + " ( vec4 value ) { return LinearTo" + components[0] + components[1] + ";}";
         }
 
-        private string GetToneMappingFunction(string functionName, int toneMapping)
-        {
+        private string GetToneMappingFunction(string functionName, int toneMapping ) {
 
-            string toneMappingName;
+	        string toneMappingName;
 
-            switch (toneMapping)
-            {
+	        switch ( toneMapping ) {
 
-                case 1: //Constants.LinearToneMapping:
-                    toneMappingName = "Linear";
-                    break;
+		        case 1 : //Constants.LinearToneMapping:
+			        toneMappingName = "Linear";
+			        break;
 
-                case 2: //Constants.ReinhardToneMapping:
-                    toneMappingName = "Reinhard";
-                    break;
+		        case 2 : //Constants.ReinhardToneMapping:
+			        toneMappingName = "Reinhard";
+			        break;
 
-                case 3: //Constants.CineonToneMapping:
+		        case 3: //Constants.CineonToneMapping:
                     toneMappingName = "OptimizedCineon";
-                    break;
+			        break;
 
-                case 4: //Constants.ACESFilmicToneMapping:
+		        case 4: //Constants.ACESFilmicToneMapping:
                     toneMappingName = "ACESFilmic";
-                    break;
+			        break;
 
-                case 5: //Constants.CustomToneMapping:
-                    toneMappingName = "Custom";
-                    break;
+		        case 5 : //Constants.CustomToneMapping:
+			        toneMappingName = "Custom";
+			        break;
 
-                default:
-                    Trace.WriteLine("unsupported toneMapping: " + toneMapping);
+		        default:
+			        Trace.WriteLine( "unsupported toneMapping: " + toneMapping );
                     toneMappingName = "Linear";
                     break;
 
-            }
+	        }
 
-            return "vec3 " + functionName + "( vec3 color ) { return " + toneMappingName + "ToneMapping( color ); }";
+	        return "vec3 " + functionName + "( vec3 color ) { return " + toneMappingName + "ToneMapping( color ); }";
 
         }
         private string[] GenerateExtensions(Hashtable parameters)
         {
             string[] chunks = new string[4];
-
+            
 
             if ((bool)parameters["extensionDerivatives"] || (bool)parameters["envMapCubeUV"] || (bool)parameters["bumpMap"] || (bool)parameters["tangentSpaceNormalMap"] || (bool)parameters["clearcoatNormalMap"] || (bool)parameters["flatShading"])
                 chunks[0] = "#extension GL_OES_standard_derivatives : enable";
@@ -636,7 +631,7 @@ namespace THREE
                 chunks[1] = "";
 
             if ((bool)parameters["extensionDrawBuffers"] && (bool)parameters["renderExtensionsDrawBuffers"])
-                chunks[2] = "#extension GL_EXT_draw_buffers : require";
+                chunks[2] = "#extension GL_EXT_draw_buffers : require";            
             else
                 chunks[2] = "";
 
@@ -655,9 +650,9 @@ namespace THREE
             List<string> chunks = new List<string>();
             foreach (DictionaryEntry entry in defines)
             {
-                if (entry.Value == null) continue;
+                if (entry.Value==null) continue;
 
-                chunks.Add(string.Format("#define {0} {1}", entry.Key, entry.Value));
+                chunks.Add(string.Format("#define {0} {1}",entry.Key,entry.Value));
             }
 
             return String.Join("\n", chunks).Trim();
@@ -704,7 +699,7 @@ namespace THREE
         {
             return str
                 .Replace("NUM_CLIPPING_PLANES", parameters["numClippingPlanes"].ToString())
-                .Replace("UNION_CLIPPING_PLANES", ((int)parameters["numClippingPlanes"] - (int)parameters["numClipIntersection"]).ToString());
+                .Replace("UNION_CLIPPING_PLANES", ((int)parameters["numClippingPlanes"]- (int)parameters["numClipIntersection"]).ToString());
         }
 
         private string includePattern = @"[ \t]*#include +<([\w\d./]+)>";
@@ -730,9 +725,9 @@ namespace THREE
                     {
                         throw new Exception("Can not resolve #include<" + include + ">");
                     }
-                    result.Add(ResolveIncludes(source));
+                    result.Add(ResolveIncludes(source));    
                 }
-
+                
             }
 
             return String.Join("\n", result);
@@ -753,7 +748,7 @@ namespace THREE
         private string LoopReplacer(Match match)
         {
             string result = "";
-
+            
             if (match.Groups.Count > 1)
             {
                 int start = Convert.ToInt32(match.Groups[1].Value);
@@ -767,7 +762,7 @@ namespace THREE
                 {
                     for (int i = start; i < end; i++)
                     {
-                        result += Regex.Replace(snippet, @"\[\s*i\s*\]", "[" + i + "]")
+                        result += Regex.Replace(snippet, @"\[\s*i\s*\]", "[" + i + "]") 
                                 .Replace(@"UNROLLED_LOOP_INDEX", i.ToString());
                     }
                 }
@@ -803,26 +798,23 @@ namespace THREE
         {
             var shadowMapTypeDefine = "SHADOWMAP_TYPE_BASIC";
 
-            if ((int)parameters["shadowMapType"] == Constants.PCFShadowMap)
-            {
+	        if ( (int)parameters["shadowMapType"] == Constants.PCFShadowMap ) {
 
-                shadowMapTypeDefine = "SHADOWMAP_TYPE_PCF";
+		        shadowMapTypeDefine = "SHADOWMAP_TYPE_PCF";
 
-            }
-            else if ((int)parameters["shadowMapType"] == Constants.PCFSoftShadowMap)
-            {
+	        } else if ( (int)parameters["shadowMapType"] == Constants.PCFSoftShadowMap ) {
 
-                shadowMapTypeDefine = "SHADOWMAP_TYPE_PCF_SOFT";
+		        shadowMapTypeDefine = "SHADOWMAP_TYPE_PCF_SOFT";
 
             }
             else if ((int)parameters["shadowMapType"] == Constants.VSMShadowMap)
             {
 
-                shadowMapTypeDefine = "SHADOWMAP_TYPE_VSM";
+		        shadowMapTypeDefine = "SHADOWMAP_TYPE_VSM";
 
-            }
+	        }
 
-            return shadowMapTypeDefine;
+	        return shadowMapTypeDefine;
         }
         private string GenerateEnvMapTypeDefine(Hashtable parameters)
         {
@@ -844,19 +836,19 @@ namespace THREE
                         envMapTypeDefine = "ENVMAP_TYPE_CUBE_UV";
                         break;
 
-                        //case 303://Constants.EquirectangularReflectionMapping:
-                        //case 304://Constants.EquirectangularRefractionMapping:
-                        //    envMapTypeDefine = "ENVMAP_TYPE_EQUIREC";
-                        //    break;
+                    //case 303://Constants.EquirectangularReflectionMapping:
+                    //case 304://Constants.EquirectangularRefractionMapping:
+                    //    envMapTypeDefine = "ENVMAP_TYPE_EQUIREC";
+                    //    break;
 
-                        //case 305://Constants.SphericalReflectionMapping:
-                        //    envMapTypeDefine = "ENVMAP_TYPE_SPHERE";
-                        //    break;
+                    //case 305://Constants.SphericalReflectionMapping:
+                    //    envMapTypeDefine = "ENVMAP_TYPE_SPHERE";
+                    //    break;
 
                 }
 
             }
-
+            
             return envMapTypeDefine;
         }
 
@@ -864,30 +856,27 @@ namespace THREE
         {
             var envMapModeDefine = "ENVMAP_MODE_REFLECTION";
 
-            if ((bool)parameters["envMap"])
-            {
+	        if ( (bool)parameters["envMap"] ) {
                 int envMapMode = (int)parameters["envMapMode"];
-                switch (envMapMode)
-                {
+		        switch (envMapMode ) {
 
-                    case 302://Constants.CubeRefractionMapping:
-                    case 304://Constants.EquirectangularRefractionMapping:
-                        envMapModeDefine = "ENVMAP_MODE_REFRACTION";
-                        break;
+			        case 302://Constants.CubeRefractionMapping:
+			        case 304://Constants.EquirectangularRefractionMapping:
+				        envMapModeDefine = "ENVMAP_MODE_REFRACTION";
+				        break;
 
-                }
+		        }
 
-            }
+	        }
 
-            return envMapModeDefine;
+	        return envMapModeDefine;
         }
 
         private string GenerateEnvMapBlendingDefine(Hashtable parameters)
         {
-            var envMapBlendingDefine = "ENVMAP_BLENDING_NONE";
+	        var envMapBlendingDefine = "ENVMAP_BLENDING_NONE";
 
-            if ((bool)parameters["envMap"])
-            {
+	        if ( (bool)parameters["envMap"] ) {
                 int? combine = (int?)parameters["combine"];
                 if (combine != null)
                 {
@@ -908,9 +897,9 @@ namespace THREE
 
                     }
                 }
-            }
+	        }
 
-            return envMapBlendingDefine;
+	        return envMapBlendingDefine;
         }
 
         public GLUniforms GetUniforms()
@@ -931,11 +920,11 @@ namespace THREE
 
         public override void Dispose()
         {
-            //if (!renderer.Context.IsDisposed)
-            //{
-                GL.DeleteProgram(program);
+            if (!renderer.Context.IsDisposed)
+            {
+                GL.DeleteProgram(program);             
                 this.program = 0;
-            //}
+            }
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }

@@ -1,6 +1,5 @@
 ﻿namespace THREE
 {
-    [Serializable]
     public class DataTexture2DArray : Texture
     {
         public int Width;

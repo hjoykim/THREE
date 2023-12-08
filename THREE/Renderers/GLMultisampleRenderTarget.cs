@@ -3,7 +3,6 @@
 
 namespace THREE
 {
-    [Serializable]
     public class GLMultisampleRenderTarget : GLRenderTarget
     {
         public int Samples = 4;

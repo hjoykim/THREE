@@ -1,56 +1,319 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{546D8C87-64B4-40F6-BE61-80AB84416364}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>THREEExample</RootNamespace>
+    <AssemblyName>THREEExample</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="3rd\**" />
-    <Compile Remove="Learning\Chapter04\**" />
-    <Compile Remove="Learning\Chapter05\**" />
-    <Compile Remove="Learning\Chapter06\**" />
-    <Compile Remove="Learning\Chapter08\**" />
-    <Compile Remove="Learning\Chapter09\**" />
-    <Compile Remove="Learning\Chapter10\**" />
-    <Compile Remove="Learning\Chapter11\**" />
-    <Compile Remove="Properties\**" />
-    <Compile Remove="Three\**" />
-    <EmbeddedResource Remove="3rd\**" />
-    <EmbeddedResource Remove="Learning\Chapter04\**" />
-    <EmbeddedResource Remove="Learning\Chapter05\**" />
-    <EmbeddedResource Remove="Learning\Chapter06\**" />
-    <EmbeddedResource Remove="Learning\Chapter08\**" />
-    <EmbeddedResource Remove="Learning\Chapter09\**" />
-    <EmbeddedResource Remove="Learning\Chapter10\**" />
-    <EmbeddedResource Remove="Learning\Chapter11\**" />
-    <EmbeddedResource Remove="Properties\**" />
-    <EmbeddedResource Remove="Three\**" />
-    <None Remove="3rd\**" />
-    <None Remove="Learning\Chapter04\**" />
-    <None Remove="Learning\Chapter05\**" />
-    <None Remove="Learning\Chapter06\**" />
-    <None Remove="Learning\Chapter08\**" />
-    <None Remove="Learning\Chapter09\**" />
-    <None Remove="Learning\Chapter10\**" />
-    <None Remove="Learning\Chapter11\**" />
-    <None Remove="Properties\**" />
-    <None Remove="Three\**" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="ImGui.NET" Version="1.90.0.1" />
-    <PackageReference Include="OpenTK" Version="4.8.2" />
-    <PackageReference Include="OpenTK.WinForms" Version="4.0.0-pre.7" />
+    <Compile Include="3rd\DrawingGL.Text\FontEnums.cs" />
+    <Compile Include="3rd\DrawingGL.Text\GlyphTranslatorToPath.cs" />
+    <Compile Include="3rd\DrawingGL.Text\TextBaseline.cs" />
+    <Compile Include="3rd\DrawingGL.Text\TextPrinter.cs" />
+    <Compile Include="3rd\DrawingGL.Text\TypographyTextContext.cs" />
+    <Compile Include="3rd\DrawingGL.Text\Utils.cs" />
+    <Compile Include="3rd\DrawingGL\Color.cs" />
+    <Compile Include="3rd\DrawingGL\CurveFlattener.cs" />
+    <Compile Include="3rd\DrawingGL\Path.cs" />
+    <Compile Include="3rd\DrawingGL\Primitives.cs" />
+    <Compile Include="3rd\DrawingGL\TessTool.cs" />
+    <Compile Include="3rd\GlyphPathBuilder\GlyphMeshCollection.cs" />
+    <Compile Include="3rd\GlyphPathBuilder\GlyphOutlineBuilder.cs" />
+    <Compile Include="3rd\GlyphPathBuilder\GlyphOutlineBuilderBase.cs" />
+    <Compile Include="3rd\GlyphPathBuilder\TextPrinterBase.cs" />
+    <Compile Include="3rd\Tesselate\ActiveRegion.cs" />
+    <Compile Include="3rd\Tesselate\ContourVertex.cs" />
+    <Compile Include="3rd\Tesselate\Dictionary.cs" />
+    <Compile Include="3rd\Tesselate\Face.cs" />
+    <Compile Include="3rd\Tesselate\HalfEdge.cs" />
+    <Compile Include="3rd\Tesselate\MaxFirstList.cs" />
+    <Compile Include="3rd\Tesselate\mesh.cs" />
+    <Compile Include="3rd\Typography.GlyphLayout\GlyphIndexList.cs" />
+    <Compile Include="3rd\Typography.GlyphLayout\GlyphLayout.cs" />
+    <Compile Include="3rd\Typography.GlyphLayout\GlyphSetPosition.cs" />
+    <Compile Include="3rd\Typography.GlyphLayout\GlyphSubstitution.cs" />
+    <Compile Include="3rd\Typography.GlyphLayout\MeasureStringBox.cs" />
+    <Compile Include="3rd\Typography.GlyphLayout\PixelScaleLayoutExtensions.cs" />
+    <Compile Include="3rd\Typography.GlyphLayout\ScriptLang.cs" />
+    <Compile Include="3rd\Typography.GlyphLayout\UserCharToGlyphIndexMap.cs" />
+    <Compile Include="3rd\Typography.OpenFont\AdditionalInfo\AdobeGlyphList.cs" />
+    <Compile Include="3rd\Typography.OpenFont\AdditionalInfo\AdobeGlyphListForNewFont.cs" />
+    <Compile Include="3rd\Typography.OpenFont\AdditionalInfo\Languages.cs" />
+    <Compile Include="3rd\Typography.OpenFont\AdditionalInfo\MacPostFormat1.cs" />
+    <Compile Include="3rd\Typography.OpenFont\AdditionalInfo\OS2_IBMFontClassParameters.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Bounds.cs" />
+    <Compile Include="3rd\Typography.OpenFont\ByteOrderSwappingBinaryReader.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Geometry.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Glyph.cs" />
+    <Compile Include="3rd\Typography.OpenFont\IGlyphTranslator.cs" />
+    <Compile Include="3rd\Typography.OpenFont\OpenFontReader.cs" />
+    <Compile Include="3rd\Typography.OpenFont\PreviewFontInfo.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\AttachmentListTable.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\Base.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\ClassDefTable.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\COLR.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\CoverageTable.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\CPAL.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\FeatureInfo.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\FeatureList.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\GDEF.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\GlyphShapingTableEntry.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\GPOS.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\GPOS.Others.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\GSUB.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\IGlyphIndexList.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\JustificationTable.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\LigatureCaretListTable.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\MathTable.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\ScriptList.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.AdvancedLayout\ScriptTable.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.BitmapAndSvgFonts\BitmapFontGlyphSource.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.BitmapAndSvgFonts\BitmapFontsCommon.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.BitmapAndSvgFonts\CBDT.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.BitmapAndSvgFonts\CBLC.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.BitmapAndSvgFonts\EBDT.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.BitmapAndSvgFonts\EBLC.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.BitmapAndSvgFonts\EBSC.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.BitmapAndSvgFonts\SvgTable.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.CFF\CFF.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.CFF\CffEvaluationEngine.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.CFF\CFFTable.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.CFF\Type2CharStringParser.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.CFF\Type2InstructionCompacter.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Others\HorizontalDeviceMetrics.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Others\Kern.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Others\LinearThreashold.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Others\Merge.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Others\Meta.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Others\STAT.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Others\VerticalDeviceMetrics.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Others\VerticalMetrics.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Others\VerticalMetricsHeader.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.TrueType\Cvt_Programs.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.TrueType\Gasp.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.TrueType\Glyf.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.TrueType\GlyphLocations.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Variations\AVar.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Variations\Common.ItemVariationStore.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Variations\Common.TupleVariationStore.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Variations\CVar.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Variations\FVar.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Variations\GVar.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Variations\HVar.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Variations\MVar.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables.Variations\VVar.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\CharacterMap.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\Cmap.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\Head.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\HorizontalHeader.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\HorizontalMetrics.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\MaxProfile.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\NameEntry.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\OS2.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\Post.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\TableEntry.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\TableEntryCollection.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\TableHeader.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Tables\Utils.cs" />
+    <Compile Include="3rd\Typography.OpenFont\TrueTypeInterperter\InvalidFontException.cs" />
+    <Compile Include="3rd\Typography.OpenFont\TrueTypeInterperter\TrueTypeInterpreter.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Typeface.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Typeface_Extensions.cs" />
+    <Compile Include="3rd\Typography.OpenFont\Typeface_TrimableExtensions.cs" />
+    <Compile Include="3rd\Typography.OpenFont\WebFont\Woff2Reader.cs" />
+    <Compile Include="3rd\Typography.OpenFont\WebFont\WoffReader.cs" />
+    <Compile Include="Example.cs" />
+    <Compile Include="ExampleAttribute.cs" />
+    <Compile Include="ExampleInfo.cs" />
+    <Compile Include="Learning\Chapter01\FirstSceneExample.cs" />
+    <Compile Include="Learning\Chapter01\MaterialsLightExample.cs" />
+    <Compile Include="Learning\Chapter02\BasicSceneExample.cs" />
+    <Compile Include="Learning\Chapter02\FoggySceneExample.cs" />
+    <Compile Include="Learning\Chapter02\ForcedMaterialsExample.cs" />
+    <Compile Include="Learning\Chapter02\GeometriesExample.cs" />
+    <Compile Include="Learning\Chapter03\AmbientLightExample.cs" />
+    <Compile Include="Learning\Chapter03\AreaLightExample.cs" />
+    <Compile Include="Learning\Chapter03\DirectionalLightExample.cs" />
+    <Compile Include="Learning\Chapter03\HemisphereLightExample.cs" />
+    <Compile Include="Learning\Chapter03\LensflaresExample.cs" />
+    <Compile Include="Learning\Chapter03\SpotLightExample.cs" />
+    <Compile Include="Learning\Chapter04\BasicMeshMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\CombinedMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\DepthMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\LineMaterialDashedExample.cs" />
+    <Compile Include="Learning\Chapter04\LineMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MaterialExampleTemplate.cs" />
+    <Compile Include="Learning\Chapter04\MeshFaceMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshLambertMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshNormalMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshPhongMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshPhysicalMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshStandardMeterailExample.cs" />
+    <Compile Include="Learning\Chapter04\MeshToonMaterialExample.cs" />
+    <Compile Include="Learning\Chapter04\ShaderMaterialExample.cs" />
+    <Compile Include="Learning\Chapter05\Basic2D_Geometries_Circle.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries.Sphere.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Cone.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Cube.cs" />
+    <Compile Include="Learning\Chapter05\Basic2D_Geometries_Plane.cs" />
+    <Compile Include="Learning\Chapter05\Basic2D_Geometries_Ring.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Cylinder.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Polyhedron.cs" />
+    <Compile Include="Learning\Chapter05\Basic2D_Geometries_Shape.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Torus.cs" />
+    <Compile Include="Learning\Chapter05\Basic3D_Geometries_Torus_knot.cs" />
+    <Compile Include="Learning\Chapter06\AdvancedGeometriesConvex.cs" />
+    <Compile Include="Learning\Chapter06\AdvancedGeometriesLathe.cs" />
+    <Compile Include="Learning\Chapter06\BinaryOperationExample.cs" />
+    <Compile Include="Learning\Chapter06\ExtrudeGeometryExample.cs" />
+    <Compile Include="Learning\Chapter06\ExtrudeTubeExample.cs" />
+    <Compile Include="Learning\Chapter06\ParametricGeometryExample.cs" />
+    <Compile Include="Learning\Chapter06\TextGeometryExample.cs" />
+    <Compile Include="Learning\Chapter08\LoadObjMTLExample.cs" />
+    <Compile Include="Learning\Chapter10\AlphaMapExample.cs" />
+    <Compile Include="Learning\Chapter10\BasicTextureDDSExample.cs" />
+    <Compile Include="Learning\Chapter10\EmissiveMapExample.cs" />
+    <Compile Include="Learning\Chapter10\EnvMapDynamicExample.cs" />
+    <Compile Include="Learning\Chapter10\EnvMapStaticExample.cs" />
+    <Compile Include="Learning\Chapter10\MetalRoughnessMapxample.cs" />
+    <Compile Include="Learning\Chapter10\NormalMapExample.cs" />
+    <Compile Include="Learning\Chapter10\BumpMapExample.cs" />
+    <Compile Include="Learning\Chapter10\BasicTextureTgaExample.cs" />
+    <Compile Include="Learning\Chapter10\BasicTextureExample.cs" />
+    <Compile Include="Learning\Chapter09\FirstPersonCameraExample.cs" />
+    <Compile Include="Learning\Chapter09\FlyControlsCameraExample.cs" />
+    <Compile Include="Learning\Chapter09\OrbitControlsExample.cs" />
+    <Compile Include="Learning\Chapter09\SelectingObjectExample.cs" />
+    <Compile Include="Learning\Chapter09\TrackballControlsCameraExample.cs" />
+    <Compile Include="Learning\Chapter10\DisplacementMapExample.cs" />
+    <Compile Include="Learning\Chapter10\RepeatWrappingExample.cs" />
+    <Compile Include="Learning\Chapter10\SpecularMapExample.cs" />
+    <Compile Include="Learning\Chapter10\TemplateExample.cs" />
+    <Compile Include="Learning\Chapter10\UVMappingManualExample.cs" />
+    <Compile Include="Learning\Chapter11\AmbientOcclusionExample.cs" />
+    <Compile Include="Learning\Chapter11\BasicEffectComposerExample.cs" />
+    <Compile Include="Learning\Chapter11\BokehExample.cs" />
+    <Compile Include="Learning\Chapter11\CustomShader.cs" />
+    <Compile Include="Learning\Chapter11\EffectComposerTemplate.cs" />
+    <Compile Include="Learning\Chapter11\PostProcessingMaskExample.cs" />
+    <Compile Include="Learning\Chapter11\ShaderPassAdvancedExample.cs" />
+    <Compile Include="Learning\Chapter11\ShaderPassBlurExample.cs" />
+    <Compile Include="Learning\Chapter11\ShaderPassCustomExample.cs" />
+    <Compile Include="Learning\Chapter11\ShaderPassSimpleExample.cs" />
+    <Compile Include="Learning\Chapter11\SimplePassExample2.cs" />
+    <Compile Include="Learning\Chapter11\SimplePassExample1.cs" />
+    <Compile Include="Learning\Chapter11\Util11.cs" />
+    <Compile Include="ExampleTemplateWithMaterial.cs" />
+    <Compile Include="ExampleTemplate.cs" />
+    <Compile Include="Learning\Utils\DemoUtils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThreeImGui\ImGuiManager.cs" />
+    <Compile Include="Three\Buffergeometry\BufferGeometryInstancingExample.cs" />
+    <Compile Include="Three\Buffergeometry\BuffergeometryLineExample.cs" />
+    <Compile Include="Three\Buffergeometry\BuffergeometryPointExample.cs" />
+    <Compile Include="Three\Buffergeometry\BuffergeometryPointsInterleaved.cs" />
+    <Compile Include="Three\Buffergeometry\BuffergeometryRawShaderExample.cs" />
+    <Compile Include="Three\Buffergeometry\BuffergeometrySelectedDrawExample.cs" />
+    <Compile Include="Three\Buffergeometry\BuffergeometryUintExample.cs" />
+    <Compile Include="Three\Buffergeometry\BuffergeometryExample.cs" />
+    <Compile Include="Three\camera\ArrayCameraExample.cs" />
+    <Compile Include="Three\camera\CameraExample.cs" />
+    <Compile Include="Three\camera\CinematicCameraExample.cs" />
+    <Compile Include="Three\Clipping\ClippingExample.cs" />
+    <Compile Include="Three\Clipping\ClippingIntersectionExample.cs" />
+    <Compile Include="Three\Clipping\ClippingIntersectionSolidExample.cs" />
+    <Compile Include="Three\CustomAttributes\CustomAttributesLines.cs" />
+    <Compile Include="Three\Geometries\ConvexGeometryExample.cs" />
+    <Compile Include="Three\Geometries\EdgesGeometryExample.cs" />
+    <Compile Include="Three\Geometries\GeometriesExample.cs" />
+    <Compile Include="Three\Geometries\GeometryHierarchy2Example.cs" />
+    <Compile Include="Three\Geometries\GeometryHierarchyExample.cs" />
+    <Compile Include="Three\Geometries\GeometryTerrainExample.cs" />
+    <Compile Include="Three\Geometries\GeometryTerrainFogExample.cs" />
+    <Compile Include="Three\Geometries\GeometryTerrainRaycastExample.cs" />
+    <Compile Include="Three\Geometries\ImprovedNoise.cs" />
+    <Compile Include="Three\Geometries\TeapotExample.cs" />
+    <Compile Include="Three\Geometries\GeometryColorsLookupTable.cs" />
+    <Compile Include="Three\Geometries\GeometryShapeExample.cs" />
+    <Compile Include="Three\Geometries\GeometryTextShapeExample.cs" />
+    <Compile Include="Three\Geometries\TeapotBufferGeometry.cs" />
+    <Compile Include="Three\Interactive\InteractiveCubesExample.cs" />
+    <Compile Include="Three\Lights\LightprobeCubeCamera.cs" />
+    <Compile Include="Three\Lights\RectArealightExample.cs" />
+    <Compile Include="Three\Lights\LightProbeExample.cs" />
+    <Compile Include="Three\Loader\LoaderTTFExample.cs" />
+    <Compile Include="Three\Loader\STLLoaderSample.cs" />
+    <Compile Include="Three\Loader\TTFFont.cs" />
+    <Compile Include="Three\Loader\X3DLoader.cs" />
+    <Compile Include="Three\Loader\X3DLoaderExample.cs" />
+    <Compile Include="Three\Misc\Controls\ArcballControlsExample.cs" />
+    <Compile Include="Three\Misc\Controls\ControlsExampleTemplate.cs" />
+    <Compile Include="Three\Misc\Controls\DragControlsExample.cs" />
+    <Compile Include="Three\Misc\Controls\TransControlsExample.cs" />
+    <Compile Include="Three\Modifier\ModifierCurve.cs" />
+    <Compile Include="Three\Morphtargets\MorphtargetsExample.cs" />
+    <Compile Include="Three\THREEExampleTemplate.cs" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\THREE.OpenGL\THREE.OpenGL.csproj" />
-    <ProjectReference Include="..\THREE.WinForms\THREE.WinForms.csproj" />
-    <ProjectReference Include="..\THREE\THREE.csproj" />
+    <ProjectReference Include="..\THREE\THREE.csproj">
+      <Project>{30c35c0a-feb7-45ef-9ebe-f1e9d2e46e43}</Project>
+      <Name>THREE</Name>
+    </ProjectReference>
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="3rd\Typography.OpenFont\README.MD" />
+    <None Include="3rd\Typography.OpenFont\Typography.OpenFont.projitems" />
+    <None Include="3rd\Typography.OpenFont\Typography.OpenFont.shproj" />
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ImGui.NET">
+      <Version>1.88.0</Version>
+    </PackageReference>
+    <PackageReference Include="OpenTK.GLControl">
+      <Version>3.1.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

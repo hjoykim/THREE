@@ -4,7 +4,7 @@ using System;
 
 namespace WPFDemo.Controls
 {
-    public class GLRenderControl : GLControl
+    public class GLRenderControl : OpenTK.GLControl
     {
         public EventHandler<EventArgs> OnInitGL;
 
@@ -15,15 +15,15 @@ namespace WPFDemo.Controls
             InitGLContext();
         }
 
-        /*public GLRenderControl(GraphicsMode mode) : base(mode)
+        public GLRenderControl(GraphicsMode mode) : base(mode)
         {
             InitGLContext();
-        }*/
+        }
 
         private void InitGLContext()
         {
             this.MakeCurrent();
-            //this.VSync = true;
+            this.VSync = true;
             if (OnInitGL != null)
             {
                 OnInitGL(this, new EventArgs());
@@ -31,10 +31,10 @@ namespace WPFDemo.Controls
 
 
         }
-        /*public GLRenderControl(GraphicsMode mode, int major, int minor, GraphicsContextFlags flags) : base(mode, major, minor, flags)
+        public GLRenderControl(GraphicsMode mode, int major, int minor, GraphicsContextFlags flags) : base(mode, major, minor, flags)
         {
             InitGLContext();
-        }*/
+        }
 
         protected override void OnResize(EventArgs e)
         {

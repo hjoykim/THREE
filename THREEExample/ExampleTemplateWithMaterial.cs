@@ -1,6 +1,7 @@
 ﻿using THREE;
 using ImGuiNET;
 
+
 namespace THREEExample
 {
     public class ExampleTemplateWithMaterial : ExampleTemplate

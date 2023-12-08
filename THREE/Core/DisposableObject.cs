@@ -2,11 +2,10 @@
 
 namespace THREE
 {
-    [Serializable]
     public abstract class DisposableObject
     {
         public event EventHandler<EventArgs> Disposed;
-
+        
         public DisposableObject()
         {
 

@@ -1,14 +1,11 @@
-﻿using System.Runtime.Serialization;
-
-namespace THREE
+﻿namespace THREE
 {
-    [Serializable]
     public class ColorifyShader : ShaderMaterial
     {
         public ColorifyShader()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("color", new Uniform { { "value", THREE.Color.Hex(0xffffff) } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("color", new GLUniform { { "value", THREE.Color.Hex(0xffffff) } });
 
             VertexShader = @"
                 varying vec2 vUv; 
@@ -46,7 +43,5 @@ namespace THREE
             ";
 
         }
-
-        public ColorifyShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

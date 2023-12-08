@@ -2,21 +2,19 @@
 
 namespace THREE
 {
-    [Serializable]
+  
     public class RenderableObject
     {
         public int id = 0;
         public Object3D object3D = null;
         public float z = 0;
-        public int renderOrder = 0;
+        public int renderOrder=0;
     }
-
-    [Serializable]
     public class RenderableVertex : RenderableObject
     {
         public Vector3 position = Vector3.Zero();
         public Vector3 positionWorld = Vector3.Zero();
-        public Vector4 positionScreen = Vector4.Zero().Set(0, 0, 0, 1);
+        public Vector4 positionScreen = Vector4.Zero().Set(0,0,0,1);
         public bool visible = true;
 
         public RenderableVertex() : base()
@@ -29,27 +27,24 @@ namespace THREE
             this.positionScreen.Copy(vertex.positionScreen);
         }
     }
-
-    [Serializable]
     public class RenderableFace : RenderableObject
     {
         public RenderableVertex v1 = new RenderableVertex();
         public RenderableVertex v2 = new RenderableVertex();
         public RenderableVertex v3 = new RenderableVertex();
-        public Vector3 normalModel = new Vector3();
-        public List<Vector3> vertexNormalsModel = new List<Vector3> { Vector3.Zero(), Vector3.Zero(), Vector3.Zero() };
+        public Vector3 normalModel = new Vector3() ;
+        public List<Vector3> vertexNormalsModel =  new List<Vector3> { Vector3.Zero(), Vector3.Zero(), Vector3.Zero() };
         public int vertexNormalsLength = 0;
         public Color color = new Color();
         public Material material = null;
         public List<Vector2> uvs = new List<Vector2> { Vector2.Zero(), Vector2.Zero(), Vector2.Zero() };
-
+        
         public RenderableFace() : base()
         {
 
         }
     }
 
-    [Serializable]
     public class RenderableLine : RenderableObject
     {
         public RenderableVertex v1 = new RenderableVertex();
@@ -62,8 +57,6 @@ namespace THREE
 
         }
     }
-
-    [Serializable]
     public class RenderableSprite : RenderableObject
     {
         public float x = 0;
@@ -77,8 +70,6 @@ namespace THREE
 
         }
     }
-
-    [Serializable]
     public class RenderList
     {
         public List<float> normals = new List<float>();
@@ -109,7 +100,7 @@ namespace THREE
             var positionScreen = vertex.positionScreen;
 
             positionWorld.Copy(position).ApplyMatrix4(projector._modelMatrix);
-            positionScreen.Set(positionWorld.X, positionWorld.Y, positionWorld.Z, 1).ApplyMatrix4(projector._viewProjectionMatrix);
+            positionScreen.Set(positionWorld.X,positionWorld.Y,positionWorld.Z,1).ApplyMatrix4(projector._viewProjectionMatrix);
 
             var invW = 1 / positionScreen.W;
 
@@ -123,7 +114,7 @@ namespace THREE
 
         }
 
-        public void PushVertex(float x, float y, float z)
+        public void PushVertex(float x, float y, float z )
         {
 
             projector._vertex = projector.GetNextVertexInPool();
@@ -133,28 +124,28 @@ namespace THREE
 
         }
 
-        public void PushNormal(float x, float y, float z)
+        public void PushNormal(float x, float y, float z )
         {
 
             normals.Add(x, y, z);
 
         }
 
-        public void PushColor(float r, float g, float b)
+        public void PushColor(float r, float g, float b )
         {
 
             colors.Add(r, g, b);
 
         }
 
-        public void PushUv(float x, float y)
+        public void PushUv(float x, float y )
         {
 
             uvs.Add(x, y);
 
         }
 
-        public bool CheckTriangleVisibility(RenderableVertex v1, RenderableVertex v2, RenderableVertex v3)
+        public bool  CheckTriangleVisibility(RenderableVertex v1, RenderableVertex v2, RenderableVertex v3 )
         {
 
             if (v1.visible == true || v2.visible == true || v3.visible == true) return true;
@@ -177,7 +168,7 @@ namespace THREE
 
         }
 
-        public void PushLine(int a, int b)
+        public void PushLine(int a, int b )
         {
 
             var v1 = projector._vertexPool[a];
@@ -185,8 +176,8 @@ namespace THREE
 
             // Clip
 
-            v1.positionScreen.Set(v1.position.X, v1.position.Y, v1.position.Z, 1).ApplyMatrix4(projector._modelViewProjectionMatrix);
-            v2.positionScreen.Set(v2.position.X, v2.position.Y, v2.position.Z, 1).ApplyMatrix4(projector._modelViewProjectionMatrix);
+            v1.positionScreen.Set(v1.position.X,v1.position.Y,v1.position.Z,1).ApplyMatrix4(projector._modelViewProjectionMatrix);
+            v2.positionScreen.Set(v2.position.X,v2.position.Y,v2.position.Z,1).ApplyMatrix4(projector._modelViewProjectionMatrix);
 
             if (projector.ClipLine(v1.positionScreen, v2.positionScreen) == true)
             {
@@ -218,7 +209,7 @@ namespace THREE
 
         }
 
-        public void PushTriangle(int a, int b, int c, Material material, List<int> arguments)
+        public void PushTriangle(int a, int b, int c, Material material, List<int> arguments )
         {
 
             var v1 = projector._vertexPool[a];
@@ -243,7 +234,7 @@ namespace THREE
                 projector._vector3.SubVectors(v3.position, v2.position);
                 Vector3 v = new Vector3();
                 v.SubVectors(v1.position, v2.position);
-                projector._vector4.Set(v.X, v.Y, v.Z, 1);
+                projector._vector4.Set(v.X,v.Y,v.Z,1);
                 projector._vector3.Cross(v);
 
                 projector._face.normalModel.Copy(projector._vector3);
@@ -279,8 +270,6 @@ namespace THREE
 
         }
     }
-
-    [Serializable]
     public class Projector
     {
         public RenderableObject _object;
@@ -323,9 +312,9 @@ namespace THREE
         public Vector4 _clippedVertex1PositionScreen = new Vector4();
         public Vector4 _clippedVertex2PositionScreen = new Vector4();
 
+        
 
-
-        public struct RenderData
+        public struct RenderData 
         {
             public List<RenderableObject> objects;
             public List<Light> lights;
@@ -341,7 +330,7 @@ namespace THREE
             renderList = new RenderList(this);
         }
 
-        public void ProjectVector(Vector3 vector, Camera camera)
+        public void ProjectVector(Vector3 vector,Camera camera)
         {
             vector.Project(camera);
         }
@@ -351,28 +340,23 @@ namespace THREE
             vector.UnProject(camera);
         }
 
-        public void ProjectObject(Object3D object3D)
+        public void ProjectObject(Object3D object3D )
         {
 
             if (object3D.Visible == false) return;
 
-            if (object3D is Light)
-            {
+            if (object3D is Light ) {
 
                 _renderData.lights.Add(object3D as Light);
 
-            }
-            else if (object3D is Mesh || object3D is Line || object3D is Points)
-            {
+            } else if (object3D is Mesh || object3D is Line || object3D is Points ) {
 
                 if (object3D.Material.Visible == false) return;
                 if (object3D.FrustumCulled == true && _frustum.IntersectsObject(object3D) == false) return;
-
+                
                 AddObject(object3D);
 
-            }
-            else if (object3D is Sprite)
-            {
+            } else if (object3D is Sprite ) {
 
                 if (object3D.Material.Visible == false) return;
                 if (object3D.FrustumCulled == true && _frustum.IntersectsSprite(object3D as Sprite) == false) return;
@@ -383,13 +367,13 @@ namespace THREE
 
             var children = object3D.Children;
 
-            for (var i = 0; i < children.Count; i++)
+            for (var i = 0;i< children.Count; i++)
             {
                 ProjectObject(children[i]);
             }
         }
 
-        public void AddObject(Object3D object3D)
+        public void AddObject(Object3D object3D )
         {
 
             _object = GetNextObjectInPool();
@@ -488,13 +472,13 @@ namespace THREE
             return _spritePool[_spriteCount++];
 
         }
-        public bool ClipLine(Vector4 s1, Vector4 s2)
+        public bool ClipLine(Vector4 s1, Vector4 s2 )
         {
 
             float alpha1 = 0, alpha2 = 1;
 
-            // Calculate the boundary coordinate of each vertex for the near and far clip planes,
-            // Z = -1 and Z = +1, respectively.
+                // Calculate the boundary coordinate of each vertex for the near and far clip planes,
+                // Z = -1 and Z = +1, respectively.
 
             float bc1near = s1.Z + s1.W,
                 bc2near = s2.Z + s2.W,

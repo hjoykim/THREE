@@ -2,7 +2,6 @@
 
 namespace THREE
 {
-    [Serializable]
     public class GeometryGroup : BaseGeometry
     {
         protected static int GeometryGroupIdCount;

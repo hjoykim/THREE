@@ -1,14 +1,11 @@
-﻿using System.Runtime.Serialization;
-
-namespace THREE
+﻿namespace THREE
 {
-    [Serializable]
     public class SepiaShader : ShaderMaterial
     {
         public SepiaShader()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("amount", new Uniform { { "value", 1.0f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("amount", new GLUniform { { "value", 1.0f } });
 
             VertexShader = @"
                 varying vec2 vUv; 
@@ -24,7 +21,7 @@ namespace THREE
 
                 "
              ;
-
+            
             FragmentShader = @"
             uniform float amount; 
 
@@ -48,7 +45,5 @@ namespace THREE
             "
             ;
         }
-
-        public SepiaShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

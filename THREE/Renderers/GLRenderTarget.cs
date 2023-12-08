@@ -3,8 +3,7 @@ using System.Collections;
 
 namespace THREE
 {
-    [Serializable]
-    public class GLRenderTarget : Texture, ICloneable
+    public class GLRenderTarget : Texture,ICloneable
     {
         //protected static int RenderTargetIdCount;
 
@@ -36,7 +35,7 @@ namespace THREE
 
         public DepthTexture depthTexture;
 
-        public GLRenderTarget(int width, int height, Hashtable options = null)
+        public GLRenderTarget(int width, int height, Hashtable options=null)
         {
             this.Width = width;
 
@@ -85,7 +84,7 @@ namespace THREE
             this.depthTexture = source.depthTexture;
         }
 
-        public new object Clone()
+        public new object Clone() 
         {
             return new GLRenderTarget(this);
         }

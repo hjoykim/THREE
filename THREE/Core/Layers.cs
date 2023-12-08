@@ -2,10 +2,9 @@
 
 namespace THREE
 {
-    [Serializable]
     public class Layers
     {
-        public int Mask = 1 | 0;
+        public int Mask =1 | 0;
 
         public Layers()
         {

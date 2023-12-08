@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using THREE.Cameras;
-using THREE.Core;
-using THREE.Geometries;
-using THREE.Materials;
+using THREE.Scenes;
 using THREE.Math;
 using THREE.Objects;
-using THREE.Renderers.Shaders;
-using THREE.Scenes;
 using THREE.Textures;
-
+using THREE.Geometries;
+using THREE.Materials;
+using System.Collections;
+using THREE.Renderers.Shaders;
+using THREE.Core;
 namespace THREE.Renderers.gl
 {
     public class GLBackground
@@ -55,7 +55,7 @@ namespace THREE.Renderers.gl
             return ClearColor;
         }
 
-        public void SetClearColor(Color color, float alpha = 1)
+        public void SetClearColor(Color color, float alpha=1)
         {
             ClearColor = color;
             ClearAlpha = alpha;
@@ -75,11 +75,11 @@ namespace THREE.Renderers.gl
             SetClear(this.ClearColor, this.ClearAlpha);
         }
 
-        public void SetClear(Color color, float alpha)
+        public void SetClear(Color color,float alpha)
         {
             state.buffers.color.SetClear(color.R, color.G, color.B, alpha, this.premultipliedAlpha);
 
-        }
+        }       
 
         public void Render(GLRenderList renderList, Scene scene, Camera camera, bool forceClear)
         {
@@ -119,14 +119,14 @@ namespace THREE.Renderers.gl
 
                     GLShader shader = (renderer.ShaderLib["cube"] as GLShader);
 
-                    parameters.Add("type", "BackgroundCubeMaterial");
-                    parameters.Add("uniforms", UniformsUtils.CloneUniforms(shader.Uniforms));
-                    parameters.Add("vertexShader", shader.VertexShader);
-                    parameters.Add("fragmentShader", shader.FragmentShader);
-                    parameters.Add("side", Constants.BackSide);
-                    parameters.Add("depthTest", false);
-                    parameters.Add("depthWrite", false);
-                    parameters.Add("fog", false);
+                    parameters.Add("type","BackgroundCubeMaterial");
+                    parameters.Add("uniforms",UniformsUtils.CloneUniforms(shader.Uniforms));
+					parameters.Add("vertexShader",shader.VertexShader);
+					parameters.Add("fragmentShader",shader.FragmentShader);
+					parameters.Add("side",Constants.BackSide);
+					parameters.Add("depthTest",false);
+					parameters.Add("depthWrite", false);
+					parameters.Add("fog",false);
 
                     BoxMesh = new Mesh(new BoxBufferGeometry(1, 1, 1), new ShaderMaterial(parameters));
 
@@ -143,7 +143,7 @@ namespace THREE.Renderers.gl
                 (BoxMesh.Material as ShaderMaterial).Uniforms["tCube"] = new GLUniform { { "value", texture } };
                 (BoxMesh.Material as ShaderMaterial).Uniforms["tFlip"] = new GLUniform { { "value", background is GLCubeRenderTarget ? 1 : -1 } };
 
-                if (currentBackground != background || (!(texture is Color) && currentBackgroundVersion != (texture as CubeTexture).version))
+                if (currentBackground != background ||(!(texture is Color) && currentBackgroundVersion != (texture as CubeTexture).version))
                 {
                     BoxMesh.Material.NeedsUpdate = true;
 
@@ -162,16 +162,16 @@ namespace THREE.Renderers.gl
 
                     GLShader shader = (renderer.ShaderLib["background"] as GLShader);
 
-                    parameters.Add("type", "BackgroundMaterial");
-                    parameters.Add("uniforms", UniformsUtils.CloneUniforms(shader.Uniforms));
-                    parameters.Add("vertexShader", shader.VertexShader);
-                    parameters.Add("fragmentShader", shader.FragmentShader);
-                    parameters.Add("side", Constants.FrontSide);
-                    parameters.Add("depthTest", false);
-                    parameters.Add("depthWrite", false);
-                    parameters.Add("fog", false);
+                    parameters.Add("type","BackgroundMaterial");
+                    parameters.Add("uniforms",UniformsUtils.CloneUniforms(shader.Uniforms));
+					parameters.Add("vertexShader",shader.VertexShader);
+					parameters.Add("fragmentShader",shader.FragmentShader);
+					parameters.Add("side",Constants.FrontSide);
+					parameters.Add("depthTest",false);
+					parameters.Add("depthWrite", false);
+					parameters.Add("fog",false);
 
-                    PlaneMesh = new Mesh(new PlaneBufferGeometry(2, 2), new ShaderMaterial(parameters));
+                    PlaneMesh = new Mesh(new PlaneBufferGeometry(2, 2), new ShaderMaterial(parameters));                   
 
                     (PlaneMesh.Geometry as BufferGeometry).deleteAttribute("normal");
 

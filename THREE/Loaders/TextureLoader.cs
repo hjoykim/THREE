@@ -1,14 +1,13 @@
-﻿using Pfim;
+﻿using System.Drawing;
+using System.Reflection;
+using Pfim;
+using System.Runtime.InteropServices;
 using StbImageSharp;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace THREE
 {
-    [Serializable]
     public class TextureLoader
     {
         public TextureLoader()
@@ -21,14 +20,14 @@ namespace THREE
 
             ImageResult image = null;
 
-            using (var stream = File.OpenRead(filePath))
+            using(var stream = File.OpenRead(filePath))
             {
                 image = ImageResult.FromStream(stream, ColorComponents.RedGreenBlueAlpha);
             }
             if (image != null)
             {
                 byte[] data = image.Data;
-                for (int i = 0; i < image.Width * image.Height; ++i)
+                for(int i = 0; i < image.Width * image.Height; ++i)
                 {
                     byte r = data[i * 4];
                     byte g = data[i * 4 + 1];
@@ -74,7 +73,7 @@ namespace THREE
             Bitmap bitmap = new Bitmap(filePath);
 
             bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
+            
             Texture texture = new Texture();
             texture.Image = bitmap;
             texture.Format = Constants.RGBFormat;
@@ -89,7 +88,7 @@ namespace THREE
             Bitmap bitmap = new Bitmap(typeof(THREE.Object3D).GetTypeInfo().Assembly.GetManifestResourceStream(embeddedNameBase + EmbeddedPath));
 
             bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
+            
             Texture texture = new Texture();
             texture.Image = bitmap;
             texture.Format = Constants.RGBFormat;

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public class ConvolutionShader : ShaderMaterial
     {
         public ConvolutionShader()
@@ -11,9 +9,9 @@ namespace THREE
             Defines.Add("KERNEL_SIZE_FLOAT", "25.0");
             Defines.Add("KERNEL_SIZE_INT", "25");
 
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("uImageIncrement", new Uniform { { "value", new Vector2(0.001953125f, 0.0f) } });
-            Uniforms.Add("cKernel", new Uniform { { "value", new List<float>() } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("uImageIncrement", new GLUniform { { "value", new Vector2(0.001953125f, 0.0f) } });
+            Uniforms.Add("cKernel", new GLUniform { { "value", new List<float>() } });
 
             VertexShader = @"
 uniform vec2 uImageIncrement; 
@@ -52,11 +50,9 @@ void main() {
 
 }
 "
-;
+;      
 
         }
-
-        public ConvolutionShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public List<float> BuildKernel(float sigma)
         {
@@ -69,7 +65,7 @@ void main() {
             float sum = 0.0f;
             float halfWidth = (kernelSize - 1) * 0.5f;
 
-            for (int i = 0; i < kernelSize; i++)
+            for(int i = 0; i < kernelSize; i++)
             {
                 values.Add(Gauss(i - halfWidth, sigma));
                 sum += values[i];
@@ -81,7 +77,7 @@ void main() {
             return values;
         }
 
-        private float Gauss(float x, float sigma)
+        private float Gauss(float x,float sigma)
         {
             return (float)System.Math.Exp(-(x * x) / (2.0f * sigma * sigma));
         }

@@ -1,25 +1,21 @@
-﻿using System.Runtime.Serialization;
-
-namespace THREE
+﻿namespace THREE
 {
-    [Serializable]
     public class InstancedBufferAttribute<T> : BufferAttribute<T>
     {
         public int MeshPerAttribute = 1;
-
+  
 
         public InstancedBufferAttribute()
         {
-
+            
         }
-        public InstancedBufferAttribute(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public InstancedBufferAttribute(T[] array, int itemSize, bool? normalized = null, int? meshPerAttribute = null)
-            : base(array, itemSize, normalized)
+        public InstancedBufferAttribute(T[] array, int itemSize, bool? normalized=null, int? meshPerAttribute=null)
+            :base(array,itemSize,normalized)
         {
-
+            
         }
-        protected InstancedBufferAttribute(InstancedBufferAttribute<T> source) : this(source.Array, source.ItemSize, source.Normalized, source.MeshPerAttribute)
+        protected InstancedBufferAttribute(InstancedBufferAttribute<T> source) : this(source.Array,source.ItemSize,source.Normalized,source.MeshPerAttribute)
         {
 
         }

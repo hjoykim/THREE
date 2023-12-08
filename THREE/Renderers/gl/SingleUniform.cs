@@ -1,20 +1,16 @@
 ﻿using OpenTK.Graphics.ES30;
 using System;
 using System.Diagnostics;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public class SingleUniform : GLUniform
     {
         public SingleUniform()
         {
             UniformKind = "SingleUniform";
         }
-        public SingleUniform(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        public SingleUniform(string id, ActiveUniformType type, int addr) : this()
+        public SingleUniform(string id, ActiveUniformType type, int addr):this()
         {
             this.Id = id;
 
@@ -39,7 +35,7 @@ namespace THREE
         {
             //if (Cache.Count > 0 && v.Equals((Vector2)Cache[0])) return;
 
-            GL.Uniform2(this.Addr, v.X, v.Y);
+            GL.Uniform2(this.Addr, v.X,v.Y);
 
             //this.Cache.Add(v);
         }
@@ -48,7 +44,7 @@ namespace THREE
         {
             //if (Cache.Count > 0 && v.Equals((Vector3)Cache[0])) return;
 
-            GL.Uniform3(this.Addr, v.X, v.Y, v.Z);
+            GL.Uniform3(this.Addr, v.X,v.Y,v.Z);
 
             //this.Cache.Add(v);
         }
@@ -76,7 +72,7 @@ namespace THREE
         {
             //if (Cache.Count > 0 && matrix.Equals((Matrix3)Cache[0])) return;
 
-            GL.UniformMatrix3(this.Addr, 1, false, matrix.Elements);
+            GL.UniformMatrix3(this.Addr, 1,false, matrix.Elements);
 
             //this.Cache.Add(matrix);
 
@@ -86,7 +82,7 @@ namespace THREE
         {
             //if (Cache.Count > 0 && matrix.Equals((Matrix4)Cache[0])) return;
 
-            GL.UniformMatrix4(this.Addr, 1, false, matrix.Elements);
+            GL.UniformMatrix4(this.Addr, 1,false, matrix.Elements);
 
             //this.Cache.Add(matrix);
 
@@ -97,7 +93,7 @@ namespace THREE
             //if (Cache.Count > 0 && color.Equals((Color)Cache[0])) return;
 
 
-            GL.Uniform3(this.Addr, color.R, color.G, color.B);
+            GL.Uniform3(this.Addr, color.R,color.G,color.B);
 
             //if (Cache.Count == 0) Cache.Add(color);
             //else Cache[0] = color;
@@ -110,13 +106,13 @@ namespace THREE
             //if(Cache.Count>0)  cachedColor = (float[])Cache[0];
             //if (cachedColor!=null && cachedColor[0] == color[0] && cachedColor[1] == color[1] && cachedColor[2] == color[2]) return;
 
-            GL.Uniform3(this.Addr, color[0], color[1], color[2]);
+            GL.Uniform3(this.Addr, color[0],color[1],color[2]);
 
             //if (Cache.Count == 0) Cache.Add(color);
             //else Cache[0] = color;
-
+            
         }
-        public void SetValue(Texture v, GLTextures textures)
+        public void SetValue(Texture v,GLTextures textures)
         {
             //var cache = this.Cache;
             var unit = textures.AllocateTextureUnit();
@@ -142,27 +138,27 @@ namespace THREE
                 case ActiveUniformType.Sampler2D:
                     textures.SafeSetTexture2D(v, unit);
                     break;
-                case ActiveUniformType.Sampler3D:
+                case ActiveUniformType.Sampler3D :
                     textures.SetTexture3D(v, unit);
                     break;
-                case ActiveUniformType.SamplerCube:
-                    textures.SafeSetTextureCube(v, unit);
+                case ActiveUniformType.SamplerCube :
+                    textures.SafeSetTextureCube(v,unit);
                     break;
-                case ActiveUniformType.Sampler2DArray:
+                case ActiveUniformType.Sampler2DArray :
                     textures.SetTexture2DArray(v, unit);
                     break;
 
             }
-
+           
         }
-        public void SetValue(object v, GLTextures textures = null)
+        public void SetValue(object v, GLTextures textures=null)
         {
             //Debug.WriteLine("SingleUniform, Id={0},Value={1}", this.Id, v);
             if (v is Texture && textures != null)
             {
                 SetValue((Texture)v, textures);
             }
-            else if (this.UniformType == ActiveUniformType.Int)
+            else if(this.UniformType==ActiveUniformType.Int)
             {
                 if (v is bool)
                 {
@@ -170,8 +166,7 @@ namespace THREE
                     SetValue(value == true ? 1 : 0);
                     this.UniformType = ActiveUniformType.Int;
                 }
-                else
-                {
+                else {
                     SetValue((int)v);
                 }
             }

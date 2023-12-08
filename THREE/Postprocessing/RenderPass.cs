@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace THREE
+﻿namespace THREE
 {
-    [Serializable]
     public class RenderPass : Pass
     {
         public Scene scene;
@@ -16,7 +13,7 @@ namespace THREE
 
         public bool ClearDepth;
 
-        public RenderPass(Scene scene, Camera camera, Material overrideMaterial = null, Color? clearColor = null, float? clearAlpha = null)
+        public RenderPass(Scene scene,Camera camera,Material overrideMaterial=null,Color? clearColor=null,float? clearAlpha=null)
         {
             this.scene = scene;
             this.camera = camera;
@@ -26,31 +23,31 @@ namespace THREE
             this.ClearColor = clearColor;
             if (clearAlpha == null)
                 this.ClearAlpha = 1.0f;
-            else
+            else 
                 this.ClearAlpha = clearAlpha.Value;
 
             this.Clear = true;
             this.ClearDepth = false;
             this.NeedsSwap = false;
         }
-        public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime = null, bool? maskActive = null)
+        public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime=null, bool? maskActive=null)
         {
             var oldAutoClear = renderer.AutoClear;
             renderer.AutoClear = false;
 
             Color? oldClearColor = null; ;
-            float oldClearAlpha = 1;
+            float oldClearAlpha=1;
             Material oldOverrideMaterial;
 
-
+           
 
             oldOverrideMaterial = this.scene.OverrideMaterial;
 
             this.scene.OverrideMaterial = this.OverrideMaterial;
 
+            
 
-
-            if (this.ClearColor != null)
+            if (this.ClearColor !=null)
             {
 
                 oldClearColor = renderer.GetClearColor();
@@ -73,7 +70,7 @@ namespace THREE
             if (this.Clear) renderer.Clear(renderer.AutoClearColor, renderer.AutoClearDepth, renderer.AutoClearStencil);
             renderer.Render(this.scene, this.camera);
 
-            if (this.ClearColor != null)
+            if (this.ClearColor!=null)
             {
 
                 renderer.SetClearColor(oldClearColor.Value, oldClearAlpha);
@@ -92,7 +89,7 @@ namespace THREE
 
         public override void SetSize(float width, float height)
         {
-
+           
         }
     }
 }

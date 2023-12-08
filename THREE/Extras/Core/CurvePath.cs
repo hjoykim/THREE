@@ -2,7 +2,7 @@
 
 namespace THREE
 {
-    [Serializable]
+   
     public class CurvePath : Curve
     {
         public List<Curve> Curves = new List<Curve>();
@@ -17,10 +17,10 @@ namespace THREE
 
         protected CurvePath(CurvePath source) : this()
         {
-
+            
             this.Curves = new List<Curve>();
 
-            for (int i = 0; i < source.Curves.Count; i++)
+            for (int i = 0; i< source.Curves.Count; i++)
             {
 
                 var curve = source.Curves[i];
@@ -47,7 +47,7 @@ namespace THREE
             var startPoint = this.Curves[0].GetPoint(0);
             var endPoint = this.Curves[this.Curves.Count - 1].GetPoint(1);
 
-            if (!startPoint.Equals(endPoint))
+            if(!startPoint.Equals(endPoint))
             {
                 this.Curves.Add(new LineCurve3(endPoint, startPoint));
             }
@@ -88,7 +88,7 @@ namespace THREE
         public override float GetLength()
         {
             var lens = this.GetCurveLengths();
-            return lens[lens.Count - 1];
+            return lens[lens.Count-1];
         }
 
         public List<float> GetCurveLengths()
@@ -108,7 +108,7 @@ namespace THREE
             var lengths = new List<float>();
             var sums = 0.0f;
 
-            for (int i = 0; i < this.Curves.Count; i++)
+            for (int i = 0;i<this.Curves.Count;i++)
             {
 
                 sums += this.Curves[i].GetLength();
@@ -121,7 +121,7 @@ namespace THREE
             return lengths;
         }
 
-        public override List<Vector3> GetSpacedPoints(float? divisions = null)
+        public override List<Vector3> GetSpacedPoints(float? divisions=null)
         {
             if (divisions == null) divisions = 40;
 
@@ -144,7 +144,7 @@ namespace THREE
             return points;
         }
 
-        public override List<Vector3> GetPoints(float? divisions = null)
+        public override List<Vector3> GetPoints(float? divisions=null)
         {
             divisions = divisions != null ? divisions : 12;
 
@@ -155,9 +155,9 @@ namespace THREE
             {
 
                 var curve = Curves[i];
-                var resolution = (curve != null && curve is EllipseCurve) ? divisions * 2
-                    : (curve != null && (curve is LineCurve || curve is LineCurve3)) ? 1
-                        : (curve != null && curve is SplineCurve) ? divisions * (curve as SplineCurve).Points.Count
+                var resolution = (curve!=null && curve is EllipseCurve) ? divisions * 2
+                    : (curve!=null && (curve is LineCurve || curve is LineCurve3)) ? 1
+                        : (curve!=null && curve is SplineCurve) ? divisions * (curve as SplineCurve).Points.Count
                             : divisions;
 
                 List<Vector3> pts = null;
@@ -168,7 +168,7 @@ namespace THREE
 
                     var point = pts[j];
 
-                    if (last != null && last.Equals(point)) continue; // ensures no consecutive points are duplicates
+                    if (last!=null && last.Equals(point)) continue; // ensures no consecutive points are duplicates
 
                     points.Add(point);
                     last = point;

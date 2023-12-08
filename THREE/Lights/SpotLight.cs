@@ -1,23 +1,20 @@
-﻿using System.Runtime.Serialization;
-
-namespace THREE
+﻿namespace THREE
 {
-    [Serializable]
     public class SpotLight : Light
     {
         public new float Power
         {
             get
             {
-                return (float)(this.Intensity * System.Math.PI);
+                return (float)(this.Intensity*System.Math.PI);
             }
             set
             {
-                this.Intensity = (float)(value / System.Math.PI);
+                this.Intensity = (float)(value/System.Math.PI);
             }
         }
 
-        public SpotLight(Color color, float? intensity = null, float? distance = null, float? angle = null, float? penumbra = null, float? decay = null)
+        public SpotLight(Color color, float? intensity = null,float? distance=null,float? angle=null,float? penumbra=null,float? decay=null)
             : base(color, intensity)
         {
             this.Position.Copy(Object3D.DefaultUp);
@@ -38,11 +35,7 @@ namespace THREE
             this.type = "SpotLight";
         }
         public SpotLight(int color, float? intensity = null, float? distance = null, float? angle = null, float? penumbra = null, float? decay = null) :
-          this(Color.Hex(color), intensity, distance, angle, penumbra, decay)
-        { }
-
-        public SpotLight(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
+          this(Color.Hex(color), intensity, distance, angle, penumbra, decay) { }
         protected SpotLight(SpotLight other) : base(other)
         {
             this.Distance = other.Distance;

@@ -3,12 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
-    public class Material : Hashtable, IDisposable, ICloneable
+    public class Material : Hashtable,IDisposable,ICloneable
     {
         private static int materialIdCount;
 
@@ -25,7 +23,7 @@ namespace THREE
         public bool Fog = true;
 
         public int Blending = Constants.NormalBlending;
-
+        
         public int Side = Constants.FrontSide;
 
         public bool FlatShading = false;
@@ -33,7 +31,7 @@ namespace THREE
         public bool VertexTangents = false;
 
         public bool VertexColors = false;
-
+        
         public float Opacity = 1;
 
         public bool Transparent = false;
@@ -48,9 +46,9 @@ namespace THREE
 
         public int BlendEquation = Constants.AddEquation;
 
-        public int? BlendSrcAlpha;
+        public int? BlendSrcAlpha;               
 
-        public int? BlendDstAlpha;
+        public int? BlendDstAlpha;       
 
         public int? BlendEquationAlpha;
 
@@ -62,19 +60,19 @@ namespace THREE
 
         public int StencilWriteMask = 0xff;
 
-        public int StencilFunc = Constants.AlwaysStencilFunc;
+	    public int StencilFunc = Constants.AlwaysStencilFunc;
 
-        public int StencilRef = 0;
+	    public int StencilRef = 0;
 
-        public int StencilFuncMask = 0xff;
+	    public int StencilFuncMask = 0xff;
 
-        public int StencilFail = Constants.KeepStencilOp;
+	    public int StencilFail = Constants.KeepStencilOp;
 
-        public int StencilZFail = Constants.KeepStencilOp;
+	    public int StencilZFail = Constants.KeepStencilOp;
 
-        public int StencilZPass = Constants.KeepStencilOp;
+	    public int StencilZPass = Constants.KeepStencilOp;
 
-        public bool StencilWrite = false;
+	    public bool StencilWrite = false;
 
         public List<Plane> ClippingPlanes = new List<Plane>();
 
@@ -83,7 +81,7 @@ namespace THREE
         public bool ClipShadows = false;
 
         public int? ShadowSide;
-
+        
         public bool ColorWrite = true;
 
         public string Precision = null;
@@ -108,9 +106,9 @@ namespace THREE
 
         private bool needsUpdate;
 
+       
 
-
-        public bool NeedsUpdate
+        public bool NeedsUpdate  
         {
             get
             {
@@ -118,42 +116,42 @@ namespace THREE
             }
             set
             {
-                needsUpdate = value;
+                needsUpdate=value;
                 if (needsUpdate) this.Version++;
             }
         }
 
-        public string glslVersion = "";
+        public string glslVersion ="";
 
         public string IndexOAttributeName;
 
-        public bool MorphTargets;
+        public bool MorphTargets ;
 
         public bool MorphNormals;
 
-        public Texture Map;
+        public Texture Map ;
 
-        public Texture AlphaMap;
+        public Texture AlphaMap ;
 
-        public Texture SpecularMap;
+        public Texture SpecularMap ;
 
-        public Texture EnvMap;
+        public Texture EnvMap ;
 
-        public Texture NormalMap;
+        public Texture NormalMap ;
 
         public int NormalMapType = -1;
 
-        public Vector2 NormalScale;
+        public Vector2 NormalScale ;
 
-        public Texture BumpMap;
+        public Texture BumpMap ;
 
-        public float BumpScale;
+        public float BumpScale ;
 
-        public Texture LightMap;
+        public Texture LightMap ;
 
-        public Texture AoMap;
+        public Texture AoMap ;
 
-        public Texture EmissiveMap;
+        public Texture EmissiveMap ;
 
         public Texture DisplacementMap;
 
@@ -171,31 +169,31 @@ namespace THREE
 
         public Vector2 ClearcoatNormalScale;
 
-        public Texture ClearcoatNormalMap;
+        public Texture ClearcoatNormalMap ;
 
-        public Texture RoughnessMap;
+        public Texture RoughnessMap ;
 
-        public Texture MetalnessMap;
+        public Texture MetalnessMap ;
 
-        public Texture GradientMap;
+        public Texture GradientMap ;
 
         public Texture TransmissionMap;
 
-        public Color? Sheen;
+        public Color? Sheen ;
 
         public Color? Emissive;
 
         public float EmissiveIntensity = 1;
 
-        public int Combine;
+        public int Combine ;
 
         public bool SizeAttenuation;
 
-        public bool Skinning;
+        public bool Skinning;       
 
         public int DepthPacking = Constants.BasicDepthPacking;
 
-        public IGLProgram Program;
+        public GLProgram Program;
 
         public int numSupportedMorphTargets = 0;
 
@@ -205,7 +203,7 @@ namespace THREE
 
         public float Rotation = 0;
 
-        public float Reflectivity = 1;
+        public float Reflectivity =1;
 
         public float RefractionRatio;
 
@@ -217,13 +215,13 @@ namespace THREE
 
         public float LineWidth = 1;
 
-        public bool Wireframe;
+        public bool Wireframe ;
 
-        public float WireframeLineWidth = 1;
+        public float WireframeLineWidth = 1 ;
 
-        public string WireframeLineCap;
+        public string WireframeLineCap ;
 
-        public string WireframeLineJoin;
+        public string WireframeLineJoin ;
 
         public float Shininess;
 
@@ -235,20 +233,19 @@ namespace THREE
 
         public event EventHandler<EventArgs> Disposed;
 
-        public Action<Hashtable, IGLRenderer> OnBeforeCompile;
+        public Action<Hashtable,GLRenderer> OnBeforeCompile;
 
         public Material()
         {
         }
-        public Material(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         protected Material(Material source) : base()
         {
             Copy(source);
         }
 
-
-        public override object Clone()
+        
+        public override object Clone() 
         {
             var material = new Material();
             material.Copy(this);
@@ -510,7 +507,7 @@ namespace THREE
             }
         }
 
-        ~Material()
+       ~Material()
         {
             this.Dispose(false);
         }
@@ -525,7 +522,7 @@ namespace THREE
             if (handler != null)
                 handler(this, new EventArgs());
         }
-
+        
         private bool disposed;
 
         protected virtual void Dispose(bool disposing)

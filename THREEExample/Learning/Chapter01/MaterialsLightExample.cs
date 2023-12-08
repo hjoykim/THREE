@@ -1,7 +1,6 @@
 ﻿using System;
 using THREE;
 using OpenTK;
-using OpenTK.WinForms;
 
 namespace THREEExample.Learning.Chapter01
 {

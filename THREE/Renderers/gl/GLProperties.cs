@@ -1,28 +1,23 @@
-﻿using System.Collections;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace THREE
 {
-    [Serializable]
     public class GLProperties
     {
-        private Dictionary<object, Hashtable> Properties = new Dictionary<object, Hashtable>();
-
+        private ConditionalWeakTable<object,Hashtable> Properties = new ConditionalWeakTable<object,Hashtable>();
+        
         public GLProperties()
         {
         }
 
         public Hashtable Get(object obj)
         {
-            Hashtable map = new Hashtable(); ;
-            if (!Properties.ContainsKey(obj))
-            //if (!Properties.TryGetValue(obj, out map))
-            {                
-                Properties.Add(obj, map);
-            }
-            else
+            Hashtable map;
+            if (!Properties.TryGetValue(obj, out map))
             {
-                map = Properties[obj];
+                map = new Hashtable();
+                Properties.Add(obj, map);
             }
             return map;
         }
@@ -43,7 +38,7 @@ namespace THREE
 
         public void Dispose()
         {
-            Properties = new Dictionary<object, Hashtable>();
+            Properties = new ConditionalWeakTable<object, Hashtable>();
         }
     }
 }

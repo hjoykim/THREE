@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace THREE
 {
-    [Serializable]
     public class UniformsCache : Hashtable
     {
         public UniformsCache()
@@ -52,11 +50,7 @@ namespace THREE
 				});
 
         }
-
-        public UniformsCache(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
-
-    [Serializable]
     public class ShadowUniformsCache : Hashtable
     {
         public ShadowUniformsCache()
@@ -71,7 +65,7 @@ namespace THREE
                 });
 
             this.Add("SpotLight", new Hashtable()
-                {
+                { 
                     {"shadowBias",0.0f},
                     {"shadowNormalBias",0.0f },
                     {"shadowRadius",1.0f},
@@ -79,7 +73,7 @@ namespace THREE
                 });
 
             this.Add("PointLight", new Hashtable()
-                {
+                { 
                     {"shadowBias", 0},
                     {"shadowNormalBias",0.0f },
                     {"shadowRadius", 1},
@@ -90,13 +84,9 @@ namespace THREE
 
 
         }
-
-        public ShadowUniformsCache(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
-
-    [Serializable]
     public class GLLights
-    { // TODO: Hashtable --> Dictionary<string,object>
+    {
         private UniformsCache cache = new UniformsCache();
         private ShadowUniformsCache shadowCache = new ShadowUniformsCache();
         public Hashtable state;
@@ -246,9 +236,9 @@ namespace THREE
 
                     direction.TransformDirection(viewMatrix);
 
-                    uniforms["direction"] = direction;
-
-
+                    uniforms["direction"] = direction;                  
+                   
+                  
                     //uniforms["shadow"] = light.CastShadow;
 
                     if (light.CastShadow)
@@ -300,7 +290,7 @@ namespace THREE
                     uniforms["penumbraCos"] = (float)System.Math.Cos(light.Angle * (1 - light.Penumbra));
                     uniforms["decay"] = light.Decay;
 
-
+                    
 
                     if (light.CastShadow)
                     {
@@ -368,7 +358,7 @@ namespace THREE
                     uniforms["distance"] = distance;
                     uniforms["decay"] = light.Decay;
 
-
+                   
 
                     if (light.CastShadow)
                     {
@@ -379,7 +369,7 @@ namespace THREE
                         shadowUniforms["shadowBias"] = shadow.Bias;
                         shadowUniforms["shadowNormalBias"] = shadow.NormalBias;
                         shadowUniforms["shadowRadius"] = shadow.Radius;
-                        shadowUniforms["shadowMapSize"] = shadow.MapSize;
+                        shadowUniforms["shadowMapSize"] = shadow.MapSize;                      
                         shadowUniforms["shadowCameraNear"] = shadow.Camera.Near;
                         shadowUniforms["shadowCameraFar"] = shadow.Camera.Far;
 

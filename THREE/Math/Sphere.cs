@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace THREE
 {
-    [Serializable]
     public class Sphere : ICloneable
     {
         public Vector3 Center = new Vector3();
@@ -34,7 +33,7 @@ namespace THREE
 
             return this;
         }
-        public Sphere Set(Vector3 center, float radius)
+        public Sphere Set(Vector3 center,float radius)
         {
             Center.Copy(center);
             Radius = radius;
@@ -117,7 +116,7 @@ namespace THREE
 
         public Box3 GetBoundingBox()
         {
-            Box3 target = new Box3(this.Center, this.Center);
+            Box3 target = new Box3(this.Center,this.Center);
 
             target.ExpandByScalar(this.Radius);
 
@@ -154,6 +153,6 @@ namespace THREE
         {
             return base.GetHashCode();
         }
-
+               
     }
 }

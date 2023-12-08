@@ -1,10 +1,9 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using OpenTK.Graphics.ES30;
+using System;
 using THREE;
 
 namespace THREE
 {
-    [Serializable]
     public struct UpdateRange
     {
         public int Offset;
@@ -12,11 +11,9 @@ namespace THREE
         public int Count;
     }
 
-    [Serializable]
-    public class BufferAttribute<T> : Dictionary<string,object>,IGLAttribute, IBufferAttribute
-    {
-        public string Name { get; set; }
-        public int Usage { get; set; }// BufferUsageHint Usage;
+    public class BufferAttribute<T> : GLAttribute,IBufferAttribute    {
+
+        public BufferUsageHint Usage;
 
         public UpdateRange UpdateRange;
 
@@ -36,9 +33,9 @@ namespace THREE
 
         public Type Type
         {
-            get
-            {
-                return (Type)this["type"];
+            get 
+            { 
+                return (Type)this["type"]; 
             }
             set
             {
@@ -110,13 +107,12 @@ namespace THREE
             this.Add("type", null);
             this.Add("normalized", false);
 
-            this.Usage = Constants.StaticDrawUsage;;
+            this.Usage = BufferUsageHint.StaticDraw;
 
             this.UpdateRange = new UpdateRange { Offset = 0, Count = -1 };
         }
-        public BufferAttribute(SerializationInfo info, StreamingContext context) : base(info,context) { }
 
-        public BufferAttribute(T[] array, int itemSize, bool? normalized = null)
+        public BufferAttribute(T[] array, int itemSize,bool? normalized=null) 
             : this()
         {
             this.Name = "";
@@ -124,7 +120,7 @@ namespace THREE
             this.ItemSize = itemSize;
             this.Type = typeof(T);
 
-            this.Normalized = normalized != null && normalized.Value == true ? true : false;
+            this.Normalized = normalized != null && normalized.Value==true ? true : false;
         }
         protected BufferAttribute(BufferAttribute<T> source)
         {
@@ -139,7 +135,7 @@ namespace THREE
             }
         }
 
-        public void SetUsage(int hint)
+        public void SetUsage(BufferUsageHint hint)
         {
             this.Usage = hint;
         }
@@ -149,7 +145,7 @@ namespace THREE
             return new BufferAttribute<T>(this);
         }
         public BufferAttribute<T> Copy(BufferAttribute<T> source)
-        {
+        {           
             this.Name = source.Name;
             if (source.Array != null)
             {
@@ -163,7 +159,7 @@ namespace THREE
             return this;
         }
 
-        public BufferAttribute<T> CopyAt(int index1, BufferAttribute<T> attribute, int index2)
+        public BufferAttribute<T> CopyAt(int index1,BufferAttribute<T> attribute,int index2)
         {
             index1 *= this.ItemSize;
             index2 *= attribute.ItemSize;
@@ -226,18 +222,18 @@ namespace THREE
             }
 
             return this;
-
+           
         }
 
         public BufferAttribute<T> CopyVector3sArray(Vector3[] vectors)
         {
             var array = this.Array as float[];
 
-            if (array is null)
+            if(array is null)
             {
                 array = new float[vectors.Length * 3];
 
-                this["array"] = array;
+                this["array"] = array;                
             }
 
             int offset = 0;
@@ -278,7 +274,7 @@ namespace THREE
             return this;
         }
 
-        public BufferAttribute<T> Set(float[] array, int offset = 0)
+        public BufferAttribute<T> Set(float[] array, int offset=0)
         {
             array.CopyTo(this.Array, offset);
 
@@ -297,32 +293,32 @@ namespace THREE
 
         public T getY(int index)
         {
-            return this.Array[index * this.ItemSize + 1];
+            return this.Array[index * this.ItemSize+1];
         }
 
         public void setY(int index, T y)
         {
-            this.Array[index * this.ItemSize + 1] = y;
+            this.Array[index * this.ItemSize+1] = y;
         }
 
         public T getZ(int index)
         {
-            return this.Array[index * this.ItemSize + 2];
+            return this.Array[index * this.ItemSize+2];
         }
 
         public void setZ(int index, T z)
         {
-            this.Array[index * this.ItemSize + 2] = z;
+            this.Array[index * this.ItemSize+2] = z;
         }
 
         public T getW(int index)
         {
-            return this.Array[index * this.ItemSize + 3];
+            return this.Array[index * this.ItemSize+3];
         }
 
         public void setW(int index, T w)
         {
-            this.Array[index * this.ItemSize + 3] = w;
+            this.Array[index * this.ItemSize+3] = w;
         }
 
         public void setXY(int index, T x, T y)
@@ -332,7 +328,7 @@ namespace THREE
             this.Array[index + 1] = y;
         }
 
-        public void setXYZ(int index, T x, T y, T z)
+        public void setXYZ(int index, T x, T y,T z)
         {
             index *= this.ItemSize;
             this.Array[index + 0] = x;
@@ -340,7 +336,7 @@ namespace THREE
             this.Array[index + 2] = z;
         }
 
-        public void setXYZW(int index, T x, T y, T z, T w)
+        public void setXYZW(int index, T x, T y, T z,T w)
         {
             index *= this.ItemSize;
             this.Array[index + 0] = x;

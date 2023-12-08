@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace THREE
 {
-    [Serializable]
     public class TubeGeometry : Geometry
     {
         public List<Vector3> tangents = new List<Vector3>();
@@ -14,7 +13,7 @@ namespace THREE
 
         public Hashtable parameters;
 
-        public TubeGeometry(Curve path, int? tubularSegments = null, float? radius = null, int? radialSegments = null, bool? closed = null) : base()
+        public TubeGeometry(Curve path,int? tubularSegments=null,float? radius=null,int? radialSegments=null,bool? closed = null) : base()
         {
             this.type = "TubeGeometry";
 
@@ -37,11 +36,10 @@ namespace THREE
 
             this.FromBufferGeometry(bufferGeometry);
             this.MergeVertices();
-
+             
         }
     }
 
-    [Serializable]
     public class TubeBufferGeometry : BufferGeometry
     {
         public Hashtable parameters;
@@ -78,8 +76,8 @@ namespace THREE
 
         Vector2 uv = new Vector2();
 
-
-        public TubeBufferGeometry(Curve path, int? tubularSegments = null, float? radius = null, int? radialSegments = null, bool? closed = null) : base()
+        
+        public TubeBufferGeometry(Curve path, int? tubularSegments = null, float? radius = null, int? radialSegments=null, bool? closed = null) : base()
         {
             this.type = "TubeBufferGeometry";
 
@@ -92,7 +90,7 @@ namespace THREE
                 {"closed",closed }
             };
 
-            this.path = path;
+            this.path =path;
 
             this.tubularSegments = tubularSegments != null ? (int)tubularSegments : 64;
 
@@ -225,5 +223,5 @@ namespace THREE
             }
         }
     }
-
+   
 }

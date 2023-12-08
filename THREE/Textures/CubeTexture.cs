@@ -1,7 +1,6 @@
 ﻿
 namespace THREE
 {
-    [Serializable]
     public class CubeTexture : Texture
     {
         public CubeTexture() : base()
