@@ -4,13 +4,14 @@ using System.Collections.Generic;
 
 namespace THREE
 {
+    [Serializable]
     public class Shape : Path
     {
         public Guid Uuid = Guid.NewGuid();
 
         public List<Path> Holes;
 
-        public Shape(List<Vector3> points=null) : base(points)
+        public Shape(List<Vector3> points = null) : base(points)
         {
             Holes = new List<Path>();
         }
@@ -18,7 +19,7 @@ namespace THREE
         protected Shape(Shape source)
         {
             Holes = new List<Path>();
-            for (int i = 0;i< source.Holes.Count;i++)
+            for (int i = 0; i < source.Holes.Count; i++)
             {
 
                 var hole = source.Holes[i];
@@ -37,7 +38,7 @@ namespace THREE
         {
             var holePts = new List<List<Vector3>>();
 
-            for(int i = 0; i < this.Holes.Count; i++)
+            for (int i = 0; i < this.Holes.Count; i++)
             {
                 if (this.Holes[i] == null) continue;
                 holePts.Add(this.Holes[i].GetPoints(divisions));

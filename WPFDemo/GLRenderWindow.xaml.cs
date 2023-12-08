@@ -48,6 +48,9 @@ namespace WPFDemo
             this.example.glControl = renderControl;
             //this.example.Parent = this;
             //renderer.scene = this.example;
+#if NET6_0_OR_GREATER
+            renderControl.Profile = OpenTK.Windowing.Common.ContextProfile.Compatability;
+#endif
         }
         public void Render()
         {

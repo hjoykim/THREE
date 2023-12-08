@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\THREE\Renderers\gl\**\*.*" Link="Renderers\gl\%(RecursiveDir)%(FileName)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="..\THREE\Renderers\gl\GLBackground_old.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLShader.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\IGLProgram.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\THREE\Renderers\GLCubeRenderTarget.cs" Link="Renderers\GLCubeRenderTarget.cs" />
+    <Compile Include="..\THREE\Renderers\GLRenderer.cs" Link="Renderers\GLRenderer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\THREE\THREE.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="OpenTK" Version="4.8.0" />
+  </ItemGroup>
+</Project>

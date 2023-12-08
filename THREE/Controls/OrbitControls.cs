@@ -6,6 +6,7 @@ using static THREE.Constants;
 
 namespace THREE
 {
+    [Serializable]
     public enum STATE
     {
         NONE = -1,
@@ -17,12 +18,16 @@ namespace THREE
         TOUCH_DOLLY_PAN = 5,
         DOUCH_DOLLY_ROTATE = 6
     };
+
+    [Serializable]
     public enum ControlMouseButtons
     {
         LEFT = MOUSE.ROTATE,
         MIDDLE = MOUSE.DOLLY,
         RIGHT = MOUSE.PAN
     }
+
+    [Serializable]
     public class OrbitControls : IDisposable
     {
 
@@ -623,7 +628,7 @@ namespace THREE
 
         private void Control_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (Enabled==false) return;
+            if (Enabled == false) return;
             int mouseAction;
 
             switch (e.Button)
@@ -655,41 +660,41 @@ namespace THREE
                     break;
 
                 case MOUSE.ROTATE:
-                    if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
-                    {
-                        if (EnablePan == false) return;
+                    //if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                    //{
+                    //    if (EnablePan == false) return;
 
-                        handleMouseDownPan(e);
+                    //    handleMouseDownPan(e);
 
-                        state = STATE.PAN;
-                    }
-                    else
-                    {
+                    //    state = STATE.PAN;
+                    //}
+                    //else
+                    //{
                         if (EnableRotate == false) return;
 
                         handleMouseDownRotate(e);
 
                         state = STATE.ROTATE;
-                    }
+                    //}
                     break;
 
                 case MOUSE.PAN:
-                    if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
-                    {
-                        if (EnableRotate == false) return;
+                    //if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl) || Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                    //{
+                    //    if (EnableRotate == false) return;
 
-                        handleMouseDownRotate(e);
+                    //    handleMouseDownRotate(e);
 
-                        state = STATE.ROTATE;
-                    }
-                    else
-                    {
+                    //    state = STATE.ROTATE;
+                    //}
+                    //else
+                    //{
                         if (EnablePan == false) return;
 
                         handleMouseDownPan(e);
 
                         state = STATE.PAN;
-                    }
+                    //}
                     break;
                 default:
                     state = STATE.NONE;

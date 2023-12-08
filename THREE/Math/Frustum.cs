@@ -2,9 +2,10 @@
 
 namespace THREE
 {
+    [Serializable]
     public class Frustum : ICloneable
     {
-        public Plane[] Planes = new Plane[6] {new Plane(),new Plane(),new Plane(),new Plane(),new Plane(),new Plane()} ;
+        public Plane[] Planes = new Plane[6] { new Plane(), new Plane(), new Plane(), new Plane(), new Plane(), new Plane() };
 
         private Sphere _sphere = new Sphere();
 
@@ -78,7 +79,7 @@ namespace THREE
             if (geometry.BoundingSphere == null) geometry.ComputeBoundingSphere();
 
             _sphere.Copy(geometry.BoundingSphere).ApplyMatrix4(object3D.MatrixWorld); ;
-           
+
 
             return this.IntersectsSphere(_sphere);
         }

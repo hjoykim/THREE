@@ -2,8 +2,9 @@
 
 namespace THREE
 {
+    [Serializable]
     public class GLMaterials
-    {
+    { // TODO: Hashtable to Uniform
         private GLProperties properties;
 
         public GLMaterials(GLProperties properties)
@@ -49,8 +50,8 @@ namespace THREE
             }
 
         }
-        public void RefreshMaterialUniforms(GLUniforms m_uniforms, Material material,float pixelRatio,float height)
-         {
+        public void RefreshMaterialUniforms(GLUniforms m_uniforms, Material material, float pixelRatio, float height)
+        {
             if (material is MeshBasicMaterial)
             {
 
@@ -139,7 +140,7 @@ namespace THREE
             else if (material is PointsMaterial)
             {
 
-                RefreshUniformsPoints(m_uniforms, (PointsMaterial)material,pixelRatio,height);
+                RefreshUniformsPoints(m_uniforms, (PointsMaterial)material, pixelRatio, height);
 
             }
             else if (material is SpriteMaterial)
@@ -163,9 +164,9 @@ namespace THREE
             }
         }
 
-                 
 
-        public void RefreshFogUniforms(GLUniforms uniforms,Fog fog)
+
+        public void RefreshFogUniforms(GLUniforms uniforms, Fog fog)
         {
             (uniforms["fogColor"] as Hashtable)["value"] = fog.Color;
 
@@ -631,7 +632,7 @@ namespace THREE
             }
         }
 
-        
+
 
         private void RefreshUniformsLine(GLUniforms uniforms, LineBasicMaterial material)
         {
@@ -647,7 +648,7 @@ namespace THREE
 
         }
 
-        private void RefreshUniformsPoints(GLUniforms uniforms, PointsMaterial material,float _pixelRatio,float height)
+        private void RefreshUniformsPoints(GLUniforms uniforms, PointsMaterial material, float _pixelRatio, float height)
         {
             (uniforms["diffuse"] as Hashtable)["value"] = material.Color;
             (uniforms["opacity"] as Hashtable)["value"] = material.Opacity;

@@ -2,6 +2,7 @@
 
 namespace THREE
 {
+    [Serializable]
     public class GLCubeMap
     {
         public GLRenderer renderer;
@@ -10,7 +11,7 @@ namespace THREE
         {
             this.renderer = renderer;
         }
-        private Texture mapTextureMapping(Texture texture, int mapping )
+        private Texture mapTextureMapping(Texture texture, int mapping)
         {
 
             if (mapping == Constants.EquirectangularReflectionMapping)
@@ -31,7 +32,7 @@ namespace THREE
         }
         public Texture Get(Texture texture)
         {
-            if (texture!=null && texture is Texture)
+            if (texture != null && texture is Texture)
             {
 
                 var mapping = texture.Mapping;
@@ -51,7 +52,7 @@ namespace THREE
 
                         var image = texture.Image;
 
-                        if (image!=null && image.Height > 0)
+                        if (image != null && image.Height > 0)
                         {
 
                             var currentRenderList = renderer.GetRenderList();

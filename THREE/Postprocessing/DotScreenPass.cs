@@ -1,20 +1,24 @@
 ﻿
+using System;
+using THREE.Renderers.Shaders;
+
 namespace THREE
 {
+    [Serializable]
     public class DotScreenPass : Pass
     {
-        public GLUniforms uniforms;
+        public Uniforms uniforms;
         private ShaderMaterial material;
 
-        public DotScreenPass(Vector2 center=null,float? angle=null,float? scale=null) : base()
+        public DotScreenPass(Vector2 center = null, float? angle = null, float? scale = null) : base()
         {
             var shader = new DotScreenShader();
 
             this.uniforms = UniformsUtils.CloneUniforms(shader.Uniforms);
 
-            if (center != null) (this.uniforms["center"] as GLUniform)["value"] = center;
-            if (angle != null) (this.uniforms["angle"] as GLUniform)["value"] = angle;
-            if (scale != null) (this.uniforms["scale"] as GLUniform)["value"] = scale;
+            if (center != null) (this.uniforms["center"] as Uniform)["value"] = center;
+            if (angle != null) (this.uniforms["angle"] as Uniform)["value"] = angle;
+            if (scale != null) (this.uniforms["scale"] as Uniform)["value"] = scale;
 
             this.material = new ShaderMaterial
             {
@@ -30,8 +34,8 @@ namespace THREE
         }
         public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime = null, bool? maskActive = null)
         {
-            (this.uniforms["tDiffuse"] as GLUniform)["value"] = readBuffer.Texture;
-            ((this.uniforms["tSize"] as GLUniform)["value"] as Vector2).Set(readBuffer.Width, readBuffer.Height);
+            (this.uniforms["tDiffuse"] as Uniform)["value"] = readBuffer.Texture;
+            ((this.uniforms["tSize"] as Uniform)["value"] as Vector2).Set(readBuffer.Width, readBuffer.Height);
 
             if (this.RenderToScreen)
             {

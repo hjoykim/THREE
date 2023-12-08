@@ -1,27 +1,30 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class LightProbeHelper : Mesh
     {
         LightProbe lightProbe;
         float size;
-               
 
-        public LightProbeHelper(LightProbe lightProbe,float size) 
+
+        public LightProbeHelper(LightProbe lightProbe, float size)
         {
             this.lightProbe = lightProbe;
             this.size = size;
 
             this.Material = new ShaderMaterial()
             {
-                type="LightProbeHelperMaterial",
-                Name="LightProbeHelperMaterial",
-                Uniforms = new GLUniforms()
+                type = "LightProbeHelperMaterial",
+                Name = "LightProbeHelperMaterial",
+                Uniforms = new Uniforms()
                 {
-                    {"sh",new GLUniform(){{"value", lightProbe.sh.Coefficients}} },
-                    {"intensity",new GLUniform(){{"value",lightProbe.Intensity}} }
+                    {"sh",new Uniform(){{"value", lightProbe.sh.Coefficients}} },
+                    {"intensity",new Uniform(){{"value",lightProbe.Intensity}} }
                 },
-                VertexShader= @"
+                VertexShader = @"
 
 				varying vec3 vNormal;
 
@@ -34,7 +37,7 @@ namespace THREE
 				}
 
 				",
-                FragmentShader= @"
+                FragmentShader = @"
 				#define RECIPROCAL_PI 0.318309886
 
 				vec3 inverseTransformDirection( in vec3 normal, in mat4 matrix ) {
@@ -91,31 +94,34 @@ namespace THREE
 
 				}
 			"
-			};
+            };
 
-			this.Geometry = new SphereBufferGeometry(1, 32, 16);
+            this.Geometry = new SphereBufferGeometry(1, 32, 16);
 
-			this.type = "LightProbeHelper";
+            this.type = "LightProbeHelper";
 
-			this.OnBeforeRender = BeforeRender;
+            this.OnBeforeRender = BeforeRender;
 
-			this.Materials.Clear();
-			this.Materials.Add(Material);
+            this.Materials.Clear();
+            this.Materials.Add(Material);
         }
-		//public Action<GLRenderer, Scene, Camera, Geometry,Material,DrawRange?,GLRenderTarget> OnBeforeRender;
-		private void BeforeRender(GLRenderer renderer,Scene scene,Camera camera,Geometry geometry,Material material,DrawRange? drawRange,GLRenderTarget renderTarget)
+
+        public LightProbeHelper(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        //public Action<GLRenderer, Scene, Camera, Geometry,Material,DrawRange?,GLRenderTarget> OnBeforeRender;
+        private void BeforeRender(IGLRenderer renderer, Scene scene, Camera camera, Geometry geometry, Material material, DrawRange? drawRange, GLRenderTarget renderTarget)
         {
-			this.Position.Copy(this.lightProbe.Position);
+            this.Position.Copy(this.lightProbe.Position);
 
-			this.Scale.Set(1, 1, 1).MultiplyScalar(this.size);
+            this.Scale.Set(1, 1, 1).MultiplyScalar(this.size);
 
-			((this.Material as ShaderMaterial).Uniforms["intensity"] as GLUniform)["value"] = this.lightProbe.Intensity;
-		}
+            ((this.Material as ShaderMaterial).Uniforms["intensity"] as Uniform)["value"] = this.lightProbe.Intensity;
+        }
         public override void Dispose()
         {
             base.Dispose();
-			this.Geometry.Dispose();
-			this.Material.Dispose();
+            this.Geometry.Dispose();
+            this.Material.Dispose();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
  */
 namespace THREE
 {
-   
+    [Serializable]
     public class Earcut
     {
         public class EarcutNode
@@ -41,7 +41,7 @@ namespace THREE
 
         }
         private int dim;
-        public List<int> Triangulate(List<float> data,List<int> holeIndices,int? dim=null)
+        public List<int> Triangulate(List<float> data, List<int> holeIndices, int? dim = null)
         {
             dim = dim != null ? dim : 2;
 
@@ -53,9 +53,9 @@ namespace THREE
 
             List<int> triangles = new List<int>();
 
-            if (outerEarcutNode==null || outerEarcutNode.Next == outerEarcutNode.Prev) return triangles;
+            if (outerEarcutNode == null || outerEarcutNode.Next == outerEarcutNode.Prev) return triangles;
 
-            float minX=0, minY=0, maxX, maxY, x, y, invSize=0;
+            float minX = 0, minY = 0, maxX, maxY, x, y, invSize = 0;
 
             if (hasHoles) outerEarcutNode = EliminateHoles(data, holeIndices, outerEarcutNode, dim.Value);
 
@@ -81,18 +81,18 @@ namespace THREE
             }
 
             EarcutLinked(outerEarcutNode, triangles, dim.Value, minX, minY, invSize);
-            
+
             return triangles;
         }
 
-        private bool EarcutNodeEquals(EarcutNode p1,EarcutNode p2)
+        private bool EarcutNodeEquals(EarcutNode p1, EarcutNode p2)
         {
             return p1.X == p2.X && p1.Y == p2.Y;
         }
-        public EarcutNode LinkedList(List<float> data,int start,int end,int dim,bool clockwise)
+        public EarcutNode LinkedList(List<float> data, int start, int end, int dim, bool clockwise)
         {
             int i;
-            EarcutNode last=null;
+            EarcutNode last = null;
 
             if (clockwise == (SignedArea(data, start, end, dim) > 0))
             {
@@ -103,13 +103,13 @@ namespace THREE
             }
             else
             {
-                for (i = end - dim; i >= start; i -= dim) 
+                for (i = end - dim; i >= start; i -= dim)
                 {
                     last = InsertEarcutNode(i, data[i], data[i + 1], last);
                 }
             }
 
-            if(last!=null && EarcutNodeEquals(last,last.Next))
+            if (last != null && EarcutNodeEquals(last, last.Next))
             {
                 RemoveEarcutNode(last);
                 last = last.Next;
@@ -118,7 +118,7 @@ namespace THREE
             return last;
         }
 
-        public EarcutNode FilterPoints(EarcutNode start=null,EarcutNode end=null)
+        public EarcutNode FilterPoints(EarcutNode start = null, EarcutNode end = null)
         {
             if (start == null) return start;
             if (end == null) end = start;
@@ -148,12 +148,12 @@ namespace THREE
             return end;
         }
 
-        public void EarcutLinked(EarcutNode ear,List<int> triangles,int dim,float minX,float minY,float invSize,int? pass=null)
+        public void EarcutLinked(EarcutNode ear, List<int> triangles, int dim, float minX, float minY, float invSize, int? pass = null)
         {
-            if (ear==null) return;
+            if (ear == null) return;
 
             // interlink polygon EarcutNodes in z-order
-            if (pass==null && invSize!=0) IndexCurve(ear, minX, minY, invSize);
+            if (pass == null && invSize != 0) IndexCurve(ear, minX, minY, invSize);
 
             EarcutNode stop = ear;
             EarcutNode prev, next;
@@ -164,7 +164,7 @@ namespace THREE
                 prev = ear.Prev;
                 next = ear.Next;
 
-                if (invSize!=0 ? IsEarHashed(ear, minX, minY, invSize) : IsEar(ear))
+                if (invSize != 0 ? IsEarHashed(ear, minX, minY, invSize) : IsEar(ear))
                 {
                     // cut off the triangle
                     triangles.Add(prev.I / dim);
@@ -186,7 +186,7 @@ namespace THREE
                 if (ear == stop)
                 {
                     // try filtering points and slicing again
-                    if (pass==null)
+                    if (pass == null)
                     {
                         EarcutLinked(FilterPoints(ear), triangles, dim, minX, minY, invSize, 1);
 
@@ -208,11 +208,11 @@ namespace THREE
                 }
             }
         }
-        public EarcutNode InsertEarcutNode(int i,float x,float y,EarcutNode last)
+        public EarcutNode InsertEarcutNode(int i, float x, float y, EarcutNode last)
         {
             EarcutNode p = new EarcutNode(i, x, y);
 
-            if(last==null)
+            if (last == null)
             {
                 p.Prev = p;
                 p.Next = p;
@@ -297,7 +297,7 @@ namespace THREE
                     if (a.I != b.I && IsValidDiagonal(a, b))
                     {
                         // split the polygon in two by the diagonal
-                        var c =SplitPolygon(a, b);
+                        var c = SplitPolygon(a, b);
 
                         // filter colinear points around the cuts
                         a = FilterPoints(a, a.Next);
@@ -329,7 +329,7 @@ namespace THREE
                 queue.Add(GetLeftmost(list));
             }
 
-            queue.Sort(delegate (EarcutNode a, EarcutNode b) 
+            queue.Sort(delegate (EarcutNode a, EarcutNode b)
             {
                 return (int)(a.X - b.X);
             });
@@ -346,7 +346,7 @@ namespace THREE
         public void EliminateHole(EarcutNode hole, EarcutNode outerEarcutNode)
         {
             outerEarcutNode = FindHoleBridge(hole, outerEarcutNode);
-            if (outerEarcutNode!=null)
+            if (outerEarcutNode != null)
             {
                 var b = SplitPolygon(outerEarcutNode, hole);
 
@@ -386,7 +386,7 @@ namespace THREE
                 p = p.Next;
             } while (p != outerEarcutNode);
 
-            if (m==null) return null;
+            if (m == null) return null;
 
             if (hx == qx) return m; // hole touches outer segment; pick leftmost endpoint
 
@@ -443,7 +443,7 @@ namespace THREE
                 tail = null;
                 numMerges = 0;
 
-                while (p!=null)
+                while (p != null)
                 {
                     numMerges++;
                     q = p;
@@ -452,14 +452,14 @@ namespace THREE
                     {
                         pSize++;
                         q = q.NextZ;
-                        if (q==null) break;
+                        if (q == null) break;
                     }
                     qSize = inSize;
 
-                    while (pSize > 0 || (qSize > 0 && q!=null))
+                    while (pSize > 0 || (qSize > 0 && q != null))
                     {
 
-                        if (pSize != 0 && (qSize == 0 || q==null || p.Z <= q.Z))
+                        if (pSize != 0 && (qSize == 0 || q == null || p.Z <= q.Z))
                         {
                             e = p;
                             p = p.NextZ;
@@ -472,7 +472,7 @@ namespace THREE
                             qSize--;
                         }
 
-                        if (tail!=null) tail.NextZ = e;
+                        if (tail != null) tail.NextZ = e;
                         else list = e;
 
                         e.PrevZ = tail;
@@ -526,14 +526,14 @@ namespace THREE
         {
             return a.Next.I != b.I && a.Prev.I != b.I && !IntersectsPolygon(a, b) && // dones't intersect other edges
                    (LocallyInside(a, b) && LocallyInside(b, a) && MiddleInside(a, b) && // locally visible
-                    (Area(a.Prev, a, b.Prev)>0 || Area(a, b.Prev, b)>0) || // does not create opposite-facing sectors
+                    (Area(a.Prev, a, b.Prev) > 0 || Area(a, b.Prev, b) > 0) || // does not create opposite-facing sectors
                     EarcutNodeEquals(a, b) && Area(a.Prev, a, a.Next) > 0 && Area(b.Prev, b, b.Next) > 0); // special zero-length case
         }
         public bool MiddleInside(EarcutNode a, EarcutNode b)
         {
             EarcutNode p = a;
             bool inside = false;
-            float px = (a.X+ b.X) / 2,
+            float px = (a.X + b.X) / 2,
                  py = (a.Y + b.Y) / 2;
             do
             {
@@ -562,7 +562,7 @@ namespace THREE
             p.Next.Prev = p.Prev;
             p.Prev.Next = p.Next;
 
-            if (p.PrevZ!=null) p.PrevZ.NextZ = p.NextZ;
+            if (p.PrevZ != null) p.PrevZ.NextZ = p.NextZ;
             if (p.NextZ != null) p.NextZ.PrevZ = p.PrevZ;
         }
         public bool IsEar(EarcutNode ear)
@@ -608,7 +608,7 @@ namespace THREE
                 n = ear.NextZ;
 
             // look for points inside the triangle in both directions
-            while (p!=null && p.Z >= minZ && n!=null && n.Z <= maxZ)
+            while (p != null && p.Z >= minZ && n != null && n.Z <= maxZ)
             {
                 if (p != ear.Prev && p != ear.Next &&
                     PointInTriangle(a.X, a.Y, b.X, b.Y, c.X, c.Y, p.X, p.Y) &&
@@ -622,7 +622,7 @@ namespace THREE
             }
 
             // look for remaining points in decreasing z-order
-            while (p!=null && p.Z >= minZ)
+            while (p != null && p.Z >= minZ)
             {
                 if (p != ear.Prev && p != ear.Next &&
                     PointInTriangle(a.X, a.Y, b.X, b.Y, c.X, c.Y, p.X, p.Y) &&
@@ -631,7 +631,7 @@ namespace THREE
             }
 
             // look for remaining points in increasing z-order
-            while (n!=null && n.Z <= maxZ)
+            while (n != null && n.Z <= maxZ)
             {
                 if (n != ear.Prev && n != ear.Next &&
                     PointInTriangle(a.X, a.Y, b.X, b.Y, c.X, c.Y, n.X, n.Y) &&
@@ -657,9 +657,9 @@ namespace THREE
             p.PrevZ = null;
 
             SortLinked(p);
-        
+
         }
-       
+
         public int zOrder(float _x, float _y, float minX, float minY, float invSize)
         {
             // coords are transformed into non-negative 15-bit integer range
@@ -693,7 +693,7 @@ namespace THREE
                 var data2 = data[i];
                 var data3 = data[i + 1];
                 var data4 = data[j + 1];
-                var sum3 = sum1 * sum2; 
+                var sum3 = sum1 * sum2;
                 sum += (data[j] - data[i]) * (data[i + 1] + data[j + 1]);
                 j = i;
             }

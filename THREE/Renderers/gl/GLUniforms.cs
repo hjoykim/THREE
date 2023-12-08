@@ -1,13 +1,15 @@
-﻿using System;
+﻿using OpenTK.Graphics.ES30;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using OpenTK.Graphics.ES30;
-using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
 namespace THREE
 {
-    public class GLUniforms : StructuredUniform 
+    [Serializable]
+    public class GLUniforms : StructuredUniform
     {
         public int Program = 0;
 
@@ -15,6 +17,8 @@ namespace THREE
         {
             UniformKind = "GLUniforms";
         }
+        public GLUniforms(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
         public GLUniforms(string id) : base(id)
         {
             UniformKind = "GLUniforms";
@@ -40,33 +44,33 @@ namespace THREE
 
             int n = 0;
 
-            GL.GetProgram(this.Program, GetProgramParameterName.ActiveUniforms,out n);
+            GL.GetProgram(this.Program, GetProgramParameterName.ActiveUniforms, out n);
 
             for (int i = 0; i < n; i++)
             {
                 int size;
                 ActiveUniformType info;
 
-                string name = GL.GetActiveUniform(program,i,out size, out info);               
+                string name = GL.GetActiveUniform(program, i, out size, out info);
                 var addr = GL.GetUniformLocation(program, name);
 
                 //Debug.WriteLine("Uniform name {0}, position {1}", name, addr);
-                
-                ParseUniform(name, info, size,addr, this);
+
+                ParseUniform(name, info, size, addr, this);
                 //Debug.WriteLine("uniformName:" + name);
             }
-               
+
         }
 
-        private void AddUniform(GLUniforms container,GLUniform uniformObject)
+        private void AddUniform(GLUniforms container, GLUniform uniformObject)
         {
             container.Seq.Add(uniformObject);
             container.Add(uniformObject.Id, uniformObject);
         }
 
-        public void ParseUniform(string name,ActiveUniformType uniformType, int size,int addr, GLUniforms container)
+        public void ParseUniform(string name, ActiveUniformType uniformType, int size, int addr, GLUniforms container)
         {
-            
+
             var path = name;
             var pathLength = name.Length;
             //var RePathPart = /([\w\d_]+)(\])?(\[|\.)?/g;
@@ -81,15 +85,15 @@ namespace THREE
                 int idInt = -1;
                 bool idIsIndex = groups[2].Value.Equals("]");
                 string subscript = groups[3].Value;
-                
+
                 if (idIsIndex) idInt = String.IsNullOrEmpty(id) ? 0 : Convert.ToInt32(id);
                 //g.Value,g.Value.Length+m.Index);
-                if (string.IsNullOrEmpty(subscript) || subscript.Equals("[") && groups[1].Value.Length + m.Index == (pathLength-3))
+                if (string.IsNullOrEmpty(subscript) || subscript.Equals("[") && groups[1].Value.Length + m.Index == (pathLength - 3))
                 {
-                    if(string.IsNullOrEmpty(subscript))
-                        AddUniform(container,new SingleUniform(id, uniformType,addr));
+                    if (string.IsNullOrEmpty(subscript))
+                        AddUniform(container, new SingleUniform(id, uniformType, addr));
                     else
-                        AddUniform(container,new PureArrayUniform(id,uniformType,size,addr));
+                        AddUniform(container, new PureArrayUniform(id, uniformType, size, addr));
 
                     break;
                 }
@@ -123,7 +127,7 @@ namespace THREE
             }
         }
 
-        public void SetValue(string name, object value, GLTextures textures=null)
+        public void SetValue(string name, object value, GLTextures textures = null)
         {
             if (this.ContainsKey(name))
             {
@@ -132,7 +136,7 @@ namespace THREE
                 {
                     (u as SingleUniform).SetValue(value, textures);
                 }
-                else if(u is PureArrayUniform)
+                else if (u is PureArrayUniform)
                 {
                     (u as PureArrayUniform).SetValue(value, textures);
 
@@ -144,7 +148,7 @@ namespace THREE
             }
         }
 
-        public void SetOptional(Hashtable objects,string name)
+        public void SetOptional(Hashtable objects, string name)
         {
             if (objects.ContainsKey(name))
             {
@@ -154,7 +158,7 @@ namespace THREE
             }
         }
 
-        public static void Upload(List<GLUniform> Seq,Hashtable values,GLTextures textures)
+        public static void Upload(List<GLUniform> Seq, GLUniforms values, GLTextures textures)
         {
             for (int i = 0, n = Seq.Count; i != n; ++i)
             {
@@ -172,7 +176,7 @@ namespace THREE
                 //{
                 if (u.UniformKind.Equals("SingleUniform"))
                 {
-                
+
                     (u as SingleUniform).SetValue(v, textures);
 
                     ErrorCode error = GL.GetError();
@@ -207,7 +211,7 @@ namespace THREE
             }
         }
 
-        public static List<GLUniform> SeqWithValue(List<GLUniform> seq,GLUniforms values)
+        public static List<GLUniform> SeqWithValue(List<GLUniform> seq, GLUniforms values)
         {
             List<GLUniform> r = new List<GLUniform>();
 
@@ -218,6 +222,6 @@ namespace THREE
                     r.Add(u);
             }
             return r;
-        }        
+        }
     }
 }

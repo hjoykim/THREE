@@ -1,13 +1,14 @@
 ﻿
 namespace THREE
 {
+    [Serializable]
     public class LineCurve3 : Curve
     {
         public Vector3 V1;
 
         public Vector3 V2;
 
-        public LineCurve3(Vector3 v1=null,Vector3 v2=null) : base()
+        public LineCurve3(Vector3 v1 = null, Vector3 v2 = null) : base()
         {
             V1 = v1 != null ? v1 : new Vector3();
             V2 = v2 != null ? v2 : new Vector3();
@@ -22,11 +23,11 @@ namespace THREE
         {
             return new LineCurve3(this);
         }
-        public override Vector3 GetPoint(float t,Vector3 optionalTarget=null)
+        public override Vector3 GetPoint(float t, Vector3 optionalTarget = null)
         {
             var point = optionalTarget != null ? optionalTarget : new Vector3();
 
-            if(t==1)
+            if (t == 1)
             {
                 point.Copy(this.V2);
             }

@@ -1,6 +1,8 @@
-﻿namespace THREE
+﻿using System;
+
+namespace THREE
 {
-    using System;
+    [Serializable]
     public class PerspectiveCamera : Camera
     {
         public int FilmGauge = 35;
@@ -10,7 +12,7 @@
         public float focus = 10.0f;
 
 
-        public PerspectiveCamera(float fov=50,float aspect=1,float near=0.1f,float far = 2000)
+        public PerspectiveCamera(float fov = 50, float aspect = 1, float near = 0.1f, float far = 2000)
         {
             this.Fov = fov;
             this.Aspect = aspect;
@@ -55,23 +57,23 @@
 
             if (this.View.Enabled)
 
-            {              
+            {
                 left += (float)View.OffsetX * width / (float)View.FullWidth;
                 top -= (float)View.OffsetY * height / (float)View.FullHeight;
                 width *= (float)View.Width / (float)View.FullWidth;
                 height *= (float)View.Height / (float)View.FullHeight;
             }
-            
+
             var skew = this.FilmOffset;
             if (skew != 0) left += near * skew / this.GetFilmWidth();
 
             this.ProjectionMatrix = this.ProjectionMatrix.MakePerspective(left, left + width, top, top - height, near, this.Far);
-            
-		    this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
+
+            this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
 
         }
 
-        public void SetViewOffset(float fullWidth,float fullHeight,float x,float y,float width,float height)
+        public void SetViewOffset(float fullWidth, float fullHeight, float x, float y, float width, float height)
         {
             this.Aspect = fullWidth / (1.0f * fullHeight);
             View.Enabled = true;

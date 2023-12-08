@@ -1,14 +1,15 @@
-﻿using OpenTK.Graphics.ES30;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace THREE
 {
-    public class GLAttribute : Dictionary<object,object>
+    [Serializable]
+    public class GLAttribute : Dictionary<string, object>,IGLAttribute
     {
-        public string Name;
+        public string Name { get; set; }
+        public Type Type { get; set; }
 
-        public VertexAttribPointerType type;
+        //public VertexAttribPointerType type;
 
-        public int bytesPerElement;
+        //public int bytesPerElement;
     }
 }

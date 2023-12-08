@@ -1,9 +1,11 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using THREE;
 
 
 namespace THREE
 {
+    [Serializable]
     public class FlyControls
     {
         public Camera camera;

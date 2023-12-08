@@ -3,6 +3,7 @@ using System;
 
 namespace THREE
 {
+    [Serializable]
     public class GLIndexedBufferRenderer : GLBufferRenderer
     {
         private VertexAttribPointerType type;
@@ -11,7 +12,7 @@ namespace THREE
 
 
 
-        public GLIndexedBufferRenderer(GLRenderer renderer, GLExtensions extensions, GLInfo info, GLCapabilities capabilities) : base(renderer,extensions,info,capabilities)
+        public GLIndexedBufferRenderer(GLRenderer renderer, GLExtensions extensions, GLInfo info, GLCapabilities capabilities) : base(renderer, extensions, info, capabilities)
         {
         }
 
@@ -25,14 +26,14 @@ namespace THREE
             var pointerType = (VertexAttribPointerType)Enum.ToObject(typeof(VertexAttribPointerType), value.Type);
             this.type = pointerType;
 
-            this.bytesPerElement = value.BytesPerElement;    
+            this.bytesPerElement = value.BytesPerElement;
         }
 
         public override void Render(int start, int count)
         {
-            int indices = start*this.bytesPerElement;
-            IntPtr ptr = IntPtr.Add(IntPtr.Zero,indices);
-            
+            int indices = start * this.bytesPerElement;
+            IntPtr ptr = IntPtr.Add(IntPtr.Zero, indices);
+
 
             All mode1 = (All)Enum.ToObject(typeof(All), (int)mode);
             All type1 = (All)Enum.ToObject(typeof(All), (int)type);
@@ -48,7 +49,7 @@ namespace THREE
         {
             if (primcount == 0) return;
 
-            int indices = start*this.bytesPerElement;
+            int indices = start * this.bytesPerElement;
 
             All mode1 = (All)Enum.ToObject(typeof(All), (int)mode);
             All type1 = (All)Enum.ToObject(typeof(All), (int)type);

@@ -2,7 +2,7 @@
 
 namespace THREE
 {
-    
+    [Serializable]
     public abstract class Pass
     {
         public bool Enabled = true;
@@ -10,6 +10,7 @@ namespace THREE
         public bool Clear = false;
         public bool RenderToScreen = false;
 
+        [Serializable]
         // Helper for passes that need to fill the viewport with a single quad.
         public class FullScreenQuad : IDisposable
         {
@@ -29,7 +30,7 @@ namespace THREE
                 }
                 set
                 {
-                    if(_mesh==null)
+                    if (_mesh == null)
                     {
                         _mesh = new Mesh(geometry, value);
                         scene.Add(_mesh);
@@ -40,9 +41,9 @@ namespace THREE
                     }
                 }
             }
-            public FullScreenQuad() 
+            public FullScreenQuad()
             {
-                
+
             }
 
             ~FullScreenQuad()
@@ -52,7 +53,7 @@ namespace THREE
             public FullScreenQuad(Material material)
             {
                 _mesh = new Mesh(geometry, material);
-               
+
                 scene.Add(_mesh);
             }
 
@@ -76,7 +77,7 @@ namespace THREE
                 if (this.disposed) return;
                 try
                 {
-                    if(_mesh!=null)
+                    if (_mesh != null)
                         _mesh.Geometry.Dispose();
                     this.RaiseDisposed();
                     this.disposed = true;
@@ -94,10 +95,10 @@ namespace THREE
         public Pass() { }
 
         public abstract void SetSize(float width, float height);
-        
-        
 
-        public abstract void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime=null, bool? maskActive=null);
+
+
+        public abstract void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime = null, bool? maskActive = null);
 
     }
 }

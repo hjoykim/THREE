@@ -1,6 +1,7 @@
 ﻿
 namespace THREE
 {
+    [Serializable]
     public class Ray
     {
         private Vector3 _vector = Vector3.Zero();
@@ -14,36 +15,36 @@ namespace THREE
         public Vector3 origin;
         public Vector3 direction;
 
-		public Ray(Vector3 origin=null,Vector3 direction = null)
+        public Ray(Vector3 origin = null, Vector3 direction = null)
         {
             this.origin = origin != null ? origin : new Vector3();
-            this.direction = direction != null ? direction : new Vector3(0,0,-1);
+            this.direction = direction != null ? direction : new Vector3(0, 0, -1);
         }
         public Ray(Ray source)
         {
             this.origin.Copy(source.origin);
             this.direction.Copy(source.direction);
         }
-		public Ray Set(Vector3 origin,Vector3 direction)
+        public Ray Set(Vector3 origin, Vector3 direction)
         {
             this.origin.Copy(origin);
             this.direction.Copy(direction);
-			return this;
+            return this;
         }
-		public Ray Clone()
+        public Ray Clone()
         {
-			return new Ray(this);
+            return new Ray(this);
         }
-		public Ray copy(Ray source)
+        public Ray copy(Ray source)
         {
             this.origin.Copy(source.origin);
             this.direction.Copy(source.direction);
             return this;
         }
-		public Vector3 At(float t,Vector3 target=null)
+        public Vector3 At(float t, Vector3 target = null)
         {
             Vector3 result;
-            if(target==null)
+            if (target == null)
             {
                 result = new Vector3();
                 return result.Copy(this.direction).MultiplyScalar(t).Add(this.origin);
@@ -51,17 +52,17 @@ namespace THREE
             else
                 return target.Copy(this.direction).MultiplyScalar(t).Add(this.origin);
         }
-		public Ray LookAt(Vector3 v)
+        public Ray LookAt(Vector3 v)
         {
             this.direction.Copy(v).Sub(this.origin).Normalize();
-			return this;
+            return this;
         }
-		public Ray Recast(float t)
+        public Ray Recast(float t)
         {
             this.origin.Copy(this.At(t, _vector));
-			return this;
+            return this;
         }
-		public Vector3 ClosestPointToPoint(Vector3 point, Vector3 target=null)
+        public Vector3 ClosestPointToPoint(Vector3 point, Vector3 target = null)
         {
             Vector3 result;
             if (target == null)
@@ -74,17 +75,17 @@ namespace THREE
             result.SubVectors(point, this.origin);
             float directionDistance = target.Dot(this.direction);
 
-            if(directionDistance<0)
+            if (directionDistance < 0)
             {
                 return result.Copy(this.origin);
             }
             return result.Copy(this.direction).MultiplyScalar(directionDistance).Add(this.origin);
         }
-		public float DistanceToPoint(Vector3 point)
+        public float DistanceToPoint(Vector3 point)
         {
             return (float)System.Math.Sqrt(this.DistanceSqToPoint(point));
         }
-		public float DistanceSqToPoint(Vector3 point)
+        public float DistanceSqToPoint(Vector3 point)
         {
             float directionDistance = _vector.SubVectors(point, this.origin).Dot(this.direction);
 
@@ -94,9 +95,9 @@ namespace THREE
             }
             _vector.Copy(this.direction).MultiplyScalar(directionDistance).Add(this.origin);
 
-			return _vector.DistanceToSquared(point);
+            return _vector.DistanceToSquared(point);
         }
-		public float DistanceSqToSegment(Vector3 v0,Vector3 v1,Vector3 optionalPointOnRay=null,Vector3 optionalPointOnSegment = null)
+        public float DistanceSqToSegment(Vector3 v0, Vector3 v1, Vector3 optionalPointOnRay = null, Vector3 optionalPointOnSegment = null)
         {
             // from http://www.geometrictools.com/GTEngine/Include/Mathematics/GteDistRaySegment.h
             // It returns the min distance between the ray and the segment
@@ -216,14 +217,14 @@ namespace THREE
 
             }
 
-            if (optionalPointOnRay!=null)
+            if (optionalPointOnRay != null)
             {
 
                 optionalPointOnRay.Copy(this.direction).MultiplyScalar(s0).Add(this.origin);
 
             }
 
-            if (optionalPointOnSegment!=null)
+            if (optionalPointOnSegment != null)
             {
 
                 optionalPointOnSegment.Copy(_segDir).MultiplyScalar(s1).Add(_segCenter);
@@ -232,8 +233,8 @@ namespace THREE
 
             return sqrDist;
         }
-		
-		public Vector3 IntersectSphere(Sphere sphere, Vector3 target)
+
+        public Vector3 IntersectSphere(Sphere sphere, Vector3 target)
         {
             _vector.SubVectors(sphere.Center, this.origin);
             float tca = _vector.Dot(this.direction);
@@ -261,11 +262,11 @@ namespace THREE
             // else t0 is in front of the ray, so return the first collision point scaled by t0
             return this.At(t0, target);
         }
-		public bool IntersectsSphere(Sphere sphere)
+        public bool IntersectsSphere(Sphere sphere)
         {
             return this.DistanceSqToPoint(sphere.Center) <= (sphere.Radius * sphere.Radius);
         }
-		public float? DistanceToPlane(Plane plane)
+        public float? DistanceToPlane(Plane plane)
         {
             float denominator = plane.Normal.Dot(this.direction);
 
@@ -292,7 +293,7 @@ namespace THREE
 
             return t >= 0 ? (float?)t : null;
         }
-		public Vector3 IntersectPlane(Plane plane, Vector3 target)
+        public Vector3 IntersectPlane(Plane plane, Vector3 target)
         {
             float? t = this.DistanceToPlane(plane);
 
@@ -305,7 +306,7 @@ namespace THREE
 
             return this.At(t.Value, target);
         }
-		public bool IntersectsPlane(Plane plane)
+        public bool IntersectsPlane(Plane plane)
         {
             // check if the ray lies on the plane first
 
@@ -331,12 +332,12 @@ namespace THREE
 
             return false;
         }
-		public Vector3 IntersectBox(Box3 box, Vector3 target)
+        public Vector3 IntersectBox(Box3 box, Vector3 target)
         {
             float tmin, tmax, tymin, tymax, tzmin, tzmax;
 
             float invdirx = 1 / this.direction.X;
-            float invdiry = 1 / this.direction.Y;               
+            float invdiry = 1 / this.direction.Y;
             float invdirz = 1 / this.direction.Z;
 
 
@@ -406,11 +407,11 @@ namespace THREE
 
             return this.At(tmin >= 0 ? tmin : tmax, target);
         }
-		public bool IntersectsBox(Box3 box)
+        public bool IntersectsBox(Box3 box)
         {
             return this.IntersectBox(box, _vector) != null;
         }
-		public Vector3 IntersectTriangle(Vector3 a,Vector3 b,Vector3 c,bool backfaceCulling,Vector3 target=null)
+        public Vector3 IntersectTriangle(Vector3 a, Vector3 b, Vector3 c, bool backfaceCulling, Vector3 target = null)
         {
             // Compute the offset origin, edges, and normal.
 
@@ -492,15 +493,15 @@ namespace THREE
             // Ray intersects triangle.
             return this.At(QdN / DdN, target);
         }
-		
-	    public Ray ApplyMatrix4(Matrix4 matrix4)
+
+        public Ray ApplyMatrix4(Matrix4 matrix4)
         {
             this.origin.ApplyMatrix4(matrix4);
             this.direction.TransformDirection(matrix4);
 
             return this;
         }
-	    public bool Equals(Ray ray)
+        public bool Equals(Ray ray)
         {
             return ray.origin.Equals(this.origin) && ray.direction.Equals(this.direction);
         }

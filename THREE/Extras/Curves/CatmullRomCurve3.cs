@@ -25,13 +25,13 @@ using System.Collections.Generic;
 */
 namespace THREE
 {
-
-    class CubicPoly
+    [Serializable]
+    internal class CubicPoly
     {
-        float c0=0;
-        float c1=0;
-        float c2=0;
-        float c3=0;
+        float c0 = 0;
+        float c1 = 0;
+        float c2 = 0;
+        float c3 = 0;
 
         /*
 	     * Compute coefficients for a cubic polynomial
@@ -41,7 +41,7 @@ namespace THREE
 	     *  and
 	     *   p'(0) = t0, p'(1) = t1.
 	     */
-        public void Init(float x0,float x1,float t0,float t1)
+        public void Init(float x0, float x1, float t0, float t1)
         {
             c0 = x0;
             c1 = t0;
@@ -49,14 +49,14 @@ namespace THREE
             c3 = 2 * x0 - 2 * x1 + t0 + t1; c0 = x0;
 
         }
-        public void InitCatmullRom(float x0, float x1, float x2, float x3, float tension )
+        public void InitCatmullRom(float x0, float x1, float x2, float x3, float tension)
         {
 
             Init(x1, x2, tension * (x2 - x0), tension * (x3 - x1));
 
         }
 
-		public void InitNonuniformCatmullRom(float x0, float x1, float x2, float x3, float dt0, float dt1, float dt2 )
+        public void InitNonuniformCatmullRom(float x0, float x1, float x2, float x3, float dt0, float dt1, float dt2)
         {
 
             // compute tangents when parameterized in [t1,t2]
@@ -71,7 +71,7 @@ namespace THREE
 
         }
 
-		public float Calc(float t )
+        public float Calc(float t)
         {
 
             var t2 = t * t;
@@ -81,6 +81,7 @@ namespace THREE
 
         }
     }
+    [Serializable]
     public class CatmullRomCurve3 : Curve
     {
         Vector3 tmp = new Vector3();
@@ -99,7 +100,7 @@ namespace THREE
 
         public float Tension;
 
-        public CatmullRomCurve3(List<Vector3> points=null,bool? closed=null, string curveType=null,float? tension = null)
+        public CatmullRomCurve3(List<Vector3> points = null, bool? closed = null, string curveType = null, float? tension = null)
         {
             this.Points = points != null ? points : new List<Vector3>();
 

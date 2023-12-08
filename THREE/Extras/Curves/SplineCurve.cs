@@ -2,11 +2,12 @@
 
 namespace THREE
 {
+    [Serializable]
     public class SplineCurve : Curve
     {
         public List<Vector3> Points;
 
-        public SplineCurve(List<Vector3> points=null) : base()
+        public SplineCurve(List<Vector3> points = null) : base()
         {
             this.Points = points != null ? points : new List<Vector3>();
         }
@@ -15,7 +16,7 @@ namespace THREE
         {
             this.Points = new List<Vector3>();
 
-            for(int i = 0; i < source.Points.Count; i++)
+            for (int i = 0; i < source.Points.Count; i++)
             {
                 var point = source.Points[i];
                 this.Points.Add((Vector3)point.Clone());

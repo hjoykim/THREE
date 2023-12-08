@@ -27,7 +27,7 @@ namespace THREE
         float Ldistance;
 
         GLControl glControl;
-        public CinematicCamera(GLControl glControl,float fov,float aspect,float near,float far) : base(fov,aspect,near,far)
+        public CinematicCamera(GLControl glControl, float fov, float aspect, float near, float far) : base(fov, aspect, near, far)
         {
             type = "CinematicCamera";
             this.glControl = glControl;
@@ -40,7 +40,7 @@ namespace THREE
                 FragmentShader = depthShader.FragmentShader,
             };
 
-            materialDepth.Uniforms["mNear"]= new GLUniform { { "value", near } };
+            materialDepth.Uniforms["mNear"] = new GLUniform { { "value", near } };
             materialDepth.Uniforms["mFar"] = new GLUniform { { "value", far } };
 
             SetLens();
@@ -48,7 +48,7 @@ namespace THREE
             InitProcessing();
         }
 
-        public void SetLens(float? focalLength=null,int? filmGauge=null,float? fNumber=null,float? coc=null)
+        public void SetLens(float? focalLength = null, int? filmGauge = null, float? fNumber = null, float? coc = null)
         {
             // In case of cinematicCamera, having a default lens set is important
             if (focalLength == null) focalLength = 35;
@@ -79,7 +79,7 @@ namespace THREE
             return -zfar * znear / (depth * (zfar - znear) - zfar);
         }
 
-        public float SmoothStep(float near,float far,float depth)
+        public float SmoothStep(float near, float far, float depth)
         {
             var x = this.Saturate((depth - near) / (far - near));
 
@@ -116,7 +116,7 @@ namespace THREE
 
             this.Ldistance = this.Linearize(1 - this.Sdistance);
 
-            (this.postprocessing["bokeh_uniforms"] as GLUniforms)["focalDepth"] = new GLUniform{ { "value",this.Ldistance} };
+            (this.postprocessing["bokeh_uniforms"] as GLUniforms)["focalDepth"] = new GLUniform { { "value", this.Ldistance } };
         }
 
         public void InitProcessing()
@@ -181,7 +181,7 @@ namespace THREE
 
             }
         }
-        public void RenderCinematic(Scene scene,GLRenderer renderer)
+        public void RenderCinematic(Scene scene, GLRenderer renderer)
         {
             if ((bool)this.postprocessing["enabled"])
             {
@@ -212,7 +212,7 @@ namespace THREE
                 renderer.SetRenderTarget(currentRenderTarget);
 
                 GL.ActiveTexture(TextureUnit.Texture0);
-               
+
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace THREE
 {
+    [Serializable]
     public class Face3 : ICloneable
     {
         public int a;
@@ -37,7 +38,7 @@ namespace THREE
             this.a = a;
             this.b = b;
             this.c = c;
-            this.Normal = normal;           
+            this.Normal = normal;
         }
 
         public Face3(int a, int b, int c, Vector3 normal, Color color, int materialIndex = 0)

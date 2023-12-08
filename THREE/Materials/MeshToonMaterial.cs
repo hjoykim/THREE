@@ -1,5 +1,8 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+    [Serializable]
     public class MeshToonMaterial : Material
     {
 
@@ -39,7 +42,7 @@
             DisplacementBias = 0;
 
             SpecularMap = null;
-            
+
             AlphaMap = null;
 
             Wireframe = false;
@@ -55,8 +58,9 @@
             MorphTargets = false;
 
             MorphNormals = false;
-           
-           
+
+
         }
+        public MeshToonMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

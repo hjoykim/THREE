@@ -1,5 +1,6 @@
 ﻿namespace THREE
 {
+    [Serializable]
     public class SpotLightShadow : LightShadow
     {
         public SpotLightShadow()
@@ -11,7 +12,7 @@
         {
             var fov = 180 / System.Math.PI * 2 * light.Angle;
             var aspect = this.MapSize.X / this.MapSize.Y;
-            var far = light.Distance!=0? light.Distance:Camera.Far;
+            var far = light.Distance != 0 ? light.Distance : Camera.Far;
 
             if (fov != Camera.Fov || aspect != Camera.Aspect || far != Camera.Far)
             {

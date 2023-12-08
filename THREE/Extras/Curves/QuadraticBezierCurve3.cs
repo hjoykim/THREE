@@ -1,5 +1,6 @@
 ﻿namespace THREE
 {
+    [Serializable]
     public class QuadraticBezierCurve3 : Curve
     {
         public Vector3 V0, V1, V2;

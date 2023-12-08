@@ -2,6 +2,7 @@
 
 namespace THREE
 {
+    [Serializable]
     public struct RenderItem
     {
         public int Id;
@@ -23,6 +24,7 @@ namespace THREE
         public DrawRange? Group;
     }
 
+    [Serializable]
     public class GLRenderList
     {
         public List<RenderItem> Opaque = new List<RenderItem>();
@@ -40,7 +42,7 @@ namespace THREE
         {
         }
 
-       
+
         private RenderItem GetNextRenderItem(Object3D object3D, BufferGeometry geometry, Material material, int groupOrder, float z, DrawRange? group)
         {
             RenderItem renderItem;
@@ -50,9 +52,9 @@ namespace THREE
                 renderItem = new RenderItem
                 {
                     Id = object3D.Id,
-                    Object3D=object3D,
-                    Geometry=geometry,
-                    Material=material,
+                    Object3D = object3D,
+                    Geometry = geometry,
+                    Material = material,
                     Program = defaultProgram,
                     GroupOrder = groupOrder,
                     RenderOrder = object3D.RenderOrder,
@@ -65,9 +67,9 @@ namespace THREE
             {
                 renderItem = this.renderItems[this.renderItemsIndex];
                 renderItem.Id = object3D.Id;
-                renderItem.Object3D=object3D;
-                renderItem.Geometry=geometry;
-                renderItem.Material=material;
+                renderItem.Object3D = object3D;
+                renderItem.Geometry = geometry;
+                renderItem.Material = material;
                 renderItem.Program = defaultProgram;
                 renderItem.GroupOrder = groupOrder;
                 renderItem.RenderOrder = object3D.RenderOrder;
@@ -94,9 +96,9 @@ namespace THREE
             RenderItem renderItem = this.GetNextRenderItem(object3D, geometry, material, groupOrder, z, group);
 
             if (material.Transparent == true)
-                this.Transparent.Insert(0,renderItem);
+                this.Transparent.Insert(0, renderItem);
             else
-                this.Opaque.Insert(0,renderItem);
+                this.Opaque.Insert(0, renderItem);
         }
 
         public void Init()
@@ -115,7 +117,7 @@ namespace THREE
         {
             if (this.Opaque.Count > 0)
             {
-                this.Opaque.Sort(delegate (RenderItem a,RenderItem b)
+                this.Opaque.Sort(delegate (RenderItem a, RenderItem b)
                 {
                     if (a.GroupOrder != b.GroupOrder)
                     {
@@ -145,25 +147,31 @@ namespace THREE
             }
             if (this.Transparent.Count > 0)
             {
-                this.Transparent.Sort(delegate(RenderItem a, RenderItem b)
+                this.Transparent.Sort(delegate (RenderItem a, RenderItem b)
                 {
-                    if ( a.GroupOrder != b.GroupOrder ) 
+                    if (a.GroupOrder != b.GroupOrder)
                     {
-		                return a.GroupOrder - b.GroupOrder;
+                        return a.GroupOrder - b.GroupOrder;
 
-	                } else if (a.RenderOrder != b.RenderOrder ) {
+                    }
+                    else if (a.RenderOrder != b.RenderOrder)
+                    {
 
-		                return a.RenderOrder - b.RenderOrder;
+                        return a.RenderOrder - b.RenderOrder;
 
-	                } else if (a.Z != b.Z ) {
+                    }
+                    else if (a.Z != b.Z)
+                    {
 
-		                return (int)(b.Z - a.Z);
+                        return (int)(b.Z - a.Z);
 
-	                } else {
+                    }
+                    else
+                    {
 
-		                return a.Id - b.Id;
+                        return a.Id - b.Id;
 
-	                }
+                    }
                 });
             }
         }

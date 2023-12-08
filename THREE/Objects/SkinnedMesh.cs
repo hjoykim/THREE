@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public class SkinnedMesh : Mesh
     {
         public string BindMode;
@@ -12,7 +14,7 @@ namespace THREE
 
         public Skeleton Skeleton;
 
-        public SkinnedMesh(Geometry geometry, List<Material> material, bool? useVertexTexture = null) : base(geometry,material)
+        public SkinnedMesh(Geometry geometry, List<Material> material, bool? useVertexTexture = null) : base(geometry, material)
         {
             this.type = "SkinnedMesh";
 
@@ -23,21 +25,23 @@ namespace THREE
             this.BindMatrixInverse = Matrix4.Identity();
         }
 
+        public SkinnedMesh(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
         public void Bind(Skeleton skeleton, Matrix4 bindMatrix)
         {
             this.Skeleton = skeleton;
-            
+
             if (bindMatrix == null)
             {
-            
+
                 this.UpdateMatrixWorld(true);
-            
+
                 this.Skeleton.CalculateInverses();
-            
+
                 bindMatrix = this.MatrixWorld;
-            
+
             }
-            
+
             this.BindMatrix.Copy(bindMatrix);
             this.BindMatrixInverse.GetInverse(bindMatrix);
         }
@@ -58,9 +62,9 @@ namespace THREE
                 vector.Y = skinWeight.getY(i);
                 vector.Z = skinWeight.getZ(i);
                 vector.W = skinWeight.getW(i);
-            
+
                 float scale = 1f / vector.ManhattanLength();
-            
+
                 if (scale != float.PositiveInfinity)
                 {
                     vector.MultiplyScalar(scale);
@@ -69,7 +73,7 @@ namespace THREE
                 {
                     vector.Set(1, 0, 0, 0); // do something reasonable
                 }
-            
+
                 skinWeight.setXYZW(i, vector.X, vector.Y, vector.Z, vector.W);
             }
         }
@@ -91,27 +95,27 @@ namespace THREE
             }
         }
 
-        public Vector4 BoneTransform(int index,Vector4 target)
+        public Vector4 BoneTransform(int index, Vector4 target)
         {
             Vector3 basePosition = new Vector3();
             Vector4 skinIndex = new Vector4();
             Vector4 skinWeight = new Vector4();
             Vector4 vector = new Vector4();
             Matrix4 matrix = new Matrix4();
-            
+
             skinIndex.FromBufferAttribute((this.Geometry as BufferGeometry).Attributes["skinIndex"] as BufferAttribute<float>, index);
             skinWeight.FromBufferAttribute((this.Geometry as BufferGeometry).Attributes["skinWeight"] as BufferAttribute<float>, index);
             basePosition.FromBufferAttribute((this.Geometry as BufferGeometry).Attributes["position"] as BufferAttribute<float>, index).ApplyMatrix4(this.BindMatrix);
 
 
             Vector4 basePosition1 = new Vector4();
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 var weight = skinWeight.GetComponent(i);
-                if(weight !=0)
+                if (weight != 0)
                 {
                     int boneIndex = (int)skinIndex.GetComponent(i);
-                    matrix.MultiplyMatrices(Skeleton.Bones[boneIndex].MatrixWorld,Skeleton.BoneInverses[boneIndex]);
+                    matrix.MultiplyMatrices(Skeleton.Bones[boneIndex].MatrixWorld, Skeleton.BoneInverses[boneIndex]);
                     vector.Set(basePosition.X, basePosition.Y, basePosition.Z, 1);
                     target.AddScaledVector(vector.ApplyMatrix4(matrix), weight);
                 }

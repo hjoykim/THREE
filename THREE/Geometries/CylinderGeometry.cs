@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 namespace THREE
 {
+    [Serializable]
     public class CylinderGeometry : Geometry
     {
-        public Hashtable parameters; 
+        public Hashtable parameters;
 
-        public CylinderGeometry(float radiusTop, float radiusBottom ,float height, int? radialSegments=null, int? heightSegments=null, bool? openEnded = null, float? thetaStart = null, float? thetaLength = null)
+        public CylinderGeometry(float radiusTop, float radiusBottom, float height, int? radialSegments = null, int? heightSegments = null, bool? openEnded = null, float? thetaStart = null, float? thetaLength = null)
             : base()
         {
 
@@ -24,11 +25,12 @@ namespace THREE
             };
 
             this.FromBufferGeometry(new CylinderBufferGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength));
-            this.MergeVertices();            
+            this.MergeVertices();
         }
 
     }
 
+    [Serializable]
     public class CylinderBufferGeometry : BufferGeometry
     {
         public float RadiusTop;
@@ -65,14 +67,14 @@ namespace THREE
 
         public Hashtable parameters;
 
-        public CylinderBufferGeometry(float radiusTop, float radiusBottom, float height, int? radialSegments=null, int? heightSegments=null,  bool? openEnded = null, float? thetaStart = null, float? thetaLength = null)
+        public CylinderBufferGeometry(float radiusTop, float radiusBottom, float height, int? radialSegments = null, int? heightSegments = null, bool? openEnded = null, float? thetaStart = null, float? thetaLength = null)
             : base()
         {
             this.RadiusTop = radiusTop;//==0 ? 1:radiusTop;
             this.RadiusBottom = radiusBottom;
             this.Height = height != 0 ? height : 1;
 
-            this.RadialSegments = radialSegments!=null ? (int)System.Math.Floor((decimal)radialSegments) :8;
+            this.RadialSegments = radialSegments != null ? (int)System.Math.Floor((decimal)radialSegments) : 8;
             this.HeightSegments = heightSegments != null ? (int)System.Math.Floor((decimal)heightSegments) : 1;
 
             this.OpenEnded = openEnded != null ? (bool)openEnded : false;
@@ -97,7 +99,7 @@ namespace THREE
 
             if (this.OpenEnded == false)
             {
-                if (this.RadiusTop > 0)  GenerateCap(true);
+                if (this.RadiusTop > 0) GenerateCap(true);
                 if (this.RadiusBottom > 0) GenerateCap(false);
             }
 

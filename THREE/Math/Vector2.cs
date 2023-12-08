@@ -4,28 +4,29 @@ using System.Runtime.CompilerServices;
 
 namespace THREE
 {
+    [Serializable]
     public class Vector2 : IEquatable<Vector2>, INotifyPropertyChanged
     {
         public float X;
 
         public float Y;
 
-       
-        public int Width 
+
+        public int Width
         {
             get
             {
                 return (int)X;
             }
-            set 
+            set
             {
                 X = value;
             }
         }
 
-        public int Height 
+        public int Height
         {
-            get 
+            get
             {
                 return (int)Y;
             }
@@ -49,7 +50,7 @@ namespace THREE
 
         public static Vector2 Zero()
         {
-             return new Vector2(0, 0);
+            return new Vector2(0, 0);
         }
 
         public Vector2 Set(float x, float y)
@@ -222,7 +223,7 @@ namespace THREE
             return this;
         }
 
-        public static Vector2 operator *(Vector2 a,Vector2 b)
+        public static Vector2 operator *(Vector2 a, Vector2 b)
         {
             Vector2 r = new Vector2();
             r.X = a.X * b.X;
@@ -266,8 +267,8 @@ namespace THREE
         {
             Vector2 r = new Vector2();
             r = a * (1 / s);
-            
-            return r ;
+
+            return r;
         }
 
         public Vector2 ApplyMatrix3(Matrix3 m)
@@ -327,7 +328,7 @@ namespace THREE
 
             return this;
         }
-        
+
         public bool Equals(Vector2 v)
         {
             return this.X == v.X && this.Y == v.Y;
@@ -392,7 +393,7 @@ namespace THREE
 
         public float LengthSq()
         {
-            return this.X*this.X+this.Y*this.Y;
+            return this.X * this.X + this.Y * this.Y;
         }
 
         public float Length()
@@ -455,20 +456,20 @@ namespace THREE
             return this.SubVectors(v2, v1).MultiplyScalar(alpha).Add(v1);
         }
 
-        public Vector2 FromArray(float[] array, int? offset=null)
+        public Vector2 FromArray(float[] array, int? offset = null)
         {
             int index = 0;
             if (offset != null) index = offset.Value;
 
             this.X = array[index];
-            this.Y = array[index+1];
+            this.Y = array[index + 1];
 
             return this;
         }
 
-        public float[] ToArray(float[] array=null, int? offset = null)
+        public float[] ToArray(float[] array = null, int? offset = null)
         {
-            
+
             int index = 0;
             if (array == null) array = new float[2];
             if (offset != null) index = offset.Value;

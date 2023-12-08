@@ -5,6 +5,7 @@ using THREE;
 
 namespace THREE
 {
+    [Serializable]
     public class FirstPersonControls
     {
         private Camera camera;

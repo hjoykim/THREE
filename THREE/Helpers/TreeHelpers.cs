@@ -1,17 +1,18 @@
 ﻿namespace THREE
 {
+    [Serializable]
     public class TreeHelpers
     {
         public static LineSegments AxesHelper(int size)
         {
-            float[] vertices = 
+            float[] vertices =
             {
                 0,0,0,size,0,0,
                 0,0,0,0,size,0,
                 0,0,0,0,0,size
             };
 
-            float[] colors = 
+            float[] colors =
             {
                 1,0,0, 1,0.6f,0,
                 0,1,0, 0.6f,1,0,

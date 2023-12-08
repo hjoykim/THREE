@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace THREE
 {
+    [Serializable]
     public class Vector4d : IEquatable<Vector4d>, ICloneable, INotifyPropertyChanged
     {
         public double X;
@@ -21,7 +22,7 @@ namespace THREE
             this.W = 1;
         }
 
-        public Vector4d(double x, double y, double z,double w)
+        public Vector4d(double x, double y, double z, double w)
         {
             this.X = x;
             this.Y = y;
@@ -39,7 +40,7 @@ namespace THREE
             return new Vector4d(1, 1, 1, 1);
         }
 
-        public Vector4d Set(double x, double y, double z,double w)
+        public Vector4d Set(double x, double y, double z, double w)
         {
             this.X = x;
             this.Y = y;
@@ -113,7 +114,7 @@ namespace THREE
 
         public object Clone()
         {
-            return new Vector4d(this.X, this.Y, this.Z,this.W);
+            return new Vector4d(this.X, this.Y, this.Z, this.W);
         }
 
         public Vector4d Copy(Vector4d v)
@@ -354,164 +355,185 @@ namespace THREE
             return r;
         }
 
-        public Vector4d SetAxisAngleFromQuaternion(Quaterniond q ) {
+        public Vector4d SetAxisAngleFromQuaternion(Quaterniond q)
+        {
 
-		    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
+            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
 
-		    // q is assumed to be normalized
+            // q is assumed to be normalized
 
-		    this.W = 2 * System.Math.Acos( q.W );
+            this.W = 2 * System.Math.Acos(q.W);
 
-		    var s = System.Math.Sqrt( 1 - q.W * q.W );
+            var s = System.Math.Sqrt(1 - q.W * q.W);
 
-		    if ( s < 0.0001 ) {
+            if (s < 0.0001)
+            {
 
-			    this.X = 1;
-			    this.Y = 0;
-			    this.Z = 0;
+                this.X = 1;
+                this.Y = 0;
+                this.Z = 0;
 
-		    } else {
+            }
+            else
+            {
 
-			    this.X = q.X / s;
-			    this.Y = q.Y / s;
-			    this.Z = q.Z / s;
+                this.X = q.X / s;
+                this.Y = q.Y / s;
+                this.Z = q.Z / s;
 
-		    }
+            }
 
-		    return this;
+            return this;
 
-	    }
+        }
 
-	    public Vector4d SetAxisAngleFromRotationMatrix(Matrix4d m ) {
+        public Vector4d SetAxisAngleFromRotationMatrix(Matrix4d m)
+        {
 
-		    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/index.htm
+            // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToAngle/index.htm
 
-		    // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+            // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
 
-		    double angle, x, y, z,		// variables for result
-			    epsilon = 0.01f,		// margin to allow for rounding errors
-			    epsilon2 = 0.1f;		// margin to distinguish between 0 and 180 degrees
+            double angle, x, y, z,      // variables for result
+                epsilon = 0.01f,        // margin to allow for rounding errors
+                epsilon2 = 0.1f;        // margin to distinguish between 0 and 180 degrees
 
-			double[] te = m.Elements;
+            double[] te = m.Elements;
 
-			double m11 = te[ 0 ], m12 = te[ 4 ], m13 = te[ 8 ],
-			      m21 = te[ 1 ], m22 = te[ 5 ], m23 = te[ 9 ],
-			      m31 = te[ 2 ], m32 = te[ 6 ], m33 = te[ 10 ];
+            double m11 = te[0], m12 = te[4], m13 = te[8],
+                  m21 = te[1], m22 = te[5], m23 = te[9],
+                  m31 = te[2], m32 = te[6], m33 = te[10];
 
-		    if ( ( System.Math.Abs( m12 - m21 ) < epsilon ) &&
-		         ( System.Math.Abs( m13 - m31 ) < epsilon ) &&
-		         ( System.Math.Abs( m23 - m32 ) < epsilon ) ) {
+            if ((System.Math.Abs(m12 - m21) < epsilon) &&
+                 (System.Math.Abs(m13 - m31) < epsilon) &&
+                 (System.Math.Abs(m23 - m32) < epsilon))
+            {
 
-			    // singularity found
-			    // first check for identity matrix which must have +1 for all terms
-			    // in leading diagonal and zero in other terms
+                // singularity found
+                // first check for identity matrix which must have +1 for all terms
+                // in leading diagonal and zero in other terms
 
-			    if ( ( System.Math.Abs( m12 + m21 ) < epsilon2 ) &&
-			         ( System.Math.Abs( m13 + m31 ) < epsilon2 ) &&
-			         ( System.Math.Abs( m23 + m32 ) < epsilon2 ) &&
-			         ( System.Math.Abs( m11 + m22 + m33 - 3 ) < epsilon2 ) ) {
+                if ((System.Math.Abs(m12 + m21) < epsilon2) &&
+                     (System.Math.Abs(m13 + m31) < epsilon2) &&
+                     (System.Math.Abs(m23 + m32) < epsilon2) &&
+                     (System.Math.Abs(m11 + m22 + m33 - 3) < epsilon2))
+                {
 
-				    // this singularity is identity matrix so angle = 0
+                    // this singularity is identity matrix so angle = 0
 
-				    this.Set( 1, 0, 0, 0 );
+                    this.Set(1, 0, 0, 0);
 
-				    return this; // zero angle, arbitrary axis
+                    return this; // zero angle, arbitrary axis
 
-			    }
+                }
 
-			    // otherwise this singularity is angle = 180
+                // otherwise this singularity is angle = 180
 
-			    angle = System.Math.PI;
+                angle = System.Math.PI;
 
-			    var xx = ( m11 + 1 ) / 2;
-			    var yy = ( m22 + 1 ) / 2;
-			    var zz = ( m33 + 1 ) / 2;
-			    var xy = ( m12 + m21 ) / 4;
-			    var xz = ( m13 + m31 ) / 4;
-			    var yz = ( m23 + m32 ) / 4;
+                var xx = (m11 + 1) / 2;
+                var yy = (m22 + 1) / 2;
+                var zz = (m33 + 1) / 2;
+                var xy = (m12 + m21) / 4;
+                var xz = (m13 + m31) / 4;
+                var yz = (m23 + m32) / 4;
 
-			    if ( ( xx > yy ) && ( xx > zz ) ) {
+                if ((xx > yy) && (xx > zz))
+                {
 
-				    // m11 is the largest diagonal term
+                    // m11 is the largest diagonal term
 
-				    if ( xx < epsilon ) {
+                    if (xx < epsilon)
+                    {
 
-					    x = 0;
-					    y = 0.707106781f;
-					    z = 0.707106781f;
+                        x = 0;
+                        y = 0.707106781f;
+                        z = 0.707106781f;
 
-				    } else {
+                    }
+                    else
+                    {
 
-					    x = System.Math.Sqrt( xx );
-					    y = xy / x;
-					    z = xz / x;
+                        x = System.Math.Sqrt(xx);
+                        y = xy / x;
+                        z = xz / x;
 
-				    }
+                    }
 
-			    } else if ( yy > zz ) {
+                }
+                else if (yy > zz)
+                {
 
-				    // m22 is the largest diagonal term
+                    // m22 is the largest diagonal term
 
-				    if ( yy < epsilon ) {
+                    if (yy < epsilon)
+                    {
 
-					    x = 0.707106781f;
-					    y = 0;
-					    z = 0.707106781f;
+                        x = 0.707106781f;
+                        y = 0;
+                        z = 0.707106781f;
 
-				    } else {
+                    }
+                    else
+                    {
 
-					    y = System.Math.Sqrt( yy );
-					    x = xy / y;
-					    z = yz / y;
+                        y = System.Math.Sqrt(yy);
+                        x = xy / y;
+                        z = yz / y;
 
-				    }
+                    }
 
-			    } else {
+                }
+                else
+                {
 
-				    // m33 is the largest diagonal term so base result on this
+                    // m33 is the largest diagonal term so base result on this
 
-				    if ( zz < epsilon ) {
+                    if (zz < epsilon)
+                    {
 
-					    x = 0.707106781f;
-					    y = 0.707106781f;
-					    z = 0;
+                        x = 0.707106781f;
+                        y = 0.707106781f;
+                        z = 0;
 
-				    } else {
+                    }
+                    else
+                    {
 
-					    z = System.Math.Sqrt( zz );
-					    x = xz / z;
-					    y = yz / z;
+                        z = System.Math.Sqrt(zz);
+                        x = xz / z;
+                        y = yz / z;
 
-				    }
+                    }
 
-			    }
+                }
 
-			    this.Set( x, y, z, angle );
+                this.Set(x, y, z, angle);
 
-			    return this; // return 180 deg rotation
+                return this; // return 180 deg rotation
 
-		    }
+            }
 
-		    // as we have reached here there are no singularities so we can handle normally
+            // as we have reached here there are no singularities so we can handle normally
 
-		    var s = System.Math.Sqrt( ( m32 - m23 ) * ( m32 - m23 ) +
-		                       ( m13 - m31 ) * ( m13 - m31 ) +
-		                       ( m21 - m12 ) * ( m21 - m12 ) ); // used to normalize
+            var s = System.Math.Sqrt((m32 - m23) * (m32 - m23) +
+                               (m13 - m31) * (m13 - m31) +
+                               (m21 - m12) * (m21 - m12)); // used to normalize
 
-		    if ( System.Math.Abs( s ) < 0.001 ) s = 1;
+            if (System.Math.Abs(s) < 0.001) s = 1;
 
-		    // prevent divide by zero, should not happen if matrix is orthogonal and should be
-		    // caught by singularity test above, but I've left it in just in case
+            // prevent divide by zero, should not happen if matrix is orthogonal and should be
+            // caught by singularity test above, but I've left it in just in case
 
-		    this.X = ( m32 - m23 ) / s;
-		    this.Y = ( m13 - m31 ) / s;
-		    this.Z = ( m21 - m12 ) / s;
-		    this.W = System.Math.Acos( ( m11 + m22 + m33 - 1 ) / 2 );
+            this.X = (m32 - m23) / s;
+            this.Y = (m13 - m31) / s;
+            this.Z = (m21 - m12) / s;
+            this.W = System.Math.Acos((m11 + m22 + m33 - 1) / 2);
 
-		    return this;
+            return this;
 
-	    }
-       
+        }
+
         public Vector4d Min(Vector4d v)
         {
             this.X = System.Math.Min(this.X, v.X);
@@ -671,7 +693,7 @@ namespace THREE
             return this;
         }
 
-        public double[] ToArray(double[] array=null, int? offset = null)
+        public double[] ToArray(double[] array = null, int? offset = null)
         {
             int index = 0;
             if (array == null) array = new double[4];

@@ -1,6 +1,9 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class MeshDistanceMaterial : Material
     {
         public Vector3 ReferencePosition = Vector3.Zero();
@@ -26,6 +29,7 @@ namespace THREE
 
             this.Fog = false;
         }
+        public MeshDistanceMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
     }
 }

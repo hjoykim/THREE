@@ -4,6 +4,7 @@ using System.Drawing;
 
 namespace THREE
 {
+    [Serializable]
     public class DataTexture : Texture
     {
         public byte[] byteData;
@@ -11,8 +12,8 @@ namespace THREE
         public int[] intData;
 
         public DataTexture() : base() { }
-        public DataTexture(Bitmap image,int width,int height,int format,int type, int? mapping=null,int? wrapS=null, int? wrapT=null, int? magFilter=null,int? minFilter=null,int? anisotropy=null,int? encoding=null)
-            :base(image,mapping,wrapS,wrapT,magFilter,minFilter,format,type,anisotropy,encoding)       
+        public DataTexture(Bitmap image, int width, int height, int format, int type, int? mapping = null, int? wrapS = null, int? wrapT = null, int? magFilter = null, int? minFilter = null, int? anisotropy = null, int? encoding = null)
+            : base(image, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy, encoding)
         {
 
             this.MagFilter = magFilter != null ? (int)magFilter : Constants.NearestFilter;
@@ -26,6 +27,6 @@ namespace THREE
             this.ImageSize.Height = height;
             this.NeedsUpdate = true;
         }
-           
+
     }
 }

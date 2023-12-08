@@ -1,5 +1,8 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+    [Serializable]
     public class MeshMatcapMaterial : Material
     {
         public Texture Matcap;
@@ -9,5 +12,7 @@
         {
             this.type = "MeshMatcapMaterial";
         }
+
+        public MeshMatcapMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

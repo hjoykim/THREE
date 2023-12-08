@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace THREE
 {
+    [Serializable]
     public class SphericalHarmonics3 : ICloneable
     {
         public List<Vector3> Coefficients = new List<Vector3>();
@@ -14,7 +15,7 @@ namespace THREE
             for (int i = 0; i < 9; i++)
                 Coefficients.Add(Vector3.Zero());
         }
-        
+
         protected SphericalHarmonics3(SphericalHarmonics3 other)
         {
             this.Set(other.Coefficients);

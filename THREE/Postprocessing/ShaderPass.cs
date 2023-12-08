@@ -1,30 +1,34 @@
 ﻿
+using System;
+using THREE.Renderers.Shaders;
+
 namespace THREE
 {
+    [Serializable]
     public class ShaderPass : Pass
     {
         private string textureId;
-        public GLUniforms uniforms;
+        public Uniforms uniforms;
         private ShaderMaterial material;
 
-        public ShaderPass(Material shader,string textureId=null)
+        public ShaderPass(Material shader, string textureId = null)
         {
             this.textureId = textureId != null ? textureId : "tDiffuse";
-            if(shader!=null && shader is ShaderMaterial)
-            {                
+            if (shader != null && shader is ShaderMaterial)
+            {
                 uniforms = (shader as ShaderMaterial).Uniforms;
-                if (textureId!=null && !uniforms.ContainsKey(textureId))
-                    uniforms[textureId] = new GLUniform { { "value", null } };
+                if (textureId != null && !uniforms.ContainsKey(textureId))
+                    uniforms[textureId] = new Uniform { { "value", null } };
                 material = shader as ShaderMaterial;
             }
 
             fullScreenQuad = new Pass.FullScreenQuad(this.material);
         }
-        public override void Render(GLRenderer renderer,GLRenderTarget writeBuffer,GLRenderTarget readBuffer, float? deltaTime=null, bool? maskActive=null)
+        public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime = null, bool? maskActive = null)
         {
-           if(uniforms.ContainsKey(textureId))
+            if (uniforms.ContainsKey(textureId))
             {
-                (uniforms[textureId] as GLUniform)["value"] = readBuffer.Texture;
+                (uniforms[textureId] as Uniform)["value"] = readBuffer.Texture;
             }
 
             fullScreenQuad.material = material;
@@ -44,7 +48,7 @@ namespace THREE
 
         public override void SetSize(float width, float height)
         {
-            
+
         }
     }
 }

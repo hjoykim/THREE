@@ -1,8 +1,9 @@
 ﻿namespace THREE
 {
+    [Serializable]
     public class DataTexture3D : Texture
     {
-         public int Width;
+        public int Width;
         public int Height;
         public int Depth;
 

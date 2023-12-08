@@ -1,8 +1,9 @@
 ﻿namespace THREE
 {
+    [Serializable]
     public struct UniformLocation
     {
-        public GLUniform Uniform;
+        public Uniform Uniform;
         public int Location;
     }
 }

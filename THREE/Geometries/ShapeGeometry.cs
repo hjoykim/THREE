@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace THREE
 {
+    [Serializable]
     public class ShapeGeometry : Geometry
     {
         public Hashtable parameter;
@@ -20,6 +21,7 @@ namespace THREE
         }
     }
 
+    [Serializable]
     public class ShapeBufferGeometry : BufferGeometry
     {
         public Hashtable parameter;
@@ -35,12 +37,12 @@ namespace THREE
 
         int groupCount = 0;
 
-        public ShapeBufferGeometry(Shape shape,float? curveSegments = null) : base()
+        public ShapeBufferGeometry(Shape shape, float? curveSegments = null) : base()
         {
             parameter = new Hashtable()
             {
                 {"shapes",shape },
-                {"curveSegments",curveSegments }               
+                {"curveSegments",curveSegments }
             };
 
             CurveSegments = curveSegments != null ? curveSegments.Value : 12;
@@ -50,16 +52,16 @@ namespace THREE
             this.SetIndex(indices);
 
             BufferAttribute<float> positions = new BufferAttribute<float>(vertices.ToArray(), 3);
-         
+
 
             this.SetAttribute("position", positions);
 
             BufferAttribute<float> normalAttributes = new BufferAttribute<float>(normals.ToArray(), 3);
-          
+
             this.SetAttribute("normal", normalAttributes);
 
             BufferAttribute<float> uvAttributes = new BufferAttribute<float>(uvs.ToArray(), 2);
-           
+
             this.SetAttribute("uv", uvAttributes);
 
         }
@@ -84,7 +86,7 @@ namespace THREE
             }
             else
             {
-                for(int i = 0; i < shapes.Count; i++)
+                for (int i = 0; i < shapes.Count; i++)
                 {
                     AddShape(shapes[i]);
                     this.AddGroup(groupStart, groupCount, i);
@@ -96,18 +98,18 @@ namespace THREE
 
             this.SetIndex(indices);
 
-            BufferAttribute<float> positions = new BufferAttribute<float>(vertices.ToArray(),3);
+            BufferAttribute<float> positions = new BufferAttribute<float>(vertices.ToArray(), 3);
             //positions.ItemSize = 3;
             //positions.Type = typeof(float);
 
             this.SetAttribute("position", positions);
 
-            BufferAttribute<float> normalAttributes = new BufferAttribute<float>(normals.ToArray(),3);
+            BufferAttribute<float> normalAttributes = new BufferAttribute<float>(normals.ToArray(), 3);
             //normalAttributes.ItemSize = 3;
             //normalAttributes.Type = typeof(float);
             this.SetAttribute("normal", normalAttributes);
 
-            BufferAttribute<float> uvAttributes = new BufferAttribute<float>(uvs.ToArray(),2);
+            BufferAttribute<float> uvAttributes = new BufferAttribute<float>(uvs.ToArray(), 2);
             //uvAttributes.ItemSize = 2;
             //uvAttributes.Type = typeof(float);
             this.SetAttribute("uv", uvAttributes);
@@ -120,9 +122,9 @@ namespace THREE
 
             var indexOffset = vertices.Count / 3;
             var points = shape.ExtractPoints(CurveSegments);
-                        
+
             var shapeVertices = (List<Vector3>)points["shape"];
-            var shapeHoles = (List < List < Vector3 >> )points["holes"];
+            var shapeHoles = (List<List<Vector3>>)points["holes"];
 
             // check direction of vertices
 
@@ -131,21 +133,21 @@ namespace THREE
 
                 shapeVertices.Reverse();
 
-            
 
-            for (i = 0, l = shapeHoles.Count; i < l; i++)
-            {
 
-                shapeHole = shapeHoles[i];
-
-                if (ShapeUtils.IsClockWise(shapeHole) == true)
+                for (i = 0, l = shapeHoles.Count; i < l; i++)
                 {
-                    shapeHole.Reverse();
-                    shapeHoles[i] = shapeHole;
+
+                    shapeHole = shapeHoles[i];
+
+                    if (ShapeUtils.IsClockWise(shapeHole) == true)
+                    {
+                        shapeHole.Reverse();
+                        shapeHoles[i] = shapeHole;
+
+                    }
 
                 }
-
-            }
             }
             var faces = ShapeUtils.TriangulateShape(shapeVertices, shapeHoles);
 
@@ -166,8 +168,8 @@ namespace THREE
 
                 var vertex = shapeVertices[i];
 
-                vertices.Add(vertex.X,vertex.Y,vertex.Z);
-                normals.Add(0,0,1);
+                vertices.Add(vertex.X, vertex.Y, vertex.Z);
+                normals.Add(0, 0, 1);
                 uvs.Add(vertex.X, vertex.Y); // world uvs
 
             }

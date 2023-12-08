@@ -5,7 +5,8 @@ using System.Runtime.CompilerServices;
 
 namespace THREE
 {
-    public class Vector3 : IEquatable<Vector3>,INotifyPropertyChanged
+    [Serializable]
+    public class Vector3 : IEquatable<Vector3>, INotifyPropertyChanged
     {
         public float X;
 
@@ -40,7 +41,7 @@ namespace THREE
         }
         public Vector3()
         {
-            this.X = this.Y = this.Z = 0;           
+            this.X = this.Y = this.Z = 0;
         }
 
         public Vector3(float x, float y, float z)
@@ -123,7 +124,7 @@ namespace THREE
 
         public Vector3 Clone()
         {
-            return new Vector3(this.X, this.Y,this.Z);
+            return new Vector3(this.X, this.Y, this.Z);
         }
 
         public Vector3 Copy(Vector3 v)
@@ -253,7 +254,7 @@ namespace THREE
             return this;
         }
 
-        public Vector3 MultiplyVectors(Vector3 a,Vector3 b)
+        public Vector3 MultiplyVectors(Vector3 a, Vector3 b)
         {
             this.X = a.X * b.X;
             this.Y = a.Y * b.Y;
@@ -285,7 +286,7 @@ namespace THREE
             return this.ApplyQuaternion(quaternion.SetFromEuler(euler));
         }
 
-        public Vector3 ApplyAxisAngle(Vector3 axis,float angle)
+        public Vector3 ApplyAxisAngle(Vector3 axis, float angle)
         {
             Quaternion quaternion = new Quaternion();
             return this.ApplyQuaternion(quaternion.SetFromAxisAngle(axis, angle));
@@ -423,7 +424,7 @@ namespace THREE
             return this;
         }
 
-        
+
         public Vector3 DivideScalar(float s)
         {
             return this.MultiplyScalar(1 / s);
@@ -547,9 +548,9 @@ namespace THREE
         }
         public float Dot(Vector3 v)
         {
-            return this.X * v.X + this.Y * v.Y + this.Z*v.Z;
+            return this.X * v.X + this.Y * v.Y + this.Z * v.Z;
         }
-        
+
         public float LengthSq()
         {
             return this.X * this.X + this.Y * this.Y + this.Z * this.Z;
@@ -562,14 +563,14 @@ namespace THREE
 
         public float ManhattanLength()
         {
-            return (float)(System.Math.Abs(this.X) + System.Math.Abs(this.Y)+System.Math.Abs(this.Z));
+            return (float)(System.Math.Abs(this.X) + System.Math.Abs(this.Y) + System.Math.Abs(this.Z));
         }
 
         public Vector3 Normalize()
         {
             return this.DivideScalar(this.Length() != 0 ? this.Length() : 1);
         }
-        
+
         public Vector3 SetLength(float length)
         {
             return this.Normalize().MultiplyScalar(length);
@@ -632,18 +633,18 @@ namespace THREE
 
         public float AngleTo(Vector3 v)
         {
-           var denominator = System.Math.Sqrt( this.LengthSq() * v.LengthSq() );
+            var denominator = System.Math.Sqrt(this.LengthSq() * v.LengthSq());
 
-		    if ( denominator == 0 )
+            if (denominator == 0)
             {
                 throw new Exception("THREE.Math.Vector3: AngleTo() can\'t handle zero length vectors.");
             }
 
-		    float theta = (float)(this.Dot( v ) / denominator);
+            float theta = (float)(this.Dot(v) / denominator);
 
-		    // clamp, to handle numerical problems
+            // clamp, to handle numerical problems
 
-		    return (float)System.Math.Acos(Clamp(theta,-1,1));
+            return (float)System.Math.Acos(Clamp(theta, -1, 1));
         }
 
         public float Clamp(float value, float min, float max)
@@ -735,14 +736,14 @@ namespace THREE
             int index = 0;
             if (offset != null) index = offset.Value;
             int aLen = array.Length - 1;
-            this.X = index<=aLen ? array[index] : float.NaN;
-            this.Y = index<=aLen? array[index + 1] : float.NaN;
-            this.Z = index<=aLen? array[index + 2] : float.NaN;
+            this.X = index <= aLen ? array[index] : float.NaN;
+            this.Y = index <= aLen ? array[index + 1] : float.NaN;
+            this.Z = index <= aLen ? array[index + 2] : float.NaN;
 
             return this;
         }
 
-        public float[] ToArray(float[] array=null, int? offset = null)
+        public float[] ToArray(float[] array = null, int? offset = null)
         {
             int index = 0;
             if (array == null) array = new float[3];

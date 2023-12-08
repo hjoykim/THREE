@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using OpenTK.Graphics.ES30;
+﻿using OpenTK.Graphics.ES30;
+using System.Collections.Generic;
+
 namespace THREE
 {
+    [Serializable]
     public class GLExtensions
     {
         public List<string> ExtensionsName = new List<string>();
@@ -17,7 +19,7 @@ namespace THREE
 
             int value;
 
-            if (Extensions.TryGetValue(name,out value))
+            if (Extensions.TryGetValue(name, out value))
             {
                 return value;
             }

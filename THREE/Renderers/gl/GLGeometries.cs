@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace THREE
 {
+    [Serializable]
     public class GLGeometries
     {
         private Hashtable geometries = new Hashtable();
@@ -16,7 +17,7 @@ namespace THREE
 
         private GLRenderer Renderer;
 
-        public GLGeometries(GLRenderer renderer,GLAttributes attributes, GLInfo info)
+        public GLGeometries(GLRenderer renderer, GLAttributes attributes, GLInfo info)
         {
             this.Attributes = attributes;
 
@@ -24,7 +25,7 @@ namespace THREE
 
             this.Renderer = renderer;
         }
-                
+
 
         public Geometry Get(Object3D obj, Geometry geometry)
         {
@@ -37,7 +38,7 @@ namespace THREE
             {
                 bufferGeometry = null;
             }
-           
+
 
             if (geometry.IsBufferGeometry)
             {
@@ -47,8 +48,8 @@ namespace THREE
             {
                 if ((geometry as Geometry).__bufferGeometry == null)
                 {
-                   geometry.__bufferGeometry = new BufferGeometry().SetFromObject(obj);
-                    
+                    geometry.__bufferGeometry = new BufferGeometry().SetFromObject(obj);
+
                 }
                 bufferGeometry = geometry.__bufferGeometry;
             }
@@ -73,7 +74,7 @@ namespace THREE
 
             foreach (string name in geometryAttributes.Keys)
             {
-                if(geometryAttributes[name] is BufferAttribute<float>)
+                if (geometryAttributes[name] is BufferAttribute<float>)
                     Attributes.Update<float>((BufferAttribute<float>)geometryAttributes[name], BufferTarget.ArrayBuffer);
 
                 if (geometryAttributes[name] is BufferAttribute<int>)

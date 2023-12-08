@@ -2,6 +2,7 @@
 
 namespace THREE
 {
+    [Serializable]
     public class GLRenderLists : Hashtable
     {
         public GLRenderList Get(Scene scene, Camera camera)
@@ -25,7 +26,7 @@ namespace THREE
 
                 if (!cameras.ContainsKey(camera))
                 {
-                    list = new GLRenderList();                    
+                    list = new GLRenderList();
                     cameras.Add(camera, list);
                     this[scene] = cameras;
                 }

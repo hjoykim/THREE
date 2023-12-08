@@ -1,5 +1,6 @@
 ﻿namespace THREE
 {
+    [Serializable]
     public class FontLoader
     {
         public FontLoader()
