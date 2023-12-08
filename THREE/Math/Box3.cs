@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace THREE
 {
+    [Serializable]
     public class Box3 : ICloneable
     {
         public Vector3 Min = new Vector3();
@@ -91,7 +92,7 @@ namespace THREE
         }
 
         public void SetFromBufferAttribute(BufferAttribute<float> attribute)
-        {          
+        {
 
             var minX = float.PositiveInfinity;
             var minY = float.PositiveInfinity;
@@ -382,12 +383,12 @@ namespace THREE
             // finally testing the face normal of the triangle
             // use already existing triangle edge vectors here
             _triangleNormal.CrossVectors(_f0, _f1);
-            axes = new float[]{ _triangleNormal.X, _triangleNormal.Y, _triangleNormal.Z };
+            axes = new float[] { _triangleNormal.X, _triangleNormal.Y, _triangleNormal.Z };
 
             return SatForAxes(axes, _v0, _v1, _v2, _extents);
 
         }
-        public Vector3 ClampPoint(Vector3 point,Vector3 target)
+        public Vector3 ClampPoint(Vector3 point, Vector3 target)
         {
             return target.Copy(point).Clamp(this.Min, this.Max);
         }
@@ -409,7 +410,7 @@ namespace THREE
 
         public Box3 Intersect(Box3 box)
         {
-            this.Min.Max( box.Min);
+            this.Min.Max(box.Min);
             this.Max.Min(box.Max);
 
             if (this.IsEmpty()) this.MakeEmpty();
@@ -455,14 +456,14 @@ namespace THREE
         {
             this.Min.Copy(source.Min);
             this.Max.Copy(source.Max);
-            
+
         }
         public object Clone()
         {
             return new Box3(this);
         }
 
-        public bool SatForAxes(float[] axes, Vector3 v0, Vector3 v1, Vector3 v2, Vector3 extents )
+        public bool SatForAxes(float[] axes, Vector3 v0, Vector3 v1, Vector3 v2, Vector3 extents)
         {
 
             int i, j;

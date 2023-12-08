@@ -2,7 +2,8 @@
 
 namespace THREE
 {
-    public abstract class Vector : ICloneable,IEquatable<Vector>
+    [Serializable]
+    public abstract class Vector : ICloneable, IEquatable<Vector>
     {
         public abstract Vector SetComponent(int index, float value);
 
@@ -75,6 +76,6 @@ namespace THREE
         public abstract object Clone();
 
         public abstract bool Equals(Vector other);
-        
+
     }
 }

@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 
 namespace THREE
 {
+    [Serializable]
     public class Lut
     {
         public Hashtable ColorMapKeywords;
@@ -87,7 +88,7 @@ namespace THREE
                         var minColor = new Color(this.map[j][1]);
                         var maxColor = new Color(this.map[j + 1][1]);
 
-                        var color = minColor.Lerp(maxColor,(float)((i - min) / (max - min)));
+                        var color = minColor.Lerp(maxColor, (float)((i - min) / (max - min)));
 
                         this.lut.Add(color);
 
@@ -226,9 +227,9 @@ namespace THREE
 
             var step = 1.0 / this.n.Value;
 
-            for(var i = 1.0; i >= 0.0; i -= step)
+            for (var i = 1.0; i >= 0.0; i -= step)
             {
-                for(var j = this.map.Count - 1; j >= 0; j--)
+                for (var j = this.map.Count - 1; j >= 0; j--)
                 {
                     if (i < this.map[j][0] && i >= this.map[j - 1][0])
                     {
@@ -252,7 +253,7 @@ namespace THREE
 
             unsafe
             {
-                fixed(byte* ptr = data)
+                fixed (byte* ptr = data)
                 {
                     Bitmap image = new Bitmap(1, this.n.Value, 4, PixelFormat.Format32bppArgb, new IntPtr(ptr));
                     //image.Save(@"sprite.png");

@@ -65,7 +65,7 @@ namespace THREEExample.Learning.Chapter03
 
             InitCameraController();
 
-            textureGrass = TextureLoader.Load("../../../assets/textures/ground/grasslight-big.jpg");
+            textureGrass = TextureLoader.Load("../../../..//assets/textures/ground/grasslight-big.jpg");
             textureGrass.WrapS = Constants.RepeatWrapping;
             textureGrass.WrapT = Constants.RepeatWrapping;
             textureGrass.Repeat.Set(10, 10);

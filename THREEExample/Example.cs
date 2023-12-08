@@ -2,6 +2,7 @@
  * This WinForms project  and Example templates were created by referring to Three.cs( (https://github.com/lathoub/three.cs).  
  * */
 using OpenTK;
+using OpenTK.WinForms;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -10,6 +11,7 @@ using THREE;
 
 namespace THREEExample
 {
+    [Serializable]
     abstract public class Example
     {
         public GLRenderer renderer;

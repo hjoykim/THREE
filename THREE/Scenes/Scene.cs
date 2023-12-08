@@ -1,6 +1,9 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class Scene : Object3D
     {
         public Fog Fog;
@@ -25,10 +28,11 @@ namespace THREE
 
             this.AutoUpdate = true;
         }
+        public Scene(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public virtual void Resize(float width, float height)
         {
 
-        }        
+        }
     }
 }

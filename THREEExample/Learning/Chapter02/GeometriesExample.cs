@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using THREE;
-using Color = THREE.Color;
 using Vector3 = THREE.Vector3;
 
 namespace THREEExample.Learning.Chapter02

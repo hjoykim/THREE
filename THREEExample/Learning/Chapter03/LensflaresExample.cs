@@ -73,7 +73,7 @@ namespace THREEExample.Learning.Chapter03
 
             InitCameraController();
 
-            textureGrass = TextureLoader.Load("../../../assets/textures/ground/grasslight-big.jpg");
+            textureGrass = TextureLoader.Load("../../../../assets/textures/ground/grasslight-big.jpg");
             textureGrass.WrapS = Constants.RepeatWrapping;
             textureGrass.WrapT = Constants.RepeatWrapping;
             textureGrass.Repeat.Set(10, 10);
@@ -138,8 +138,8 @@ namespace THREEExample.Learning.Chapter03
             (spotLight.Shadow.Camera as OrthographicCamera).Bottom = -100;
             spotLight.Shadow.MapSize.Set(2048, 2048);
 
-            var textureFlare0 = TextureLoader.Load("../../../assets/textures/flares/lensflare0.png");
-            var textureFlare3 = TextureLoader.Load("../../../assets/textures/flares/lensflare3.png");
+            var textureFlare0 = TextureLoader.Load("../../../../assets/textures/flares/lensflare0.png");
+            var textureFlare3 = TextureLoader.Load("../../../../assets/textures/flares/lensflare3.png");
 
 
             var flareColor = Color.Hex(0xffaacc);

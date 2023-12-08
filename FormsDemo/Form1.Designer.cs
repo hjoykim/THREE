@@ -37,7 +37,7 @@ namespace FormsDemo
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.glControl = new OpenTK.GLControl();
+            this.glControl = new GLControl();
             this.statusStrip2 = new System.Windows.Forms.StatusStrip();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -130,7 +130,7 @@ namespace FormsDemo
             this.glControl.Name = "glControl";
             this.glControl.Size = new System.Drawing.Size(646, 404);
             this.glControl.TabIndex = 1;
-            this.glControl.VSync = false;
+            //this.glControl.VSync = false;
             this.glControl.Load += new System.EventHandler(this.glControl_Load);
             this.glControl.Paint += new System.Windows.Forms.PaintEventHandler(this.glControl_Paint);
             this.glControl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.glControl_KeyDown);
@@ -176,7 +176,7 @@ namespace FormsDemo
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private OpenTK.GLControl glControl;
+        private GLControl glControl;
         private System.Windows.Forms.StatusStrip statusStrip2;
     }
 }

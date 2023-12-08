@@ -2,11 +2,11 @@
 
 namespace THREE
 {
-    
+    [Serializable]
     public class GLRenderState
     {
         private List<Light> lightsArray = new List<Light>();
-        
+
         private List<Light> shadowsArray = new List<Light>();
 
         private GLLights lights = new GLLights();
@@ -37,7 +37,7 @@ namespace THREE
 
         public void SetupLights(Camera camera)
         {
-            lights.Setup(lightsArray,camera);
+            lights.Setup(lightsArray, camera);
         }
 
         public void PushLight(Light light)

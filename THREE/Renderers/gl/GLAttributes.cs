@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace THREE
 {
+    [Serializable]
     public class BufferType
     {
         public int buffer;
@@ -16,6 +17,8 @@ namespace THREE
         public int Version;
 
     }
+
+    [Serializable]
     public class GLAttributes : Dictionary<object, object>
     {
         // buffers = this
@@ -23,11 +26,11 @@ namespace THREE
         public GLAttributes()
         {
         }
-        
+
         public BufferType CreateBuffer<T>(BufferAttribute<T> attribute, BufferTarget bufferType)
         {
             var array = attribute.Array;
-            BufferUsageHint usage = attribute.Usage;
+            BufferUsageHint usage = (BufferUsageHint)attribute.Usage;
 
             int buffer;
 
@@ -37,11 +40,11 @@ namespace THREE
 
             GL.GenBuffers(1, out buffer);
             GL.BindBuffer(bufferType, buffer);
-           
-            
-            if (attribute.Type==typeof(float))
+
+
+            if (attribute.Type == typeof(float))
             {
-                GL.BufferData(bufferType,(array.Length*sizeof(float)),array as float[],usage);               
+                GL.BufferData(bufferType, (array.Length * sizeof(float)), array as float[], usage);
                 type = (int)VertexAttribPointerType.Float;
                 bytePerElement = sizeof(float);
             }
@@ -51,7 +54,7 @@ namespace THREE
                 type = (int)VertexAttribPointerType.UnsignedInt;
                 bytePerElement = sizeof(int);
             }
-            else if (attribute.Type==typeof(uint))
+            else if (attribute.Type == typeof(uint))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(uint)), array as uint[], usage);
                 type = (int)VertexAttribPointerType.UnsignedInt;
@@ -69,7 +72,7 @@ namespace THREE
                 type = (int)VertexAttribPointerType.UnsignedShort;
                 bytePerElement = sizeof(short);
             }
- 
+
 
             return new BufferType { buffer = buffer, Type = type, BytesPerElement = bytePerElement, Version = attribute.Version };
         }
@@ -130,7 +133,7 @@ namespace THREE
 
             }
         }
-                
+
         public BufferType Get<T>(object attribute)
         {
             //if(!this.ContainsKey(attribute))
@@ -140,25 +143,26 @@ namespace THREE
             if (attribute is InterleavedBufferAttribute<T>) attribute = (attribute as InterleavedBufferAttribute<T>).Data;
 
 
-            return this.ContainsKey(attribute) ? (BufferType )this[attribute] : null;
+            return this.ContainsKey(attribute) ? (BufferType)this[attribute] : null;
         }
 
         //public void Remove(string attribute)
         //{
         //    this.Remove(attribute);
         //}
-        public void UpdateBufferAttribute(GLBufferAttribute attribute,BufferTarget bufferType)
+        public void UpdateBufferAttribute(GLBufferAttribute attribute, BufferTarget bufferType)
         {
             BufferType cached = this[attribute] as BufferType;
-            if (cached != null || cached.Version < attribute.Version) {               
+            if (cached != null || cached.Version < attribute.Version)
+            {
                 this.Add(attribute, new BufferType { buffer = attribute.Buffer, Type = attribute.Type, BytesPerElement = attribute.ElementSize, Version = attribute.Version });
             }
         }
         public void Update<T>(BufferAttribute<T> attribute, BufferTarget bufferType)
         {
-            if (attribute is InterleavedBufferAttribute<T>)       
+            if (attribute is InterleavedBufferAttribute<T>)
                 attribute = (attribute as InterleavedBufferAttribute<T>).Data;
-            
+
 
             BufferType data = this.Get<T>(attribute);
 
@@ -170,7 +174,7 @@ namespace THREE
             {
                 this.Add(attribute, CreateBuffer(attribute, bufferType));
             }
-            else if(data.Version < attribute.Version)
+            else if (data.Version < attribute.Version)
             {
                 UpdateBuffer<T>(data.buffer, attribute, bufferType);
                 //BufferType data = (BufferType)this[attribute];

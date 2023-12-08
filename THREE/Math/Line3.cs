@@ -1,6 +1,7 @@
 ﻿
 namespace THREE
 {
+    [Serializable]
     public class Line3
     {
         public Vector3 Start = Vector3.Zero();
@@ -30,13 +31,13 @@ namespace THREE
             return (this.Start + this.End) * 0.5f;
         }
 
-        public Vector3 Delta(Vector3 target=null)
+        public Vector3 Delta(Vector3 target = null)
         {
             if (target == null)
             {
                 target = new Vector3();
             }
-            return target.SubVectors(this.End,this.Start);
+            return target.SubVectors(this.End, this.Start);
         }
 
         public float DistanceSq()
@@ -54,7 +55,7 @@ namespace THREE
             return (this.Delta() * t) + this.Start;
         }
 
-        public float ClosestPointToPointParameter(Vector3 point, bool clampToLine=false)
+        public float ClosestPointToPointParameter(Vector3 point, bool clampToLine = false)
         {
             var startP = point - this.Start;
             var startEnd = this.End - this.Start;
@@ -71,7 +72,7 @@ namespace THREE
             return t;
         }
 
-        public Vector3 ClosestPointToPoint(Vector3 point, bool clampToLine=false,Vector3 target=null)
+        public Vector3 ClosestPointToPoint(Vector3 point, bool clampToLine = false, Vector3 target = null)
         {
             var t = this.ClosestPointToPointParameter(point, clampToLine);
 

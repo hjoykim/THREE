@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace THREE
 {
+    [Serializable]
     public class GLMultiview
     {
         public int DEFAULT_NUMVIEWS = 2;
@@ -36,7 +37,7 @@ namespace THREE
             this.extensions = renderer.extensions;
             this.properties = renderer.properties;
             this.renderer = renderer;
-           
+
         }
 
         public bool IsAvailable()
@@ -88,7 +89,7 @@ namespace THREE
                 uniforms["projectionMatrices"] = mat4;
             else
                 uniforms.Add("projectionMatrices", mat4);
-            
+
         }
 
         public void UpdateCameraViewMatricesUniform(Camera camera, Hashtable uniforms)

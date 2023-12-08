@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace THREE
 {
+    [Serializable]
     public class Box2 : ICloneable
     {
         public Vector2 Max;
@@ -11,9 +12,9 @@ namespace THREE
 
         public Box2(Vector2 min = null, Vector2 max = null)
         {
-            this.Min = ( min != null) ? min : new Vector2(float.PositiveInfinity,float.PositiveInfinity);
+            this.Min = (min != null) ? min : new Vector2(float.PositiveInfinity, float.PositiveInfinity);
 
-	        this.Max = ( max != null ) ? max : new Vector2(float.NegativeInfinity,float.NegativeInfinity );
+            this.Max = (max != null) ? max : new Vector2(float.NegativeInfinity, float.NegativeInfinity);
         }
 
         protected Box2(Box2 source)
@@ -36,7 +37,7 @@ namespace THREE
         {
             MakeEmpthy();
 
-            for (int i = 0; i< points.Length; i++)
+            for (int i = 0; i < points.Length; i++)
             {
 
                 this.ExpandByPoint(points[i]);
@@ -85,20 +86,20 @@ namespace THREE
 
         public Vector2 GetCenter(Vector2 target)
         {
-             if(this.IsEmpty())
-                 target.Set(0, 0);
-             else
-                 target.AddVectors(this.Min, this.Max).MultiplyScalar(0.5f);
+            if (this.IsEmpty())
+                target.Set(0, 0);
+            else
+                target.AddVectors(this.Min, this.Max).MultiplyScalar(0.5f);
 
-             return target;
+            return target;
         }
 
         public Vector2 GetSize(Vector2 target)
         {
-            if(IsEmpty())
-                target.Set(0,0);
+            if (IsEmpty())
+                target.Set(0, 0);
             else
-                target.SubVectors(this.Max,this.Min);
+                target.SubVectors(this.Max, this.Min);
 
             return target;
         }
@@ -139,7 +140,7 @@ namespace THREE
             this.Min.Y <= box.Min.Y && box.Max.Y <= this.Max.Y;
         }
 
-        public Vector2 GetParameter(Vector2 point,Vector2 target)
+        public Vector2 GetParameter(Vector2 point, Vector2 target)
         {
             return target.Set(
             (point.X - this.Min.X) / (this.Max.X - this.Min.X),

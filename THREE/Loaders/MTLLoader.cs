@@ -7,8 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace THREE
 {
-   
-   
+    [Serializable]
     public class MTLLoader
     {
         public struct MaterialCreatorOptions
@@ -24,6 +23,7 @@ namespace THREE
             public bool? invertTrproperty;
         }
 
+        [Serializable]
         public struct MaterialInfo
         {
             public List<int> Ks;
@@ -53,6 +53,7 @@ namespace THREE
             public int? Tr;
         }
 
+        [Serializable]
         public struct TexParams
         {
             public Vector2 Scale;
@@ -79,11 +80,11 @@ namespace THREE
 
             creator.Preload();
 
-            if(creator.Materials!=null && creator.Materials.Count>0)
+            if (creator.Materials != null && creator.Materials.Count > 0)
             {
-                foreach(string key in creator.Materials.Keys)
+                foreach (string key in creator.Materials.Keys)
                 {
-                    if(!MultiMaterialCreator.Materials.ContainsKey(key))
+                    if (!MultiMaterialCreator.Materials.ContainsKey(key))
                     {
                         MultiMaterialCreator.Materials[key] = creator.Materials[key];
                     }
@@ -95,19 +96,19 @@ namespace THREE
         }
 
         public MTLLoader.MaterialCreator Parse(string filepath)
-        {           
+        {
 
             var textAll = File.ReadAllText(filepath);
 
             var lines = textAll.Split('\n');
 
-            Hashtable info=null;
+            Hashtable info = null;
 
             var delimiter_pattern = @"\s+";
 
             var materialsInfo = new Hashtable();
 
-            for(int i = 0; i < lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
                 var line = lines[i].Trim();
 
@@ -121,7 +122,7 @@ namespace THREE
 
                 var value = (pos >= 0) ? line.Substring(pos + 1) : "";
 
-                if(key=="newmtl")
+                if (key == "newmtl")
                 {
                     info = new Hashtable();
                     info.Add("name", value);
@@ -129,7 +130,7 @@ namespace THREE
                 }
                 else
                 {
-                    if(key=="ka" || key=="kd" || key=="ks" || key=="ke")
+                    if (key == "ka" || key == "kd" || key == "ks" || key == "ke")
                     {
                         //value = value.Substring(3).Trim();
                         value = (pos >= 0) ? line.Substring(pos - 1) : "";
@@ -151,12 +152,12 @@ namespace THREE
 
             return materialCreator;
         }
-        
+
         public void SetMaterialOptions(MaterialCreatorOptions value)
         {
             this.MaterialOptions = value;
         }
-
+        [Serializable]
         public class MaterialCreator
         {
             public string FilePath;
@@ -181,7 +182,7 @@ namespace THREE
             {
 
             }
-            public MaterialCreator(string path,MaterialCreatorOptions? options=null)
+            public MaterialCreator(string path, MaterialCreatorOptions? options = null)
             {
                 FilePath = System.IO.Path.GetDirectoryName(path);
 
@@ -210,7 +211,7 @@ namespace THREE
 
                 Hashtable Converted = new Hashtable();
 
-                foreach(string mn in materialsInfo.Keys)
+                foreach (string mn in materialsInfo.Keys)
                 {
                     var mat = materialsInfo[mn] as Hashtable;
 
@@ -218,25 +219,25 @@ namespace THREE
 
                     Converted[mn] = covmat;
 
-                    foreach(string prop in mat.Keys)
+                    foreach (string prop in mat.Keys)
                     {
                         var save = true;
                         var value = mat[prop] as float[];
                         var lprop = prop.ToLower();
 
-                        switch(lprop)
+                        switch (lprop)
                         {
                             case "kd":
                             case "ka":
                             case "ks":
-                                if(this.Options!=null && this.Options.Value.NormalizeRGB!=null && this.Options.Value.NormalizeRGB.Value)
+                                if (this.Options != null && this.Options.Value.NormalizeRGB != null && this.Options.Value.NormalizeRGB.Value)
                                 {
                                     value = new float[3] { value[0] / 255.0f, value[1] / 255.0f, value[2] / 255.0f };
                                 }
 
-                                if(this.Options!=null && this.Options.Value.ignoreZeroRGBs!=null && this.Options.Value.ignoreZeroRGBs.Value)
+                                if (this.Options != null && this.Options.Value.ignoreZeroRGBs != null && this.Options.Value.ignoreZeroRGBs.Value)
                                 {
-                                    if(value[0]==0 && value[1]==0 && value[2] == 0)
+                                    if (value[0] == 0 && value[1] == 0 && value[2] == 0)
                                     {
                                         save = false;
                                     }
@@ -258,7 +259,7 @@ namespace THREE
 
             public void Preload()
             {
-                foreach(string mn in this.MaterialsInfo.Keys)
+                foreach (string mn in this.MaterialsInfo.Keys)
                 {
                     this.Create(mn);
                 }
@@ -274,7 +275,7 @@ namespace THREE
 
                 MaterialsArray.Clear();
 
-                foreach(string mn in this.MaterialsInfo.Keys)
+                foreach (string mn in this.MaterialsInfo.Keys)
                 {
                     this.MaterialsArray.Add(this.Create(mn));
                     this.NameLookup[mn] = index;
@@ -302,7 +303,7 @@ namespace THREE
                         {"side",this.Side }
                     };
 
-                foreach(string prop in mat.Keys)
+                foreach (string prop in mat.Keys)
                 {
                     var value = mat[prop];
                     float n;
@@ -322,7 +323,7 @@ namespace THREE
                             parameter["emissive"] = new Color().FromArray((float[])value);
                             break;
                         case "map_kd":
-                            SetMapForType(parameter,"map", value);
+                            SetMapForType(parameter, "map", value);
                             break;
                         case "map_ks":
                             SetMapForType(parameter, "specularMap", value);
@@ -334,7 +335,7 @@ namespace THREE
                             SetMapForType(parameter, "normalMap", value);
                             break;
                         case "map_bump":
-                        case"bump":
+                        case "bump":
                             SetMapForType(parameter, "bumpMap", value);
                             break;
                         case "map_d":
@@ -349,7 +350,7 @@ namespace THREE
                             if (n < 1)
                             {
                                 parameter["opacity"] = n;
-                                parameter["transparent"] = true;                                
+                                parameter["transparent"] = true;
                             }
                             break;
                         case "tr":
@@ -365,19 +366,19 @@ namespace THREE
                             break;
                         default:
                             break;
-                    }                    
+                    }
                 }
 
                 this.Materials[materialName] = new MeshPhongMaterial(parameter);
 
                 return this.Materials[materialName] as Material;
             }
-            private void SetMapForType(Hashtable parameter,string mapType,object value)
+            private void SetMapForType(Hashtable parameter, string mapType, object value)
             {
                 if (parameter.ContainsKey(mapType)) return;
 
                 var texParams = GetTextureParams((string)value, parameter);
-                var map = LoadTexture(System.IO.Path.Combine(FilePath,(string)texParams["url"]));
+                var map = LoadTexture(System.IO.Path.Combine(FilePath, (string)texParams["url"]));
 
                 map.Repeat.Copy((Vector2)texParams["scale"]);
                 map.Offset.Copy((Vector2)texParams["offset"]);
@@ -386,9 +387,9 @@ namespace THREE
                 map.WrapT = this.Wrap;
 
                 parameter[mapType] = map;
-                
+
             }
-            private Hashtable GetTextureParams(string value,Hashtable matParams)
+            private Hashtable GetTextureParams(string value, Hashtable matParams)
             {
                 var texParams = new Hashtable()
                 {
@@ -398,10 +399,10 @@ namespace THREE
 
                 string pattern = @"\s+";
                 List<String> items = System.Text.RegularExpressions.Regex.Split(value, pattern).ToList();
-                int pos =-1;
-                for(int i = 0; i < items.Count; i++)
+                int pos = -1;
+                for (int i = 0; i < items.Count; i++)
                 {
-                    if(items[i].IndexOf("-bm")>-1)
+                    if (items[i].IndexOf("-bm") > -1)
                     {
                         pos = i;
                         break;
@@ -446,19 +447,19 @@ namespace THREE
                     items.Splice(pos, 4);
                 }
 
-                texParams["url"] = String.Join(" ",items).Trim();
+                texParams["url"] = String.Join(" ", items).Trim();
 
                 return texParams;
             }
 
-            public Texture LoadTexture(string filePath,int? mapping=null)
+            public Texture LoadTexture(string filePath, int? mapping = null)
             {
                 Texture texture = TextureLoader.Load(filePath);
 
                 if (mapping != null) texture.Mapping = mapping.Value;
 
                 return texture;
-                
+
             }
         }
     }

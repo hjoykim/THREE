@@ -4,20 +4,21 @@ using System.Diagnostics;
 
 namespace THREE
 {
+    [Serializable]
     public class UniformsUtils
     {
-        public static GLUniforms CloneUniforms(GLUniforms src)
+        public static Uniforms CloneUniforms(Uniforms src)
         {
-            return GLUniforms.Copy(src);
+            return src.Copy(src);
         }
 
-        public static GLUniforms Merge(List<GLUniforms> uniforms)
+        public static Uniforms Merge(List<Uniforms> uniforms)
         {
-            var merged = new GLUniforms();
+            var merged = new Uniforms();
 
             foreach (var uniform in uniforms)
             {
-                foreach (DictionaryEntry entry in uniform)
+                foreach (var entry in uniform)
                 {
                     if (merged.ContainsKey(entry.Key))
                     {

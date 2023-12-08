@@ -4,10 +4,11 @@ using System.Windows.Forms;
 
 namespace THREE
 {
+    [Serializable]
     public class DragControls : IDisposable
     {
         Plane _plane = new Plane();
-        Raycaster _raycaster = new Raycaster();       
+        Raycaster _raycaster = new Raycaster();
         Vector3 _offset = new Vector3();
         Vector3 _intersection = new Vector3();
         Vector3 _worldPosition = new Vector3();
@@ -35,7 +36,7 @@ namespace THREE
 
         public event EventHandler<EventArgs> Disposed;
 
-        public DragControls(Control glControl,List<Object3D> objects,Camera camera)
+        public DragControls(Control glControl, List<Object3D> objects, Camera camera)
         {
             this.glControl = glControl;
             this.objects = objects;
@@ -43,7 +44,7 @@ namespace THREE
 
             Activate();
         }
-        
+
         private void Activate()
         {
             this.glControl.MouseMove += OnPointerMove;
@@ -93,7 +94,7 @@ namespace THREE
         }
 
         private void OnPointerDown(object sender, MouseEventArgs e)
-        {          
+        {
             mouse.X = e.X * 1.0f / (sender as Control).Width * 2 - 1.0f;
             mouse.Y = -e.Y * 1.0f / (sender as Control).Height * 2 + 1.0f;
 
@@ -128,7 +129,7 @@ namespace THREE
         {
             if (Enabled == false) return;
 
-            mouse.X = e.X * 1.0f  / (sender as Control).Width * 2 - 1.0f;
+            mouse.X = e.X * 1.0f / (sender as Control).Width * 2 - 1.0f;
             mouse.Y = -e.Y * 1.0f / (sender as Control).Height * 2 + 1.0f;
 
             _raycaster.SetFromCamera(mouse, camera);
@@ -140,12 +141,12 @@ namespace THREE
                 {
 
                     _selected.Position.Copy(_intersection.Sub(_offset).ApplyMatrix4(_inverseMatrix));
-                    
+
                 }
                 if (Drag != null)
                     Drag(_selected);
                 return;
-            }           
+            }
 
             _intersections.Clear();
             _raycaster.SetFromCamera(mouse, camera);
@@ -174,7 +175,7 @@ namespace THREE
                     if (HoverOn != null)
                     {
                         HoverOn(object3d);
-                    }                   
+                    }
 
                     _hovered = object3d;
                 }
@@ -188,11 +189,11 @@ namespace THREE
                     if (HoverOff != null)
                     {
                         HoverOff(_hovered);
-                    }                    
+                    }
                     _hovered = null;
                 }
             }
-        }   
+        }
 
         private void Deactivate()
         {
@@ -218,7 +219,7 @@ namespace THREE
 
         private bool disposed;
 
-        
+
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed) return;

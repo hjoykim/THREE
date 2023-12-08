@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 
 namespace THREE
 {
+    [Serializable]
     public struct RGBA
     {
         public byte B;
@@ -11,9 +12,10 @@ namespace THREE
         public byte R;
         public byte A;
     }
+    [Serializable]
     public static class ImageExtension
     {
-         public static byte[] GetTextureImage(this Bitmap image)
+        public static byte[] GetTextureImage(this Bitmap image)
         {
             List<byte> pixels = new List<byte>();
             BitmapData imageData = null;

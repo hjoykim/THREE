@@ -1,5 +1,8 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+	[Serializable]
     public class BokehShader : ShaderMaterial
     {
         public BokehShader() : base()
@@ -7,14 +10,14 @@
             Defines.Add("DEPTH_PACKING", "1");
             Defines.Add("PERSPECTIVE_CAMERA", "1");
 
-            Uniforms.Add("tColor", new GLUniform { { "value", null } });
-            Uniforms.Add("tDepth", new GLUniform { { "value", null } });
-		    Uniforms.Add("focus", new GLUniform{ {"value", 1.0f }});
-            Uniforms.Add("aspect", new GLUniform { { "value", 1.0f } });
-	        Uniforms.Add("aperture", new GLUniform { { "value", 0.025f } });
-	        Uniforms.Add("maxblur", new GLUniform { { "value", 0.01f } });
-	        Uniforms.Add("nearClip", new GLUniform { { "value", 1.0f } });
-	        Uniforms.Add("farClip", new GLUniform { { "value", 1000.0f } });
+            Uniforms.Add("tColor", new Uniform { { "value", null } });
+            Uniforms.Add("tDepth", new Uniform { { "value", null } });
+            Uniforms.Add("focus", new Uniform { { "value", 1.0f } });
+            Uniforms.Add("aspect", new Uniform { { "value", 1.0f } });
+            Uniforms.Add("aperture", new Uniform { { "value", 0.025f } });
+            Uniforms.Add("maxblur", new Uniform { { "value", 0.01f } });
+            Uniforms.Add("nearClip", new Uniform { { "value", 1.0f } });
+            Uniforms.Add("farClip", new Uniform { { "value", 1000.0f } });
 
 
             VertexShader = @"
@@ -138,5 +141,7 @@
 ";
 
         }
+
+        public BokehShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

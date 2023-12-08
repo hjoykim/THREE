@@ -4,6 +4,7 @@ using System.Collections;
 
 namespace THREE
 {
+    [Serializable]
     public class GLObjects
     {
         public Hashtable UpdateList = new Hashtable();

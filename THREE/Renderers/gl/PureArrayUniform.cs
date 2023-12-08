@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public class PureArrayUniform : GLUniform
     {
         public int Size = 0;
@@ -14,12 +16,13 @@ namespace THREE
 
         private Hashtable arrayCacheI32 = new Hashtable();
 
-        public PureArrayUniform()  
+        public PureArrayUniform()
         {
             UniformKind = "PureArrayUniform";
         }
+        public PureArrayUniform(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public PureArrayUniform(string id, ActiveUniformType type, int size, int addr) :this()
+        public PureArrayUniform(string id, ActiveUniformType type, int size, int addr) : this()
         {
             this.Id = id;
 
@@ -27,9 +30,9 @@ namespace THREE
 
             this.Size = size;
 
-            this.UniformType = type;        
+            this.UniformType = type;
         }
-       
+
         public void UpdateCache(object[] data)
         {
             this.Cache = data.ToList();
@@ -54,8 +57,8 @@ namespace THREE
 
         public void SetValue(Vector2 v)
         {
-            GL.Uniform2(this.Addr, v.X,v.Y);
-           
+            GL.Uniform2(this.Addr, v.X, v.Y);
+
         }
 
         public void SetValue(Vector3 v)
@@ -65,16 +68,16 @@ namespace THREE
 
         public void SetValue(Vector2[] v) // setValueV2fArray
         {
-            int size = v.Length*2;
+            int size = v.Length * 2;
 
             float[] r = new float[size];
 
-            for(int i=0,j=0;i<size;i+=2,j++)
+            for (int i = 0, j = 0; i < size; i += 2, j++)
             {
                 r[i] = v[j].X;
-                r[i+1] = v[j].Y;
+                r[i + 1] = v[j].Y;
             }
-            GL.Uniform2(this.Addr, size/2, r);
+            GL.Uniform2(this.Addr, size / 2, r);
         }
 
         public void SetValue(Vector3[] v)// setValueV3fArray
@@ -92,14 +95,14 @@ namespace THREE
 
             GL.Uniform3(this.Addr, v.Length, r);
         }
-        
+
         public void SetValue(Color[] v)
         {
             int size = v.Length * 3;
 
             float[] r = new float[size];
 
-            for (int i = 0,j=0; i < size; i += 3,j++)
+            for (int i = 0, j = 0; i < size; i += 3, j++)
             {
                 Color cv = v[j];
                 r[i] = cv.R;
@@ -112,7 +115,7 @@ namespace THREE
 
 
         //setValueV4fArray
-        public void SetValue(Vector4[] v) 
+        public void SetValue(Vector4[] v)
         {
             int size = v.Length * 4;
 
@@ -144,7 +147,7 @@ namespace THREE
         //}
 
         // setValueM3Array
-        public void SetValue(Matrix3[] v) 
+        public void SetValue(Matrix3[] v)
         {
             List<float> data = new List<float>();
 
@@ -154,7 +157,7 @@ namespace THREE
                 data.AddRange(r);
             }
 
-            GL.UniformMatrix3(this.Addr, v.Length, false,data.ToArray());
+            GL.UniformMatrix3(this.Addr, v.Length, false, data.ToArray());
         }
 
         // setValueM4Array
@@ -202,22 +205,22 @@ namespace THREE
 
             GL.Uniform1(this.Addr, n, units);
 
-           
+
             for (int i = 0; i != n; ++i)
             {
-                if(this.UniformType==ActiveUniformType.Sampler2D) 
+                if (this.UniformType == ActiveUniformType.Sampler2D)
                     //setValueT1Array
                     textures.SafeSetTexture2D(v[i], units[i]);
-                else if(this.UniformType==ActiveUniformType.SamplerCube)
+                else if (this.UniformType == ActiveUniformType.SamplerCube)
                     //setValueT6Array
                     textures.SafeSetTextureCube(v[i], units[i]);
             }
         }
 
-        public void SetValue(object v, GLTextures textures=null)
+        public void SetValue(object v, GLTextures textures = null)
         {
             //Debug.WriteLine("PureArrayUniform, Id={0},Value={1}", this.Id, v);
-            if (v is Texture[] && textures!=null)
+            if (v is Texture[] && textures != null)
             {
                 SetValue((Texture[])v, textures);
             }
@@ -257,7 +260,7 @@ namespace THREE
             {
                 SetValue((v as List<Vector3>).ToArray());
             }
-            else if(v is List<float>)
+            else if (v is List<float>)
             {
                 SetValue((v as List<float>).ToArray());
             }

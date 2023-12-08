@@ -3,6 +3,7 @@ using System.Collections;
 
 namespace THREE
 {
+    [Serializable]
     public class GLRenderStates
     {
         public Hashtable renderStates = new Hashtable();
@@ -11,7 +12,7 @@ namespace THREE
         {
         }
 
-        public void OnSceneDispose(object sender,EventArgs e)
+        public void OnSceneDispose(object sender, EventArgs e)
         {
             var scene = sender as Scene;
 

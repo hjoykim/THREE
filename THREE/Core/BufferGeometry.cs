@@ -3,23 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using THREE;
 
 namespace THREE
 {
+    [Serializable]
     public struct DrawRange
     {
         public float Start;
         public int MaterialIndex;
         public float Count;
     }
-
+    [Serializable]
     public class BufferGeometry : Geometry
     {
 
-        protected static int BufferGeometryIdCount=0;
+        protected static int BufferGeometryIdCount = 0;
 
-        public GLAttributes Attributes;
+        public Dictionary<object,object> Attributes;
 
         //public List<string> AttributesKeys { get; set; }
 
@@ -54,7 +56,7 @@ namespace THREE
 
             this.type = "BufferGeometry";
 
-            this.Attributes = new GLAttributes();
+            this.Attributes = new Dictionary<object,object>();
 
             this.MorphAttributes = new Hashtable();
 
@@ -77,10 +79,10 @@ namespace THREE
         {
             return new BufferGeometry(this);
         }
-        public BufferGeometry Copy(BufferGeometry source) 
+        public BufferGeometry Copy(BufferGeometry source)
         {
             this.Index = null;
-            this.Attributes = new GLAttributes();
+            this.Attributes = new Dictionary<object,object>();
 
             this.MorphAttributes = (Hashtable)source.MorphAttributes.Clone();
 
@@ -102,16 +104,16 @@ namespace THREE
             if (index != null)
             {
 
-                this.Index =source.Index.Clone();
+                this.Index = source.Index.Clone();
 
             }
 
             // attributes
 
             var attributes = source.Attributes;
-            foreach(var entry in attributes)
+            foreach (var entry in attributes)
             {
-                if(entry.Value is BufferAttribute<float>)
+                if (entry.Value is BufferAttribute<float>)
                     Attributes.Add(entry.Key, (entry.Value as BufferAttribute<float>).Clone());
                 if (entry.Value is BufferAttribute<int>)
                     Attributes.Add(entry.Key, (entry.Value as BufferAttribute<int>).Clone());
@@ -194,7 +196,7 @@ namespace THREE
         {
             return this.Index;
         }
-        public void SetIndex(List<int> index, int itemSize=1)
+        public void SetIndex(List<int> index, int itemSize = 1)
         {
             this.Index = new BufferAttribute<int>(index.ToArray<int>(), itemSize);
         }
@@ -202,12 +204,12 @@ namespace THREE
         {
             this.Index = index;
         }
-        public GLAttribute GetAttribute<T>(string name)
+        public IGLAttribute GetAttribute<T>(string name)
         {
-            return this.Attributes[name] as GLAttribute;
+            return this.Attributes[name] as IGLAttribute;
         }
 
-        public BufferGeometry SetAttribute(string name, GLAttribute attribute)
+        public BufferGeometry SetAttribute(string name, IGLAttribute attribute)
         {
             this.Attributes[name] = attribute;
             //if (!AttributesKeys.Contains(name))
@@ -342,7 +344,7 @@ namespace THREE
 
         public new BufferGeometry Scale(float x, float y, float z)
         {
-            Matrix4 m = Matrix4.Identity().MakeScale(x,y,z);
+            Matrix4 m = Matrix4.Identity().MakeScale(x, y, z);
 
             this.ApplyMatrix(m);
 
@@ -423,7 +425,7 @@ namespace THREE
         {
             List<float> position = new List<float>();
 
-            for(int i = 0; i < points.Count; i++)
+            for (int i = 0; i < points.Count; i++)
             {
                 Vector3 point = points[i];
                 position.Add(point.X, point.Y, point.Z);
@@ -740,14 +742,14 @@ namespace THREE
                 position = (BufferAttribute<float>)this.Attributes["position"];
 
             List<BufferAttribute<float>> morphAttributesPosition = null;
-            if(this.MorphAttributes.ContainsKey("position"))
+            if (this.MorphAttributes.ContainsKey("position"))
                 morphAttributesPosition = this.MorphAttributes["position"] as List<BufferAttribute<float>>;
 
             if (position != null)
             {
                 var center = this.BoundingSphere.Center;
 
-                if(position is InterleavedBufferAttribute<float>)
+                if (position is InterleavedBufferAttribute<float>)
                     _box.SetFromBufferAttribute(position as InterleavedBufferAttribute<float>);
                 else
                     _box.SetFromBufferAttribute(position as BufferAttribute<float>);
@@ -784,7 +786,7 @@ namespace THREE
 
                 float maxRadiusSq = 0;
 
-                for (int i = 0; i <( position is InterleavedBufferAttribute<float> ? (position as InterleavedBufferAttribute<float>).count:position.count); i++)
+                for (int i = 0; i < (position is InterleavedBufferAttribute<float> ? (position as InterleavedBufferAttribute<float>).count : position.count); i++)
                 {
                     _vector = _vector.FromBufferAttribute(position, i);
                     maxRadiusSq = System.Math.Max(maxRadiusSq, center.DistanceToSquared(_vector));
@@ -822,7 +824,7 @@ namespace THREE
 
             BufferAttribute<float> positionsAttribute = (BufferAttribute<float>)this.Attributes["position"];
             BufferAttribute<float> normalAttribute = null;
-            if(this.Attributes.ContainsKey("normal"))
+            if (this.Attributes.ContainsKey("normal"))
                 normalAttribute = (BufferAttribute<float>)this.Attributes["normal"];
 
             var positions = positionsAttribute.Array;
@@ -893,7 +895,7 @@ namespace THREE
                 }
                 else
                 {
-                    var pLen = positions.Length-1;
+                    var pLen = positions.Length - 1;
                     for (int i = 0; i < positions.Length; i += 9)
                     {
                         pA = Vector3.Zero().FromArray(positions, i);
@@ -914,9 +916,9 @@ namespace THREE
 
                         if ((i + 6) <= pLen)
                         {
-                            normals[i + 6] =cb.X;
-                            normals[i + 7] =cb.Y;
-                            normals[i + 8] =cb.Z;
+                            normals[i + 6] = cb.X;
+                            normals[i + 7] = cb.Y;
+                            normals[i + 8] = cb.Z;
                         }
 
                     }
@@ -950,7 +952,7 @@ namespace THREE
                 var attributeOffset = attribute2.ItemSize * offset;
                 var length = System.Math.Min(attributeArray2.Length, attributeArray1.Length - attributeOffset);
 
-                for (int i = 0,j=attributeOffset; i < length; i++,j++)
+                for (int i = 0, j = attributeOffset; i < length; i++, j++)
                 {
                     attributeArray1[j] = attributeArray2[i];
                 }
@@ -1021,12 +1023,12 @@ namespace THREE
 
                 BufferAttribute<float> newAttribute = ConvertBufferAttribute(attribute, indices);
 
-                geometry2.SetAttribute(name, newAttribute );
+                geometry2.SetAttribute(name, newAttribute);
             }
 
             var morphAttributes = this.MorphAttributes;
 
-            foreach(string name in MorphAttributes.Keys)
+            foreach (string name in MorphAttributes.Keys)
             {
                 List<BufferAttribute<float>> morphArray = new List<BufferAttribute<float>>();
                 BufferAttribute<float>[] morphAttribute = (BufferAttribute<float>[])morphAttributes[name];
@@ -1038,17 +1040,17 @@ namespace THREE
                     morphArray.Add(newAttribute);
                 }
 
-                geometry2.MorphAttributes.Add(name,morphArray);
+                geometry2.MorphAttributes.Add(name, morphArray);
             }
 
             geometry2.MorphTargetsRelative = this.MorphTargetsRelative;
 
             var groups = this.Groups;
 
-            for(int i=0;i<groups.Count;i++)
+            for (int i = 0; i < groups.Count; i++)
             {
                 var group = groups[i];
-                geometry2.AddGroup((int)group.Start,(int)group.Count,group.MaterialIndex);
+                geometry2.AddGroup((int)group.Start, (int)group.Count, group.MaterialIndex);
             }
 
             return geometry2;

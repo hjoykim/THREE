@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace THREE
 {
+    [Serializable]
     public class GLMorphtargets
     {
         public Hashtable InfluencesList = new Hashtable();
@@ -74,7 +75,7 @@ namespace THREE
 
             }
 
-            influences.Sort(delegate(float[] a, float[] b)
+            influences.Sort(delegate (float[] a, float[] b)
             {
                 return (int)(System.Math.Abs(b[1]) - System.Math.Abs(a[1]));
             });
@@ -82,7 +83,7 @@ namespace THREE
             for (int i = 0; i < 8; i++)
             {
 
-                if (i < length && influences[i][1]>0)
+                if (i < length && influences[i][1] > 0)
                 {
 
                     WorkInfluences[i][0] = influences[i][0];
@@ -104,8 +105,8 @@ namespace THREE
                 return (int)(a[0] - b[0]);
             });
 
-            List<BufferAttribute<float>> morphTargets = material.MorphTargets && geometry.MorphAttributes.ContainsKey("position") ?geometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null;
-            List<BufferAttribute<float>> morphNormals = material.MorphNormals && geometry.MorphAttributes.ContainsKey("normal") ? geometry.MorphAttributes["normal"]  as List<BufferAttribute<float>> : null;
+            List<BufferAttribute<float>> morphTargets = material.MorphTargets && geometry.MorphAttributes.ContainsKey("position") ? geometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null;
+            List<BufferAttribute<float>> morphNormals = material.MorphNormals && geometry.MorphAttributes.ContainsKey("normal") ? geometry.MorphAttributes["normal"] as List<BufferAttribute<float>> : null;
             float morphInfluencesSum = 0;
 
             if (influences.Count > 0)
@@ -134,8 +135,8 @@ namespace THREE
                                     geometry.SetAttribute("morphTarget" + i, morphTargets[index]);
                                 }
                             }
-                            if (morphNormals != null) 
-                            { 
+                            if (morphNormals != null)
+                            {
                                 if (morphNormals[index] != null && !geometry.Attributes.ContainsKey("morphNormal" + i))
                                 {
 
@@ -145,7 +146,7 @@ namespace THREE
                                 {
                                     geometry.SetAttribute("morphNormal" + i, morphTargets[index]);
                                 }
-                            }                            
+                            }
                             this.MorphInfluences[i] = value;
                             morphInfluencesSum += value;
                             continue;
@@ -180,6 +181,6 @@ namespace THREE
             program.GetUniforms().SetValue("morphTargetBaseInfluence", MorphBaseInfluence);
             program.GetUniforms().SetValue("morphTargetInfluences", this.MorphInfluences);
         }
-       
+
     }
 }

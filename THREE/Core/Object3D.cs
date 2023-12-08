@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using THREE;
 
 namespace THREE
 {
-    public class Object3D : BasicObject,ICloneable
+    [Serializable]
+    public class Object3D : BasicObject, ICloneable
     {
         public static Vector3 DefaultUp = new Vector3(0, 1, 0);
 
@@ -21,17 +23,17 @@ namespace THREE
 
         public bool bVisible = false;
 
-        public string Name="";
+        public string Name = "";
 
         public Matrix4 ModelViewMatrix = Matrix4.Identity();
 
         public Matrix3 NormalMatrix = new Matrix3();
 
-        public Vector3 Front = new Vector3(0.0f,0.0f,-1.0f);
+        public Vector3 Front = new Vector3(0.0f, 0.0f, -1.0f);
 
         public Vector3 Right = Vector3.Zero();
 
-        public Vector3 Up = new Vector3(0.0f,1.0f,0.0f);
+        public Vector3 Up = new Vector3(0.0f, 1.0f, 0.0f);
 
         public string type = "Object3D";
 
@@ -114,10 +116,10 @@ namespace THREE
 
         public event EventHandler<EventArgs> Removed;
         #endregion
-        
+
         #region public Action
-        public Action<GLRenderer, Scene, Camera, Geometry,Material,DrawRange?,GLRenderTarget> OnBeforeRender;
-        public Action<GLRenderer, Scene, Camera> OnAfterRender;
+        public Action<IGLRenderer, Scene, Camera, Geometry, Material, DrawRange?, GLRenderTarget> OnBeforeRender;
+        public Action<IGLRenderer, Scene, Camera> OnAfterRender;
         #endregion
 
         #region private field
@@ -140,31 +142,32 @@ namespace THREE
             this.Rotation.PropertyChanged += OnRotationChanged;
             this.Quaternion.PropertyChanged += OnQuaternionChanged;
         }
+        public Object3D(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        protected Object3D(Object3D source,bool recursive=true) : this()
-        {            
+        protected Object3D(Object3D source, bool recursive = true) : this()
+        {
             this.Name = source.Name;
 
-		    this.Up.Copy( source.Up );
+            this.Up.Copy(source.Up);
 
-		    this.Position.Copy( source.Position );
-		    this.Quaternion.Copy( source.Quaternion );
-		    this.Scale.Copy( source.Scale );
+            this.Position.Copy(source.Position);
+            this.Quaternion.Copy(source.Quaternion);
+            this.Scale.Copy(source.Scale);
 
-		    this.Matrix.Copy( source.Matrix );
-		    this.MatrixWorld.Copy( source.MatrixWorld );
+            this.Matrix.Copy(source.Matrix);
+            this.MatrixWorld.Copy(source.MatrixWorld);
 
-		    this.MatrixAutoUpdate = source.MatrixAutoUpdate;
-		    this.MatrixWorldNeedsUpdate = source.MatrixWorldNeedsUpdate;
+            this.MatrixAutoUpdate = source.MatrixAutoUpdate;
+            this.MatrixWorldNeedsUpdate = source.MatrixWorldNeedsUpdate;
 
-		    this.Layers.Mask = source.Layers.Mask;
-		    this.Visible = source.Visible;
+            this.Layers.Mask = source.Layers.Mask;
+            this.Visible = source.Visible;
 
-		    this.CastShadow = source.CastShadow;
-		    this.ReceiveShadow = source.ReceiveShadow;
+            this.CastShadow = source.CastShadow;
+            this.ReceiveShadow = source.ReceiveShadow;
 
-		    this.FrustumCulled = source.FrustumCulled;
-		    this.RenderOrder = source.RenderOrder;
+            this.FrustumCulled = source.FrustumCulled;
+            this.RenderOrder = source.RenderOrder;
 
             this.UserData = source.UserData;
 
@@ -175,7 +178,7 @@ namespace THREE
             * */
             if (source.Geometry != null)
             {
-                if(source.Geometry is BufferGeometry)
+                if (source.Geometry is BufferGeometry)
                     this.Geometry = source.Geometry as BufferGeometry;
                 else
                     this.Geometry = source.Geometry;
@@ -203,15 +206,15 @@ namespace THREE
 
         private void OnRotationChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.Quaternion.SetFromEuler((sender as Euler),false);
+            this.Quaternion.SetFromEuler((sender as Euler), false);
         }
 
         private void OnQuaternionChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.Rotation.SetFromQuaternion((sender as Quaternion),null,false);
+            this.Rotation.SetFromQuaternion((sender as Quaternion), null, false);
         }
 
-       
+
 
         public void ApplyMatrix4(Matrix4 matrix)
         {
@@ -220,7 +223,7 @@ namespace THREE
             this.Matrix.PreMultiply(matrix);
 
             this.Matrix.Decompose(this.Position, this.Quaternion, this.Scale);
-            
+
         }
 
 
@@ -320,12 +323,12 @@ namespace THREE
             return vector.ApplyMatrix4(_m1.GetInverse(this.MatrixWorld));
         }
 
-       
-        public virtual void LookAt(float x,float y,float z)
+
+        public virtual void LookAt(float x, float y, float z)
         {
             Vector3 target = new Vector3(x, y, z);
 
-            this.LookAt(target);            
+            this.LookAt(target);
 
         }
 
@@ -337,9 +340,9 @@ namespace THREE
             _position.SetFromMatrixPosition(this.MatrixWorld);
 
             var m = Matrix4.Identity();
-            
-            if(this is Camera || this is Light)
-                m = m.LookAt(_position,target,this.Up);
+
+            if (this is Camera || this is Light)
+                m = m.LookAt(_position, target, this.Up);
             else
                 m = m.LookAt(target, _position, this.Up);
 
@@ -376,7 +379,7 @@ namespace THREE
             }
             else
             {
-                Trace.TraceError("THREE.Core.Object3D.Add: {0} is not an instance of THREE.Core.Object3D.", object3D);                
+                Trace.TraceError("THREE.Core.Object3D.Add: {0} is not an instance of THREE.Core.Object3D.", object3D);
             }
             return this;
         }
@@ -434,7 +437,7 @@ namespace THREE
             {
                 var child = this.Children[i];
                 var object3D = child.GetObjectById(id);
-                if(object3D!=null) 
+                if (object3D != null)
                     return object3D;
             }
             return null;
@@ -454,7 +457,7 @@ namespace THREE
             return null;
         }
 
-        private Object3D GetObjectByProperty<T>(string p, T id) 
+        private Object3D GetObjectByProperty<T>(string p, T id)
         {
             throw new NotImplementedException();
         }
@@ -466,14 +469,14 @@ namespace THREE
             if (target == null)
                 target = result;
 
-            this.UpdateWorldMatrix(true,false);
+            this.UpdateWorldMatrix(true, false);
 
             return target.SetFromMatrixPosition(this.MatrixWorld);
         }
 
         public virtual Quaternion GetWorldQuaternion(Quaternion target)
         {
-            this.UpdateWorldMatrix(true,false);
+            this.UpdateWorldMatrix(true, false);
 
             this.MatrixWorld.Decompose(_position, target, _scale);
 
@@ -487,7 +490,7 @@ namespace THREE
                 target = new Vector3();
             }
 
-            this.UpdateWorldMatrix(true,false);
+            this.UpdateWorldMatrix(true, false);
 
             this.MatrixWorld.Decompose(_position, _quaternion, target);
 
@@ -496,7 +499,7 @@ namespace THREE
 
         public virtual Vector3 GetWorldDirection(Vector3 target)
         {
-            this.UpdateWorldMatrix(true,false);
+            this.UpdateWorldMatrix(true, false);
 
             var e = this.MatrixWorld.Elements;
 
@@ -594,13 +597,13 @@ namespace THREE
                 }
             }
         }
-       
-        public override object Clone() 
+
+        public override object Clone()
         {
             Hashtable hashTable = base.Clone() as Hashtable;
             Object3D cloned = new Object3D(this);
 
-            foreach(DictionaryEntry item in hashTable)
+            foreach (DictionaryEntry item in hashTable)
             {
                 cloned.Add(item.Key, item.Value);
             }

@@ -7,9 +7,11 @@ using System.ComponentModel;
 
 namespace THREE
 {
-    public class GLRenderer : DisposableObject
+    [Serializable]
+    public class GLRenderer : DisposableObject, IGLRenderer
     {
-        public OpenTK.Graphics.IGraphicsContext Context;
+        public bool IsGL2 { get; set; }
+        public IGraphicsContext Context;
 
         //public Dictionary<string,RenderInfo> sceneList = new Dictionary<string,RenderInfo>();
 
@@ -17,13 +19,13 @@ namespace THREE
 
         private GLRenderList CurrentRenderList;
 
-        public bool AutoClear = true;
+        public bool AutoClear { get; set; } = true;
 
-        public bool AutoClearColor = true;
+        public bool AutoClearColor { get; set; } = true;
 
-        public bool AutoClearDepth = true;
+        public bool AutoClearDepth { get; set; } = true;
 
-        public bool AutoClearStencil = true;
+        public bool AutoClearStencil { get; set; } = true;
 
         // scene graph
         public bool SortObjects = true;
@@ -64,6 +66,8 @@ namespace THREE
         public GLCapabilities capabilities;
 
         public GLState state;
+
+        //public IGLState state_todo { get; set; }
 
         public GLInfo info;
 
@@ -198,17 +202,24 @@ namespace THREE
 
         public int Width;
         public int Height;
-        public float AspectRatio => Width / Height;
+        public float AspectRatio
+        {
+            get
+            {
+                if (Height == 0) return 1;
+                else return (float)Width / Height;
+            }
+        }
 
         #endregion
 
         #region constructor
-        public GLRenderer() 
+        public GLRenderer()
         {
-           
+
         }
 
-        public GLRenderer(IGraphicsContext context, int width, int height)  : base()
+        public GLRenderer(IGraphicsContext context, int width, int height) : base()
         {
             this.Context = context;
             this._viewport = new Vector4(0, 0, width, height);
@@ -231,9 +242,9 @@ namespace THREE
         {
             Clear(false, false, true);
         }
-        public Vector2 GetSize(Vector2 target=null)
+        public Vector2 GetSize(Vector2 target = null)
         {
-            if(target==null)
+            if (target == null)
             {
                 target = new Vector2();
             }
@@ -241,25 +252,25 @@ namespace THREE
 
             return target;
         }
-        public void SetSize(float width,float height)
+        public void SetSize(float width, float height)
         {
-            Width = (int)System.Math.Floor(width*_pixelRatio);
-            Height =(int)System.Math.Floor(height * _pixelRatio);
+            Width = (int)System.Math.Floor(width * _pixelRatio);
+            Height = (int)System.Math.Floor(height * _pixelRatio);
 
             SetViewport(Width, Height);
         }
-        public void Clear(bool? color=null, bool? depth=null, bool? stencil=null)
+        public void Clear(bool? color = null, bool? depth = null, bool? stencil = null)
         {
-            int bits= 0;
-            
-            if (color==null || color ==true) bits |= (int)ClearBufferMask.ColorBufferBit;
-            if (depth==null || depth==true) bits |= (int)ClearBufferMask.DepthBufferBit;
-            if (stencil==null || stencil==true) bits |= (int)ClearBufferMask.StencilBufferBit;
+            int bits = 0;
+
+            if (color == null || color == true) bits |= (int)ClearBufferMask.ColorBufferBit;
+            if (depth == null || depth == true) bits |= (int)ClearBufferMask.DepthBufferBit;
+            if (stencil == null || stencil == true) bits |= (int)ClearBufferMask.StencilBufferBit;
 
 
             ClearBufferMask mask = (ClearBufferMask)Enum.ToObject(typeof(ClearBufferMask), bits);
-            
-            if(Context.IsCurrent)
+
+            if (Context.IsCurrent)
                 GL.Clear(mask);
         }
         public Color GetClearColor()
@@ -275,11 +286,11 @@ namespace THREE
         {
             background.SetClearAlpha(alpha);
         }
-        public void SetClearColor(Color color, float alpha=1)
+        public void SetClearColor(Color color, float alpha = 1)
         {
-            this.background.SetClearColor(color,alpha);
+            this.background.SetClearColor(color, alpha);
         }
-        public void SetClearColor(int color,float alpha = 1)
+        public void SetClearColor(int color, float alpha = 1)
         {
             SetClearColor(Color.Hex(color), alpha);
         }
@@ -290,7 +301,7 @@ namespace THREE
             this._currentViewport = (_viewport * _pixelRatio).Floor();
             state.Viewport(_currentViewport);
         }
-        public void SetViewport(int x,int y,int width,int height)
+        public void SetViewport(int x, int y, int width, int height)
         {
             _viewport.Set(x, y, width, height);
             this._currentViewport = (_viewport * _pixelRatio).Floor();
@@ -327,50 +338,50 @@ namespace THREE
             this.info = new GLInfo();
 
             this.properties = new GLProperties();
-            
+
             this.textures = new GLTextures(this.Context, extensions, state, properties, capabilities, utils, info);
-            
+
             this.attributes = new GLAttributes();
 
-            this.geometries = new GLGeometries(this,this.attributes,this.info);
+            this.geometries = new GLGeometries(this, this.attributes, this.info);
 
             this.objects = new GLObjects(this.geometries, this.attributes, this.info);
-            
+
             this.morphtargets = new GLMorphtargets();
 
             this.cubeMaps = new GLCubeMap(this);
 
             this.bindingStates = new GLBindingStates(this.Context, extensions, attributes, capabilities);
 
-            this.programCache = new GLPrograms(this, cubeMaps,extensions,capabilities,bindingStates,_clipping);
+            this.programCache = new GLPrograms(this, cubeMaps, extensions, capabilities, bindingStates, _clipping);
 
             this.renderLists = new GLRenderLists();
 
             this.renderStates = new GLRenderStates();
 
-            this.background = new GLBackground(this,cubeMaps, state, objects, premultipliedAlpha);
+            this.background = new GLBackground(this, cubeMaps, state, objects, premultipliedAlpha);
 
-            this.bufferRenderer = new GLBufferRenderer(this,extensions,info,capabilities);
+            this.bufferRenderer = new GLBufferRenderer(this, extensions, info, capabilities);
 
             this.indexedBufferRenderer = new GLIndexedBufferRenderer(this, extensions, info, capabilities);
 
-           
+
 
             this.info.programs = programCache.Programs;
 
             this.emptyScene = new Scene();
 
-           
+
 
             this.materials = new GLMaterials(properties);
         }
 
-        private int  GetTargetPixelRatio() 
+        private int GetTargetPixelRatio()
         {
 
-		    return _currentRenderTarget == null ? _pixelRatio : 1;
+            return _currentRenderTarget == null ? _pixelRatio : 1;
 
-	    }
+        }
         private void OnMaterialDispose(object sender, EventArgs e)
         {
 
@@ -401,11 +412,16 @@ namespace THREE
 
         private void DeallocateMaterial(Material material)
         {
-            if (!this.Context.IsDisposed && this.Context.IsCurrent)
-            {
+
+            //if (!this.Context.IsDisposed && this.Context.IsCurrent)
+            //{
+
                 ReleaseMaterialProgramReference(material);
+
                 properties.Remove(material);
-            }
+
+            //}
+
         }
 
         private void ReleaseMaterialProgramReference(Material material)
@@ -420,7 +436,7 @@ namespace THREE
             }
 
         }
-        #endregion
+#endregion
 
         #region Buffer Rendering
         private void RenderObjectImmediate(Object3D object3D, GLProgram program)
@@ -499,10 +515,10 @@ namespace THREE
             if (scene == null) scene = emptyScene;
 
             var frontFaceCW = (object3D is Mesh && object3D.MatrixWorld.Determinant() < 0);
-                        
+
             var program = SetProgram(camera, scene, material, object3D);
 
-            state.SetMaterial(material, frontFaceCW);           
+            state.SetMaterial(material, frontFaceCW);
 
             var index = (geometry as BufferGeometry).Index;
             BufferAttribute<float> position = null;
@@ -530,7 +546,7 @@ namespace THREE
 
             }
 
-            if(material.MorphTargets || material.MorphNormals)
+            if (material.MorphTargets || material.MorphNormals)
             {
                 morphtargets.Update(object3D, geometry as BufferGeometry, material, program);
             }
@@ -600,7 +616,7 @@ namespace THREE
             {
 
                 float lineWidth;
-                if(material is LineBasicMaterial)
+                if (material is LineBasicMaterial)
                 {
                     lineWidth = (material as LineBasicMaterial).LineWidth;
                 }
@@ -658,19 +674,19 @@ namespace THREE
             else
             {
 
-                renderer.Render((int)drawStart,(int)drawCount);
+                renderer.Render((int)drawStart, (int)drawCount);
 
             }
         }
 
 
         #endregion
-          
-       
+
+
 
         // this function is called by Render()
         //private void RenderSceneList(RenderInfo renderInfo)
-        public void Render(Scene scene,Camera camera)
+        public void Render(Scene scene, Camera camera)
         {
             //Scene scene = renderInfo.Scene;
             //Camera camera = renderInfo.Camera;
@@ -688,9 +704,9 @@ namespace THREE
             _currentMaterialId = -1;
             _currentCamera = null;
 
-            GLRenderTarget renderTarget = null;            
+            GLRenderTarget renderTarget = null;
 
-            bool forceClear = false;        
+            bool forceClear = false;
 
             //update scene graph
             if (scene.AutoUpdate == true) scene.UpdateMatrixWorld();
@@ -714,14 +730,14 @@ namespace THREE
             CurrentRenderState = renderStates.Get(scene, camera);
             CurrentRenderState.Init();
 
-           
+
 
             _projScreenMatrix = camera.ProjectionMatrix * camera.MatrixWorldInverse;
             _frustum.SetFromProjectionMatrix(this._projScreenMatrix);
 
             _localClippingEnabled = this.LocalClippingEnabled;
             _clippingEnabled = _clipping.Init(this.ClippingPlanes, _localClippingEnabled, camera);
-            
+
             CurrentRenderList = renderLists.Get(scene, camera);
             CurrentRenderList.Init();
 
@@ -734,65 +750,67 @@ namespace THREE
                 CurrentRenderList.Sort();
             }
 
-            if ( _clippingEnabled ) _clipping.BeginShadows();
+            if (_clippingEnabled) _clipping.BeginShadows();
 
-		    var shadowsArray = CurrentRenderState.State.ShadowsArray;
+            var shadowsArray = CurrentRenderState.State.ShadowsArray;
 
-		    ShadowMap.Render( shadowsArray, scene, camera );
+            ShadowMap.Render(shadowsArray, scene, camera);
 
-		    CurrentRenderState.SetupLights( camera );
+            CurrentRenderState.SetupLights(camera);
 
-		    if ( _clippingEnabled ) _clipping.EndShadows();
+            if (_clippingEnabled) _clipping.EndShadows();
 
-		    //
+            //
 
-		    if ( this.info.AutoReset ) this.info.Reset();
+            if (this.info.AutoReset) this.info.Reset();
 
-		    if ( renderTarget != null ) {
+            if (renderTarget != null)
+            {
 
-			    this.SetRenderTarget( renderTarget );
+                this.SetRenderTarget(renderTarget);
 
-		    }          
+            }
 
             //this.AutoClear = scene.ClearBeforeRender;
 
-		    background.Render( CurrentRenderList, scene, camera, forceClear );
+            background.Render(CurrentRenderList, scene, camera, forceClear);
 
-		    // render scene
+            // render scene
 
-		    var opaqueObjects = CurrentRenderList.Opaque;
-		    var transparentObjects = CurrentRenderList.Transparent;
+            var opaqueObjects = CurrentRenderList.Opaque;
+            var transparentObjects = CurrentRenderList.Transparent;
 
-		    if ( opaqueObjects.Count>0 ) RenderObjects( opaqueObjects, scene, camera );
-		    if ( transparentObjects.Count>0 ) RenderObjects( transparentObjects, scene, camera );
+            if (opaqueObjects.Count > 0) RenderObjects(opaqueObjects, scene, camera);
+            if (transparentObjects.Count > 0) RenderObjects(transparentObjects, scene, camera);
 
             if (scene.OnAfterRender != null)
             {
                 scene.OnAfterRender(this, scene, camera);
-            }            
+            }
 
-            if ( _currentRenderTarget != null ) {
+            if (_currentRenderTarget != null)
+            {
 
-			    // Generate mipmap if we're using any kind of mipmap filtering
+                // Generate mipmap if we're using any kind of mipmap filtering
 
-			    textures.UpdateRenderTargetMipmap( _currentRenderTarget );
+                textures.UpdateRenderTargetMipmap(_currentRenderTarget);
 
-			    // resolve multisample renderbuffers to a single-sample texture if necessary
+                // resolve multisample renderbuffers to a single-sample texture if necessary
 
-			    textures.UpdateMultisampleRenderTarget( _currentRenderTarget );
+                textures.UpdateMultisampleRenderTarget(_currentRenderTarget);
 
-		    }
+            }
 
-		    // Ensure depth buffer writing is enabled so it can be cleared on next render
+            // Ensure depth buffer writing is enabled so it can be cleared on next render
 
-		    state.buffers.depth.SetTest( true );
-		    state.buffers.depth.SetMask( true );
-		    state.buffers.color.SetMask( true );
+            state.buffers.depth.SetTest(true);
+            state.buffers.depth.SetMask(true);
+            state.buffers.color.SetMask(true);
 
-		    state.SetPolygonOffset( false );                      
+            state.SetPolygonOffset(false);
 
-		    CurrentRenderList = null;
-		    CurrentRenderState = null;
+            CurrentRenderList = null;
+            CurrentRenderState = null;
 
         }
 
@@ -804,7 +822,7 @@ namespace THREE
 
             if (visible)
             {
-                if(object3D.IsGroup)
+                if (object3D.IsGroup)
                 {
                     groupOrder = object3D.RenderOrder;
                 }
@@ -889,7 +907,7 @@ namespace THREE
 
                                 if (groupMaterial != null && groupMaterial.Visible)
                                 {
-                                    
+
                                     CurrentRenderList.Push(object3D, (BufferGeometry)geometry, groupMaterial, groupOrder, _vector3.Z, group);
                                 }
                             }
@@ -929,7 +947,7 @@ namespace THREE
 
                     // if(vr.)
                     //{
-                    
+
                     //}
                     //else 
                     //{
@@ -944,7 +962,7 @@ namespace THREE
                             state.Viewport(_currentViewport.Copy(camera2.Viewport));
 
                             CurrentRenderState.SetupLights(camera2);
-                            RenderObject(object3D, scene, camera2,geometry, material, group);
+                            RenderObject(object3D, scene, camera2, geometry, material, group);
                         }
                     }
 
@@ -963,8 +981,8 @@ namespace THREE
         private void RenderObject(Object3D object3D, Scene scene, Camera camera, Geometry geometry, Material material, DrawRange? group)
         {
             //TODO:
-            if(object3D.OnBeforeRender!=null)
-                object3D.OnBeforeRender(this, scene, camera, geometry, material, group,null);
+            if (object3D.OnBeforeRender != null)
+                object3D.OnBeforeRender(this, scene, camera, geometry, material, group, null);
 
             CurrentRenderState = renderStates.Get(scene, _currentArrayCamera != null ? _currentArrayCamera : camera);
 
@@ -990,7 +1008,7 @@ namespace THREE
 
         }
 
-        #endregion
+#endregion
         private void InitMaterial(Material material, Scene scene, Object3D object3D)
         {
             var fog = scene.Fog;
@@ -1003,7 +1021,7 @@ namespace THREE
 
             var parameters = programCache.GetParameter(material, lights, shadowsArray, scene, object3D);
 
-            var programCacheKey = programCache.getProgramCacheKey(material, parameters).Replace("False","false").Replace("True","true");
+            var programCacheKey = programCache.getProgramCacheKey(material, parameters).Replace("False", "false").Replace("True", "true");
 
             var program = (GLProgram)materialProperties["program"];
 
@@ -1044,10 +1062,10 @@ namespace THREE
                 parameters["uniforms"] = programCache.GetUniforms(material);
 
                 if (material.OnBeforeCompile != null)
-                    material.OnBeforeCompile(parameters,this);
+                    material.OnBeforeCompile(parameters, this);
 
                 program = programCache.AcquireProgram(parameters, programCacheKey);
-                              
+
 
                 materialProperties["program"] = program;
                 material.Program = program;
@@ -1065,7 +1083,7 @@ namespace THREE
             }
             materialProperties["environment"] = material is MeshStandardMaterial ? scene.Environment : null;
             materialProperties["fog"] = scene.Fog;
-            materialProperties["envMap"] = cubeMaps.Get(material.EnvMap!=null ? material.EnvMap : materialProperties["environment"] as Texture);
+            materialProperties["envMap"] = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : materialProperties["environment"] as Texture);
 
             materialProperties["needsLights"] = MaterialNeedsLights(material);
             materialProperties["lightsStateVersion"] = lightsStateVersion;
@@ -1096,7 +1114,7 @@ namespace THREE
             var progUniforms = (materialProperties["program"] as GLProgram).GetUniforms();
             List<GLUniform> uniformsList = GLUniforms.SeqWithValue(progUniforms.Seq, uniforms);
             materialProperties["uniformsList"] = uniformsList;
-            
+
         }
 
         #region public Render function
@@ -1139,7 +1157,7 @@ namespace THREE
             Height = height;
 
             this._viewport.Set(0, 0, width, height);
-            this._currentViewport.Set(0, 0, width, height);       
+            this._currentViewport.Set(0, 0, width, height);
         }
         #endregion
 
@@ -1152,82 +1170,85 @@ namespace THREE
             return _currentRenderTarget;
         }
 
-        public void SetRenderTarget(GLRenderTarget renderTarget, int? activeCubeFace=null, int? activeMipmapLevel=null)
+        public void SetRenderTarget(GLRenderTarget renderTarget, int? activeCubeFace = null, int? activeMipmapLevel = null)
         {
             _currentRenderTarget = renderTarget;
-            
-            if(activeCubeFace!=null)
+
+            if (activeCubeFace != null)
                 _currentActiveCubeFace = activeCubeFace.Value;
 
-            if(activeMipmapLevel!=null)
-            _currentActiveMipmapLevel = activeMipmapLevel.Value;
+            if (activeMipmapLevel != null)
+                _currentActiveMipmapLevel = activeMipmapLevel.Value;
 
             if (renderTarget != null && (properties.Get(renderTarget) as Hashtable)["glFramebuffer"] == null)
             {
                 textures.SetupRenderTarget(renderTarget);
             }
-            
+
             var framebuffer = _framebuffer;
-		    var isCube = false;
+            var isCube = false;
 
-		    if ( renderTarget!=null ) {
-
-			    if ( renderTarget is GLCubeRenderTarget ) 
-                {
-
-                    var glFramebuffer =(int[]) (properties.Get( renderTarget ) as Hashtable)["glFramebuffer"];
-
-				    framebuffer = glFramebuffer[activeCubeFace!=null ? activeCubeFace.Value : 0 ];
-				    isCube = true;
-
-			    } 
-                else if ( renderTarget is GLMultisampleRenderTarget ) 
-                {
-                    var glFramebuffer =(int) (properties.Get( renderTarget ) as Hashtable)["glMultisampledFramebuffer"];
-				    framebuffer = glFramebuffer;
-
-			    } 
-                else 
-                {
-                    var glFramebuffer =(int) (properties.Get( renderTarget ) as Hashtable)["glFramebuffer"];
-				    framebuffer = glFramebuffer;
-
-			    }
-
-			    _currentViewport.Copy( renderTarget.Viewport );
-			    _currentScissor.Copy( renderTarget.Scissor );
-			    _currentScissorTest = renderTarget.ScissorTest;
-
-		    } 
-            else 
+            if (renderTarget != null)
             {
 
-			    _currentViewport.Copy( _viewport ).MultiplyScalar( _pixelRatio ).Floor();
-			    _currentScissor.Copy( _scissor ).MultiplyScalar( _pixelRatio ).Floor();
-			    _currentScissorTest = _scissorTest;
+                if (renderTarget is GLCubeRenderTarget)
+                {
 
-		    }
+                    var glFramebuffer = (int[])(properties.Get(renderTarget) as Hashtable)["glFramebuffer"];
 
-		    if ( _currentFramebuffer != framebuffer ) {
+                    framebuffer = glFramebuffer[activeCubeFace != null ? activeCubeFace.Value : 0];
+                    isCube = true;
 
-			    GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer==null? 0:(int)framebuffer);
-			    _currentFramebuffer = framebuffer;
+                }
+                else if (renderTarget is GLMultisampleRenderTarget)
+                {
+                    var glFramebuffer = (int)(properties.Get(renderTarget) as Hashtable)["glMultisampledFramebuffer"];
+                    framebuffer = glFramebuffer;
 
-		    }
+                }
+                else
+                {
+                    var glFramebuffer = (int)(properties.Get(renderTarget) as Hashtable)["glFramebuffer"];
+                    framebuffer = glFramebuffer;
 
-		    state.Viewport( _currentViewport );
-		    state.Scissor( _currentScissor );
-		    state.SetScissorTest( _currentScissorTest.Value );
+                }
 
-		    if ( isCube ) {
+                _currentViewport.Copy(renderTarget.Viewport);
+                _currentScissor.Copy(renderTarget.Scissor);
+                _currentScissorTest = renderTarget.ScissorTest;
 
-			    Hashtable textureProperties = (Hashtable)properties.Get( renderTarget.Texture );
+            }
+            else
+            {
+
+                _currentViewport.Copy(_viewport).MultiplyScalar(_pixelRatio).Floor();
+                _currentScissor.Copy(_scissor).MultiplyScalar(_pixelRatio).Floor();
+                _currentScissorTest = _scissorTest;
+
+            }
+
+            if (_currentFramebuffer != framebuffer)
+            {
+
+                GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer == null ? 0 : (int)framebuffer);
+                _currentFramebuffer = framebuffer;
+
+            }
+
+            state.Viewport(_currentViewport);
+            state.Scissor(_currentScissor);
+            state.SetScissorTest(_currentScissorTest.Value);
+
+            if (isCube)
+            {
+
+                Hashtable textureProperties = (Hashtable)properties.Get(renderTarget.Texture);
                 GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget2d.TextureCubeMapPositiveX + (activeCubeFace != null ? activeCubeFace.Value : 0), (int)textureProperties["glTexture"], activeMipmapLevel != null ? activeMipmapLevel.Value : 0);
 
-		    }            
+            }
         }
 
-        public void ReadRenderTargetPixels(GLRenderTarget renderTarget, float x,float y, int width, int height, byte[] buffer,int? activeCubeFaceIndex)
+        public void ReadRenderTargetPixels(GLRenderTarget renderTarget, float x, float y, int width, int height, byte[] buffer, int? activeCubeFaceIndex)
         {
             if (renderTarget == null)
             {
@@ -1276,7 +1297,7 @@ namespace THREE
                 finally
                 {
                     // restore framebuffer of current render target if necessary=
-                    if (_currentRenderTarget != null) 
+                    if (_currentRenderTarget != null)
                     {
                         if (renderTarget is GLCubeRenderTarget)
                         {
@@ -1322,7 +1343,7 @@ namespace THREE
 
             var environment = material is MeshStandardMaterial ? scene.Environment : null;
             var encoding = (_currentRenderTarget == null) ? outputEncoding : _currentRenderTarget.Texture.Encoding;
-            var envMap = cubeMaps.Get(material.EnvMap!=null? material.EnvMap : environment);
+            var envMap = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : environment);
 
 
             var materialProperties = properties.Get(material);
@@ -1345,12 +1366,12 @@ namespace THREE
 
             if (version == material.Version)
             {
-               
+
                 if (material.Fog && (Fog)materialProperties["fog"] != fog)
                 {
                     InitMaterial(material, scene, object3D);
                 }
-                else if(materialProperties.ContainsKey("environment") && (Texture)materialProperties["environment"] != environment)
+                else if (materialProperties.ContainsKey("environment") && (Texture)materialProperties["environment"] != environment)
                 {
                     InitMaterial(material, scene, object3D);
                 }
@@ -1366,11 +1387,11 @@ namespace THREE
                 {
                     InitMaterial(material, scene, object3D);
                 }
-                else if(materialProperties.ContainsKey("outputEncoding") && (int)materialProperties["outputEncoding"]!=encoding)
+                else if (materialProperties.ContainsKey("outputEncoding") && (int)materialProperties["outputEncoding"] != encoding)
                 {
                     InitMaterial(material, scene, object3D);
                 }
-                else if(materialProperties.ContainsKey("envMap") && (Texture)materialProperties["envMap"]!=envMap)
+                else if (materialProperties.ContainsKey("envMap") && (Texture)materialProperties["envMap"] != envMap)
                 {
                     InitMaterial(material, scene, object3D);
                 }
@@ -1457,9 +1478,9 @@ namespace THREE
                     refreshLights = true;
                 }
 
-                if (material is ShaderMaterial || 
-                    material is MeshPhongMaterial || 
-                    material is MeshToonMaterial || 
+                if (material is ShaderMaterial ||
+                    material is MeshPhongMaterial ||
+                    material is MeshToonMaterial ||
                     material is MeshStandardMaterial || material.EnvMap != null)
                 {
                     SingleUniform uCamPos = p_uniforms["cameraPosition"] as SingleUniform;
@@ -1483,24 +1504,24 @@ namespace THREE
 
                 if (material is MeshPhongMaterial ||
                     material is MeshToonMaterial ||
-				    material is MeshLambertMaterial ||
-				    material is MeshBasicMaterial ||
-				    material is MeshStandardMaterial ||
-				    material is ShaderMaterial ||
-				    material.Skinning ) 
+                    material is MeshLambertMaterial ||
+                    material is MeshBasicMaterial ||
+                    material is MeshStandardMaterial ||
+                    material is ShaderMaterial ||
+                    material.Skinning)
                 {
 
-				    //if ( program.NumMultiviewViews > 0 ) {
+                    //if ( program.NumMultiviewViews > 0 ) {
 
-					   // Multiview.UpdateCameraViewMatricesUniform( camera, p_uniforms );
+                    // Multiview.UpdateCameraViewMatricesUniform( camera, p_uniforms );
 
-				    //} else {
+                    //} else {
 
-					    p_uniforms.SetValue("viewMatrix", camera.MatrixWorldInverse );
+                    p_uniforms.SetValue("viewMatrix", camera.MatrixWorldInverse);
 
-				    //}
+                    //}
 
-			    }
+                }
 
             }
 
@@ -1509,62 +1530,67 @@ namespace THREE
 
             if (material.Skinning)
             {
-                p_uniforms.SetOptional(object3D, "bindMatrix" );
-			    p_uniforms.SetOptional(object3D, "bindMatrixInverse" );
+                p_uniforms.SetOptional(object3D, "bindMatrix");
+                p_uniforms.SetOptional(object3D, "bindMatrixInverse");
 
-			    var skeleton = (object3D as SkinnedMesh).Skeleton;
+                var skeleton = (object3D as SkinnedMesh).Skeleton;
 
-			    if ( skeleton!=null ) {
+                if (skeleton != null)
+                {
 
-				    var bones = skeleton.Bones;
+                    var bones = skeleton.Bones;
 
-				    if ( capabilities.floatVertexTextures) {
+                    if (capabilities.floatVertexTextures)
+                    {
 
-					    if ( skeleton.BoneTexture !=null ) {
+                        if (skeleton.BoneTexture != null)
+                        {
 
-						    // layout (1 matrix = 4 pixels)
-						    //      RGBA RGBA RGBA RGBA (=> column1, column2, column3, column4)
-						    //  with  8x8  pixel texture max   16 bones * 4 pixels =  (8 * 8)
-						    //       16x16 pixel texture max   64 bones * 4 pixels = (16 * 16)
-						    //       32x32 pixel texture max  256 bones * 4 pixels = (32 * 32)
-						    //       64x64 pixel texture max 1024 bones * 4 pixels = (64 * 64)
+                            // layout (1 matrix = 4 pixels)
+                            //      RGBA RGBA RGBA RGBA (=> column1, column2, column3, column4)
+                            //  with  8x8  pixel texture max   16 bones * 4 pixels =  (8 * 8)
+                            //       16x16 pixel texture max   64 bones * 4 pixels = (16 * 16)
+                            //       32x32 pixel texture max  256 bones * 4 pixels = (32 * 32)
+                            //       64x64 pixel texture max 1024 bones * 4 pixels = (64 * 64)
 
 
-						    var size = (float)System.Math.Sqrt( bones.Length * 4 ); // 4 pixels needed for 1 matrix
-						    size = MathUtils.CeilPowerOfTwo( size );
-						    size = System.Math.Max( size, 4 );
+                            var size = (float)System.Math.Sqrt(bones.Length * 4); // 4 pixels needed for 1 matrix
+                            size = MathUtils.CeilPowerOfTwo(size);
+                            size = System.Math.Max(size, 4);
 
-						    var boneMatrices = new float[ (int)(size * size * 4) ]; // 4 floats per RGBA pixel
-						    Array.Copy(skeleton.BoneMatrices, boneMatrices,skeleton.BoneMatrices.Length ); // copy current values
+                            var boneMatrices = new float[(int)(size * size * 4)]; // 4 floats per RGBA pixel
+                            Array.Copy(skeleton.BoneMatrices, boneMatrices, skeleton.BoneMatrices.Length); // copy current values
 
                             TypeConverter tc = TypeDescriptor.GetConverter(typeof(System.Drawing.Bitmap));
                             System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)tc.ConvertFrom(boneMatrices);
 
-						    var boneTexture = new DataTexture(bitmap, (int)size, (int)size, Constants.RGBAFormat, Constants.FloatType);
-                            
-       
-						    skeleton.BoneMatrices = boneMatrices;
-						    skeleton.BoneTexture = boneTexture;
-						    skeleton.BoneTextureSize = (int)size;
+                            var boneTexture = new DataTexture(bitmap, (int)size, (int)size, Constants.RGBAFormat, Constants.FloatType);
 
-					    }
 
-					    p_uniforms.SetValue("boneTexture", skeleton.BoneTexture, textures );
-					    p_uniforms.SetValue("boneTextureSize", skeleton.BoneTextureSize );
+                            skeleton.BoneMatrices = boneMatrices;
+                            skeleton.BoneTexture = boneTexture;
+                            skeleton.BoneTextureSize = (int)size;
 
-				    } else {
+                        }
 
-					    p_uniforms.SetOptional(skeleton, "boneMatrices" );
+                        p_uniforms.SetValue("boneTexture", skeleton.BoneTexture, textures);
+                        p_uniforms.SetValue("boneTextureSize", skeleton.BoneTextureSize);
 
-				    }
+                    }
+                    else
+                    {
 
-			    }
+                        p_uniforms.SetOptional(skeleton, "boneMatrices");
+
+                    }
+
+                }
             }
 
             if (refreshMaterial || (materialProperties.ContainsKey("receiveShadow") && (bool)materialProperties["receiveShadow"]) != object3D.ReceiveShadow)
             {
                 materialProperties["receiveShadow"] = object3D.ReceiveShadow;
-			    p_uniforms.SetValue("receiveShadow", object3D.ReceiveShadow );
+                p_uniforms.SetValue("receiveShadow", object3D.ReceiveShadow);
             }
 
             if (refreshMaterial)
@@ -1620,7 +1646,7 @@ namespace THREE
                 p_uniforms.SetValue("center", (object3D as Sprite).Center);
             }
 
-                
+
 
             p_uniforms.SetValue("modelViewMatrix", object3D.ModelViewMatrix);
             p_uniforms.SetValue("normalMatrix", object3D.NormalMatrix);
@@ -1629,7 +1655,7 @@ namespace THREE
             return program;
         }
 
-       
+        //TODO: Hashtable -> Dictionary
         private void MarkUniformsLightsNeedsUpdate(GLUniforms uniforms, object value)
         {
             (uniforms["ambientLightColor"] as Hashtable)["needsUpdate"] = value;

@@ -1,11 +1,15 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+	[Serializable]
     public class BleachBypassShader : ShaderMaterial
     {
+
         public BleachBypassShader()
         {
-            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
-            Uniforms.Add("opacity", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
+            Uniforms.Add("opacity", new Uniform { { "value", 1.0f } });
 
             VertexShader = @"
                 varying vec2 vUv; 
@@ -55,5 +59,9 @@
 
 			";
         }
+
+        public BleachBypassShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
+
+    
 }

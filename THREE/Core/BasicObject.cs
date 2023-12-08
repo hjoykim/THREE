@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
-    public abstract class BasicObject : Hashtable,IDisposable
+    [Serializable]
+    public abstract class BasicObject : Hashtable, IDisposable
     {
         public event EventHandler<EventArgs> Disposed;
         public BasicObject()
         {
 
         }
+        public BasicObject(SerializationInfo info, StreamingContext context) : base(info, context) { }
         ~BasicObject()
         {
             this.Dispose(false);

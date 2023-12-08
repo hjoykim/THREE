@@ -3,6 +3,7 @@
 
 namespace THREE
 {
+    [Serializable]
     public class SceneUtils
     {
         public static Group CreateMultiMaterialObject(Geometry geometry, List<Material> materials)

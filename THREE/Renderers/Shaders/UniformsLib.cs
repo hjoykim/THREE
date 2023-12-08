@@ -1,328 +1,332 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
-    public class UniformsLib : Dictionary<string, GLUniforms>
+    [Serializable]
+    public class UniformsLib : Dictionary<string, Uniforms>
     {
         public static Texture LTC_FLOAT_1;
         public static Texture LTC_FLOAT_2;
         public UniformsLib()
         {
-            this.Add("common",          this.Common());
-            this.Add("specularmap",     this.SpecularMap());
-            this.Add("envmap",          this.EnvMap());
-            this.Add("aomap",           this.AoMap());
-            this.Add("lightmap",        this.LightMap());
-            this.Add("emissivemap",     this.EmissiveMap());
-            this.Add("bumpmap",         this.BumpMap());
-            this.Add("normalmap",       this.NormalMap());
+            this.Add("common", this.Common());
+            this.Add("specularmap", this.SpecularMap());
+            this.Add("envmap", this.EnvMap());
+            this.Add("aomap", this.AoMap());
+            this.Add("lightmap", this.LightMap());
+            this.Add("emissivemap", this.EmissiveMap());
+            this.Add("bumpmap", this.BumpMap());
+            this.Add("normalmap", this.NormalMap());
             this.Add("displacementmap", this.DisplacementMap());
-            this.Add("roughnessmap",    this.RoughnessMap());
-            this.Add("metalnessmap",    this.MetalnessMap());
-            this.Add("gradientmap",     this.GradientMap());
-            this.Add("fog",             this.Fog());
-            this.Add("lights",          this.Lights());
-            this.Add("points",          this.Points());
-            this.Add("sprite",          this.Sprite());
+            this.Add("roughnessmap", this.RoughnessMap());
+            this.Add("metalnessmap", this.MetalnessMap());
+            this.Add("gradientmap", this.GradientMap());
+            this.Add("fog", this.Fog());
+            this.Add("lights", this.Lights());
+            this.Add("points", this.Points());
+            this.Add("sprite", this.Sprite());
         }
 
-        private GLUniforms Common()
+        public UniformsLib(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        private Uniforms Common()
         {
-            return new GLUniforms
+            return new Uniforms
             {
-                { "diffuse",            new GLUniform {{"value", new Color().SetHex(0xeeeeee)}}},            
-                { "opacity",            new GLUniform {{"value", 1.0f}}},
+                { "diffuse",            new Uniform {{"value", new Color().SetHex(0xeeeeee)}}},
+                { "opacity",            new Uniform {{"value", 1.0f}}},
 
-                { "map",                new GLUniform {{"value", null}}},
-                { "uvTransform",        new GLUniform {{"value",new Matrix3()}}},
-                { "uvTransform2",        new GLUniform {{"value",new Matrix3()}}},
+                { "map",                new Uniform {{"value", null}}},
+                { "uvTransform",        new Uniform {{"value",new Matrix3()}}},
+                { "uvTransform2",        new Uniform {{"value",new Matrix3()}}},
 
-                { "alphaMap",           new GLUniform {{"value", null}}},
+                { "alphaMap",           new Uniform {{"value", null}}},
             };
         }
 
-        private GLUniforms SpecularMap()
+        private Uniforms SpecularMap()
         {
-            return new GLUniforms
+            return new Uniforms
             {
-                { "specularMap",        new GLUniform {{"value",null}}}
+                { "specularMap",        new Uniform {{"value",null}}}
             };
         }
 
-        private GLUniforms EnvMap()
+        private Uniforms EnvMap()
         {
-            return new GLUniforms
+            return new Uniforms
             {
-                { "envMap",             new GLUniform {{"value",null}}},
-                { "flipEnvMap",         new GLUniform {{"value",-1}}},
-                { "reflectivity",       new GLUniform {{"value",1.0f}}},
-                { "refractionRatio",    new GLUniform {{"value",0.98f}}},
-                { "maxMipLevel",        new GLUniform {{"value",0}}}
+                { "envMap",             new Uniform {{"value",null}}},
+                { "flipEnvMap",         new Uniform {{"value",-1}}},
+                { "reflectivity",       new Uniform {{"value",1.0f}}},
+                { "refractionRatio",    new Uniform {{"value",0.98f}}},
+                { "maxMipLevel",        new Uniform {{"value",0}}}
             };
         }
 
-        private GLUniforms AoMap()
+        private Uniforms AoMap()
         {
-            return new GLUniforms
+            return new Uniforms
             {
-                { "aoMap",              new GLUniform {{"value",null}}},
-                { "aoMapIntensity",     new GLUniform {{"value",1}}}
+                { "aoMap",              new Uniform {{"value",null}}},
+                { "aoMapIntensity",     new Uniform {{"value",1}}}
             };
         }
 
-        private GLUniforms LightMap()
+        private Uniforms LightMap()
         {
-            return new GLUniforms
+            return new Uniforms
             {
-                { "lightMap",           new GLUniform {{"value",null}}},
-                { "lightMapIntensity",  new GLUniform {{"value",1}}}
+                { "lightMap",           new Uniform {{"value",null}}},
+                { "lightMapIntensity",  new Uniform {{"value",1}}}
             };
         }
 
-        private GLUniforms EmissiveMap()
+        private Uniforms EmissiveMap()
         {
-            return new GLUniforms
+            return new Uniforms
             {
-                { "emissiveMap",        new GLUniform {{"value",null}}}
+                { "emissiveMap",        new Uniform {{"value",null}}}
             };
         }
 
-        private GLUniforms BumpMap()
+        private Uniforms BumpMap()
         {
 
-            return new GLUniforms 
+            return new Uniforms
             {
-                { "bumpMap",            new GLUniform {{"value",null }}},
-		        { "bumpScale",          new GLUniform {{"value",1}}}
-            };
-
-        }
-
-        private GLUniforms NormalMap()
-        {
-            return new GLUniforms
-            {
-		        {"normalMap",           new GLUniform {{"value", null }}},
-                {"normalScale",         new GLUniform {{"value", new Vector2( 1, 1 ) }}}
-            };
-        }
-
-        private GLUniforms DisplacementMap()
-        {
-            return new GLUniforms
-            {
-		        {"displacementMap",     new GLUniform {{ "value", null }}},
-                {"displacementScale",   new GLUniform {{ "value", 1 }}},
-		        {"displacementBias",    new GLUniform {{ "value", 0 }}}
+                { "bumpMap",            new Uniform {{"value",null }}},
+                { "bumpScale",          new Uniform {{"value",1}}}
             };
 
         }
 
-        private GLUniforms RoughnessMap()
+        private Uniforms NormalMap()
         {
-            return new GLUniforms
+            return new Uniforms
             {
+                {"normalMap",           new Uniform {{"value", null }}},
+                {"normalScale",         new Uniform {{"value", new Vector2( 1, 1 ) }}}
+            };
+        }
 
-		        {"roughnessMap",        new GLUniform {{ "value", null }}}
+        private Uniforms DisplacementMap()
+        {
+            return new Uniforms
+            {
+                {"displacementMap",     new Uniform {{ "value", null }}},
+                {"displacementScale",   new Uniform {{ "value", 1 }}},
+                {"displacementBias",    new Uniform {{ "value", 0 }}}
             };
 
         }
 
-        private GLUniforms MetalnessMap()
+        private Uniforms RoughnessMap()
         {
-            return new GLUniforms 
+            return new Uniforms
             {
-		        {"metalnessMap",        new GLUniform {{ "value", null }}}
+
+                {"roughnessMap",        new Uniform {{ "value", null }}}
             };
 
         }
 
-        private GLUniforms GradientMap()
+        private Uniforms MetalnessMap()
         {
-            return new GLUniforms 
+            return new Uniforms
             {
-		        {"gradientMap",         new GLUniform {{"value",null }}}
-            };
-        }
-
-        private GLUniforms Fog()
-        {
-            return new GLUniforms
-            {
-		        {"fogDensity",          new GLUniform {{ "value", 0.00025 }}},
-		        {"fogNear",             new GLUniform {{ "value", 1 }}},
-                {"fogFar",              new GLUniform {{ "value", 2000 }}},
-                {"fogColor",            new GLUniform {{ "value", new Color().SetHex(0xffffff)}}}
+                {"metalnessMap",        new Uniform {{ "value", null }}}
             };
 
         }
 
-        private GLUniforms Lights()
+        private Uniforms GradientMap()
+        {
+            return new Uniforms
+            {
+                {"gradientMap",         new Uniform {{"value",null }}}
+            };
+        }
+
+        private Uniforms Fog()
+        {
+            return new Uniforms
+            {
+                {"fogDensity",          new Uniform {{ "value", 0.00025 }}},
+                {"fogNear",             new Uniform {{ "value", 1 }}},
+                {"fogFar",              new Uniform {{ "value", 2000 }}},
+                {"fogColor",            new Uniform {{ "value", new Color().SetHex(0xffffff)}}}
+            };
+
+        }
+
+        private Uniforms Lights()
         {
 
-            return new GLUniforms
+            return new Uniforms
             {
-                {"ambientLightColor",       new GLUniform{{ "value",      new List<Color>()}}},
+                {"ambientLightColor",       new Uniform{{ "value",      new List<Color>()}}},
 
-		        {"lightProbe",              new GLUniform{{ "value",      new List<Light>()}}},
+                {"lightProbe",              new Uniform{{ "value",      new List<Light>()}}},
 
-		        {"directionalLights",       new GLUniform
+                {"directionalLights",       new Uniform
                                             {
-                                                    { "value",      new List<Light>()}, 
-                                                    { "properties", new GLUniform()
+                                                    { "value",      new List<Light>()},
+                                                    { "properties", new Uniform()
                                                                         {
-                                                                            { "direction",      new GLUniform()},
-			                                                                { "color",          new GLUniform()},
-                                        			                        { "shadow",         new GLUniform()},
-			                                                                { "shadowBias",     new GLUniform()},
-			                                                                { "shadowRadius",   new GLUniform()},
-			                                                                { "shadowMapSize",  new GLUniform()}
-		                                                                } 
+                                                                            { "direction",      new Uniform()},
+                                                                            { "color",          new Uniform()},
+                                                                            { "shadow",         new Uniform()},
+                                                                            { "shadowBias",     new Uniform()},
+                                                                            { "shadowRadius",   new Uniform()},
+                                                                            { "shadowMapSize",  new Uniform()}
+                                                                        }
                                                     }
                                             }
                 },
-                {"directionalLightShadows",       new GLUniform
+                {"directionalLightShadows",       new Uniform
                                             {
                                                     { "value",      new List<LightShadow>()},
-                                                    { "properties", new GLUniform()
+                                                    { "properties", new Uniform()
                                                                         {
-                                                                          
-                                                                            { "shadowBias",     new GLUniform()},
-                                                                            {"shadowNormalBias",new GLUniform() },
-                                                                            { "shadowRadius",   new GLUniform()},
-                                                                            { "shadowMapSize",  new GLUniform()}
+
+                                                                            { "shadowBias",     new Uniform()},
+                                                                            {"shadowNormalBias",new Uniform() },
+                                                                            { "shadowRadius",   new Uniform()},
+                                                                            { "shadowMapSize",  new Uniform()}
                                                                         }
                                                     }
                                             }
                 },
 
-                {"directionalShadowMap",    new GLUniform{{ "value",      new List<Texture>() }}},
-		        {"directionalShadowMatrix", new GLUniform{{ "value",      new List<Matrix4>() }}},
+                {"directionalShadowMap",    new Uniform{{ "value",      new List<Texture>() }}},
+                {"directionalShadowMatrix", new Uniform{{ "value",      new List<Matrix4>() }}},
 
-		        {"spotLights",              new GLUniform
+                {"spotLights",              new Uniform
                                             {
                                                 { "value",      new List<Light>()},
-                                                { "properties", new GLUniform()
+                                                { "properties", new Uniform()
                                                                     {
-			                                                                { "color",          new GLUniform()},
-			                                                                { "position",       new GLUniform()},
-			                                                                { "direction",      new GLUniform()},
-			                                                                { "distance",       new GLUniform()},
-			                                                                { "coneCos",        new GLUniform()},
-			                                                                { "penumbraCos",    new GLUniform()},
-			                                                                { "decay",          new GLUniform()}			                                                              
+                                                                            { "color",          new Uniform()},
+                                                                            { "position",       new Uniform()},
+                                                                            { "direction",      new Uniform()},
+                                                                            { "distance",       new Uniform()},
+                                                                            { "coneCos",        new Uniform()},
+                                                                            { "penumbraCos",    new Uniform()},
+                                                                            { "decay",          new Uniform()}
                                                                     }
                                                 }
                                             }
                 },
 
-                 {"spotLightShadows",       new GLUniform
+                 {"spotLightShadows",       new Uniform
                                             {
                                                     { "value",      new List<LightShadow>()},
-                                                    { "properties", new GLUniform()
+                                                    { "properties", new Uniform()
                                                                         {
 
-                                                                            { "shadowBias",     new GLUniform()},
-                                                                            { "shadowNormalBias",new GLUniform() },
-                                                                            { "shadowRadius",   new GLUniform()},
-                                                                            { "shadowMapSize",  new GLUniform()}
+                                                                            { "shadowBias",     new Uniform()},
+                                                                            { "shadowNormalBias",new Uniform() },
+                                                                            { "shadowRadius",   new Uniform()},
+                                                                            { "shadowMapSize",  new Uniform()}
                                                                         }
                                                     }
                                             }
                 },
-                { "spotShadowMap",          new GLUniform{{ "value",      new List<Texture>()}}},
-		        { "spotShadowMatrix",       new GLUniform{{ "value",      new List<Matrix4>()}}},
+                { "spotShadowMap",          new Uniform{{ "value",      new List<Texture>()}}},
+                { "spotShadowMatrix",       new Uniform{{ "value",      new List<Matrix4>()}}},
 
-		        { "pointLights",            new GLUniform
-                                            {
-                                                { "value",      new List<Light>()}, 
-                                                { "properties", new GLUniform()
-                                                                    {
-			                                                                {"color",           new GLUniform()},
-			                                                                {"position",        new GLUniform()},
-			                                                                {"decay",           new GLUniform()},
-			                                                                {"distance",        new GLUniform()}			                                                               
-                                                                    }
-		                                        }
-                                            }
-                },
-
-                {"pointLightShadows",       new GLUniform
-                                            {
-                                                    { "value",      new List<LightShadow>()},
-                                                    { "properties", new GLUniform()
-                                                                        {
-
-                                                                            { "shadowBias",     new GLUniform()},
-                                                                            {"shadowNormalBias",new GLUniform() },
-                                                                            { "shadowRadius",   new GLUniform()},
-                                                                            { "shadowMapSize",  new GLUniform()},
-                                                                            {"shadowCameraNear",new GLUniform()},
-                                                                            {"shadowCameraFar", new GLUniform()}
-                                                                        }
-                                                    }
-                                            }
-                },
-                { "pointShadowMap",         new GLUniform{{ "value",      new List<Texture>()}}},
-		        { "pointShadowMatrix",      new GLUniform{{ "value",      new List<Matrix4>()}}},
-
-		        {"hemisphereLights",        new GLUniform
+                { "pointLights",            new Uniform
                                             {
                                                 { "value",      new List<Light>()},
-                                                { "properties", new GLUniform
+                                                { "properties", new Uniform()
+                                                                    {
+                                                                            {"color",           new Uniform()},
+                                                                            {"position",        new Uniform()},
+                                                                            {"decay",           new Uniform()},
+                                                                            {"distance",        new Uniform()}
+                                                                    }
+                                                }
+                                            }
+                },
+
+                {"pointLightShadows",       new Uniform
+                                            {
+                                                    { "value",      new List<LightShadow>()},
+                                                    { "properties", new Uniform()
                                                                         {
-                                                                            { "direction",      new GLUniform()},
-			                                                                { "skyColor",       new GLUniform()},
-			                                                                { "groundColor",    new GLUniform()}
+
+                                                                            { "shadowBias",     new Uniform()},
+                                                                            {"shadowNormalBias",new Uniform() },
+                                                                            { "shadowRadius",   new Uniform()},
+                                                                            { "shadowMapSize",  new Uniform()},
+                                                                            {"shadowCameraNear",new Uniform()},
+                                                                            {"shadowCameraFar", new Uniform()}
+                                                                        }
+                                                    }
+                                            }
+                },
+                { "pointShadowMap",         new Uniform{{ "value",      new List<Texture>()}}},
+                { "pointShadowMatrix",      new Uniform{{ "value",      new List<Matrix4>()}}},
+
+                {"hemisphereLights",        new Uniform
+                                            {
+                                                { "value",      new List<Light>()},
+                                                { "properties", new Uniform
+                                                                        {
+                                                                            { "direction",      new Uniform()},
+                                                                            { "skyColor",       new Uniform()},
+                                                                            { "groundColor",    new Uniform()}
                                                                         }
                                                 }
                                             }
                 },
 
 		        // TODO (abelnation): RectAreaLight BRDF data needs to be moved from example to main src
-		        {"rectAreaLights",          new GLUniform
+		        {"rectAreaLights",          new Uniform
                                             {
-                                                { "value",      new List<Light>()}, 
-                                                { "properties", new GLUniform
+                                                { "value",      new List<Light>()},
+                                                { "properties", new Uniform
                                                                 {
-			                                                        {"color",       new GLUniform()},
-			                                                        {"position",    new GLUniform()},
-			                                                        {"width",       new GLUniform()},
-			                                                        {"height",      new GLUniform()}
-		                                                        } 
+                                                                    {"color",       new Uniform()},
+                                                                    {"position",    new Uniform()},
+                                                                    {"width",       new Uniform()},
+                                                                    {"height",      new Uniform()}
+                                                                }
                                                 }
                                             }
 
-        	    },
-                {"ltc_1", new GLUniform{{ "value", null}}},
-                {"ltc_2", new GLUniform{{ "value", null}}}
-            };
-        }
-      
-        private GLUniforms Points()
-        {
-            return new GLUniforms{
-		        {"diffuse",     new GLUniform{{"value", new Color().SetHex(0xeeeeee) }}},
-		        {"opacity",     new GLUniform{{"value", 1.0f }}},
-		        {"size",        new GLUniform{{"value", 1.0f }}},
-		        {"scale",       new GLUniform{{"value", 1.0f }}},
-		        {"map",         new GLUniform{{"value", null}}},
-		        {"alphaMap",    new GLUniform{{"value", null}}},
-		        {"uvTransform", new GLUniform{{"value", new Matrix3()}}}
+                },
+                {"ltc_1", new Uniform{{ "value", null}}},
+                {"ltc_2", new Uniform{{ "value", null}}}
             };
         }
 
-        private GLUniforms Sprite()
+        private Uniforms Points()
         {
-            return new GLUniforms {
-		        {"diffuse",         new GLUniform{{ "value", new Color().SetHex( 0xeeeeee ) }}},
-		        {"opacity",         new GLUniform{{ "value", 1.0f }}},
-                {"center",          new GLUniform{{ "value", new Vector2( 0.5f, 0.5f ) }}},
-                {"rotation",        new GLUniform{{ "value", 0.0f }}},
-                {"map",             new GLUniform{{ "value", null }}},
-                {"alphaMap",        new GLUniform{{ "value", null }}},
-                {"uvTransform",     new GLUniform{{ "value", new Matrix3() }}}
-	        };
+            return new Uniforms{
+                {"diffuse",     new Uniform{{"value", new Color().SetHex(0xeeeeee) }}},
+                {"opacity",     new Uniform{{"value", 1.0f }}},
+                {"size",        new Uniform{{"value", 1.0f }}},
+                {"scale",       new Uniform{{"value", 1.0f }}},
+                {"map",         new Uniform{{"value", null}}},
+                {"alphaMap",    new Uniform{{"value", null}}},
+                {"uvTransform", new Uniform{{"value", new Matrix3()}}}
+            };
+        }
+
+        private Uniforms Sprite()
+        {
+            return new Uniforms {
+                {"diffuse",         new Uniform{{ "value", new Color().SetHex( 0xeeeeee ) }}},
+                {"opacity",         new Uniform{{ "value", 1.0f }}},
+                {"center",          new Uniform{{ "value", new Vector2( 0.5f, 0.5f ) }}},
+                {"rotation",        new Uniform{{ "value", 0.0f }}},
+                {"map",             new Uniform{{ "value", null }}},
+                {"alphaMap",        new Uniform{{ "value", null }}},
+                {"uvTransform",     new Uniform{{ "value", new Matrix3() }}}
+            };
         }
     }
 }

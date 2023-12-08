@@ -3,10 +3,11 @@
 
 namespace THREE
 {
+    [Serializable]
     public class GLBufferRenderer
     {
         private GLRenderer renderer;
-        
+
         private GLExtensions extensions;
 
         public GLInfo info;
@@ -33,14 +34,14 @@ namespace THREE
             this.mode = value;
         }
 
-        public virtual void Render(int start,int count)
+        public virtual void Render(int start, int count)
         {
             GL.DrawArrays(this.mode, start, count);
 
             this.info.Update(count, (int)mode);
         }
 
-        public virtual void RenderInstances(Geometry geometry,int start,int count,int primcount)
+        public virtual void RenderInstances(Geometry geometry, int start, int count, int primcount)
         {
             if (primcount == 0) return;
 

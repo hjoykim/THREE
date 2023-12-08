@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace THREE
 {
-
+    [Serializable]
     public class TransformControls : Object3D, INotifyPropertyChanged
     {
         Vector3 _tempVector = new Vector3();
@@ -1467,8 +1467,8 @@ namespace THREE
             helper.Add("translate", SetupGizmo(helperTranslate));
             helper.Add("scale", SetupGizmo(helperScale));
 
-            picker.Add("translate", SetupGizmo(pickerTranslate));     
-            picker.Add("rotate", SetupGizmo(pickerRotate));            
+            picker.Add("translate", SetupGizmo(pickerTranslate));
+            picker.Add("rotate", SetupGizmo(pickerRotate));
             picker.Add("scale", SetupGizmo(pickerScale));
 
             this.Add(gizmo["translate"] as Object3D);
@@ -1479,7 +1479,7 @@ namespace THREE
             this.Add(helper["rotate"] as Object3D);
             this.Add(helper["scale"] as Object3D);
 
-            this.Add(picker["translate"] as Object3D);          
+            this.Add(picker["translate"] as Object3D);
             this.Add(picker["rotate"] as Object3D);
             this.Add(picker["scale"] as Object3D);
 
@@ -1489,7 +1489,7 @@ namespace THREE
             (picker["scale"] as Object3D).Visible = false;
         }
 
-        
+
         private Object3D SetupGizmo(Hashtable gizmoMap)
         {
 

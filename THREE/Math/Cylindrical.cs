@@ -1,6 +1,7 @@
 ﻿
 namespace THREE
 {
+    [Serializable]
     public class Cylindrical
     {
         public float Radius;

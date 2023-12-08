@@ -4,6 +4,7 @@ using THREE;
 
 namespace THREE
 {
+    [Serializable]
     public class PointerLockControls
     {
         private Camera camera;
@@ -107,7 +108,7 @@ namespace THREE
 
         private void Control_SizeChanged(object sender, EventArgs e)
         {
-            camera.Aspect = (sender as OpenTK.GLControl).AspectRatio;
+            camera.Aspect = (sender as OpenTK.WinForms.GLControl).AspectRatio;
             camera.UpdateProjectionMatrix();
         }
 

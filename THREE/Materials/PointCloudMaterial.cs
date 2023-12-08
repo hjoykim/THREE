@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public class PointCloudMaterial : Material
     {
         //public Color Color = Color.White;
@@ -32,5 +34,7 @@ namespace THREE
 
             this.SetValues(parameters);
         }
+
+        public PointCloudMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

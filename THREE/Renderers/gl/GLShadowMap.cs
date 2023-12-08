@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using THREE.Renderers.Shaders;
 
 namespace THREE
 {
+    [Serializable]
     public class GLShadowMap
     {
         public bool Enabled = false;
@@ -23,13 +25,13 @@ namespace THREE
 
         private Vector4 _viewport = Vector4.Zero();
 
-        private Dictionary<int,Material> _depthMaterials = new Dictionary<int,Material>();
+        private Dictionary<int, Material> _depthMaterials = new Dictionary<int, Material>();
 
-        private Dictionary<int,Material> _distanceMaterial = new Dictionary<int,Material>();
+        private Dictionary<int, Material> _distanceMaterial = new Dictionary<int, Material>();
 
         private Hashtable _materialCache = new Hashtable();
 
-        private List<int> shadowSide = new List<int>() {Constants.BackSide,Constants.FrontSide,Constants.DoubleSide};
+        private List<int> shadowSide = new List<int>() { Constants.BackSide, Constants.FrontSide, Constants.DoubleSide };
 
         private ShaderMaterial shadowMaterialVertical;
 
@@ -102,9 +104,9 @@ namespace THREE
             shadowMaterialVertical.Defines.Add("SAMPLE_RATE", 2.0f / 8.0f);
             shadowMaterialVertical.Defines.Add("HALF_SAMPLE_RATE", 1.0f / 8.0f);
 
-            shadowMaterialVertical.Uniforms.Add("shadow_pass", new GLUniform {{ "value", null }});
-            shadowMaterialVertical.Uniforms.Add("resolution", new GLUniform { { "value", Vector2.Zero() } });
-            shadowMaterialVertical.Uniforms.Add("radius", new GLUniform { { "value", 4.0f } });
+            shadowMaterialVertical.Uniforms.Add("shadow_pass", new Uniform { { "value", null } });
+            shadowMaterialVertical.Uniforms.Add("resolution", new Uniform { { "value", Vector2.Zero() } });
+            shadowMaterialVertical.Uniforms.Add("radius", new Uniform { { "value", 4.0f } });
 
             shadowMaterialVertical.VertexShader = vsm_vert;
             shadowMaterialVertical.FragmentShader = vsm_vert;
@@ -115,9 +117,9 @@ namespace THREE
             var fullScreenTri = new BufferGeometry();
             var attribute = new BufferAttribute<float>(new float[] { -1, -1, 0.5f, 3, -1, 0.5f, -1, 3, 0.5f }, 3);
 
-            fullScreenTri.SetAttribute("position",attribute);
+            fullScreenTri.SetAttribute("position", attribute);
 
-            fullScreenMesh = new Mesh(fullScreenTri,shadowMaterialVertical);
+            fullScreenMesh = new Mesh(fullScreenTri, shadowMaterialVertical);
         }
 
         public void Render(List<Light> lights, Scene scene, Camera camera)
@@ -162,53 +164,53 @@ namespace THREE
 
                 _viewportSize.Copy(shadow.MapSize);
 
-                if ( _shadowMapSize.X > maxTextureSize || _shadowMapSize.Y > maxTextureSize ) 
+                if (_shadowMapSize.X > maxTextureSize || _shadowMapSize.Y > maxTextureSize)
                 {
 
-				    Trace.TraceWarning( "THREE.Renderers.gl.GLShadowMap:{0} has shadow exceeding max texture size, reducing",light.type );
+                    Trace.TraceWarning("THREE.Renderers.gl.GLShadowMap:{0} has shadow exceeding max texture size, reducing", light.type);
 
-				    if ( _shadowMapSize.X > maxTextureSize ) 
+                    if (_shadowMapSize.X > maxTextureSize)
                     {
 
-					    _viewportSize.X = (float)System.Math.Floor( maxTextureSize / shadowFrameExtents.X );
-					    _shadowMapSize.X = _viewportSize.X * shadowFrameExtents.X;
-					    shadow.MapSize.X = _viewportSize.X;
+                        _viewportSize.X = (float)System.Math.Floor(maxTextureSize / shadowFrameExtents.X);
+                        _shadowMapSize.X = _viewportSize.X * shadowFrameExtents.X;
+                        shadow.MapSize.X = _viewportSize.X;
 
-				    }
+                    }
 
-				    if ( _shadowMapSize.Y > maxTextureSize ) 
+                    if (_shadowMapSize.Y > maxTextureSize)
                     {
-					    _viewportSize.Y = (float)System.Math.Floor( maxTextureSize / shadowFrameExtents.Y );
-					    _shadowMapSize.Y = _viewportSize.Y * shadowFrameExtents.Y;
-					    shadow.MapSize.Y = _viewportSize.Y;
-				    }
-			    }
-                if ( shadow.Map == null && !(shadow is PointLightShadow) && this.type == Constants.VSMShadowMap ) 
+                        _viewportSize.Y = (float)System.Math.Floor(maxTextureSize / shadowFrameExtents.Y);
+                        _shadowMapSize.Y = _viewportSize.Y * shadowFrameExtents.Y;
+                        shadow.MapSize.Y = _viewportSize.Y;
+                    }
+                }
+                if (shadow.Map == null && !(shadow is PointLightShadow) && this.type == Constants.VSMShadowMap)
                 {
 
-				    Hashtable pars = new Hashtable { {"minFilter", Constants.LinearFilter}, {"magFilter", Constants.LinearFilter}, {"format", Constants.RGBAFormat} };
+                    Hashtable pars = new Hashtable { { "minFilter", Constants.LinearFilter }, { "magFilter", Constants.LinearFilter }, { "format", Constants.RGBAFormat } };
 
-				    shadow.Map = new GLRenderTarget( (int)_shadowMapSize.X, (int)_shadowMapSize.Y, pars );
+                    shadow.Map = new GLRenderTarget((int)_shadowMapSize.X, (int)_shadowMapSize.Y, pars);
 
-				    shadow.Map.Texture.Name = light.Name + ".shadowMap";
+                    shadow.Map.Texture.Name = light.Name + ".shadowMap";
 
-				    shadow.MapPass = new GLRenderTarget((int)_shadowMapSize.X, (int)_shadowMapSize.Y, pars );
+                    shadow.MapPass = new GLRenderTarget((int)_shadowMapSize.X, (int)_shadowMapSize.Y, pars);
 
-				    shadow.Camera.UpdateProjectionMatrix();
+                    shadow.Camera.UpdateProjectionMatrix();
 
-			    }
+                }
 
-			    if ( shadow.Map == null ) 
+                if (shadow.Map == null)
                 {
 
-				    Hashtable pars = new Hashtable {{ "minFilter",Constants.NearestFilter}, {"magFilter",Constants.NearestFilter}, {"format",Constants.RGBAFormat} };
+                    Hashtable pars = new Hashtable { { "minFilter", Constants.NearestFilter }, { "magFilter", Constants.NearestFilter }, { "format", Constants.RGBAFormat } };
 
-				    shadow.Map = new GLRenderTarget((int)_shadowMapSize.X, (int)_shadowMapSize.Y, pars );
-				    shadow.Map.Texture.Name = light.Name + ".shadowMap";
+                    shadow.Map = new GLRenderTarget((int)_shadowMapSize.X, (int)_shadowMapSize.Y, pars);
+                    shadow.Map.Texture.Name = light.Name + ".shadowMap";
 
-				    shadow.Camera.UpdateProjectionMatrix();
+                    shadow.Camera.UpdateProjectionMatrix();
 
-			    }
+                }
 
                 _renderer.SetRenderTarget(shadow.Map);
                 _renderer.Clear();
@@ -230,7 +232,7 @@ namespace THREE
                     if (shadow is PointLightShadow)
                         (shadow as PointLightShadow).UpdateMatrices(light, vp);
                     else
-                    shadow.UpdateMatrices(light);
+                        shadow.UpdateMatrices(light);
 
                     _frustum = shadow.GetFrustum();
 
@@ -249,12 +251,12 @@ namespace THREE
             this.needsUpdate = false;
             _renderer.SetRenderTarget(currentRenderTarget, activeCubeFace, activeMipmapLevel);
         }
-        private void AddUniformsValue(GLUniforms uniforms, string key,object value)
+        private void AddUniformsValue(Uniforms uniforms, string key, object value)
         {
-            GLUniform uniform = new GLUniform() { {"value", value} };
+            Uniform uniform = new Uniform() { { "value", value } };
             if (!uniforms.ContainsKey(key))
             {
-                uniforms.Add(key,uniform);
+                uniforms.Add(key, uniform);
             }
             else
             {
@@ -266,17 +268,17 @@ namespace THREE
             var geometry = _objects.Update(fullScreenMesh);
 
             // vertical pas
-            AddUniformsValue(shadowMaterialVertical.Uniforms,"shadow_pass",shadow.Map.Texture);
-            AddUniformsValue(shadowMaterialVertical.Uniforms,"resolution",shadow.MapSize);
-            AddUniformsValue(shadowMaterialVertical.Uniforms,"radius",shadow.Radius);
+            AddUniformsValue(shadowMaterialVertical.Uniforms, "shadow_pass", shadow.Map.Texture);
+            AddUniformsValue(shadowMaterialVertical.Uniforms, "resolution", shadow.MapSize);
+            AddUniformsValue(shadowMaterialVertical.Uniforms, "radius", shadow.Radius);
             _renderer.SetRenderTarget(shadow.MapPass);
             _renderer.Clear();
             _renderer.RenderBufferDirect(camera, null, geometry, shadowMaterialVertical, fullScreenMesh, null);
 
             // horizontal pass
-            AddUniformsValue(shadowMaterialHorizontal.Uniforms,"shadow_pass",shadow.MapPass.Texture);
-            AddUniformsValue(shadowMaterialHorizontal.Uniforms,"resolution",shadow.MapSize);
-            AddUniformsValue(shadowMaterialHorizontal.Uniforms,"radius",shadow.Radius);
+            AddUniformsValue(shadowMaterialHorizontal.Uniforms, "shadow_pass", shadow.MapPass.Texture);
+            AddUniformsValue(shadowMaterialHorizontal.Uniforms, "resolution", shadow.MapSize);
+            AddUniformsValue(shadowMaterialHorizontal.Uniforms, "radius", shadow.Radius);
             _renderer.SetRenderTarget(shadow.Map);
             _renderer.Clear();
             _renderer.RenderBufferDirect(camera, null, geometry, shadowMaterialHorizontal, fullScreenMesh, null);
@@ -288,9 +290,9 @@ namespace THREE
 
             var visible = object3D.Layers.Test(camera.Layers);
 
-            if(visible && ( object3D is Mesh || object3D is Line || object3D is Points))
+            if (visible && (object3D is Mesh || object3D is Line || object3D is Points))
             {
-                if((object3D.CastShadow || (object3D.ReceiveShadow && type==Constants.VSMShadowMap)) && (!object3D.FrustumCulled || _frustum.IntersectsObject(object3D)))
+                if ((object3D.CastShadow || (object3D.ReceiveShadow && type == Constants.VSMShadowMap)) && (!object3D.FrustumCulled || _frustum.IntersectsObject(object3D)))
                 {
                     object3D.ModelViewMatrix = shadowCamera.MatrixWorldInverse * object3D.MatrixWorld;
 
@@ -328,24 +330,24 @@ namespace THREE
             }
         }
 
-        delegate Material GetMaterialVariant(int useMorphing, int useSkinning, int useInstancing,Dictionary<int,Material> depthMaterials);
+        private delegate Material GetMaterialVariant(int useMorphing, int useSkinning, int useInstancing, Dictionary<int, Material> depthMaterials);
 
-        private GetMaterialVariant GetDepthMaterialVariant = delegate(int useMorphing, int useSkinning, int useInstancing,Dictionary<int,Material> depthMaterials)
+        private GetMaterialVariant GetDepthMaterialVariant = delegate (int useMorphing, int useSkinning, int useInstancing, Dictionary<int, Material> depthMaterials)
         {
             var index = useMorphing << 0 | useSkinning << 1 | useInstancing << 2;
 
             Material material = null;
-            
-           if(!depthMaterials.TryGetValue(index,out material))
-           {
+
+            if (!depthMaterials.TryGetValue(index, out material))
+            {
                 material = new MeshDepthMaterial() { DepthPacking = Constants.RGBADepthPacking, MorphTargets = Convert.ToBoolean(useMorphing), Skinning = Convert.ToBoolean(useSkinning) };
                 depthMaterials[index] = material;
-            }          
+            }
 
             return material;
         };
 
-        private GetMaterialVariant GetDistanceMaterialVariant = delegate(int useMorphing, int useSkinning, int useInstancing,Dictionary<int,Material> distanceMaterials)
+        private GetMaterialVariant GetDistanceMaterialVariant = delegate (int useMorphing, int useSkinning, int useInstancing, Dictionary<int, Material> distanceMaterials)
         {
             var index = useMorphing << 0 | useSkinning << 1 | useInstancing << 2;
 
@@ -359,7 +361,7 @@ namespace THREE
 
             return material;
         };
-       
+
         private Material GetDepthMaterial(Object3D object3D, Material material, Light light, float shadowCameraNear, float shadowCameraFar, int type)
         {
             var geometry = object3D.Geometry;
@@ -420,58 +422,64 @@ namespace THREE
             if (_renderer.LocalClippingEnabled && material.ClipShadows == true && material.ClippingPlanes.Count > 0)
             {
                 // in this case we need a unique material instance reflecting the
-			    // appropriate state
+                // appropriate state
 
-			    Guid keyA = result.Uuid, keyB = material.Uuid;
+                Guid keyA = result.Uuid, keyB = material.Uuid;
 
-			    Hashtable materialsForVariant = (Hashtable)_materialCache[ keyA ];
+                Hashtable materialsForVariant = (Hashtable)_materialCache[keyA];
 
-			    if ( materialsForVariant == null ) {
+                if (materialsForVariant == null)
+                {
 
-				    materialsForVariant = new Hashtable();
-				    _materialCache.Add(keyA,materialsForVariant);
+                    materialsForVariant = new Hashtable();
+                    _materialCache.Add(keyA, materialsForVariant);
 
-			    }
+                }
 
-			    Material cachedMaterial = (Material)materialsForVariant[ keyB ];
+                Material cachedMaterial = (Material)materialsForVariant[keyB];
 
-			    if ( cachedMaterial == null ) {
+                if (cachedMaterial == null)
+                {
 
-				    cachedMaterial = (Material)result.Clone();
-				    materialsForVariant.Add(keyB, cachedMaterial);
+                    cachedMaterial = (Material)result.Clone();
+                    materialsForVariant.Add(keyB, cachedMaterial);
 
-			    }
+                }
 
-			    result = cachedMaterial;
+                result = cachedMaterial;
             }
 
             result.Visible = material.Visible;
-		    result.Wireframe = material.Wireframe;
+            result.Wireframe = material.Wireframe;
 
-		    if ( type == Constants.VSMShadowMap ) {
+            if (type == Constants.VSMShadowMap)
+            {
 
-			    result.Side = ( material.ShadowSide != null ) ? (int)material.ShadowSide : material.Side;
+                result.Side = (material.ShadowSide != null) ? (int)material.ShadowSide : material.Side;
 
-		    } else {
+            }
+            else
+            {
 
-			    result.Side = ( material.ShadowSide != null ) ? (int)material.ShadowSide : shadowSide[ material.Side ];
+                result.Side = (material.ShadowSide != null) ? (int)material.ShadowSide : shadowSide[material.Side];
 
-		    }
+            }
 
-		    result.ClipShadows = material.ClipShadows;
-		    result.ClippingPlanes = material.ClippingPlanes;
-		    result.ClipIntersection = material.ClipIntersection;
+            result.ClipShadows = material.ClipShadows;
+            result.ClippingPlanes = material.ClippingPlanes;
+            result.ClipIntersection = material.ClipIntersection;
 
-		    result.WireframeLineWidth = material.WireframeLineWidth;
-		    result.LineWidth = material.LineWidth;
+            result.WireframeLineWidth = material.WireframeLineWidth;
+            result.LineWidth = material.LineWidth;
 
-		    if ( light is PointLight && result is MeshDistanceMaterial) {
+            if (light is PointLight && result is MeshDistanceMaterial)
+            {
 
-			    (result as MeshDistanceMaterial).ReferencePosition.SetFromMatrixPosition( light.MatrixWorld );
-			    (result as MeshDistanceMaterial).NearDistance = shadowCameraNear;
-			    (result as MeshDistanceMaterial).FarDistance = shadowCameraFar;
+                (result as MeshDistanceMaterial).ReferencePosition.SetFromMatrixPosition(light.MatrixWorld);
+                (result as MeshDistanceMaterial).NearDistance = shadowCameraNear;
+                (result as MeshDistanceMaterial).FarDistance = shadowCameraFar;
 
-		    }
+            }
 
             return result;
         }

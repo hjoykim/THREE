@@ -1,15 +1,18 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class MeshPhysicalMaterial : MeshStandardMaterial
     {
 
         public float Transparency = 0.0f;
-        
+
         public MeshPhysicalMaterial() : base()
         {
             this.type = "MeshPhysicalMaterial";
-            
+
             //this.Defines.Add("STANDARD", ""); already inserted from MeshStandardMaterial
             this.Defines.Add("PHYSICAL", "");
 
@@ -19,11 +22,10 @@ namespace THREE
             this.Reflectivity = 0.5f;
 
             this.ClearcoatNormalScale = new Vector2(1, 1);
-            
+
             this.ClearcoatNormalMap = null;
-
-           
-
         }
+
+        public MeshPhysicalMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

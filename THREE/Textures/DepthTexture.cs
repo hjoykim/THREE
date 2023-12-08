@@ -2,13 +2,14 @@
 
 namespace THREE
 {
+    [Serializable]
     public class DepthTexture : Texture
     {
 
-        public DepthTexture(int width, int height, int? type, int? mapping=null, int? wrapS=null, int? wrapT=null, int? magFilter=null, int? minFilter=null, int? anisotropy=null,int? format=null)
-            :base(null,mapping,wrapS,wrapT,magFilter,minFilter,format,anisotropy)
+        public DepthTexture(int width, int height, int? type, int? mapping = null, int? wrapS = null, int? wrapT = null, int? magFilter = null, int? minFilter = null, int? anisotropy = null, int? format = null)
+            : base(null, mapping, wrapS, wrapT, magFilter, minFilter, format, anisotropy)
         {
-            this.Format = format!=null ? (int)format : Constants.DepthFormat;
+            this.Format = format != null ? (int)format : Constants.DepthFormat;
 
             if (this.Format != Constants.DepthFormat && this.Format != Constants.DepthStencilFormat)
             {

@@ -1,12 +1,13 @@
 ﻿using OpenTK.Graphics.ES30;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public class GLUniform : Hashtable
-    {
+    { //TODO: Hashtable --> Dictionary<string,object>
         public string Id;
 
         public int Addr;
@@ -37,7 +38,8 @@ namespace THREE
 
             return target;
         }
+        public GLUniform(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
-    
+
 
 }

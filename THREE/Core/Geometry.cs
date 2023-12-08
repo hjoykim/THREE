@@ -3,26 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public struct MorphTarget
     {
         public string Name;
         public List<Vector3> Data;
     }
-
+    [Serializable]
     public struct MorphColor
     {
         public string Name;
 
         public List<Color> Colors;
     }
-
-    public class Geometry :ICloneable,IDisposable
+    [Serializable]
+    public class Geometry : ICloneable, IDisposable
     {
 
-        protected static int GeometryIdCount=0;
+        protected static int GeometryIdCount = 0;
 
         private bool _disposed = false;
 
@@ -104,19 +106,18 @@ namespace THREE
             //List<List<Vector2>> uvsList1 = new List<List<Vector2>>();
 
             //uvsList1.Add(uvsList2);
-  
+
 
             //this.FaceVertexUvs.Add(uvsList1);
 
 
             this.IsBufferGeometry = false;
         }
-        
         protected Geometry(Geometry source) : this()
         {
             this.Copy(source);
         }
-       
+
         public Geometry Copy(Geometry source)
         {
             this.Name = source.Name;
@@ -197,16 +198,16 @@ namespace THREE
         {
             return this.ApplyMatrix4(Matrix4.Identity().MakeRotationZ(angle));
         }
-       
-        public virtual Geometry Translate(float x,float y,float z)
+
+        public virtual Geometry Translate(float x, float y, float z)
         {
-            return this.ApplyMatrix4(Matrix4.Identity().MakeTranslation(x,y,z));
+            return this.ApplyMatrix4(Matrix4.Identity().MakeTranslation(x, y, z));
         }
 
 
         public virtual Geometry Scale(float x, float y, float z)
         {
-            Matrix4 m = Matrix4.Identity().MakeScale(x,y,z);          
+            Matrix4 m = Matrix4.Identity().MakeScale(x, y, z);
 
             this.ApplyMatrix4(m);
 
@@ -239,17 +240,17 @@ namespace THREE
             float[] uvs = null;// as BufferAttribute<float>)["array"] as float[];
             float[] uvs2 = null;//as BufferAttribute<float>)["array"] as float[];
 
-            
-            if(attributes.ContainsKey("normal"))
+
+            if (attributes.ContainsKey("normal"))
                 normals = ((BufferAttribute<float>)attributes["normal"]).Array;
 
-            if(attributes.ContainsKey("color"))
-                colors =  ((BufferAttribute<float>)attributes["color"]).Array;
+            if (attributes.ContainsKey("color"))
+                colors = ((BufferAttribute<float>)attributes["color"]).Array;
 
-            if(attributes.ContainsKey("uv"))
+            if (attributes.ContainsKey("uv"))
                 uvs = ((BufferAttribute<float>)attributes["uv"]).Array;
 
-            if(attributes.ContainsKey("uv2"))
+            if (attributes.ContainsKey("uv2"))
                 uvs2 = ((BufferAttribute<float>)attributes["uv2"]).Array;
 
             if (uvs2 != null && uvs2.Length > 0)
@@ -264,9 +265,10 @@ namespace THREE
             for (int i = 0; i < positions.Length; i += 3)
             {
                 this.Vertices.Add(new Vector3().FromArray(positions, i));
-                if (colors != null && colors.Length > 0) {
-                   
-                    this.Colors.Add(Color.ColorName(ColorKeywords.white).FromArray(colors as float[], i));                   
+                if (colors != null && colors.Length > 0)
+                {
+
+                    this.Colors.Add(Color.ColorName(ColorKeywords.white).FromArray(colors as float[], i));
                 }
             }
 
@@ -350,7 +352,7 @@ namespace THREE
                 0, 0, 0, 1);
 
             return this.ApplyMatrix4(matrix);
-        }          
+        }
 
         public virtual void ComputeFaceNormals()
         {
@@ -366,7 +368,7 @@ namespace THREE
                 //    continue;
 
                 var vA = this.Vertices[face.a];
-                var vB = this.Vertices[face.b];                             
+                var vB = this.Vertices[face.b];
                 var vC = this.Vertices[face.c];
 
                 cb = vC - vB;
@@ -379,16 +381,16 @@ namespace THREE
 
             }
         }
-        public virtual void ComputeVertexNormals(bool? areaWeighted=null)
+        public virtual void ComputeVertexNormals(bool? areaWeighted = null)
         {
             if (areaWeighted == null) areaWeighted = true;
 
-           
+
 
             //vertices = new Array(this.vertices.length);
             Vector3[] vertices = new Vector3[this.Vertices.Count];
 
-            for (int v = 0;v < this.Vertices.Count; v++)
+            for (int v = 0; v < this.Vertices.Count; v++)
             {
 
                 vertices[v] = new Vector3();
@@ -405,7 +407,7 @@ namespace THREE
                 var cb = new Vector3();
                 var ab = new Vector3();
 
-                for (int f = 0;f< this.Faces.Count;f++)
+                for (int f = 0; f < this.Faces.Count; f++)
                 {
 
                     var face = this.Faces[f];
@@ -430,7 +432,7 @@ namespace THREE
 
                 this.ComputeFaceNormals();
 
-                for (int f = 0;f<this.Faces.Count; f++)
+                for (int f = 0; f < this.Faces.Count; f++)
                 {
 
                     var face = this.Faces[f];
@@ -443,14 +445,14 @@ namespace THREE
 
             }
 
-            for (int v = 0;v< this.Vertices.Count; v++)
+            for (int v = 0; v < this.Vertices.Count; v++)
             {
 
                 vertices[v].Normalize();
 
             }
 
-            for (int f = 0;f< this.Faces.Count; f++)
+            for (int f = 0; f < this.Faces.Count; f++)
             {
 
                 var face = this.Faces[f];
@@ -491,7 +493,7 @@ namespace THREE
 
             this.ComputeFaceNormals();
 
-            for (int f = 0;f< this.Faces.Count; f++)
+            for (int f = 0; f < this.Faces.Count; f++)
             {
 
                 var face = this.Faces[f];
@@ -529,7 +531,7 @@ namespace THREE
         {
         }
 
-        
+
         public virtual void ComputeBoundingBox()
         {
             if (this.BoundingBox == null)
@@ -584,7 +586,7 @@ namespace THREE
                     this.FaceVertexUvs.Add(list1);
                 else
                     this.FaceVertexUvs[0].Add(list2);
-                
+
             }
             if (uvs2 != null && uvs2.Length > 0)
             {
@@ -598,7 +600,7 @@ namespace THREE
                     this.FaceVertexUvs.Add(list1);
                 else
                     this.FaceVertexUvs[1].Add(list2);
-               
+
             }
 
         }
@@ -608,7 +610,7 @@ namespace THREE
             return new Geometry(this);
         }
 
-        public virtual void Merge(Geometry geometry, Matrix4 matrix, int materialIndexOffset=0)
+        public virtual void Merge(Geometry geometry, Matrix4 matrix, int materialIndexOffset = 0)
         {
             Matrix3 normalMatrix = new Matrix3();
             int vertexOffset = this.Vertices.Count;
@@ -648,7 +650,7 @@ namespace THREE
                 Vector3 normal;
                 var faceVertexNormals = face.VertexNormals;
                 var faceVertexColors = face.VertexColors;
-                
+
                 var faceCopy = new Face3(face.a + vertexOffset, face.b + vertexOffset, face.c + vertexOffset);
                 faceCopy.Normal.Copy(face.Normal);
 
@@ -715,7 +717,7 @@ namespace THREE
          */
         public virtual int MergeVertices()
         {
-            var verticesMap = new Dictionary<string,int>();
+            var verticesMap = new Dictionary<string, int>();
             List<Vector3> unique = new List<Vector3>();
             List<int> changes = new List<int>();
             string key;
@@ -729,7 +731,7 @@ namespace THREE
                 key = System.Math.Round(v.X * precision) + "_" + System.Math.Round(v.Y * precision) + "_" + System.Math.Round(v.Z * precision);
 
                 var value = 0;
-                if (!verticesMap.TryGetValue(key,out value))
+                if (!verticesMap.TryGetValue(key, out value))
                 {
                     verticesMap[key] = i;
                     unique.Add(v);
@@ -752,14 +754,14 @@ namespace THREE
             {
                 var face = this.Faces[i];
 
-               
+
                 face.a = changes[face.a];
                 face.b = changes[face.b];
                 //if (face.c > cLen) continue;
                 face.c = changes[face.c];
 
                 var indices = new int[] { face.a, face.b, face.c };
-               
+
 
                 for (int n = 0; n < 3; n++)
                 {
@@ -794,7 +796,7 @@ namespace THREE
 
                     this.FaceVertexUvs[j].RemoveAt(idx);
                 }
-                
+
 
             }
             var diff = this.Vertices.Count - unique.Count;
@@ -806,7 +808,7 @@ namespace THREE
         public Geometry SetFromPoints(List<Vector3> points)
         {
             this.Vertices.Clear();
-            for(int i = 0; i < points.Count; i++)
+            for (int i = 0; i < points.Count; i++)
             {
                 Vector3 point = points[i];
                 this.Vertices.Add(new Vector3(point.X, point.Y, point.Z));

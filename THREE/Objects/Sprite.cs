@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public class Sprite : Object3D
     {
         Geometry _geometry;
 
-        Vector3  _intersectPoint = new Vector3();
+        Vector3 _intersectPoint = new Vector3();
         Vector3 _worldScale = new Vector3();
         Vector3 _mvPosition = new Vector3();
 
@@ -41,7 +43,7 @@ namespace THREE
 
                 var interleavedBuffer = new InterleavedBuffer<float>(float32Array, 5);
 
-                (_geometry as BufferGeometry).SetIndex( new List<int>(){ 0, 1, 2, 0, 2, 3} );
+                (_geometry as BufferGeometry).SetIndex(new List<int>() { 0, 1, 2, 0, 2, 3 });
                 (_geometry as BufferGeometry).SetAttribute("position", new InterleavedBufferAttribute<float>(interleavedBuffer, 3, 0, false));
                 (_geometry as BufferGeometry).SetAttribute("uv", new InterleavedBufferAttribute<float>(interleavedBuffer, 2, 3, false));
             }
@@ -51,6 +53,7 @@ namespace THREE
 
             this.Center = new Vector2(0.5f, 0.5f);
         }
+        public Sprite(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public override void Raycast(Raycaster raycaster, List<Intersection> intersectionList)
         {

@@ -5,12 +5,13 @@ using THREE;
 
 namespace THREE
 {
+    [Serializable]
     public class DirectGeometry : Geometry
     {
         public List<int> Indices = new List<int>();
 
-        public DirectGeometry() : base() 
-        { 
+        public DirectGeometry() : base()
+        {
         }
 
         public void ComputeGroups(Geometry geometry)
@@ -29,7 +30,7 @@ namespace THREE
                 {
                     materialIndex = face.MaterialIndex;
 
-                    if (group.Start!=-1)
+                    if (group.Start != -1)
                     {
 
                         group.Count = (i * 3) - group.Start;
@@ -53,8 +54,8 @@ namespace THREE
             var vertices = geometry.Vertices;
             var faceVertexUvs = geometry.FaceVertexUvs;
 
-            bool hasFaceVertexUv = faceVertexUvs.Count>0 && faceVertexUvs[0] != null && faceVertexUvs[0].Count > 0;
-            bool hasFaceVertexUv2 = faceVertexUvs.Count>1 && faceVertexUvs[1] != null && faceVertexUvs[1].Count > 0;
+            bool hasFaceVertexUv = faceVertexUvs.Count > 0 && faceVertexUvs[0] != null && faceVertexUvs[0].Count > 0;
+            bool hasFaceVertexUv2 = faceVertexUvs.Count > 1 && faceVertexUvs[1] != null && faceVertexUvs[1].Count > 0;
 
 
             var morphTargets = geometry.MorphTargets;
@@ -63,15 +64,15 @@ namespace THREE
 
             List<MorphTarget> morphTargetsPosition = new List<MorphTarget>();
             List<string> morphTargetKeys = new List<string>();
-            if(morphTargetsLength>0)
+            if (morphTargetsLength > 0)
             {
 
-                foreach(string key in morphTargets.Keys)
+                foreach (string key in morphTargets.Keys)
                 {
-                    morphTargetsPosition.Add(new MorphTarget{Name= key, Data=new List<Vector3>()});
+                    morphTargetsPosition.Add(new MorphTarget { Name = key, Data = new List<Vector3>() });
                     morphTargetKeys.Add(key);
                 }
-                this.MorphTargets.Add("position",morphTargetsPosition);
+                this.MorphTargets.Add("position", morphTargetsPosition);
             }
 
 
@@ -80,11 +81,11 @@ namespace THREE
 
             List<MorphTarget> morphTargetsNormal = new List<MorphTarget>();
             List<string> morphTargetsNormalKeys = new List<string>();
-            if(morphNormalsLength>0)
+            if (morphNormalsLength > 0)
             {
-                foreach(string key in morphNormals.Keys)
+                foreach (string key in morphNormals.Keys)
                 {
-                    morphTargetsNormal.Add(new MorphTarget{Name=key,Data=new List<Vector3>()});
+                    morphTargetsNormal.Add(new MorphTarget { Name = key, Data = new List<Vector3>() });
                     morphTargetsNormalKeys.Add(key);
                 }
                 this.MorphTargets.Add("normal", morphTargetsNormal);
@@ -185,7 +186,7 @@ namespace THREE
                 }
 
                 // morphs
-                for(int j=0;j<morphTargetKeys.Count;j++)
+                for (int j = 0; j < morphTargetKeys.Count; j++)
                 {
                     string key = morphTargetKeys[j];
                     var morphTarget = geometry.MorphTargets[key] as List<Vector3>;
@@ -195,7 +196,7 @@ namespace THREE
                     (morphTargetsPosition[j].Data as List<Vector3>).Add(morphTarget[face.c]);
                 }
 
-                for(int j=0;j<morphTargetsNormalKeys.Count;j++)
+                for (int j = 0; j < morphTargetsNormalKeys.Count; j++)
                 {
                     string key = morphTargetsNormalKeys[j];
 
@@ -218,7 +219,7 @@ namespace THREE
                     this.SkinWeights.Add(skinWeights[face.a]);
                     this.SkinWeights.Add(skinWeights[face.b]);
                     this.SkinWeights.Add(skinWeights[face.c]);
-                }            
+                }
             }
 
             this.ComputeGroups(geometry);
@@ -255,7 +256,7 @@ namespace THREE
             // and prevent finalization code for this object
             // from executing a second time.
             GC.SuppressFinalize(this);
-        }        
+        }
         #endregion
     }
 }
