@@ -14,9 +14,9 @@ namespace THREEExample.Learning.Chapter11
         {
             var planetMaterial = new MeshPhongMaterial
             {
-                Map = TextureLoader.Load("../../../assets/textures/earth/Earth.png"),
-                NormalMap = TextureLoader.Load("../../../assets/textures/earth/EarthNormal.png"),
-                SpecularMap = TextureLoader.Load("../../../assets/textures/earth/EarthSpec.png"),
+                Map = TextureLoader.Load("../../../../assets/textures/earth/Earth.png"),
+                NormalMap = TextureLoader.Load("../../../../assets/textures/earth/EarthNormal.png"),
+                SpecularMap = TextureLoader.Load("../../../../assets/textures/earth/EarthSpec.png"),
                 Specular = new Color(0x4444aa),
                 NormalScale = new Vector2(6, 6),
                 Shininess = 0.5f
@@ -35,8 +35,8 @@ namespace THREEExample.Learning.Chapter11
         {
             var planetMaterial = new MeshPhongMaterial
             {
-                Map = TextureLoader.Load("../../../assets/textures/mars/mars_1k_color.jpg"),
-                NormalMap = TextureLoader.Load("../../../assets/textures/mars/mars_1k_normal.jpg"),
+                Map = TextureLoader.Load("../../../../assets/textures/mars/mars_1k_color.jpg"),
+                NormalMap = TextureLoader.Load("../../../../assets/textures/mars/mars_1k_normal.jpg"),
                 NormalScale = new Vector2(6, 6),
                 Shininess = 0.5f
             };

@@ -26,7 +26,7 @@ namespace THREEExample.Three.Geometries
         }
 		private void InitTextShape()
 		{
-			var font = Font.Load(@"../../../assets/fonts/helvetiker_regular.typeface.json");
+			var font = Font.Load(@"../../../../assets/fonts/helvetiker_regular.typeface.json");
 
 			float xMid;
 			Mesh text;

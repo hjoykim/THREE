@@ -75,7 +75,7 @@ namespace THREEExample.Three.Loader
 
 
             // ASCII file
-            var geometry1 = STLLoader.Load("../../../assets/models/stl/ascii/slotted_disk.stl");
+            var geometry1 = STLLoader.Load("../../../../assets/models/stl/ascii/slotted_disk.stl");
             var material1 = new MeshPhongMaterial() { Color = Color.Hex(0xff5533), Specular = Color.Hex(0x111111), Shininess = 200 };
             var mesh = new Mesh(geometry1, material1);
 
@@ -93,7 +93,7 @@ namespace THREEExample.Three.Loader
             // Binary files
 
 
-            var geometry2 = STLLoader.Load("../../../assets/models/stl/binary/pr2_head_pan.stl");
+            var geometry2 = STLLoader.Load("../../../../assets/models/stl/binary/pr2_head_pan.stl");
             var material2 = new MeshPhongMaterial() { Color = Color.Hex(0xAAAAAA), Specular = Color.Hex(0x111111), Shininess = 200 };
 
             var mesh2 = new Mesh(geometry2, material2);
@@ -108,7 +108,7 @@ namespace THREEExample.Three.Loader
 	        scene.Add(mesh2);
 
 
-            var geometry3 = STLLoader.Load("../../../assets/models/stl/binary/pr2_head_tilt.stl");
+            var geometry3 = STLLoader.Load("../../../../assets/models/stl/binary/pr2_head_tilt.stl");
 
 	        var mesh3 = new Mesh(geometry3, material2);
 
@@ -123,7 +123,7 @@ namespace THREEExample.Three.Loader
 
 
             // Colored binary STL
-            var geometry4 = STLLoader.Load("../../../assets/models/stl/binary/colored.stl");
+            var geometry4 = STLLoader.Load("../../../../assets/models/stl/binary/colored.stl");
 
 	        var meshMaterial = material2;
 	        if (geometry4.UserData.ContainsKey("hasColors") && (bool)geometry4.UserData["hasColors"])

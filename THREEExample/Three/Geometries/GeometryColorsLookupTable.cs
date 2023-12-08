@@ -77,7 +77,7 @@ namespace THREEExample.Three.Geometries
         {
             var loader = new BufferGeometryLoader();
 
-            var geometry = loader.Load(@"../../../assets/models/json/pressure.json");
+            var geometry = loader.Load(@"../../../../assets/models/json/pressure.json");
             geometry.Center();
             geometry.ComputeFlatVertexNormals();
 

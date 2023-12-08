@@ -43,7 +43,7 @@ namespace THREEExample.Three.Geometries
             var instMat = new LineBasicMaterial()
             {
                 Color = Color.Hex(0xffff00),
-                OnBeforeCompile = (Hashtable parameters, GLRenderer render) =>
+                OnBeforeCompile = (Hashtable parameters, IGLRenderer render) =>
                 {
                     parameters["vertexShader"] = string.Format(
                         @"attribute vec3 offset;

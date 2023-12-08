@@ -286,7 +286,7 @@ namespace THREEExample.Learning.Utils
 
             if (useTexture)
             {
-                planeMaterial.Map = TextureLoader.Load("../../../assets/textures/general/floor-wood.jpg");
+                planeMaterial.Map = TextureLoader.Load("../../../../assets/textures/general/floor-wood.jpg");
                 planeMaterial.Map.WrapS = Constants.RepeatWrapping;
                 planeMaterial.Map.WrapT = Constants.RepeatWrapping;
                 planeMaterial.Map.Repeat.Set(80, 80);

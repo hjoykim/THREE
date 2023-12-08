@@ -45,12 +45,12 @@ namespace THREEExample.Learning.Chapter10
             DemoUtils.InitDefaultLighting(scene);
 
             List<string> urls = new List<string>{
-                "../../../assets/textures/cubemap/flowers/right.png",
-                "../../../assets/textures/cubemap/flowers/left.png",
-                "../../../assets/textures/cubemap/flowers/top.png",
-                "../../../assets/textures/cubemap/flowers/bottom.png",
-                "../../../assets/textures/cubemap/flowers/front.png",
-                "../../../assets/textures/cubemap/flowers/back.png"
+                "../../../../assets/textures/cubemap/flowers/right.png",
+                "../../../../assets/textures/cubemap/flowers/left.png",
+                "../../../../assets/textures/cubemap/flowers/top.png",
+                "../../../../assets/textures/cubemap/flowers/bottom.png",
+                "../../../../assets/textures/cubemap/flowers/front.png",
+                "../../../../assets/textures/cubemap/flowers/back.png"
             };
 
             var cubeTexture = CubeTextureLoader.Load(urls);
@@ -63,8 +63,8 @@ namespace THREEExample.Learning.Chapter10
                 Roughness = 0.0f,
             };
             var sphereMaterial = cubeMaterial.Clone() as MeshStandardMaterial;
-            sphereMaterial.NormalMap = TextureLoader.Load("../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg");
-            sphereMaterial.AoMap = TextureLoader.Load("../../../assets/textures/engraved/Engraved_Metal_003_OCC.jpg");
+            sphereMaterial.NormalMap = TextureLoader.Load("../../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg");
+            sphereMaterial.AoMap = TextureLoader.Load("../../../../assets/textures/engraved/Engraved_Metal_003_OCC.jpg");
 
             var cube = new BoxBufferGeometry(16, 12, 12);
             cube1 = AddGeometryWithMaterial(scene, cube, "cube", cubeMaterial);

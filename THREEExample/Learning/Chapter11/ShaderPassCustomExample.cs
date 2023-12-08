@@ -88,15 +88,15 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("rPower", ref rPower, 0.0f, 1.0f))
                 {
-                    (pass.uniforms["rPower"] as GLUniform)["value"] = rPower;
+                    (pass.uniforms["rPower"] as Uniform)["value"] = rPower;
                 }
                 if (ImGui.SliderFloat("gPower", ref gPower, 0.0f, 1.0f))
                 {
-                    (pass.uniforms["gPower"] as GLUniform)["value"] = gPower;
+                    (pass.uniforms["gPower"] as Uniform)["value"] = gPower;
                 }
                 if (ImGui.SliderFloat("rPower", ref bPower, 0.0f, 1.0f))
                 {
-                    (pass.uniforms["bPower"] as GLUniform)["value"] = bPower;
+                    (pass.uniforms["bPower"] as Uniform)["value"] = bPower;
                 }
 
 
@@ -110,7 +110,7 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderInt("bitSize", ref bitSize, 1, 10))
                 {
-                    (pass.uniforms["bitSize"] as GLUniform)["value"] = bitSize;
+                    (pass.uniforms["bitSize"] as Uniform)["value"] = bitSize;
                 }
 
                 ImGui.TreePop();

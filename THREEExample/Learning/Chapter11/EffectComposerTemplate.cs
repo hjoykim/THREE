@@ -172,19 +172,19 @@ namespace THREEExample.Learning.Chapter11
             {
                 if (ImGui.Checkbox("grayScale", ref grayScale))
                 {
-                    (film.uniforms["grayscale"] as GLUniform)["value"] = grayScale;
+                    (film.uniforms["grayscale"] as Uniform)["value"] = grayScale;
                 }
                 if (ImGui.SliderFloat("noiseIntensity", ref noiseIntensity, 0.0f, 1.0f))
                 {
-                    (film.uniforms["nIntensity"] as GLUniform)["value"] = noiseIntensity;
+                    (film.uniforms["nIntensity"] as Uniform)["value"] = noiseIntensity;
                 }
                 if (ImGui.SliderFloat("scanlinesIntensity", ref scanlinesIntensity, 0.0f, 1.0f))
                 {
-                    (film.uniforms["sIntensity"] as GLUniform)["value"] = scanlinesIntensity;
+                    (film.uniforms["sIntensity"] as Uniform)["value"] = scanlinesIntensity;
                 }
                 if (ImGui.SliderFloat("scanlinesCount", ref scanlinesCount, 0.0f, 500.0f))
                 {
-                    (film.uniforms["sCount"] as GLUniform)["value"] = scanlinesCount;
+                    (film.uniforms["sCount"] as Uniform)["value"] = scanlinesCount;
                 }
                 ImGui.TreePop();
             }
@@ -195,19 +195,19 @@ namespace THREEExample.Learning.Chapter11
             {
                 if (ImGui.SliderFloat("centerX", ref centerX, 0.0f, 5.0f))
                 {
-                    (dot.uniforms["center"] as GLUniform)["value"] = new THREE.Vector2(centerX,centerY);
+                    (dot.uniforms["center"] as Uniform)["value"] = new THREE.Vector2(centerX,centerY);
                 }
                 if (ImGui.SliderFloat("centerY", ref centerY, 0.0f, 5.0f))
                 {
-                    (dot.uniforms["center"] as GLUniform)["value"] = new THREE.Vector2(centerX, centerY);
+                    (dot.uniforms["center"] as Uniform)["value"] = new THREE.Vector2(centerX, centerY);
                 }
                 if (ImGui.SliderFloat("angle", ref angle, 0.0f, 3.14f))
                 {
-                    (dot.uniforms["angle"] as GLUniform)["value"] = angle;
+                    (dot.uniforms["angle"] as Uniform)["value"] = angle;
                 }
                 if (ImGui.SliderFloat("scale", ref scale, 0.0f, 10.0f))
                 {
-                    (dot.uniforms["scale"] as GLUniform)["value"] = scale;
+                    (dot.uniforms["scale"] as Uniform)["value"] = scale;
                 }
                 ImGui.TreePop();
             }

@@ -7,6 +7,9 @@
     <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\THREE\Cameras\CinematicCamera.cs">
+      <Link>Cameras\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Compile>
     <Compile Include="..\THREE\Controls\**\*.*">
       <Link>Controls\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>

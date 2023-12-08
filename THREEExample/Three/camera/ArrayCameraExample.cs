@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using THREE;
-using Color = THREE.Color;
 
 namespace THREEExample.Three.camera
 {

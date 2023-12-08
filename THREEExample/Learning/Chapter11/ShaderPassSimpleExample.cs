@@ -84,7 +84,7 @@ namespace THREEExample.Learning.Chapter11
 
             imGuiManager = new ImGuiManager(this.glControl);
 
-            scene.Background = TextureLoader.Load("../../../assets/textures/bg/starry-deep-outer-space-galaxy.jpg");
+            scene.Background = TextureLoader.Load("../../../../assets/textures/bg/starry-deep-outer-space-galaxy.jpg");
 
             (earth, pivot) = Util11.AddEarth(scene);
 
@@ -97,7 +97,7 @@ namespace THREEExample.Learning.Chapter11
             bleachByPassFilter = new ShaderPass(new BleachBypassShader());
             brightnessContrastShader = new ShaderPass(new BrightnessContrastShader());
             colorifyShader = new ShaderPass(new ColorifyShader());
-            colorifyShader.uniforms["color"] = new GLUniform { { "value", color } };
+            colorifyShader.uniforms["color"] = new Uniform { { "value", color } };
 
             colorCorrectionShader = new ShaderPass(new ColorCorrectionShader());
             freiChenShader = new ShaderPass(new FreiChenShader());
@@ -110,12 +110,12 @@ namespace THREEExample.Learning.Chapter11
             luminosityShader = new ShaderPass(new LuminosityShader());
             mirrorShader = new ShaderPass(new MirrorShader());
             pixelShader = new ShaderPass(new PixelShader());
-            (pixelShader.uniforms["resolution"] as GLUniform)["value"] = new Vector2(256, 256);
+            (pixelShader.uniforms["resolution"] as Uniform)["value"] = new Vector2(256, 256);
             rgbShiftShader = new ShaderPass(new RGBShiftShader());
             sepiaShader = new ShaderPass(new SepiaShader());
-            sepiaShader.uniforms["amount"] = new GLUniform { { "value", 0.8f } };
+            sepiaShader.uniforms["amount"] = new Uniform { { "value", 0.8f } };
             sobelOperatorShader = new ShaderPass(new SobelOperatorShader());
-            (sobelOperatorShader.uniforms["resolution"] as GLUniform)["value"] = new Vector2(256, 256);
+            (sobelOperatorShader.uniforms["resolution"] as Uniform)["value"] = new Vector2(256, 256);
             vignetteShader = new ShaderPass(new VignetteShader());
 
             composer = new EffectComposer(renderer);
@@ -180,11 +180,11 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("angle", ref rgbAngle, 0.0f, 0.628f))
                 {
-                    (pass.uniforms["angle"] as GLUniform)["value"] = rgbAngle;
+                    (pass.uniforms["angle"] as Uniform)["value"] = rgbAngle;
                 }
                 if (ImGui.SliderFloat("amount", ref rgbAmount, 0.0f, 0.5f))
                 {
-                    (pass.uniforms["amount"] as GLUniform)["value"] = rgbAmount;
+                    (pass.uniforms["amount"] as Uniform)["value"] = rgbAmount;
                 }
                 ImGui.TreePop();
             }
@@ -199,20 +199,20 @@ namespace THREEExample.Learning.Chapter11
                 if (ImGui.ColorPicker3("defaultColor", ref color1))
                 {
                     defaultColor.SetRGB(color1.X, color1.Y, color1.Z);
-                    (pass.uniforms["defaultColor"] as GLUniform)["value"] = defaultColor;
+                    (pass.uniforms["defaultColor"] as Uniform)["value"] = defaultColor;
                 }
                 if (ImGui.SliderFloat("luminosityThreshold", ref luminosityThreshold, 0.0f, 2.0f))
                 {
-                    (pass.uniforms["luminosityThreshold"] as GLUniform)["value"] = luminosityThreshold;
+                    (pass.uniforms["luminosityThreshold"] as Uniform)["value"] = luminosityThreshold;
                 }
                 if (ImGui.SliderFloat("smoothWidth", ref smoothWidth, 0.0f, 2.0f))
                 {
-                    (pass.uniforms["smoothWidth"] as GLUniform)["value"] = smoothWidth;
+                    (pass.uniforms["smoothWidth"] as Uniform)["value"] = smoothWidth;
                 }
 
                 if (ImGui.SliderFloat("defaultOpacity", ref defaultOpacity, 0.0f, 1.0f))
                 {
-                    (pass.uniforms["defaultOpacity"] as GLUniform)["value"] = defaultOpacity;
+                    (pass.uniforms["defaultOpacity"] as Uniform)["value"] = defaultOpacity;
                 }
 
                 ImGui.TreePop();
@@ -235,7 +235,7 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if(ImGui.SliderInt("side",ref side, 0, 3))
                 {
-                    (pass.uniforms["side"] as GLUniform)["value"] = side;
+                    (pass.uniforms["side"] as Uniform)["value"] = side;
                 }
                 ImGui.TreePop();
             }
@@ -248,7 +248,7 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("pixelSize", ref pixelSize, 0, 10))
                 {
-                    (pass.uniforms["pixelSize"] as GLUniform)["value"] = pixelSize;
+                    (pass.uniforms["pixelSize"] as Uniform)["value"] = pixelSize;
                 }
                 ImGui.Text("resolution");
                 bool changed = false;
@@ -262,7 +262,7 @@ namespace THREEExample.Learning.Chapter11
                 }
                 if (changed)
                 {
-                    (pass.uniforms["resolution"] as GLUniform)["value"] = pixelResolution;
+                    (pass.uniforms["resolution"] as Uniform)["value"] = pixelResolution;
                 }
                 ImGui.TreePop();
             }
@@ -285,7 +285,7 @@ namespace THREEExample.Learning.Chapter11
                 }
                 if (changed)
                 {
-                    (pass.uniforms["resolution"] as GLUniform)["value"] = sobelResolution;
+                    (pass.uniforms["resolution"] as Uniform)["value"] = sobelResolution;
                 }
                 ImGui.TreePop();
             }
@@ -298,11 +298,11 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("offset", ref vignetteOffset, 0.0f, 10.0f))
                 {
-                    (pass.uniforms["offset"] as GLUniform)["value"] = vignetteOffset;
+                    (pass.uniforms["offset"] as Uniform)["value"] = vignetteOffset;
                 }
                 if (ImGui.SliderFloat("darkness", ref darkness, 0.0f, 10.0f))
                 {
-                    (pass.uniforms["darkness"] as GLUniform)["value"] = darkness;
+                    (pass.uniforms["darkness"] as Uniform)["value"] = darkness;
                 }
                 ImGui.TreePop();
             }
@@ -315,11 +315,11 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("sides", ref sides, 0.0f, 20.0f))
                 {
-                    (pass.uniforms["sides"] as GLUniform)["value"] = sides;
+                    (pass.uniforms["sides"] as Uniform)["value"] = sides;
                 }
                 if (ImGui.SliderFloat("angle", ref angle, 0.0f, 6.28f))
                 {
-                    (pass.uniforms["angle"] as GLUniform)["value"] = angle;
+                    (pass.uniforms["angle"] as Uniform)["value"] = angle;
                 }
                 ImGui.TreePop();
             }
@@ -333,7 +333,7 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("opacity", ref opacity, 0.0f, 2.0f))
                 {
-                    (pass.uniforms["opacity"] as GLUniform)["value"] = opacity;
+                    (pass.uniforms["opacity"] as Uniform)["value"] = opacity;
                 }
                 ImGui.TreePop();
             }
@@ -345,11 +345,11 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("brightness", ref brightness, 0.0f, 1.0f))
                 {
-                    (pass.uniforms["brightness"] as GLUniform)["value"] = brightness;
+                    (pass.uniforms["brightness"] as Uniform)["value"] = brightness;
                 }
                 if (ImGui.SliderFloat("contrast", ref contrast, 0.0f, 1.0f))
                 {
-                    (pass.uniforms["contrast"] as GLUniform)["value"] = contrast;
+                    (pass.uniforms["contrast"] as Uniform)["value"] = contrast;
                 }
                 ImGui.TreePop();
             }
@@ -363,7 +363,7 @@ namespace THREEExample.Learning.Chapter11
                 if (ImGui.ColorPicker3("color", ref color1))
                 {
                     color.SetRGB(color1.X, color1.Y, color1.Z);
-                    (pass.uniforms["color"] as GLUniform)["value"] = color;
+                    (pass.uniforms["color"] as Uniform)["value"] = color;
                 }
 
                 ImGui.TreePop();
@@ -386,7 +386,7 @@ namespace THREEExample.Learning.Chapter11
                         changed = true;
 
                     if (changed)
-                        (pass.uniforms["powRGB"] as GLUniform)["value"] = powRGB;
+                        (pass.uniforms["powRGB"] as Uniform)["value"] = powRGB;
                     ImGui.TreePop();
                 }
                 if (ImGui.TreeNode("mulRGB"))
@@ -400,7 +400,7 @@ namespace THREEExample.Learning.Chapter11
                         changed = true;
 
                     if (changed)
-                        (pass.uniforms["mulRGB"] as GLUniform)["value"] = mulRGB;
+                        (pass.uniforms["mulRGB"] as Uniform)["value"] = mulRGB;
                     ImGui.TreePop();
                 }
                 if (ImGui.TreeNode("addRGB"))
@@ -414,7 +414,7 @@ namespace THREEExample.Learning.Chapter11
                         changed = true;
 
                     if (changed)
-                        (pass.uniforms["addRGB"] as GLUniform)["value"] = addRGB;
+                        (pass.uniforms["addRGB"] as Uniform)["value"] = addRGB;
                     ImGui.TreePop();
                 }
 
@@ -445,7 +445,7 @@ namespace THREEExample.Learning.Chapter11
                    
 
                     if (changed)
-                        (pass.uniforms["aspect"] as GLUniform)["value"] = aspect;
+                        (pass.uniforms["aspect"] as Uniform)["value"] = aspect;
                     ImGui.TreePop();
                 }
                 ImGui.TreePop();
@@ -458,11 +458,11 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("hue", ref hue, -1.0f, 1.0f))
                 {
-                    (pass.uniforms["hue"] as GLUniform)["value"] = hue;
+                    (pass.uniforms["hue"] as Uniform)["value"] = hue;
                 }
                 if (ImGui.SliderFloat("saturation", ref saturation, -1.0f, 1.0f))
                 {
-                    (pass.uniforms["saturation"] as GLUniform)["value"] = saturation;
+                    (pass.uniforms["saturation"] as Uniform)["value"] = saturation;
                 }
                 ImGui.TreePop();
             }
@@ -474,7 +474,7 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("amount", ref amount, 0.0f, 10.0f))
                 {
-                    (pass.uniforms["amount"] as GLUniform)["value"] = amount;
+                    (pass.uniforms["amount"] as Uniform)["value"] = amount;
                 }
                 ImGui.TreePop();
             }

@@ -399,13 +399,13 @@ namespace THREEExample.Learning.Chapter04
         }
         private ShaderMaterial CreateMaterial(string vertexShader, string fragmentShader)
         {
-            GLUniforms uniforms = new GLUniforms
+            Uniforms uniforms = new Uniforms
                 {
-                    { "time",       new GLUniform {{"value", 0.2f}}},
-                    { "scale",      new GLUniform {{"value", 0.2f}}},
+                    { "time",       new Uniform {{"value", 0.2f}}},
+                    { "scale",      new Uniform {{"value", 0.2f}}},
 
-                    { "alpha",      new GLUniform {{"value", 0.6f}}},
-                    { "resolution", new GLUniform {{"value",Resolution}}}
+                    { "alpha",      new Uniform {{"value", 0.6f}}},
+                    { "resolution", new Uniform {{"value",Resolution}}}
                 };
 
             var meshMaterial = new ShaderMaterial()
@@ -430,9 +430,9 @@ namespace THREEExample.Learning.Chapter04
 
             cube.Materials.ForEach(m =>
             {
-                var time = (float)((m as ShaderMaterial).Uniforms["time"] as Hashtable)["value"];
+                var time = (float)((m as ShaderMaterial).Uniforms["time"] as Dictionary<string,object>)["value"];
                 time += 0.01f;
-                ((m as ShaderMaterial).Uniforms["time"] as Hashtable)["value"] = time;
+                ((m as ShaderMaterial).Uniforms["time"] as Dictionary<string,object>)["value"] = time;
 
             });
         }

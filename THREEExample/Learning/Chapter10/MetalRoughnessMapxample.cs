@@ -58,12 +58,12 @@ namespace THREEExample.Learning.Chapter10
 
             List<string> urls = new List<string>()
             {
-                "../../../assets/textures/cubemap/car/right.png",
-                "../../../assets/textures/cubemap/car/left.png",
-                "../../../assets/textures/cubemap/car/top.png",
-                "../../../assets/textures/cubemap/car/bottom.png",
-                "../../../assets/textures/cubemap/car/front.png",
-                "../../../assets/textures/cubemap/car/back.png"
+                "../../../../assets/textures/cubemap/car/right.png",
+                "../../../../assets/textures/cubemap/car/left.png",
+                "../../../../assets/textures/cubemap/car/top.png",
+                "../../../../assets/textures/cubemap/car/bottom.png",
+                "../../../../assets/textures/cubemap/car/front.png",
+                "../../../../assets/textures/cubemap/car/back.png"
             };
 
             var cubeTexture = CubeTextureLoader.Load(urls);
@@ -77,10 +77,10 @@ namespace THREEExample.Learning.Chapter10
             cubeMaterial.Roughness = 0.5f;
 
             var cubeMaterialWithMetalMap = (MeshStandardMaterial)cubeMaterial.Clone();
-            cubeMaterialWithMetalMap.MetalnessMap = TextureLoader.Load("../../../assets/textures/engraved/roughness-map.jpg");
+            cubeMaterialWithMetalMap.MetalnessMap = TextureLoader.Load("../../../../assets/textures/engraved/roughness-map.jpg");
 
             var cubeMaterialWithRoughnessMap = (MeshStandardMaterial)cubeMaterial.Clone();
-            cubeMaterialWithRoughnessMap.RoughnessMap = TextureLoader.Load("../../../assets/textures/engraved/roughness-map.jpg");
+            cubeMaterialWithRoughnessMap.RoughnessMap = TextureLoader.Load("../../../../assets/textures/engraved/roughness-map.jpg");
            
 
            

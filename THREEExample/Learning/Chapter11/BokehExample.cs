@@ -51,18 +51,18 @@ namespace THREEExample.Learning.Chapter11
 
             List<string> urls = new List<string>
             {
-                "../../../assets/textures/cubemap/flowers/right.png",
-                "../../../assets/textures/cubemap/flowers/left.png",
-                "../../../assets/textures/cubemap/flowers/top.png",
-                "../../../assets/textures/cubemap/flowers/bottom.png",
-                "../../../assets/textures/cubemap/flowers/front.png",
-                "../../../assets/textures/cubemap/flowers/back.png"
+                "../../../../assets/textures/cubemap/flowers/right.png",
+                "../../../../assets/textures/cubemap/flowers/left.png",
+                "../../../../assets/textures/cubemap/flowers/top.png",
+                "../../../../assets/textures/cubemap/flowers/bottom.png",
+                "../../../../assets/textures/cubemap/flowers/front.png",
+                "../../../../assets/textures/cubemap/flowers/back.png"
             };
             sphereMaterial = new MeshStandardMaterial
             {
                 EnvMap = CubeTextureLoader.Load(urls),
-                NormalMap = TextureLoader.Load("../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg"),
-                AoMap = TextureLoader.Load("../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg"),
+                NormalMap = TextureLoader.Load("../../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg"),
+                AoMap = TextureLoader.Load("../../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg"),
                 Color = Color.Hex(0xffffff),
                 Metalness = 1.0f,
                 Roughness =0.3f
@@ -152,15 +152,15 @@ namespace THREEExample.Learning.Chapter11
 
                 if(ImGui.SliderFloat("focus",ref focus,1.0f,200.0f))
                 {
-                    (pass.uniforms["focus"] as GLUniform)["value"] = focus;
+                    (pass.uniforms["focus"] as Uniform)["value"] = focus;
                 }
                 if (ImGui.SliderFloat("aperture", ref aperture, 0.0000f, 0.0005f))
                 {
-                    (pass.uniforms["aperture"] as GLUniform)["value"] = aperture;
+                    (pass.uniforms["aperture"] as Uniform)["value"] = aperture;
                 }
                 if (ImGui.SliderFloat("maxblur", ref maxblur, 0.1f, 1.0f))
                 {
-                    (pass.uniforms["maxblur"] as GLUniform)["value"] = maxblur;
+                    (pass.uniforms["maxblur"] as Uniform)["value"] = maxblur;
                 }
                 ImGui.TreePop();
             }

@@ -64,12 +64,12 @@ namespace THREEExample.Learning.Chapter09
 
             var cube = new BoxBufferGeometry(16, 16, 16);
             var cubeMaterial = new MeshStandardMaterial();
-            cubeMaterial.Map = TextureLoader.Load("../../../assets/textures/general/plaster.jpg");
+            cubeMaterial.Map = TextureLoader.Load("../../../../assets/textures/general/plaster.jpg");
             cubeMaterial.Metalness = 0.2f;
             cubeMaterial.Roughness = 0.07f;
 
             cubeMaterialWithNormalMap = (MeshStandardMaterial)cubeMaterial.Clone();
-            cubeMaterialWithNormalMap.BumpMap = TextureLoader.Load("../../../assets/textures/stone/stone-bump.jpg");
+            cubeMaterialWithNormalMap.BumpMap = TextureLoader.Load("../../../../assets/textures/stone/stone-bump.jpg");
 
             var cube1 = AddGeometryWithMaterial(scene, cube, "cube-1", cubeMaterial);
             cube1.Position.X = -17;

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using Color = THREE.Color;
 using Vector3 = THREE.Vector3;
 
-namespace THREE.OpenGL.Lights
+namespace THREE
 {
     [Serializable]
     public class LightProbeGenerator

@@ -44,9 +44,9 @@ namespace THREEExample.Learning.Chapter10
             (scene.GetObjectByName("ambientLight") as AmbientLight).Color.SetHex(0x050505);
 
             var earthMaterial = new MeshPhongMaterial{
-                Map = TextureLoader.Load("../../../assets/textures/earth/Earth.png"),
-                NormalMap = TextureLoader.Load("../../../assets/textures/earth/EarthNormal.png"),
-                SpecularMap = TextureLoader.Load("../../../assets/textures/earth/EarthSpec.png"),
+                Map = TextureLoader.Load("../../../../assets/textures/earth/Earth.png"),
+                NormalMap = TextureLoader.Load("../../../../assets/textures/earth/EarthNormal.png"),
+                SpecularMap = TextureLoader.Load("../../../../assets/textures/earth/EarthSpec.png"),
                 NormalScale = new THREE.Vector2(6, 6)
             };
 

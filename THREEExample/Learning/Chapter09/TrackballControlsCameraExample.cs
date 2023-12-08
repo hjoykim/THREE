@@ -52,7 +52,7 @@ namespace THREEExample.Learning.Chapter09
             controls.DynamicDampingFactor = 0.2f;
         }
 
-        public override void Load(OpenTK.GLControl control)
+        public override void Load(GLControl control)
         {
             base.Load(control);
 
@@ -66,7 +66,7 @@ namespace THREEExample.Learning.Chapter09
 
             OBJLoader loader = new OBJLoader();
 
-            var city = loader.Load(@"../../../assets/models/city/city.obj");
+            var city = loader.Load(@"../../../../assets/models/city/city.obj");
             DemoUtils.SetRandomColors(city);
             scene.Add(city);
 
