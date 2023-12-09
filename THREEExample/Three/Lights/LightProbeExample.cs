@@ -49,7 +49,7 @@ namespace THREEExample.Three.Lights
             directionalLight.Position.Set(10, 10, 10);
             scene.Add(directionalLight);
 
-            var urls = GenCubeUrls("../../../assets/textures/cube/pisa/", ".png");
+            var urls = GenCubeUrls("../../../../assets/textures/cube/pisa/", ".png");
 
             cubeTexture = CubeTextureLoader.Load(urls);
             cubeTexture.Encoding = Constants.sRGBEncoding;

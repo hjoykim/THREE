@@ -37,7 +37,7 @@ namespace THREEExample.Three.Lights
             lightProbe = new LightProbe();
             scene.Add(lightProbe);
 
-            var urls = GenCubeUrls("../../../assets/textures/cube/pisa/", ".png");
+            var urls = GenCubeUrls("../../../../assets/textures/cube/pisa/", ".png");
 
             var cubeTexture = CubeTextureLoader.Load(urls);
 

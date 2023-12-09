@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing.Imaging;
-
+﻿
 namespace THREE
 {
-    public interface IColorBuffer
+    public interface IGLColorBuffer
     {
         void SetMask(bool colorMask);
         void SetLocked(bool locked);
@@ -37,7 +32,7 @@ namespace THREE
 
     public interface IGLStateBuffer
     {
-        IColorBuffer color { get; set; }
+        IGLColorBuffer color { get; set; }
         IGLDepthBuffer depth { get; set; }
         IGLStencilBuffer stencil { get; set; }
     }
@@ -65,8 +60,8 @@ namespace THREE
         void BindTexture(int glType, int? glTexture);
         void UnbindTexture();
         void CompressedTexImage2D(int target, int level, int internalFormat, int width, int height, int border, byte[] data);
-        void TexImage2D(int target, int level, int internalFormat, int width, int height, int border, PixelFormat format, int type, byte[] pixels);
-        void TexImage2D(int target, int level, int internalFormat, int width, int height, int border, PixelFormat format, int type, IntPtr pixels);
+        void TexImage2D(int target, int level, int internalFormat, int width, int height, int border, int format, int type, byte[] pixels);
+        void TexImage2D(int target, int level, int internalFormat, int width, int height, int border, int format, int type, IntPtr pixels);
         void TexImage3D(int target, int level, int internalFormat, int width, int height, int depth, int border, int format, int type, byte[] pixels);
         void Scissor(Vector4 scissor);
         void Viewport(Vector4 viewport);

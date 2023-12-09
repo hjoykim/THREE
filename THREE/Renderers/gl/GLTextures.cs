@@ -467,7 +467,7 @@ namespace THREE
 
                                 //if ( glFormat != null ) {
 
-                                state.CompressedTexImage2D(targets[i], j, (All)glInternalFormat, mipmap.Width, mipmap.Height, 0, mipmap.Data);
+                                state.CompressedTexImage2D((int)targets[i], j, glInternalFormat, mipmap.Width, mipmap.Height, 0, mipmap.Data);
 
                                 //} else {
 
@@ -479,7 +479,7 @@ namespace THREE
                             else
                             {
 
-                                state.TexImage2D(targets[i], j, (TextureComponentCount)glInternalFormat, mipmap.Width, mipmap.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, mipmap.Data);
+                                state.TexImage2D((int)targets[i], j,glInternalFormat, mipmap.Width, mipmap.Height, 0,(int)glFormat, (int)glType, mipmap.Data);
 
                             }
 
@@ -505,7 +505,7 @@ namespace THREE
 
                             var data = localImage.LockBits(new Rectangle(0, 0, localImage.Width, localImage.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                            state.TexImage2D(targets[i], 0, (TextureComponentCount)glInternalFormat, data.Width, data.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, data.Scan0);
+                            state.TexImage2D((int)targets[i], 0, glInternalFormat, data.Width, data.Height, 0, (int)glFormat, (int)glType, data.Scan0);
 
                             for (var j = 0; j < mipmaps.Count; j++)
                             {
@@ -514,7 +514,7 @@ namespace THREE
                                 //var mipmapImage = mipmap.image[ i ].image;
                                 var mipmapImage = mipmap.Data;
 
-                                state.TexImage2D(targets[i], j + 1, (TextureComponentCount)glInternalFormat, mipmap.Width, mipmap.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, mipmapImage);
+                                state.TexImage2D((int)targets[i], j + 1, glInternalFormat, mipmap.Width, mipmap.Height, 0, (int)glFormat, (int)glType, mipmapImage);
 
                             }
                             localImage.UnlockBits(data);
@@ -532,7 +532,7 @@ namespace THREE
 
                                 var mipmap = mipmaps[j];
                                 var mipmapImage = mipmap.Data;
-                                state.TexImage2D(targets[i], j + 1, (TextureComponentCount)glInternalFormat, mipmap.Width, mipmap.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, mipmapImage);
+                                state.TexImage2D((int)targets[i], j + 1, glInternalFormat, mipmap.Width, mipmap.Height, 0, (int)glFormat, (int)glType, mipmapImage);
 
                             }
                             localImage.UnlockBits(data);
@@ -804,7 +804,7 @@ namespace THREE
                     }
 
                 }
-                state.TexImage2D(TextureTarget2d.Texture2D, 0, (TextureComponentCount)glInternalFormat, image.Width, image.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, null);
+                state.TexImage2D((int)TextureTarget2d.Texture2D, 0, glInternalFormat, image.Width, image.Height, 0, (int)glFormat, (int)glType, null);
             }
             else if (texture is DataTexture)
             {
@@ -820,7 +820,7 @@ namespace THREE
                     {
 
                         mipmap = mipmaps[i];
-                        state.TexImage2D(TextureTarget2d.Texture2D, i, (TextureComponentCount)glInternalFormat, mipmap.Width, mipmap.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, mipmap.Data);
+                        state.TexImage2D((int)TextureTarget2d.Texture2D, i, glInternalFormat, mipmap.Width, mipmap.Height, 0, (int)glFormat, (int)glType, mipmap.Data);
 
                     }
 
@@ -880,7 +880,7 @@ namespace THREE
                         if (glFormat != null)
                         {
 
-                            state.CompressedTexImage2D(TextureTarget2d.Texture2D, i, (All)glInternalFormat, mipmap.Width, mipmap.Height, 0, mipmap.Data);
+                            state.CompressedTexImage2D((int)TextureTarget2d.Texture2D, i, glInternalFormat, mipmap.Width, mipmap.Height, 0, mipmap.Data);
 
                         }
                         else
@@ -894,7 +894,7 @@ namespace THREE
                     else
                     {
 
-                        state.TexImage2D(TextureTarget2d.Texture2D, i, (TextureComponentCount)glInternalFormat, mipmap.Width, mipmap.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, mipmap.Data);
+                        state.TexImage2D((int)TextureTarget2d.Texture2D, i, glInternalFormat, mipmap.Width, mipmap.Height, 0, (int)glFormat, (int)glType, mipmap.Data);
 
                     }
 
@@ -906,14 +906,14 @@ namespace THREE
             else if (texture is DataTexture2DArray)
             {
 
-                state.TexImage3D(All.Texture2DArray, 0, (All)glInternalFormat, (texture as DataTexture2DArray).Width, (texture as DataTexture2DArray).Height, (texture as DataTexture2DArray).Depth, 0, glFormat, glType, (texture as DataTexture2DArray).Data);
+                state.TexImage3D((int)All.Texture2DArray, 0, glInternalFormat, (texture as DataTexture2DArray).Width, (texture as DataTexture2DArray).Height, (texture as DataTexture2DArray).Depth, 0, (int)glFormat, (int)glType, (texture as DataTexture2DArray).Data);
                 textureProperties["maxMipLevel"] = 0;
 
             }
             else if (texture is DataTexture3D)
             {
 
-                state.TexImage3D(All.Texture3D, 0, (All)glInternalFormat, (texture as DataTexture3D).Width, (texture as DataTexture3D).Height, (texture as DataTexture3D).Depth, 0, glFormat, glType, (texture as DataTexture3D).Data);
+                state.TexImage3D((int)All.Texture3D, 0, glInternalFormat, (texture as DataTexture3D).Width, (texture as DataTexture3D).Height, (texture as DataTexture3D).Depth, 0, (int)glFormat, (int)glType, (texture as DataTexture3D).Data);
                 textureProperties["maxMipLevel"] = 0;
 
             }
@@ -933,7 +933,7 @@ namespace THREE
                     {
 
                         mipmap = mipmaps[i];
-                        state.TexImage2D(TextureTarget2d.Texture2D, i, (TextureComponentCount)glInternalFormat, mipmap.Width, mipmap.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, mipmap.Data);
+                        state.TexImage2D((int)TextureTarget2d.Texture2D, i, glInternalFormat, mipmap.Width, mipmap.Height, 0, (int)glFormat, (int)glType, mipmap.Data);
 
 
                     }
@@ -991,7 +991,7 @@ namespace THREE
             var glInternalFormat = GetInternalFormat(renderTarget.Texture.InternalFormat, (int)glFormat, (int)glType);
 
             TextureTarget2d target = (TextureTarget2d)textureTarget;
-            state.TexImage2D(target, 0, (TextureComponentCount)glInternalFormat, renderTarget.Width, renderTarget.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, IntPtr.Zero);
+            state.TexImage2D((int)(int)target, 0, glInternalFormat, renderTarget.Width, renderTarget.Height, 0, (int)glFormat, (int)glType, IntPtr.Zero);
             int texture = (int)properties.Get(renderTarget.Texture)["glTexture"];
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
             GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, (FramebufferAttachment)attachment, (TextureTarget2d)textureTarget, texture, 0);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Graphics.ES30;
+using System;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
@@ -7,6 +8,7 @@ using Vector3 = THREE.Vector3;
 
 namespace THREE
 {
+    [Serializable]
     public class LightProbeGenerator
     {
         public static LightProbe FromCubeTexture(CubeTexture cubeTexture)
@@ -33,7 +35,7 @@ namespace THREE
                 var width = image.Image.Width;
                 var height = image.Image.Height;
 
-                BitmapData imageData = image.Image.LockBits(new System.Drawing.Rectangle(0, 0, width, height), System.Drawing.Imaging.ImageLockMode.WriteOnly, image.Image.PixelFormat);
+                BitmapData imageData = image.Image.LockBits(new System.Drawing.Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, image.Image.PixelFormat);
 
 
                 var imageWidth = imageData.Width; // assumed to be square
@@ -66,7 +68,7 @@ namespace THREE
 
                     var col = -1 + (pixelIndex % imageWidth + 0.5f) * pixelSize;
 
-                    var row = 1 - (float)(System.Math.Floor((float)pixelIndex / imageWidth) + 0.5f) * pixelSize;
+                    var row = 1 - (float)(Math.Floor((float)pixelIndex / imageWidth) + 0.5f) * pixelSize;
 
                     switch (faceIndex)
                     {
@@ -89,7 +91,7 @@ namespace THREE
 
                     lengthSq = coord.LengthSq();
 
-                    weight = 4 / (float)(System.Math.Sqrt(lengthSq) * lengthSq);
+                    weight = 4 / (float)(Math.Sqrt(lengthSq) * lengthSq);
 
                     totalWeight += weight;
 
@@ -114,7 +116,7 @@ namespace THREE
             }
 
             // normalize
-            norm = (4 * (float)System.Math.PI) / totalWeight;
+            norm = 4 * (float)Math.PI / totalWeight;
 
             for (var j = 0; j < 9; j++)
             {
@@ -169,7 +171,7 @@ namespace THREE
 
                     var col = -1 + (pixelIndex % imageWidth + 0.5f) * pixelSize;
 
-                    var row = 1 - (float)(System.Math.Floor((float)pixelIndex / imageWidth) + 0.5f) * pixelSize;
+                    var row = 1 - (float)(Math.Floor((float)pixelIndex / imageWidth) + 0.5f) * pixelSize;
 
                     switch (faceIndex)
                     {
@@ -192,7 +194,7 @@ namespace THREE
 
                     lengthSq = coord.LengthSq();
 
-                    weight = 4 / (float)(System.Math.Sqrt(lengthSq) * lengthSq);
+                    weight = 4 / (float)(Math.Sqrt(lengthSq) * lengthSq);
 
                     totalWeight += weight;
 
@@ -217,7 +219,7 @@ namespace THREE
             }
 
             // normalize
-            norm = (4 * (float)System.Math.PI) / totalWeight;
+            norm = 4 * (float)Math.PI / totalWeight;
 
             for (var j = 0; j < 9; j++)
             {

@@ -10,11 +10,17 @@
     <Compile Include="..\THREE\Renderers\gl\**\*.*" Link="Renderers\gl\%(RecursiveDir)%(FileName)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Lights\**" />
+    <EmbeddedResource Remove="Lights\**" />
+    <None Remove="Lights\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="..\THREE\Renderers\gl\GLBackground_old.cs" />
     <Compile Remove="..\THREE\Renderers\gl\GLShader.cs" />
     <Compile Remove="..\THREE\Renderers\gl\IGLProgram.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\THREE\Lights\LightProbeGenerator.cs" Link="Lights\LightProbeGenerator.cs" />
     <Compile Include="..\THREE\Renderers\GLCubeRenderTarget.cs" Link="Renderers\GLCubeRenderTarget.cs" />
     <Compile Include="..\THREE\Renderers\GLRenderer.cs" Link="Renderers\GLRenderer.cs" />
   </ItemGroup>
