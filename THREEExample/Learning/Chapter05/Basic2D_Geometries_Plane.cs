@@ -108,6 +108,11 @@ namespace THREEExample.Learning.Chapter05
 
         public override void Render()
         {
+            if (!imGuiManager.ImWantMouse)
+                controls.Enabled = true;
+            else
+                controls.Enabled = false;
+
             controls.Update();
             renderer.Render(scene, camera);
 
