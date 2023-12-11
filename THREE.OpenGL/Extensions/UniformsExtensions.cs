@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using THREE.Renderers.Shaders;
@@ -29,6 +31,24 @@ namespace THREE.OpenGL.Extensions
             }
 
             return glUniforms;
+        }
+
+        public static GLUniforms Merge(this GLUniforms source, GLUniforms target)
+        {
+            foreach(DictionaryEntry entry in target)
+            {
+                if(source.ContainsKey(entry.Key))
+                {
+                    //Trace.TraceWarning("key is already exist {0}. this key's value update to newer", entry.Key);
+                    source[entry.Key] = entry.Value;
+                }
+                else
+                {
+                    source.Add(entry.Key, entry.Value);
+                }
+            }
+
+            return source;
         }
 
 

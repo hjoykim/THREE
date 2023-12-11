@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using THREE.OpenGL.Extensions;
 
 namespace THREE
 {
@@ -158,7 +159,8 @@ namespace THREE
             }
             else if (material is ShaderMaterial)
             {
-
+                var uniforms = (material as ShaderMaterial).Uniforms.ToGLUniforms();
+                m_uniforms.Merge(uniforms);
                 (material as ShaderMaterial).UniformsNeedUpdate = false; // #15581
 
             }
