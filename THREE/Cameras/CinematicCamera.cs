@@ -40,8 +40,8 @@ namespace THREE
                 FragmentShader = depthShader.FragmentShader,
             };
 
-            materialDepth.Uniforms["mNear"] = new Uniform { { "value", near } };
-            materialDepth.Uniforms["mFar"] = new Uniform { { "value", far } };
+            materialDepth.Uniforms["mNear"] = new GLUniform { { "value", near } };
+            materialDepth.Uniforms["mFar"] = new GLUniform { { "value", far } };
 
             SetLens();
 
@@ -116,7 +116,7 @@ namespace THREE
 
             this.Ldistance = this.Linearize(1 - this.Sdistance);
 
-            (this.postprocessing["bokeh_uniforms"] as Uniforms)["focalDepth"] = new Uniform { { "value", this.Ldistance } };
+            (this.postprocessing["bokeh_uniforms"] as GLUniforms)["focalDepth"] = new GLUniform { { "value", this.Ldistance } };
         }
 
         public void InitProcessing()
@@ -138,31 +138,31 @@ namespace THREE
 
                 this.postprocessing["bokeh_uniforms"] = UniformsUtils.CloneUniforms(bokeh_shader.Uniforms);
 
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["tColor"] = new Uniform { { "value", (this.postprocessing["rtTextureColor"] as GLRenderTarget).Texture } };
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["tDepth"] = new Uniform { { "value", (this.postprocessing["rtTextureDepth"] as GLRenderTarget).Texture } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["tColor"] = new GLUniform { { "value", (this.postprocessing["rtTextureColor"] as GLRenderTarget).Texture } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["tDepth"] = new GLUniform { { "value", (this.postprocessing["rtTextureDepth"] as GLRenderTarget).Texture } };
 
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["manualdof"] = new Uniform { { "value", 0 } };
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["shaderFocus"] = new Uniform { { "value", 0 } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["manualdof"] = new GLUniform { { "value", 0 } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["shaderFocus"] = new GLUniform { { "value", 0 } };
 
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["fstop"] = new Uniform { { "value", 2.8f } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["fstop"] = new GLUniform { { "value", 2.8f } };
 
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["showFocus"] = new Uniform { { "value", 1 } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["showFocus"] = new GLUniform { { "value", 1 } };
 
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["focalDepth"] = new Uniform { { "value", 0.1f } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["focalDepth"] = new GLUniform { { "value", 0.1f } };
 
                 //console.log( this.postprocessing["bokeh_uniforms"] as Uniforms)[ "focalDepth" ] = new Uniform{{"value", );
 
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["znear"] = new Uniform { { "value", this.Near } };
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["zfar"] = new Uniform { { "value", this.Near } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["znear"] = new GLUniform { { "value", this.Near } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["zfar"] = new GLUniform { { "value", this.Near } };
 
 
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["textureWidth"] = new Uniform { { "value", glControl.Width } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["textureWidth"] = new GLUniform { { "value", glControl.Width } };
 
-                (this.postprocessing["bokeh_uniforms"] as Uniforms)["textureHeight"] = new Uniform { { "value", glControl.Height } };
+                (this.postprocessing["bokeh_uniforms"] as GLUniforms)["textureHeight"] = new GLUniform { { "value", glControl.Height } };
 
                 this.postprocessing["materialBokeh"] = new ShaderMaterial()
                 {
-                    Uniforms = this.postprocessing["bokeh_uniforms"] as Uniforms,
+                    Uniforms = this.postprocessing["bokeh_uniforms"] as GLUniforms,
                     VertexShader = bokeh_shader.VertexShader,
                     FragmentShader = bokeh_shader.FragmentShader,
                     Defines = new Hashtable{

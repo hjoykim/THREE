@@ -59,8 +59,8 @@ namespace THREEExample.Three.camera
                     Debug.WriteLine("Bingo");
             }
 
-            (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["focalLength"] as Uniform)["value"] = 15.0f;
-            (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["focalDepth"] as Uniform)["value"] = 3.0f;
+            (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["focalLength"] as GLUniform)["value"] = 15.0f;
+            (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["focalDepth"] as GLUniform)["value"] = 3.0f;
 
             raycaster = new Raycaster();
             glControl.MouseMove += OnMouseMove;
@@ -140,29 +140,29 @@ namespace THREEExample.Three.camera
         }
         private void AddCinematicCameraControls()
         {
-            float focalLength = (float)(((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["focalLength"] as Uniform)["value"];
+            float focalLength = (float)(((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["focalLength"] as GLUniform)["value"];
             if(ImGui.SliderFloat("focalLength", ref focalLength, 1.0f, 135f))
             {
-                (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["focalLength"] as Uniform)["value"] = focalLength;               
+                (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["focalLength"] as GLUniform)["value"] = focalLength;               
 
             }
-            float fstop = (float)(((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["fstop"] as Uniform)["value"];
+            float fstop = (float)(((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["fstop"] as GLUniform)["value"];
             if (ImGui.SliderFloat("focalstop", ref fstop, 1.8f, 22f))
             {
-                (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["fstop"] as Uniform)["value"] = fstop;
+                (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["fstop"] as GLUniform)["value"] = fstop;
 
             }
-            float focalDepth = (float)(((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["focalDepth"] as Uniform)["value"];
+            float focalDepth = (float)(((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["focalDepth"] as GLUniform)["value"];
             if (ImGui.SliderFloat("focalDepth", ref focalDepth, 1.8f, 22f))
             {
-                (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["focalDepth"] as Uniform)["value"] = focalDepth;
+                (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["focalDepth"] as GLUniform)["value"] = focalDepth;
 
             }
-            int showFocus = (int)(((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["showFocus"] as Uniform)["value"];
+            int showFocus = (int)(((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["showFocus"] as GLUniform)["value"];
             bool showFocusFlag = showFocus >= 1 ? true : false;
             if (ImGui.Checkbox("showFocus", ref showFocusFlag))
             {
-                (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as Uniforms)["showFocus"] as Uniform)["value"] = showFocusFlag?1:0;
+                (((camera as CinematicCamera).postprocessing["bokeh_uniforms"] as GLUniforms)["showFocus"] as GLUniform)["value"] = showFocusFlag?1:0;
 
             }
         }

@@ -8,7 +8,7 @@
         public string Code { get; set; }
         public string VertexShader { get; set; }
         public string FragmentShader { get; set; }
-        public Uniforms Uniforms { get; set; }
+        public GLUniforms Uniforms { get; set; }
 
         public int ShaderId { get; set; }
 

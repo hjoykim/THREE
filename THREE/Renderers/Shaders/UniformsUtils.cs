@@ -7,14 +7,14 @@ namespace THREE
     [Serializable]
     public class UniformsUtils
     {
-        public static Uniforms CloneUniforms(Uniforms src)
+        public static GLUniforms CloneUniforms(GLUniforms src)
         {
             return src.Copy(src);
         }
 
-        public static Uniforms Merge(List<Uniforms> uniforms)
+        public static GLUniforms Merge(List<GLUniforms> uniforms)
         {
-            var merged = new Uniforms();
+            var merged = new GLUniforms();
 
             foreach (var uniform in uniforms)
             {

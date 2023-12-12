@@ -45,7 +45,7 @@ namespace THREEExample.Three.CustomAttributes
 			}
 ";
 		Line line;
-		Uniforms uniforms;
+		GLUniforms uniforms;
         public CustomAttributesLines() :base()
 		{
 			scene.Background = THREE.Color.Hex(0x050505);
@@ -62,11 +62,11 @@ namespace THREEExample.Three.CustomAttributes
 		}
 		public void BuildScene()
 		{
-			uniforms = new Uniforms
+			uniforms = new GLUniforms
 			{
-				{ "amplitude", new Uniform { { "value", 5.0f } } },
-				{ "opacity", new Uniform { { "value", 0.3f } } },
-				{ "color", new Uniform { { "value", THREE.Color.Hex(0xffffff) } } }
+				{ "amplitude", new GLUniform { { "value", 5.0f } } },
+				{ "opacity", new GLUniform { { "value", 0.3f } } },
+				{ "color", new GLUniform { { "value", THREE.Color.Hex(0xffffff) } } }
 			};
 			var shaderMaterial = new THREE.ShaderMaterial()
 			{
@@ -124,10 +124,10 @@ namespace THREEExample.Three.CustomAttributes
 
             line.Rotation.Y = 0.25f * time;
 
-			(uniforms["amplitude"] as Uniform)["value"] = (float)Math.Sin(0.5 * time);
-			THREE.Color color = (THREE.Color)(uniforms["color"] as Uniform)["value"];
+			(uniforms["amplitude"] as GLUniform)["value"] = (float)Math.Sin(0.5 * time);
+			THREE.Color color = (THREE.Color)(uniforms["color"] as GLUniform)["value"];
 			color.OffsetHSL(0.0005f, 0, 0);
-			(uniforms["color"] as Uniform)["value"] = color;
+			(uniforms["color"] as GLUniform)["value"] = color;
 
             var attributes = (line.Geometry as TextBufferGeometry).Attributes;
             var array = (attributes["displacement"] as BufferAttribute<float>).Array;

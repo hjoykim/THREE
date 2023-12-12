@@ -8,7 +8,7 @@ namespace THREE
     public class ShaderPass : Pass
     {
         private string textureId;
-        public Uniforms uniforms;
+        public GLUniforms uniforms;
         private ShaderMaterial material;
 
         public ShaderPass(Material shader, string textureId = null)
@@ -18,7 +18,7 @@ namespace THREE
             {
                 uniforms = (shader as ShaderMaterial).Uniforms;
                 if (textureId != null && !uniforms.ContainsKey(textureId))
-                    uniforms[textureId] = new Uniform { { "value", null } };
+                    uniforms[textureId] = new GLUniform { { "value", null } };
                 material = shader as ShaderMaterial;
             }
 
@@ -28,7 +28,7 @@ namespace THREE
         {
             if (uniforms.ContainsKey(textureId))
             {
-                (uniforms[textureId] as Uniform)["value"] = readBuffer.Texture;
+                (uniforms[textureId] as GLUniform)["value"] = readBuffer.Texture;
             }
 
             fullScreenQuad.material = material;

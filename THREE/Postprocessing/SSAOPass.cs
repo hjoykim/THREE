@@ -108,16 +108,16 @@ namespace THREE
                     { "blending", Constants.NoBlending }
                 });
 
-            (this.ssaoMaterial.Uniforms["tDiffuse"] as Uniform)["value"] = this.beautyRenderTarget.Texture;
-            (this.ssaoMaterial.Uniforms["tNormal"] as Uniform)["value"] = this.normalRenderTarget.Texture;
-            (this.ssaoMaterial.Uniforms["tDepth"] as Uniform)["value"] = this.beautyRenderTarget.depthTexture;
-            (this.ssaoMaterial.Uniforms["tNoise"] as Uniform)["value"] = this.noiseTexture;
-            (this.ssaoMaterial.Uniforms["kernel"] as Uniform)["value"] = this.kernel;
-            (this.ssaoMaterial.Uniforms["cameraNear"] as Uniform)["value"] = this.camera.Near;
-            (this.ssaoMaterial.Uniforms["cameraFar"] as Uniform)["value"] = this.camera.Far;
-            ((this.ssaoMaterial.Uniforms["resolution"] as Uniform)["value"] as Vector2).Set(this.width, this.height);
-            ((this.ssaoMaterial.Uniforms["cameraProjectionMatrix"] as Uniform)["value"] as Matrix4).Copy(this.camera.ProjectionMatrix);
-            ((this.ssaoMaterial.Uniforms["cameraInverseProjectionMatrix"] as Uniform)["value"] as Matrix4).GetInverse(this.camera.ProjectionMatrix);
+            (this.ssaoMaterial.Uniforms["tDiffuse"] as GLUniform)["value"] = this.beautyRenderTarget.Texture;
+            (this.ssaoMaterial.Uniforms["tNormal"] as GLUniform)["value"] = this.normalRenderTarget.Texture;
+            (this.ssaoMaterial.Uniforms["tDepth"] as GLUniform)["value"] = this.beautyRenderTarget.depthTexture;
+            (this.ssaoMaterial.Uniforms["tNoise"] as GLUniform)["value"] = this.noiseTexture;
+            (this.ssaoMaterial.Uniforms["kernel"] as GLUniform)["value"] = this.kernel;
+            (this.ssaoMaterial.Uniforms["cameraNear"] as GLUniform)["value"] = this.camera.Near;
+            (this.ssaoMaterial.Uniforms["cameraFar"] as GLUniform)["value"] = this.camera.Far;
+            ((this.ssaoMaterial.Uniforms["resolution"] as GLUniform)["value"] as Vector2).Set(this.width, this.height);
+            ((this.ssaoMaterial.Uniforms["cameraProjectionMatrix"] as GLUniform)["value"] as Matrix4).Copy(this.camera.ProjectionMatrix);
+            ((this.ssaoMaterial.Uniforms["cameraInverseProjectionMatrix"] as GLUniform)["value"] as Matrix4).GetInverse(this.camera.ProjectionMatrix);
 
             // normal material
 
@@ -133,8 +133,8 @@ namespace THREE
                 { "fragmentShader", ssaoBlurShader.FragmentShader }
                 });
 
-            (this.blurMaterial.Uniforms["tDiffuse"] as Uniform)["value"] = this.ssaoRenderTarget.Texture;
-            ((this.blurMaterial.Uniforms["resolution"] as Uniform)["value"] as Vector2).Set(this.width, this.height);
+            (this.blurMaterial.Uniforms["tDiffuse"] as GLUniform)["value"] = this.ssaoRenderTarget.Texture;
+            ((this.blurMaterial.Uniforms["resolution"] as GLUniform)["value"] as Vector2).Set(this.width, this.height);
 
             // material for rendering the depth
             SSAODepthShader ssaoDepthShader = new SSAODepthShader();
@@ -145,9 +145,9 @@ namespace THREE
                     { "fragmentShader", ssaoDepthShader.FragmentShader },
                     { "blending", Constants.NoBlending }
                 });
-            (this.depthRenderMaterial.Uniforms["tDepth"] as Uniform)["value"] = this.beautyRenderTarget.depthTexture;
-            (this.depthRenderMaterial.Uniforms["cameraNear"] as Uniform)["value"] = this.camera.Near;
-            (this.depthRenderMaterial.Uniforms["cameraFar"] as Uniform)["value"] = this.camera.Far;
+            (this.depthRenderMaterial.Uniforms["tDepth"] as GLUniform)["value"] = this.beautyRenderTarget.depthTexture;
+            (this.depthRenderMaterial.Uniforms["cameraNear"] as GLUniform)["value"] = this.camera.Near;
+            (this.depthRenderMaterial.Uniforms["cameraFar"] as GLUniform)["value"] = this.camera.Far;
 
             // material for rendering the content of a render target
             CopyShader copyShader = new CopyShader();
@@ -249,9 +249,9 @@ namespace THREE
 
             // render SSAO
 
-            (this.ssaoMaterial.Uniforms["kernelRadius"] as Uniform)["value"] = this.kernelRadius;
-            (this.ssaoMaterial.Uniforms["minDistance"] as Uniform)["value"] = this.minDistance;
-            (this.ssaoMaterial.Uniforms["maxDistance"] as Uniform)["value"] = this.maxDistance;
+            (this.ssaoMaterial.Uniforms["kernelRadius"] as GLUniform)["value"] = this.kernelRadius;
+            (this.ssaoMaterial.Uniforms["minDistance"] as GLUniform)["value"] = this.minDistance;
+            (this.ssaoMaterial.Uniforms["maxDistance"] as GLUniform)["value"] = this.maxDistance;
             this.RenderPass(renderer, this.ssaoMaterial, this.ssaoRenderTarget);
 
             // render blur
@@ -265,7 +265,7 @@ namespace THREE
 
                 case (int)OUTPUT.SSAO:
 
-                    (this.copyMaterial.Uniforms["tDiffuse"] as Uniform)["value"] = this.ssaoRenderTarget.Texture;
+                    (this.copyMaterial.Uniforms["tDiffuse"] as GLUniform)["value"] = this.ssaoRenderTarget.Texture;
                     this.copyMaterial.Blending = Constants.NoBlending;
                     this.RenderPass(renderer, this.copyMaterial, this.RenderToScreen ? null : writeBuffer);
 
@@ -273,7 +273,7 @@ namespace THREE
 
                 case (int)OUTPUT.Blur:
 
-                    (this.copyMaterial.Uniforms["tDiffuse"] as Uniform)["value"] = this.blurRenderTarget.Texture;
+                    (this.copyMaterial.Uniforms["tDiffuse"] as GLUniform)["value"] = this.blurRenderTarget.Texture;
                     this.copyMaterial.Blending = Constants.NoBlending;
                     this.RenderPass(renderer, this.copyMaterial, this.RenderToScreen ? null : writeBuffer);
 
@@ -281,7 +281,7 @@ namespace THREE
 
                 case (int)OUTPUT.Beauty:
 
-                    (this.copyMaterial.Uniforms["tDiffuse"] as Uniform)["value"] = this.beautyRenderTarget.Texture;
+                    (this.copyMaterial.Uniforms["tDiffuse"] as GLUniform)["value"] = this.beautyRenderTarget.Texture;
                     this.copyMaterial.Blending = Constants.NoBlending;
                     this.RenderPass(renderer, this.copyMaterial, this.RenderToScreen ? null : writeBuffer);
 
@@ -295,7 +295,7 @@ namespace THREE
 
                 case (int)OUTPUT.Normal:
 
-                    (this.copyMaterial.Uniforms["tDiffuse"] as Uniform)["value"] = this.normalRenderTarget.Texture;
+                    (this.copyMaterial.Uniforms["tDiffuse"] as GLUniform)["value"] = this.normalRenderTarget.Texture;
                     this.copyMaterial.Blending = Constants.NoBlending;
                     this.RenderPass(renderer, this.copyMaterial, this.RenderToScreen ? null : writeBuffer);
 
@@ -303,11 +303,11 @@ namespace THREE
 
                 case (int)OUTPUT.Default:
 
-                    (this.copyMaterial.Uniforms["tDiffuse"] as Uniform)["value"] = this.beautyRenderTarget.Texture;
+                    (this.copyMaterial.Uniforms["tDiffuse"] as GLUniform)["value"] = this.beautyRenderTarget.Texture;
                     this.copyMaterial.Blending = Constants.NoBlending;
                     this.RenderPass(renderer, this.copyMaterial, this.RenderToScreen ? null : writeBuffer);
 
-                    (this.copyMaterial.Uniforms["tDiffuse"] as Uniform)["value"] = this.blurRenderTarget.Texture;
+                    (this.copyMaterial.Uniforms["tDiffuse"] as GLUniform)["value"] = this.blurRenderTarget.Texture;
                     this.copyMaterial.Blending = Constants.CustomBlending;
                     this.RenderPass(renderer, this.copyMaterial, this.RenderToScreen ? null : writeBuffer);
 
@@ -328,11 +328,11 @@ namespace THREE
             this.normalRenderTarget.SetSize((int)width, (int)height);
             this.blurRenderTarget.SetSize((int)width, (int)height);
 
-            ((this.ssaoMaterial.Uniforms["resolution"] as Uniform)["value"] as Vector2).Set(width, height);
-            ((this.ssaoMaterial.Uniforms["cameraProjectionMatrix"] as Uniform)["value"] as Matrix4).Copy(this.camera.ProjectionMatrix);
-            ((this.ssaoMaterial.Uniforms["cameraInverseProjectionMatrix"] as Uniform)["value"] as Matrix4).GetInverse(this.camera.ProjectionMatrix);
+            ((this.ssaoMaterial.Uniforms["resolution"] as GLUniform)["value"] as Vector2).Set(width, height);
+            ((this.ssaoMaterial.Uniforms["cameraProjectionMatrix"] as GLUniform)["value"] as Matrix4).Copy(this.camera.ProjectionMatrix);
+            ((this.ssaoMaterial.Uniforms["cameraInverseProjectionMatrix"] as GLUniform)["value"] as Matrix4).GetInverse(this.camera.ProjectionMatrix);
 
-            ((this.blurMaterial.Uniforms["resolution"] as Uniform)["value"] as Vector2).Set(width, height);
+            ((this.blurMaterial.Uniforms["resolution"] as GLUniform)["value"] as Vector2).Set(width, height);
 
         }
 

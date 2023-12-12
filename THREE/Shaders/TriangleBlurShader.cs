@@ -8,8 +8,8 @@ namespace THREE
     {
         public TriangleBlurShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("delta", new Uniform { { "value", new Vector2(1, 1) } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("delta", new GLUniform { { "value", new Vector2(1, 1) } });
 
 
 

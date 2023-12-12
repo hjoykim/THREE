@@ -7,11 +7,11 @@ namespace THREE
     {
         public FocusShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("screenWidth", new Uniform { { "value", 1024.0f } });
-            Uniforms.Add("screenHeight", new Uniform { { "value", 1024.0f } });
-            Uniforms.Add("sampleDistance", new Uniform { { "value", 0.94f } });
-            Uniforms.Add("waveFactor", new Uniform { { "value", 0.00125f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("screenWidth", new GLUniform { { "value", 1024.0f } });
+            Uniforms.Add("screenHeight", new GLUniform { { "value", 1024.0f } });
+            Uniforms.Add("sampleDistance", new GLUniform { { "value", 0.94f } });
+            Uniforms.Add("waveFactor", new GLUniform { { "value", 0.00125f } });
 
 
 

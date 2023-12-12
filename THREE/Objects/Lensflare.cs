@@ -25,13 +25,13 @@ namespace THREE
 
             this.Color = color != null ? (Color)color : Color.Hex(0xffffff);
 
-            this.Uniforms = new Uniforms()
+            this.Uniforms = new GLUniforms()
             {
-                {"map",new Uniform(){{"value",null}}},
-                {"occlusionMap",new Uniform(){{"value",null}}},
-                {"color",new Uniform(){{"value",null}}},
-                {"scale",new Uniform(){{"value",null}}},
-                {"screenPosition",new Uniform(){{"value",null}}}
+                {"map",new GLUniform(){{"value",null}}},
+                {"occlusionMap",new GLUniform(){{"value",null}}},
+                {"color",new GLUniform(){{"value",null}}},
+                {"scale",new GLUniform(){{"value",null}}},
+                {"screenPosition",new GLUniform(){{"value",null}}}
             };
 
             this.VertexShader = @"                     
@@ -145,9 +145,9 @@ namespace THREE
 
             material1a = new RawShaderMaterial()
             {
-                Uniforms = new Uniforms(){
-                    {"scale",new Uniform(){{"value",null}}},
-                    {"screenPosition",new Uniform(){{"value",null}}},
+                Uniforms = new GLUniforms(){
+                    {"scale",new GLUniform(){{"value",null}}},
+                    {"screenPosition",new GLUniform(){{"value",null}}},
                 },
                 VertexShader = @"
                     precision highp float;
@@ -184,10 +184,10 @@ namespace THREE
 
             material1b = new RawShaderMaterial()
             {
-                Uniforms = new Uniforms(){
-                     {"map",new Uniform(){{"value",tempMap}}},
-                    {"scale",new Uniform(){{"value",null}}},
-                    {"screenPosition",new Uniform(){{"value",null}}},
+                Uniforms = new GLUniforms(){
+                     {"map",new GLUniform(){{"value",tempMap}}},
+                    {"scale",new GLUniform(){{"value",null}}},
+                    {"screenPosition",new GLUniform(){{"value",null}}},
                 },
                 VertexShader = @"
                     precision highp float;
@@ -235,13 +235,13 @@ namespace THREE
 
             material2 = new RawShaderMaterial()
             {
-                Uniforms = new Uniforms()
+                Uniforms = new GLUniforms()
                 {
-                    {"map", new Uniform(){{"value",null}}},
-                    {"occlusionMap",new Uniform(){{"value",occlusionMap}}},
-                    {"color",new Uniform(){{"value",Color.Hex(0xffffff)}}},
-                    {"scale",new Uniform(){{"value",new Vector2()}}},
-                    {"screenPosition",new Uniform(){{"value",new Vector3()}}}
+                    {"map", new GLUniform(){{"value",null}}},
+                    {"occlusionMap",new GLUniform(){{"value",occlusionMap}}},
+                    {"color",new GLUniform(){{"value",Color.Hex(0xffffff)}}},
+                    {"scale",new GLUniform(){{"value",new Vector2()}}},
+                    {"screenPosition",new GLUniform(){{"value",new Vector3()}}}
                 },
                 VertexShader = shader.VertexShader,
                 FragmentShader = shader.FragmentShader,
@@ -297,8 +297,8 @@ namespace THREE
                 // render pink quad
 
                 var uniforms = material1a.Uniforms;
-                (uniforms["scale"] as Uniform)["value"] = scale;
-                (uniforms["screenPosition"] as Uniform)["value"] = positionScreen;
+                (uniforms["scale"] as GLUniform)["value"] = scale;
+                (uniforms["screenPosition"] as GLUniform)["value"] = positionScreen;
 
                 renderer.RenderBufferDirect(camera, null, geometry, material1a, mesh1, null);
 
@@ -309,8 +309,8 @@ namespace THREE
                 // restore graphics
 
                 uniforms = material1b.Uniforms;
-                (uniforms["scale"] as Uniform)["value"] = scale;
-                (uniforms["screenPosition"] as Uniform)["value"] = positionScreen;
+                (uniforms["scale"] as GLUniform)["value"] = scale;
+                (uniforms["screenPosition"] as GLUniform)["value"] = positionScreen;
 
                 renderer.RenderBufferDirect(camera, null, geometry, material1b, mesh1, null);
 
@@ -326,16 +326,16 @@ namespace THREE
 
                     uniforms = material2.Uniforms;
 
-                    (uniforms["color"] as Uniform)["value"] = element.Color;
-                    (uniforms["map"] as Uniform)["value"] = element.Texture;
-                    Vector3 position = (Vector3)(uniforms["screenPosition"] as Uniform)["value"];
+                    (uniforms["color"] as GLUniform)["value"] = element.Color;
+                    (uniforms["map"] as GLUniform)["value"] = element.Texture;
+                    Vector3 position = (Vector3)(uniforms["screenPosition"] as GLUniform)["value"];
                     position.X = positionScreen.X + vecX * element.Distance;
                     position.Y = positionScreen.Y + vecY * element.Distance;
 
                     size = element.Size / viewport.W;
                     invAspect = viewport.W / viewport.Z;
 
-                    Vector2 elementScale = (Vector2)(uniforms["scale"] as Uniform)["value"];
+                    Vector2 elementScale = (Vector2)(uniforms["scale"] as GLUniform)["value"];
                     elementScale.Set(size * invAspect, size);
 
                     material2.UniformsNeedUpdate = true;

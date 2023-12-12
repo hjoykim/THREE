@@ -222,7 +222,7 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["specularmap"],
@@ -244,7 +244,7 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["specularmap"],
@@ -254,7 +254,7 @@ namespace THREE
                                         UniformsLib["emissivemap"],
                                         UniformsLib["fog"],
                                         UniformsLib["lights"],
-                                        new Uniforms {{"emissive",new Uniform{{"value",Vector3.Zero()}}}}
+                                        new GLUniforms {{"emissive",new GLUniform{{"value",Vector3.Zero()}}}}
                                     });
 
             shader.VertexShader = getChunk("meshlambert_vert");
@@ -270,7 +270,7 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["specularmap"],
@@ -284,11 +284,11 @@ namespace THREE
                                         UniformsLib["gradientmap"],
                                         UniformsLib["fog"],
                                         UniformsLib["lights"],
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"emissive",new Uniform{{"value",new Color().SetHex(0x000000)}}},
-                                            {"specular",new Uniform{{"value",new Color().SetHex(0x111111)}}},
-                                            {"shininess",new Uniform{{"value",30}}}
+                                            {"emissive",new GLUniform{{"value",new Color().SetHex(0x000000)}}},
+                                            {"specular",new GLUniform{{"value",new Color().SetHex(0x111111)}}},
+                                            {"shininess",new GLUniform{{"value",30}}}
                                         }
                                     });
 
@@ -304,7 +304,7 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["specularmap"],
@@ -320,12 +320,12 @@ namespace THREE
                                         UniformsLib["gradientmap"],
                                         UniformsLib["fog"],
                                         UniformsLib["lights"],
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"emissive",new Uniform{{"value",new Color().SetHex(0x000000)}}},
-                                            {"roughness",new Uniform{{"value",0.5f}}},
-                                            {"metalness",new Uniform{{"value",1}}},
-                                            {"envMapIntensity",new Uniform{{"value",1}}}
+                                            {"emissive",new GLUniform{{"value",new Color().SetHex(0x000000)}}},
+                                            {"roughness",new GLUniform{{"value",0.5f}}},
+                                            {"metalness",new GLUniform{{"value",1}}},
+                                            {"envMapIntensity",new GLUniform{{"value",1}}}
                                         }
                                     });
 
@@ -341,7 +341,7 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["specularmap"],
@@ -354,11 +354,11 @@ namespace THREE
                                         UniformsLib["gradientmap"],
                                         UniformsLib["fog"],
                                         UniformsLib["lights"],
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"emissive",new Uniform{{"value",new Color().SetHex(0x000000)}}},
-                                            {"specular",new Uniform{{"value",new Color().SetHex(0x111111)}}},
-                                            {"shininess",new Uniform{{"value",30}}}
+                                            {"emissive",new GLUniform{{"value",new Color().SetHex(0x000000)}}},
+                                            {"specular",new GLUniform{{"value",new Color().SetHex(0x111111)}}},
+                                            {"shininess",new GLUniform{{"value",30}}}
                                         }
                                     });
 
@@ -374,16 +374,16 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["bumpmap"],
                                         UniformsLib["normalmap"],
                                         UniformsLib["displacementmap"],
                                         UniformsLib["fog"],
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"matcap",new Uniform{{"value",null}}},
+                                            {"matcap",new GLUniform{{"value",null}}},
                                         }
                                     });
 
@@ -399,7 +399,7 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["points"],
                                         UniformsLib["fog"],
@@ -417,15 +417,15 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["fog"],
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"scale",new Uniform{{"value",1}}},
-                                            {"dashSize",new Uniform{{"value",1}}},
-                                            {"totalSize",new Uniform{{"value",2}}},
+                                            {"scale",new GLUniform{{"value",1}}},
+                                            {"dashSize",new GLUniform{{"value",1}}},
+                                            {"totalSize",new GLUniform{{"value",2}}},
                                         }
                                     });
 
@@ -441,7 +441,7 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["displacementmap"],
@@ -459,15 +459,15 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["bumpmap"],
                                         UniformsLib["normalmap"],
                                         UniformsLib["displacementmap"],
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"opacity",new Uniform{{"value",1.0f}}},
+                                            {"opacity",new GLUniform{{"value",1.0f}}},
                                         }
                                     });
 
@@ -483,7 +483,7 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["sprite"],
                                         UniformsLib["fog"],
@@ -501,10 +501,10 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = new Uniforms
+            shader.Uniforms = new GLUniforms
                                 {
-                                    {"uvTransform",new Uniform{{"value",new Matrix3()}}},
-                                    {"t2D",new Uniform{{"value",null}}},
+                                    {"uvTransform",new GLUniform{{"value",new Matrix3()}}},
+                                    {"t2D",new GLUniform{{"value",null}}},
                                 };
 
             shader.VertexShader = getChunk("background_vert");
@@ -519,12 +519,12 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["envmap"],
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"opacity",new Uniform{{"value",1.0f}}}
+                                            {"opacity",new GLUniform{{"value",1.0f}}}
                                         }
                                     });
 
@@ -540,9 +540,9 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = new Uniforms
+            shader.Uniforms = new GLUniforms
                                 {
-                                    {"tEquirect",new Uniform{{"value",null}}},
+                                    {"tEquirect",new GLUniform{{"value",null}}},
                                 };
 
             shader.VertexShader = getChunk("equirect_vert");
@@ -557,15 +557,15 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["common"],
                                         UniformsLib["displacementmap"],
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"referencePosition",new Uniform{{"value",Vector3.Zero()}}},
-                                            {"nearDistance",new Uniform{{"value",1}}},
-                                            {"farDistance",new Uniform{{"value",1000}}}
+                                            {"referencePosition",new GLUniform{{"value",Vector3.Zero()}}},
+                                            {"nearDistance",new GLUniform{{"value",1}}},
+                                            {"farDistance",new GLUniform{{"value",1000}}}
                                         }
                                     });
 
@@ -581,14 +581,14 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         UniformsLib["lights"],
                                         UniformsLib["fog"],
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"color",new Uniform{{"value",new Color().SetHex(0x000000)}}},
-                                            {"opacity",new Uniform{{"value",1.0f}}},
+                                            {"color",new GLUniform{{"value",new Color().SetHex(0x000000)}}},
+                                            {"opacity",new GLUniform{{"value",1.0f}}},
                                         }
                                     });
 
@@ -604,17 +604,17 @@ namespace THREE
         {
             var shader = new GLShader();
 
-            shader.Uniforms = UniformsUtils.Merge(new List<Uniforms>
+            shader.Uniforms = UniformsUtils.Merge(new List<GLUniforms>
                                     {
                                         this.StandardShader().Uniforms,
-                                        new Uniforms
+                                        new GLUniforms
                                         {
-                                            {"transparency",new Uniform{{"value",0}}},
-                                            {"clearcoat",new Uniform{{"value",0}}},
-                                            {"clearcoatRoughness",new Uniform{{"value",0}}},
-                                            {"sheen",new Uniform{{"value",new Color().SetHex(0x000000)}}},
-                                            {"clearcoatNormalScale",new Uniform{{"value",new Vector2(1,1)}}},
-                                            {"clearcoatNormalMap",new Uniform{{"value",null}}},
+                                            {"transparency",new GLUniform{{"value",0}}},
+                                            {"clearcoat",new GLUniform{{"value",0}}},
+                                            {"clearcoatRoughness",new GLUniform{{"value",0}}},
+                                            {"sheen",new GLUniform{{"value",new Color().SetHex(0x000000)}}},
+                                            {"clearcoatNormalScale",new GLUniform{{"value",new Vector2(1,1)}}},
+                                            {"clearcoatNormalMap",new GLUniform{{"value",null}}},
                                         }
                                     });
 

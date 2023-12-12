@@ -77,9 +77,9 @@ namespace THREEExample.Learning.Chapter11
 
             // setup some effects to apply
             effectSepia = new ShaderPass(new SepiaShader());
-            effectSepia.uniforms["amount"] = new Uniform { { "value", 0.8f } };
+            effectSepia.uniforms["amount"] = new GLUniform { { "value", 0.8f } };
             effectColorify = new ShaderPass(new ColorifyShader());
-            effectColorify.uniforms["color"] = new Uniform { { "value", new Color(0.5f, 0.5f, 1f) } };
+            effectColorify.uniforms["color"] = new GLUniform { { "value", new Color(0.5f, 0.5f, 1f) } };
 
             var effectCopy = new ShaderPass(new CopyShader());
             effectCopy.RenderToScreen = true;
@@ -131,7 +131,7 @@ namespace THREEExample.Learning.Chapter11
             {
                 if (ImGui.SliderFloat("amount", ref amount, 0, 10))
                 {
-                    (pass.uniforms["amount"] as Uniform)["value"] = amount;
+                    (pass.uniforms["amount"] as GLUniform)["value"] = amount;
                 }
 
                 ImGui.TreePop();
@@ -145,7 +145,7 @@ namespace THREEExample.Learning.Chapter11
                 if (ImGui.ColorPicker3("color", ref color1))
                 {
                     color.SetRGB(color1.X, color1.Y, color1.Z);
-                    (pass.uniforms["color"] as Uniform)["value"] = color;
+                    (pass.uniforms["color"] as GLUniform)["value"] = color;
                 }
 
                 ImGui.TreePop();

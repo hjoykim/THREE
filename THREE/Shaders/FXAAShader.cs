@@ -7,8 +7,8 @@ namespace THREE
     {
         public FXAAShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("resolution", new Uniform { { "value", new Vector2(1 / 1024.0f, 1 / 512.0f) } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("resolution", new GLUniform { { "value", new Vector2(1 / 1024.0f, 1 / 512.0f) } });
 
             VertexShader = @"
                 varying vec2 vUv; 

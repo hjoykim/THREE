@@ -8,12 +8,12 @@ namespace THREE
     {
         public FilmShader()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("time", new Uniform { { "value", 0.0f } });
-            Uniforms.Add("nIntensity", new Uniform { { "value", 0.5f } });
-            Uniforms.Add("sIntensity", new Uniform { { "value", 0.05f } });
-            Uniforms.Add("sCount", new Uniform { { "value", 4096 } });
-            Uniforms.Add("grayscale", new Uniform { { "value", 1 } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("time", new GLUniform { { "value", 0.0f } });
+            Uniforms.Add("nIntensity", new GLUniform { { "value", 0.5f } });
+            Uniforms.Add("sIntensity", new GLUniform { { "value", 0.05f } });
+            Uniforms.Add("sCount", new GLUniform { { "value", 4096 } });
+            Uniforms.Add("grayscale", new GLUniform { { "value", 1 } });
 
             VertexShader = @"
 varying vec2 vUv; 

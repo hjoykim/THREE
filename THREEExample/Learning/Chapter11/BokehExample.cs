@@ -152,15 +152,15 @@ namespace THREEExample.Learning.Chapter11
 
                 if(ImGui.SliderFloat("focus",ref focus,1.0f,200.0f))
                 {
-                    (pass.uniforms["focus"] as Uniform)["value"] = focus;
+                    (pass.uniforms["focus"] as GLUniform)["value"] = focus;
                 }
                 if (ImGui.SliderFloat("aperture", ref aperture, 0.0000f, 0.0005f))
                 {
-                    (pass.uniforms["aperture"] as Uniform)["value"] = aperture;
+                    (pass.uniforms["aperture"] as GLUniform)["value"] = aperture;
                 }
                 if (ImGui.SliderFloat("maxblur", ref maxblur, 0.1f, 1.0f))
                 {
-                    (pass.uniforms["maxblur"] as Uniform)["value"] = maxblur;
+                    (pass.uniforms["maxblur"] as GLUniform)["value"] = maxblur;
                 }
                 ImGui.TreePop();
             }

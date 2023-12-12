@@ -8,20 +8,20 @@ namespace THREE
     {
         public DigitalGlitch() : base()
         {
-            Uniforms = new Uniforms
+            Uniforms = new GLUniforms
             {
 
-                { "tDiffuse", new Uniform{{"value", null } } }, //diffuse texture
-				{ "tDisp", new Uniform{{"value", null } } }, //displacement texture for digital glitch squares
-				{ "byp", new Uniform{{"value", 0.0f } } }, //apply the glitch ?
-				{ "amount", new Uniform{{"value", 0.08f } } },
-                { "angle", new Uniform{{"value", 0.02f } } },
-                { "seed", new Uniform{{"value", 0.02f } } },
-                { "seed_x", new Uniform{{"value", 0.02f } } }, //-1,1
-				{ "seed_y", new Uniform{{"value", 0.02f } } }, //-1,1
-				{ "distortion_x", new Uniform{{"value", 0.5f } } },
-                { "distortion_y", new Uniform{{"value", 0.6f } } },
-                { "col_s", new Uniform{{"value", 0.05f } } }
+                { "tDiffuse", new GLUniform{{"value", null } } }, //diffuse texture
+				{ "tDisp", new GLUniform{{"value", null } } }, //displacement texture for digital glitch squares
+				{ "byp", new GLUniform{{"value", 0.0f } } }, //apply the glitch ?
+				{ "amount", new GLUniform{{"value", 0.08f } } },
+                { "angle", new GLUniform{{"value", 0.02f } } },
+                { "seed", new GLUniform{{"value", 0.02f } } },
+                { "seed_x", new GLUniform{{"value", 0.02f } } }, //-1,1
+				{ "seed_y", new GLUniform{{"value", 0.02f } } }, //-1,1
+				{ "distortion_x", new GLUniform{{"value", 0.5f } } },
+                { "distortion_y", new GLUniform{{"value", 0.6f } } },
+                { "col_s", new GLUniform{{"value", 0.05f } } }
             };
 
             VertexShader = @"

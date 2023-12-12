@@ -21,7 +21,7 @@ namespace THREE
 
             GLShader shader = new GLShader
             {
-                Uniforms = new Uniforms { { "tEquirect", new Uniform { { "value", null } } } },
+                Uniforms = new GLUniforms { { "tEquirect", new GLUniform { { "value", null } } } },
                 VertexShader = @"
                     varying vec3 vWorldDirection;
 
@@ -71,7 +71,7 @@ namespace THREE
                 Blending = Constants.NoBlending
             };
 
-            material.Uniforms["tEquirect"] = new Uniform { { "value", texture } };
+            material.Uniforms["tEquirect"] = new GLUniform { { "value", texture } };
 
             var mesh = new Mesh(geometry, material);
             var scene = new Scene();

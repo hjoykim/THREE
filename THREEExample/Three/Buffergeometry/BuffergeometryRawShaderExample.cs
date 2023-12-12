@@ -105,8 +105,8 @@ namespace THREEExample.Three.Buffergeometry
 			var material = new RawShaderMaterial()
 			{
 
-				Uniforms = new Uniforms() {
-						{ "time",new Uniform() {{ "value", 1.0f} } }
+				Uniforms = new GLUniforms() {
+						{ "time",new GLUniform() {{ "value", 1.0f} } }
 				},
 				VertexShader = vertex,
 				FragmentShader = fragment,
@@ -122,7 +122,7 @@ namespace THREEExample.Three.Buffergeometry
         {
             time = time + 1f;
             mesh.Rotation.Y = time * 0.0005f;
-            ((mesh.Material as RawShaderMaterial).Uniforms["time"] as Uniform)["value"] = time * 0.005f;
+            ((mesh.Material as RawShaderMaterial).Uniforms["time"] as GLUniform)["value"] = time * 0.005f;
 
             base.Render();
         }

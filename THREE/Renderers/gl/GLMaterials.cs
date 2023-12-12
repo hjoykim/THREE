@@ -5,7 +5,7 @@ namespace THREE
 {
     [Serializable]
     public class GLMaterials
-    { // TODO: Hashtable to Uniform
+    { 
         private GLProperties properties;
 
         public GLMaterials(GLProperties properties)
@@ -17,12 +17,12 @@ namespace THREE
             if (material.BumpMap != null)
             {
 
-                (uniforms["bumpMap"] as Hashtable)["value"] = material.BumpMap;
-                (uniforms["bumpScale"] as Hashtable)["value"] = material.BumpScale;
+                (uniforms["bumpMap"] as GLUniform)["value"] = material.BumpMap;
+                (uniforms["bumpScale"] as GLUniform)["value"] = material.BumpScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    float value = (float)(uniforms["bumpScale"] as Hashtable)["value"];
-                    (uniforms["bumpScale"] as Hashtable)["value"] = -1 * value;
+                    float value = (float)(uniforms["bumpScale"] as GLUniform)["value"];
+                    (uniforms["bumpScale"] as GLUniform)["value"] = -1 * value;
                 }
 
             }
@@ -30,12 +30,12 @@ namespace THREE
             if (material.NormalMap != null)
             {
 
-                (uniforms["normalMap"] as Hashtable)["value"] = material.NormalMap;
-                (uniforms["normalScale"] as Hashtable)["value"] = material.NormalScale;
+                (uniforms["normalMap"] as GLUniform)["value"] = material.NormalMap;
+                (uniforms["normalScale"] as GLUniform)["value"] = material.NormalScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    Vector2 value = (Vector2)(uniforms["normalScale"] as Hashtable)["value"];
-                    (uniforms["normalScale"] as Hashtable)["value"] = value * -1.0f;
+                    Vector2 value = (Vector2)(uniforms["normalScale"] as GLUniform)["value"];
+                    (uniforms["normalScale"] as GLUniform)["value"] = value * -1.0f;
                 }
 
 
@@ -44,9 +44,9 @@ namespace THREE
             if (material.DisplacementMap != null)
             {
 
-                (uniforms["displacementMap"] as Hashtable)["value"] = material.DisplacementMap;
-                (uniforms["displacementScale"] as Hashtable)["value"] = material.DisplacementScale;
-                (uniforms["displacementBias"] as Hashtable)["value"] = material.DisplacementBias;
+                (uniforms["displacementMap"] as GLUniform)["value"] = material.DisplacementMap;
+                (uniforms["displacementScale"] as GLUniform)["value"] = material.DisplacementScale;
+                (uniforms["displacementBias"] as GLUniform)["value"] = material.DisplacementBias;
 
             }
 
@@ -153,13 +153,13 @@ namespace THREE
             else if (material is ShadowMaterial)
             {
 
-                (m_uniforms["color"] as Hashtable)["value"] = (material as ShadowMaterial).Color;
-                (m_uniforms["opacity"] as Hashtable)["value"] = (material as ShadowMaterial).Opacity;
+                (m_uniforms["color"] as GLUniform)["value"] = (material as ShadowMaterial).Color;
+                (m_uniforms["opacity"] as GLUniform)["value"] = (material as ShadowMaterial).Opacity;
 
             }
             else if (material is ShaderMaterial)
             {
-                var uniforms = (material as ShaderMaterial).Uniforms.ToGLUniforms();
+                var uniforms = (material as ShaderMaterial).Uniforms;
                 m_uniforms.Merge(uniforms);
                 (material as ShaderMaterial).UniformsNeedUpdate = false; // #15581
 
@@ -170,19 +170,19 @@ namespace THREE
 
         public void RefreshFogUniforms(GLUniforms uniforms, Fog fog)
         {
-            (uniforms["fogColor"] as Hashtable)["value"] = fog.Color;
+            (uniforms["fogColor"] as GLUniform)["value"] = fog.Color;
 
             if (fog is Fog)
             {
 
-                (uniforms["fogNear"] as Hashtable)["value"] = fog.Near;
-                (uniforms["fogFar"] as Hashtable)["value"] = fog.Far;
+                (uniforms["fogNear"] as GLUniform)["value"] = fog.Near;
+                (uniforms["fogFar"] as GLUniform)["value"] = fog.Far;
 
             }
             else if (fog is FogExp2)
             {
 
-                (uniforms["fogDensity"] as Hashtable)["value"] = (fog as FogExp2).Density;
+                (uniforms["fogDensity"] as GLUniform)["value"] = (fog as FogExp2).Density;
 
             }
 
@@ -192,39 +192,39 @@ namespace THREE
             if (material.EmissiveMap != null)
             {
 
-                (uniforms["emissiveMap"] as Hashtable)["value"] = material.EmissiveMap;
+                (uniforms["emissiveMap"] as GLUniform)["value"] = material.EmissiveMap;
 
             }
         }
 
         private void RefreshUniformsToon(GLUniforms uniforms, MeshToonMaterial material)
         {
-            (uniforms["specular"] as Hashtable)["value"] = material.Specular;
-            (uniforms["shininess"] as Hashtable)["value"] = (float)System.Math.Max(material.Shininess, 1e-4); // to prevent pow( 0.0, 0.0 )
+            (uniforms["specular"] as GLUniform)["value"] = material.Specular;
+            (uniforms["shininess"] as GLUniform)["value"] = (float)System.Math.Max(material.Shininess, 1e-4); // to prevent pow( 0.0, 0.0 )
 
             if (material.GradientMap != null)
             {
 
-                (uniforms["gradientMap"] as Hashtable)["value"] = material.GradientMap;
+                (uniforms["gradientMap"] as GLUniform)["value"] = material.GradientMap;
 
             }
 
             if (material.EmissiveMap != null)
             {
 
-                (uniforms["emissiveMap"] as Hashtable)["value"] = material.EmissiveMap;
+                (uniforms["emissiveMap"] as GLUniform)["value"] = material.EmissiveMap;
 
             }
 
             if (material.BumpMap != null)
             {
 
-                (uniforms["bumpMap"] as Hashtable)["value"] = material.BumpMap;
-                (uniforms["bumpScale"] as Hashtable)["value"] = material.BumpScale;
+                (uniforms["bumpMap"] as GLUniform)["value"] = material.BumpMap;
+                (uniforms["bumpScale"] as GLUniform)["value"] = material.BumpScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    float value = (float)(uniforms["bumpScale"] as Hashtable)["value"];
-                    (uniforms["bumpScale"] as Hashtable)["value"] = -1 * value;
+                    float value = (float)(uniforms["bumpScale"] as GLUniform)["value"];
+                    (uniforms["bumpScale"] as GLUniform)["value"] = -1 * value;
                 }
 
             }
@@ -232,12 +232,12 @@ namespace THREE
             if (material.NormalMap != null)
             {
 
-                (uniforms["normalMap"] as Hashtable)["value"] = material.NormalMap;
-                (uniforms["normalScale"] as Hashtable)["value"] = material.NormalScale;
+                (uniforms["normalMap"] as GLUniform)["value"] = material.NormalMap;
+                (uniforms["normalScale"] as GLUniform)["value"] = material.NormalScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    Vector2 value = (Vector2)(uniforms["normalScale"] as Hashtable)["value"];
-                    (uniforms["normalScale"] as Hashtable)["value"] = value * -1;
+                    Vector2 value = (Vector2)(uniforms["normalScale"] as GLUniform)["value"];
+                    (uniforms["normalScale"] as GLUniform)["value"] = value * -1;
                 }
 
             }
@@ -245,34 +245,34 @@ namespace THREE
             if (material.DisplacementMap != null)
             {
 
-                (uniforms["displacementMap"] as Hashtable)["value"] = material.DisplacementMap;
-                (uniforms["displacementScale"] as Hashtable)["value"] = material.DisplacementScale;
-                (uniforms["displacementBias"] as Hashtable)["value"] = material.DisplacementBias;
+                (uniforms["displacementMap"] as GLUniform)["value"] = material.DisplacementMap;
+                (uniforms["displacementScale"] as GLUniform)["value"] = material.DisplacementScale;
+                (uniforms["displacementBias"] as GLUniform)["value"] = material.DisplacementBias;
 
             }
         }
 
         private void RefreshUniformsPhong(GLUniforms uniforms, MeshPhongMaterial material)
         {
-            (uniforms["specular"] as Hashtable)["value"] = material.Specular;
-            (uniforms["shininess"] as Hashtable)["value"] = (float)System.Math.Max(material.Shininess, 1e-4); // to prevent pow( 0.0, 0.0 )
+            (uniforms["specular"] as GLUniform)["value"] = material.Specular;
+            (uniforms["shininess"] as GLUniform)["value"] = (float)System.Math.Max(material.Shininess, 1e-4); // to prevent pow( 0.0, 0.0 )
 
             if (material.EmissiveMap != null)
             {
 
-                (uniforms["emissiveMap"] as Hashtable)["value"] = material.EmissiveMap;
+                (uniforms["emissiveMap"] as GLUniform)["value"] = material.EmissiveMap;
 
             }
 
             if (material.BumpMap != null)
             {
 
-                (uniforms["bumpMap"] as Hashtable)["value"] = material.BumpMap;
-                (uniforms["bumpScale"] as Hashtable)["value"] = material.BumpScale;
+                (uniforms["bumpMap"] as GLUniform)["value"] = material.BumpMap;
+                (uniforms["bumpScale"] as GLUniform)["value"] = material.BumpScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    float value = (float)(uniforms["bumpScale"] as Hashtable)["value"];
-                    (uniforms["bumpScale"] as Hashtable)["value"] = -1 * value;
+                    float value = (float)(uniforms["bumpScale"] as GLUniform)["value"];
+                    (uniforms["bumpScale"] as GLUniform)["value"] = -1 * value;
                 }
 
             }
@@ -280,12 +280,12 @@ namespace THREE
             if (material.NormalMap != null)
             {
 
-                (uniforms["normalMap"] as Hashtable)["value"] = material.NormalMap;
-                (uniforms["normalScale"] as Hashtable)["value"] = material.NormalScale;
+                (uniforms["normalMap"] as GLUniform)["value"] = material.NormalMap;
+                (uniforms["normalScale"] as GLUniform)["value"] = material.NormalScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    Vector2 value = (Vector2)(uniforms["normalScale"] as Hashtable)["value"];
-                    (uniforms["normalScale"] as Hashtable)["value"] = value * -1;
+                    Vector2 value = (Vector2)(uniforms["normalScale"] as GLUniform)["value"];
+                    (uniforms["normalScale"] as GLUniform)["value"] = value * -1;
                 }
 
             }
@@ -293,9 +293,9 @@ namespace THREE
             if (material.DisplacementMap != null)
             {
 
-                (uniforms["displacementMap"] as Hashtable)["value"] = material.DisplacementMap;
-                (uniforms["displacementScale"] as Hashtable)["value"] = material.DisplacementScale;
-                (uniforms["displacementBias"] as Hashtable)["value"] = material.DisplacementBias;
+                (uniforms["displacementMap"] as GLUniform)["value"] = material.DisplacementMap;
+                (uniforms["displacementScale"] as GLUniform)["value"] = material.DisplacementScale;
+                (uniforms["displacementBias"] as GLUniform)["value"] = material.DisplacementBias;
 
             }
         }
@@ -304,65 +304,65 @@ namespace THREE
         {
             RefreshUniformsStandard(uniforms, material);
 
-            (uniforms["reflectivity"] as Hashtable)["value"] = material.Reflectivity; // also part of uniforms common
+            (uniforms["reflectivity"] as GLUniform)["value"] = material.Reflectivity; // also part of uniforms common
 
-            (uniforms["clearcoat"] as Hashtable)["value"] = material.Clearcoat;
-            (uniforms["clearcoatRoughness"] as Hashtable)["value"] = material.ClearcoatRoughness;
-            if (material.Sheen != null) (uniforms["sheen"] as Hashtable)["value"] = material.Sheen;
+            (uniforms["clearcoat"] as GLUniform)["value"] = material.Clearcoat;
+            (uniforms["clearcoatRoughness"] as GLUniform)["value"] = material.ClearcoatRoughness;
+            if (material.Sheen != null) (uniforms["sheen"] as GLUniform)["value"] = material.Sheen;
 
             if (material.ClearcoatNormalMap != null)
             {
 
-                (uniforms["clearcoatNormalScale"] as Hashtable)["value"] = material.ClearcoatNormalScale;
-                (uniforms["clearcoatNormalMap"] as Hashtable)["value"] = material.ClearcoatNormalMap;
+                (uniforms["clearcoatNormalScale"] as GLUniform)["value"] = material.ClearcoatNormalScale;
+                (uniforms["clearcoatNormalMap"] as GLUniform)["value"] = material.ClearcoatNormalMap;
 
                 if (material.Side == Constants.BackSide)
                 {
-                    Vector2 value = (Vector2)(uniforms["clearcoatNormalScale"] as Hashtable)["value"];
-                    (uniforms["clearcoatNormalScale"] as Hashtable)["value"] = value * -1;
+                    Vector2 value = (Vector2)(uniforms["clearcoatNormalScale"] as GLUniform)["value"];
+                    (uniforms["clearcoatNormalScale"] as GLUniform)["value"] = value * -1;
 
                 }
 
             }
 
-            (uniforms["transparency"] as Hashtable)["value"] = material.Transparency;
+            (uniforms["transparency"] as GLUniform)["value"] = material.Transparency;
         }
 
         private void RefreshUniformsStandard(GLUniforms uniforms, MeshStandardMaterial material)
         {
-            (uniforms["roughness"] as Hashtable)["value"] = material.Roughness;
-            (uniforms["metalness"] as Hashtable)["value"] = material.Metalness;
+            (uniforms["roughness"] as GLUniform)["value"] = material.Roughness;
+            (uniforms["metalness"] as GLUniform)["value"] = material.Metalness;
 
             if (material.RoughnessMap != null)
             {
 
-                (uniforms["roughnessMap"] as Hashtable)["value"] = material.RoughnessMap;
+                (uniforms["roughnessMap"] as GLUniform)["value"] = material.RoughnessMap;
 
             }
 
             if (material.MetalnessMap != null)
             {
 
-                (uniforms["metalnessMap"] as Hashtable)["value"] = material.MetalnessMap;
+                (uniforms["metalnessMap"] as GLUniform)["value"] = material.MetalnessMap;
 
             }
 
             if (material.EmissiveMap != null)
             {
 
-                (uniforms["emissiveMap"] as Hashtable)["value"] = material.EmissiveMap;
+                (uniforms["emissiveMap"] as GLUniform)["value"] = material.EmissiveMap;
 
             }
 
             if (material.BumpMap != null)
             {
 
-                (uniforms["bumpMap"] as Hashtable)["value"] = material.BumpMap;
-                (uniforms["bumpScale"] as Hashtable)["value"] = material.BumpScale;
+                (uniforms["bumpMap"] as GLUniform)["value"] = material.BumpMap;
+                (uniforms["bumpScale"] as GLUniform)["value"] = material.BumpScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    float value = (float)(uniforms["bumpScale"] as Hashtable)["value"];
-                    (uniforms["bumpScale"] as Hashtable)["value"] = -1 * value;
+                    float value = (float)(uniforms["bumpScale"] as GLUniform)["value"];
+                    (uniforms["bumpScale"] as GLUniform)["value"] = -1 * value;
                 }
 
             }
@@ -370,12 +370,12 @@ namespace THREE
             if (material.NormalMap != null)
             {
 
-                (uniforms["normalMap"] as Hashtable)["value"] = material.NormalMap;
-                (uniforms["normalScale"] as Hashtable)["value"] = material.NormalScale;
+                (uniforms["normalMap"] as GLUniform)["value"] = material.NormalMap;
+                (uniforms["normalScale"] as GLUniform)["value"] = material.NormalScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    Vector2 value = (Vector2)(uniforms["normalScale"] as Hashtable)["value"];
-                    (uniforms["normalScale"] as Hashtable)["value"] = value * -1;
+                    Vector2 value = (Vector2)(uniforms["normalScale"] as GLUniform)["value"];
+                    (uniforms["normalScale"] as GLUniform)["value"] = value * -1;
                 }
 
             }
@@ -383,17 +383,17 @@ namespace THREE
             if (material.DisplacementMap != null)
             {
 
-                (uniforms["displacementMap"] as Hashtable)["value"] = material.DisplacementMap;
-                (uniforms["displacementScale"] as Hashtable)["value"] = material.DisplacementScale;
-                (uniforms["displacementBias"] as Hashtable)["value"] = material.DisplacementBias;
+                (uniforms["displacementMap"] as GLUniform)["value"] = material.DisplacementMap;
+                (uniforms["displacementScale"] as GLUniform)["value"] = material.DisplacementScale;
+                (uniforms["displacementBias"] as GLUniform)["value"] = material.DisplacementBias;
 
             }
 
             if (material.EnvMap != null)
             {
 
-                //(uniforms["envMap"] as Hashtable)["value"] = material.envMap; // part of uniforms common
-                (uniforms["envMapIntensity"] as Hashtable)["value"] = material.EnvMapIntensity;
+                //(uniforms["envMap"] as GLUniform)["value"] = material.envMap; // part of uniforms common
+                (uniforms["envMapIntensity"] as GLUniform)["value"] = material.EnvMapIntensity;
 
             }
         }
@@ -403,19 +403,19 @@ namespace THREE
             if (material.Matcap != null)
             {
 
-                (uniforms["matcap"] as Hashtable)["value"] = material.Matcap;
+                (uniforms["matcap"] as GLUniform)["value"] = material.Matcap;
 
             }
 
             if (material.BumpMap != null)
             {
 
-                (uniforms["bumpMap"] as Hashtable)["value"] = material.BumpMap;
-                (uniforms["bumpScale"] as Hashtable)["value"] = material.BumpScale;
+                (uniforms["bumpMap"] as GLUniform)["value"] = material.BumpMap;
+                (uniforms["bumpScale"] as GLUniform)["value"] = material.BumpScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    float value = (float)(uniforms["bumpScale"] as Hashtable)["value"];
-                    (uniforms["bumpScale"] as Hashtable)["value"] = -1 * value;
+                    float value = (float)(uniforms["bumpScale"] as GLUniform)["value"];
+                    (uniforms["bumpScale"] as GLUniform)["value"] = -1 * value;
                 }
 
             }
@@ -423,12 +423,12 @@ namespace THREE
             if (material.NormalMap != null)
             {
 
-                (uniforms["normalMap"] as Hashtable)["value"] = material.NormalMap;
-                (uniforms["normalScale"] as Hashtable)["value"] = material.NormalScale;
+                (uniforms["normalMap"] as GLUniform)["value"] = material.NormalMap;
+                (uniforms["normalScale"] as GLUniform)["value"] = material.NormalScale;
                 if (material.Side == Constants.BackSide)
                 {
-                    Vector2 value = (Vector2)(uniforms["normalScale"] as Hashtable)["value"];
-                    (uniforms["normalScale"] as Hashtable)["value"] = value * -1;
+                    Vector2 value = (Vector2)(uniforms["normalScale"] as GLUniform)["value"];
+                    (uniforms["normalScale"] as GLUniform)["value"] = value * -1;
                 }
 
 
@@ -437,9 +437,9 @@ namespace THREE
             if (material.DisplacementMap != null)
             {
 
-                (uniforms["displacementMap"] as Hashtable)["value"] = material.DisplacementMap;
-                (uniforms["displacementScale"] as Hashtable)["value"] = material.DisplacementScale;
-                (uniforms["displacementBias"] as Hashtable)["value"] = material.DisplacementBias;
+                (uniforms["displacementMap"] as GLUniform)["value"] = material.DisplacementMap;
+                (uniforms["displacementScale"] as GLUniform)["value"] = material.DisplacementScale;
+                (uniforms["displacementBias"] as GLUniform)["value"] = material.DisplacementBias;
 
             }
 
@@ -450,9 +450,9 @@ namespace THREE
             if (material.DisplacementMap != null)
             {
 
-                (uniforms["displacementMap"] as Hashtable)["value"] = material.DisplacementMap;
-                (uniforms["displacementScale"] as Hashtable)["value"] = material.DisplacementScale;
-                (uniforms["displacementBias"] as Hashtable)["value"] = material.DisplacementBias;
+                (uniforms["displacementMap"] as GLUniform)["value"] = material.DisplacementMap;
+                (uniforms["displacementScale"] as GLUniform)["value"] = material.DisplacementScale;
+                (uniforms["displacementBias"] as GLUniform)["value"] = material.DisplacementBias;
 
             }
         }
@@ -461,25 +461,25 @@ namespace THREE
         {
             if (material.DisplacementMap != null)
             {
-                (uniforms["displacementMap"] as Hashtable)["value"] = material.DisplacementMap;
-                (uniforms["displacementScale"] as Hashtable)["value"] = material.DisplacementScale;
-                (uniforms["displacementBias"] as Hashtable)["value"] = material.DisplacementBias;
+                (uniforms["displacementMap"] as GLUniform)["value"] = material.DisplacementMap;
+                (uniforms["displacementScale"] as GLUniform)["value"] = material.DisplacementScale;
+                (uniforms["displacementBias"] as GLUniform)["value"] = material.DisplacementBias;
             }
 
-            (uniforms["referencePosition"] as Hashtable)["value"] = material.ReferencePosition;
-            (uniforms["nearDistance"] as Hashtable)["value"] = material.NearDistance;
-            (uniforms["farDistance"] as Hashtable)["value"] = material.FarDistance;
+            (uniforms["referencePosition"] as GLUniform)["value"] = material.ReferencePosition;
+            (uniforms["nearDistance"] as GLUniform)["value"] = material.NearDistance;
+            (uniforms["farDistance"] as GLUniform)["value"] = material.FarDistance;
 
         }
 
         private void RefreshUniformsCommon(GLUniforms uniforms, Material material)
         {
-            (uniforms["opacity"] as Hashtable)["value"] = material.Opacity;
+            (uniforms["opacity"] as GLUniform)["value"] = material.Opacity;
 
             if (material.Color != null)
             {
 
-                (uniforms["diffuse"] as Hashtable)["value"] = material.Color;
+                (uniforms["diffuse"] as GLUniform)["value"] = material.Color;
 
             }
 
@@ -487,62 +487,62 @@ namespace THREE
             {
 
                 Color emissiveColor = material.Emissive.Value;
-                (uniforms["emissive"] as Hashtable)["value"] = emissiveColor.MultiplyScalar(material.EmissiveIntensity);
+                (uniforms["emissive"] as GLUniform)["value"] = emissiveColor.MultiplyScalar(material.EmissiveIntensity);
 
             }
 
             if (material.Map != null)
             {
 
-                (uniforms["map"] as Hashtable)["value"] = material.Map;
+                (uniforms["map"] as GLUniform)["value"] = material.Map;
 
             }
 
             if (material.AlphaMap != null)
             {
 
-                (uniforms["alphaMap"] as Hashtable)["value"] = material.AlphaMap;
+                (uniforms["alphaMap"] as GLUniform)["value"] = material.AlphaMap;
 
             }
 
             if (material.SpecularMap != null)
             {
 
-                (uniforms["specularMap"] as Hashtable)["value"] = material.SpecularMap;
+                (uniforms["specularMap"] as GLUniform)["value"] = material.SpecularMap;
 
             }
 
             if (material.EnvMap != null)
             {
 
-                (uniforms["envMap"] as Hashtable)["value"] = material.EnvMap;
+                (uniforms["envMap"] as GLUniform)["value"] = material.EnvMap;
 
                 // don't flip CubeTexture envMaps, flip everything else:
                 //  WebGLRenderTargetCube will be flipped for backwards compatibility
                 //  WebGLRenderTargetCube.texture will be flipped because it's a Texture and NOT a CubeTexture
                 // this check must be handled differently, or removed entirely, if WebGLRenderTargetCube uses a CubeTexture in the future
-                (uniforms["flipEnvMap"] as Hashtable)["value"] = material.EnvMap is CubeTexture ? -1.0f : 1.0f;
+                (uniforms["flipEnvMap"] as GLUniform)["value"] = material.EnvMap is CubeTexture ? -1.0f : 1.0f;
 
-                (uniforms["reflectivity"] as Hashtable)["value"] = material.Reflectivity;
-                (uniforms["refractionRatio"] as Hashtable)["value"] = material.RefractionRatio;
+                (uniforms["reflectivity"] as GLUniform)["value"] = material.Reflectivity;
+                (uniforms["refractionRatio"] as GLUniform)["value"] = material.RefractionRatio;
 
-                (uniforms["maxMipLevel"] as Hashtable)["value"] = (properties.Get(material.EnvMap) as Hashtable)["maxMipLevel"];
+                (uniforms["maxMipLevel"] as GLUniform)["value"] = (properties.Get(material.EnvMap) as Hashtable)["maxMipLevel"];
 
             }
 
             if (material.LightMap != null)
             {
 
-                (uniforms["lightMap"] as Hashtable)["value"] = material.LightMap;
-                (uniforms["lightMapIntensity"] as Hashtable)["value"] = material.LightMapIntensity;
+                (uniforms["lightMap"] as GLUniform)["value"] = material.LightMap;
+                (uniforms["lightMapIntensity"] as GLUniform)["value"] = material.LightMapIntensity;
 
             }
 
             if (material.AoMap != null)
             {
 
-                (uniforms["aoMap"] as Hashtable)["value"] = material.AoMap;
-                (uniforms["aoMapIntensity"] as Hashtable)["value"] = material.AoMapIntensity;
+                (uniforms["aoMap"] as GLUniform)["value"] = material.AoMap;
+                (uniforms["aoMapIntensity"] as GLUniform)["value"] = material.AoMapIntensity;
 
             }
 
@@ -629,7 +629,7 @@ namespace THREE
 
                 }
 
-                (uniforms["uvTransform"] as Hashtable)["value"] = uvScaleMap.Matrix;
+                (uniforms["uvTransform"] as GLUniform)["value"] = uvScaleMap.Matrix;
 
             }
         }
@@ -638,36 +638,36 @@ namespace THREE
 
         private void RefreshUniformsLine(GLUniforms uniforms, LineBasicMaterial material)
         {
-            (uniforms["diffuse"] as Hashtable)["value"] = material.Color;
-            (uniforms["opacity"] as Hashtable)["value"] = material.Opacity;
+            (uniforms["diffuse"] as GLUniform)["value"] = material.Color;
+            (uniforms["opacity"] as GLUniform)["value"] = material.Opacity;
         }
 
         private void RefreshUniformsDash(GLUniforms uniforms, LineDashedMaterial material)
         {
-            (uniforms["dashSize"] as Hashtable)["value"] = material.DashSize;
-            (uniforms["totalSize"] as Hashtable)["value"] = material.DashSize + material.GapSize;
-            (uniforms["scale"] as Hashtable)["value"] = material.Scale;
+            (uniforms["dashSize"] as GLUniform)["value"] = material.DashSize;
+            (uniforms["totalSize"] as GLUniform)["value"] = material.DashSize + material.GapSize;
+            (uniforms["scale"] as GLUniform)["value"] = material.Scale;
 
         }
 
         private void RefreshUniformsPoints(GLUniforms uniforms, PointsMaterial material, float _pixelRatio, float height)
         {
-            (uniforms["diffuse"] as Hashtable)["value"] = material.Color;
-            (uniforms["opacity"] as Hashtable)["value"] = material.Opacity;
-            (uniforms["size"] as Hashtable)["value"] = material.Size * _pixelRatio;
-            (uniforms["scale"] as Hashtable)["value"] = height * 0.5f;
+            (uniforms["diffuse"] as GLUniform)["value"] = material.Color;
+            (uniforms["opacity"] as GLUniform)["value"] = material.Opacity;
+            (uniforms["size"] as GLUniform)["value"] = material.Size * _pixelRatio;
+            (uniforms["scale"] as GLUniform)["value"] = height * 0.5f;
 
             if (material.Map != null)
             {
 
-                (uniforms["map"] as Hashtable)["value"] = material.Map;
+                (uniforms["map"] as GLUniform)["value"] = material.Map;
 
             }
 
             if (material.AlphaMap != null)
             {
 
-                (uniforms["alphaMap"] as Hashtable)["value"] = material.AlphaMap;
+                (uniforms["alphaMap"] as GLUniform)["value"] = material.AlphaMap;
 
             }
 
@@ -702,9 +702,9 @@ namespace THREE
 
                 if (!uniforms.ContainsKey("uvTransfrom"))
                 {
-                    (uniforms["uvTransform"] as Hashtable)["value"] = new Matrix3();
+                    (uniforms["uvTransform"] as GLUniform)["value"] = new Matrix3();
                 }
-                (((uniforms["uvTransform"] as Hashtable)["value"]) as Matrix3).Copy(uvScaleMap.Matrix);
+                (((uniforms["uvTransform"] as GLUniform)["value"]) as Matrix3).Copy(uvScaleMap.Matrix);
 
             }
         }
@@ -712,21 +712,21 @@ namespace THREE
         private void RefreshUniformsSprites(GLUniforms uniforms, Material material)
         {
 
-            (uniforms["diffuse"] as Hashtable)["value"] = material.Color;
-            (uniforms["opacity"] as Hashtable)["value"] = material.Opacity;
-            (uniforms["rotation"] as Hashtable)["value"] = material.Rotation;
+            (uniforms["diffuse"] as GLUniform)["value"] = material.Color;
+            (uniforms["opacity"] as GLUniform)["value"] = material.Opacity;
+            (uniforms["rotation"] as GLUniform)["value"] = material.Rotation;
 
             if (material.Map != null)
             {
 
-                (uniforms["map"] as Hashtable)["value"] = material.Map;
+                (uniforms["map"] as GLUniform)["value"] = material.Map;
 
             }
 
             if (material.AlphaMap != null)
             {
 
-                (uniforms["alphaMap"] as Hashtable)["value"] = material.AlphaMap;
+                (uniforms["alphaMap"] as GLUniform)["value"] = material.AlphaMap;
 
             }
 
@@ -759,7 +759,7 @@ namespace THREE
 
                 }
 
-                (uniforms["uvTransform"] as Hashtable)["value"] = uvScaleMap.Matrix;
+                (uniforms["uvTransform"] as GLUniform)["value"] = uvScaleMap.Matrix;
 
             }
 

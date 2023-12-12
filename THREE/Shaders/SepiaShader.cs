@@ -7,8 +7,8 @@ namespace THREE
     {
         public SepiaShader()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("amount", new Uniform { { "value", 1.0f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("amount", new GLUniform { { "value", 1.0f } });
 
             VertexShader = @"
                 varying vec2 vUv; 

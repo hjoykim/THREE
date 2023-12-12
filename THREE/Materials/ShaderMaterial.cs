@@ -15,7 +15,7 @@ namespace THREE
             public bool shaderTextureLOD;
         }
 
-        public Uniforms Uniforms;
+        public GLUniforms Uniforms;
 
         public Extensions extensions;
 
@@ -53,7 +53,7 @@ namespace THREE
 
             this.Attributes = new Dictionary<string,object>();
 
-            this.Uniforms = new Uniforms();
+            this.Uniforms = new GLUniforms();
 
             this.Wireframe = false;
 

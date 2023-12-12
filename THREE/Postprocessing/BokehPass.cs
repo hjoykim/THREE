@@ -13,7 +13,7 @@ namespace THREE
         private GLRenderTarget renderTargetDepth;
         private MeshDepthMaterial materialDepth;
         private ShaderMaterial materialBokeh;
-        public Uniforms uniforms;
+        public GLUniforms uniforms;
         Color oldClearColor;
         public BokehPass(Scene scene, Camera camera, Hashtable parameter) : base()
         {
@@ -50,14 +50,14 @@ namespace THREE
             var bokehShader = new BokehShader();
             var bokehUniforms = UniformsUtils.CloneUniforms(bokehShader.Uniforms);
 
-            (bokehUniforms["tDepth"] as Uniform)["value"] = this.renderTargetDepth.Texture;
+            (bokehUniforms["tDepth"] as GLUniform)["value"] = this.renderTargetDepth.Texture;
 
-            (bokehUniforms["focus"] as Uniform)["value"] = focus;
-            (bokehUniforms["aspect"] as Uniform)["value"] = aspect;
-            (bokehUniforms["aperture"] as Uniform)["value"] = aperture;
-            (bokehUniforms["maxblur"] as Uniform)["value"] = maxblur;
-            (bokehUniforms["nearClip"] as Uniform)["value"] = camera.Near;
-            (bokehUniforms["farClip"] as Uniform)["value"] = camera.Far;
+            (bokehUniforms["focus"] as GLUniform)["value"] = focus;
+            (bokehUniforms["aspect"] as GLUniform)["value"] = aspect;
+            (bokehUniforms["aperture"] as GLUniform)["value"] = aperture;
+            (bokehUniforms["maxblur"] as GLUniform)["value"] = maxblur;
+            (bokehUniforms["nearClip"] as GLUniform)["value"] = camera.Near;
+            (bokehUniforms["farClip"] as GLUniform)["value"] = camera.Far;
 
             this.materialBokeh = new ShaderMaterial
             {
@@ -94,9 +94,9 @@ namespace THREE
 
             // Render bokeh composite
 
-            (this.uniforms["tColor"] as Uniform)["value"] = readBuffer.Texture;
-            (this.uniforms["nearClip"] as Uniform)["value"] = this.camera.Near;
-            (this.uniforms["farClip"] as Uniform)["value"] = this.camera.Far;
+            (this.uniforms["tColor"] as GLUniform)["value"] = readBuffer.Texture;
+            (this.uniforms["nearClip"] as GLUniform)["value"] = this.camera.Near;
+            (this.uniforms["farClip"] as GLUniform)["value"] = this.camera.Far;
 
             if (this.RenderToScreen)
             {

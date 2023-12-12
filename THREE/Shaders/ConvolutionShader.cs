@@ -11,9 +11,9 @@ namespace THREE
             Defines.Add("KERNEL_SIZE_FLOAT", "25.0");
             Defines.Add("KERNEL_SIZE_INT", "25");
 
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("uImageIncrement", new Uniform { { "value", new Vector2(0.001953125f, 0.0f) } });
-            Uniforms.Add("cKernel", new Uniform { { "value", new List<float>() } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("uImageIncrement", new GLUniform { { "value", new Vector2(0.001953125f, 0.0f) } });
+            Uniforms.Add("cKernel", new GLUniform { { "value", new List<float>() } });
 
             VertexShader = @"
 uniform vec2 uImageIncrement; 

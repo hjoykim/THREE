@@ -23,14 +23,14 @@ namespace THREE
 
         public Sky(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public static Uniforms Uniforms = new Uniforms()
+        public static GLUniforms Uniforms = new GLUniforms()
             {
-                { "turbidity", new Uniform{{"value", 2 } } },
-                { "rayleigh", new Uniform { { "value", 1 } } },
-                { "mieCoefficient", new Uniform { { "value", 0.005f } } },
-                { "mieDirectionalG", new Uniform { { "value", 0.8f } } },
-                { "sunPosition", new Uniform { { "value", new Vector3() } } },
-                { "up", new Uniform { { "value", new Vector3(0, 1, 0) } } }
+                { "turbidity", new GLUniform{{"value", 2 } } },
+                { "rayleigh", new GLUniform { { "value", 1 } } },
+                { "mieCoefficient", new GLUniform { { "value", 0.005f } } },
+                { "mieDirectionalG", new GLUniform { { "value", 0.8f } } },
+                { "sunPosition", new GLUniform { { "value", new Vector3() } } },
+                { "up", new GLUniform { { "value", new Vector3(0, 1, 0) } } }
             };
 
         public static string VertexShader =

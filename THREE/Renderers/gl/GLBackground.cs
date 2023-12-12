@@ -128,7 +128,7 @@ namespace THREE
                         BoxMesh.MatrixWorld.CopyPosition(c.MatrixWorld);
                     };
 
-                    BoxMesh.Material.EnvMap = (Texture)(shader.Uniforms["envMap"] as Uniform)["value"];
+                    BoxMesh.Material.EnvMap = (Texture)(shader.Uniforms["envMap"] as GLUniform)["value"];
 
                     this.objects.Update(BoxMesh);
                 }
@@ -138,8 +138,8 @@ namespace THREE
                     background = (background as GLCubeRenderTarget).Texture;
                 }
 
-                (BoxMesh.Material as ShaderMaterial).Uniforms["envMap"] = new Uniform { { "value", background } };
-                ((BoxMesh.Material as ShaderMaterial).Uniforms["flipEnvMap"] as Uniform)["value"] = background is CubeTexture ? -1.0f : 1.0f;
+                (BoxMesh.Material as ShaderMaterial).Uniforms["envMap"] = new GLUniform { { "value", background } };
+                ((BoxMesh.Material as ShaderMaterial).Uniforms["flipEnvMap"] as GLUniform)["value"] = background is CubeTexture ? -1.0f : 1.0f;
                 BoxMesh.Material.EnvMap = (Texture)background;
 
 
@@ -180,19 +180,19 @@ namespace THREE
 
                     (PlaneMesh.Geometry as BufferGeometry).deleteAttribute("normal");
 
-                    PlaneMesh.Material.Map = (Texture)(shader.Uniforms["t2D"] as Uniform)["value"];
+                    PlaneMesh.Material.Map = (Texture)(shader.Uniforms["t2D"] as GLUniform)["value"];
 
                     objects.Update(PlaneMesh);
                 }
 
-                (PlaneMesh.Material as ShaderMaterial).Uniforms["t2D"] = new Uniform { { "value", background } };
+                (PlaneMesh.Material as ShaderMaterial).Uniforms["t2D"] = new GLUniform { { "value", background } };
 
                 if ((background as Texture).MatrixAutoUpdate == true)
                 {
                     (background as Texture).UpdateMatrix();
                 }
 
-                (PlaneMesh.Material as ShaderMaterial).Uniforms["uvTransform"] = new Uniform { { "value", (background as Texture).Matrix } };
+                (PlaneMesh.Material as ShaderMaterial).Uniforms["uvTransform"] = new GLUniform { { "value", (background as Texture).Matrix } };
 
                 if (currentBackground != background || currentBackgroundVersion != (background as Texture).version
                     || (currentTonemapping != null && currentTonemapping.Value != renderer.ToneMapping))

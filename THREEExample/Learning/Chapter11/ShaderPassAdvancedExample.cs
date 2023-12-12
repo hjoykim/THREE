@@ -153,7 +153,7 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("opacity", ref bleachOpacity, 0.0f, 1.0f))
                 {
-                    (pass.uniforms["opacity"] as Uniform)["value"] = bleachOpacity;
+                    (pass.uniforms["opacity"] as GLUniform)["value"] = bleachOpacity;
                 }
 
                 ImGui.TreePop();
@@ -166,7 +166,7 @@ namespace THREEExample.Learning.Chapter11
             {
                 if (ImGui.Checkbox("enabled", ref pass.Enabled))
                 {
-                    (pass.uniforms["resolution"] as Uniform)["value"] = new Vector2(1.0f/glControl.Width,1.0f/glControl.Height);
+                    (pass.uniforms["resolution"] as GLUniform)["value"] = new Vector2(1.0f/glControl.Width,1.0f/glControl.Height);
                 }
                 ImGui.TreePop();
             }
@@ -180,11 +180,11 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("sampleDistance", ref sampleDistance, 0.0f, 2.0f))
                 {
-                    (pass.uniforms["sampleDistance"] as Uniform)["value"] = sampleDistance;
+                    (pass.uniforms["sampleDistance"] as GLUniform)["value"] = sampleDistance;
                 }
                 if (ImGui.SliderFloat("waveFactor", ref waveFactor, 0.0f, 0.005f))
                 {
-                    (pass.uniforms["waveFactor"] as Uniform)["value"] = waveFactor;
+                    (pass.uniforms["waveFactor"] as GLUniform)["value"] = waveFactor;
                 }
                 ImGui.TreePop();
             }

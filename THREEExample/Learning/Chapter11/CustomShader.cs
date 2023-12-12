@@ -6,10 +6,10 @@ namespace THREEExample.Learning.Chapter11
     {
         public CustomGrayScaleShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("rPower", new Uniform {{ "value", 0.2126f }});
-            Uniforms.Add("gPower", new Uniform { { "value", 0.7152f } });
-            Uniforms.Add("bPower", new Uniform { { "value", 0.0722f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("rPower", new GLUniform {{ "value", 0.2126f }});
+            Uniforms.Add("gPower", new GLUniform { { "value", 0.7152f } });
+            Uniforms.Add("bPower", new GLUniform { { "value", 0.0722f } });
 
             VertexShader = @"
                 varying vec2 vUv; 
@@ -59,8 +59,8 @@ namespace THREEExample.Learning.Chapter11
     {
         public CustomBitShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("bitSize", new Uniform { { "value", 4 } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("bitSize", new GLUniform { { "value", 4 } });
 
             VertexShader = @"
                 varying vec2 vUv; 

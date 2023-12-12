@@ -20,12 +20,12 @@ namespace THREE
         public List<GLRenderTarget> RenderTargetsVertical = new List<GLRenderTarget>();
         public int nMips;
         public GLRenderTarget renderTargetBright;
-        Uniforms highPassUniforms;
+        GLUniforms highPassUniforms;
         ShaderMaterial materialHighPassFilter;
         List<ShaderMaterial> separableBlurMaterials = new List<ShaderMaterial>();
         ShaderMaterial compositeMaterial;
         List<Vector3> BloomTintColors;
-        Uniforms copyUniforms;
+        GLUniforms copyUniforms;
         ShaderMaterial materialCopy;
         Color oldClearColor;
         float oldClearAlpha;
@@ -84,8 +84,8 @@ namespace THREE
             var highPassShader = new LuminosityHighPassShader();
             this.highPassUniforms = UniformsUtils.CloneUniforms(highPassShader.Uniforms);
 
-            (this.highPassUniforms["luminosityThreshold"] as Uniform)["value"] = threshold;
-            (this.highPassUniforms["smoothWidth"] as Uniform)["value"] = 0.01f;
+            (this.highPassUniforms["luminosityThreshold"] as GLUniform)["value"] = threshold;
+            (this.highPassUniforms["smoothWidth"] as GLUniform)["value"] = 0.01f;
 
             this.materialHighPassFilter = new ShaderMaterial
             {
@@ -104,7 +104,7 @@ namespace THREE
 
                 this.separableBlurMaterials.Add(GetSeperableBlurMaterial(kernelSizeArray[i]));
 
-                (this.separableBlurMaterials[i].Uniforms["texSize"] as Uniform)["value"] = new Vector2(resx, resy);
+                (this.separableBlurMaterials[i].Uniforms["texSize"] as GLUniform)["value"] = new Vector2(resx, resy);
 
                 resx = (int)System.Math.Round(resx / 2.0f);
 
@@ -114,26 +114,26 @@ namespace THREE
 
             // Composite material
             this.compositeMaterial = this.GetCompositeMaterial(this.nMips);
-            (this.compositeMaterial.Uniforms["blurTexture1"] as Uniform)["value"] = this.RenderTargetsVertical[0].Texture;
-            (this.compositeMaterial.Uniforms["blurTexture2"] as Uniform)["value"] = this.RenderTargetsVertical[1].Texture;
-            (this.compositeMaterial.Uniforms["blurTexture3"] as Uniform)["value"] = this.RenderTargetsVertical[2].Texture;
-            (this.compositeMaterial.Uniforms["blurTexture4"] as Uniform)["value"] = this.RenderTargetsVertical[3].Texture;
-            (this.compositeMaterial.Uniforms["blurTexture5"] as Uniform)["value"] = this.RenderTargetsVertical[4].Texture;
-            (this.compositeMaterial.Uniforms["bloomStrength"] as Uniform)["value"] = strength;
-            (this.compositeMaterial.Uniforms["bloomRadius"] as Uniform)["value"] = 0.1f;
+            (this.compositeMaterial.Uniforms["blurTexture1"] as GLUniform)["value"] = this.RenderTargetsVertical[0].Texture;
+            (this.compositeMaterial.Uniforms["blurTexture2"] as GLUniform)["value"] = this.RenderTargetsVertical[1].Texture;
+            (this.compositeMaterial.Uniforms["blurTexture3"] as GLUniform)["value"] = this.RenderTargetsVertical[2].Texture;
+            (this.compositeMaterial.Uniforms["blurTexture4"] as GLUniform)["value"] = this.RenderTargetsVertical[3].Texture;
+            (this.compositeMaterial.Uniforms["blurTexture5"] as GLUniform)["value"] = this.RenderTargetsVertical[4].Texture;
+            (this.compositeMaterial.Uniforms["bloomStrength"] as GLUniform)["value"] = strength;
+            (this.compositeMaterial.Uniforms["bloomRadius"] as GLUniform)["value"] = 0.1f;
             this.compositeMaterial.NeedsUpdate = true;
 
             List<float> bloomFactors = new List<float> { 1.0f, 0.8f, 0.6f, 0.4f, 0.2f };
-            (this.compositeMaterial.Uniforms["bloomFactors"] as Uniform)["value"] = bloomFactors;
+            (this.compositeMaterial.Uniforms["bloomFactors"] as GLUniform)["value"] = bloomFactors;
             this.BloomTintColors = new List<Vector3>{new Vector3(1, 1, 1), new Vector3(1, 1, 1), new Vector3(1, 1, 1),
                                      new Vector3(1, 1, 1), new Vector3(1, 1, 1) };
-            (this.compositeMaterial.Uniforms["bloomTintColors"] as Uniform)["value"] = this.BloomTintColors;
+            (this.compositeMaterial.Uniforms["bloomTintColors"] as GLUniform)["value"] = this.BloomTintColors;
 
 
             var copyShader = new CopyShader();
 
             this.copyUniforms = UniformsUtils.CloneUniforms(copyShader.Uniforms);
-            (this.copyUniforms["opacity"] as Uniform)["value"] = 1.0f;
+            (this.copyUniforms["opacity"] as GLUniform)["value"] = 1.0f;
 
             this.materialCopy = new ShaderMaterial
             {
@@ -167,18 +167,18 @@ namespace THREE
                     { "NUM_MIPS", nMips.ToString() }
                 },
 
-                Uniforms = new Uniforms
+                Uniforms = new GLUniforms
                 {
-                    { "blurTexture1", new Uniform { { "value", null } } },
-                    { "blurTexture2", new Uniform { { "value", null } } },
-                    { "blurTexture3", new Uniform { { "value", null } } },
-                    { "blurTexture4", new Uniform { { "value", null } } },
-                    { "blurTexture5", new Uniform { { "value", null } } },
-                    { "dirtTexture", new Uniform { { "value", null } } },
-                    { "bloomStrength", new Uniform { { "value", 1.0f } } },
-                    { "bloomFactors", new Uniform { { "value", null } } },
-                    { "bloomTintColors", new Uniform { { "value", null } } },
-                    { "bloomRadius", new Uniform { { "value", 0.0f } } }
+                    { "blurTexture1", new GLUniform { { "value", null } } },
+                    { "blurTexture2", new GLUniform { { "value", null } } },
+                    { "blurTexture3", new GLUniform { { "value", null } } },
+                    { "blurTexture4", new GLUniform { { "value", null } } },
+                    { "blurTexture5", new GLUniform { { "value", null } } },
+                    { "dirtTexture", new GLUniform { { "value", null } } },
+                    { "bloomStrength", new GLUniform { { "value", 1.0f } } },
+                    { "bloomFactors", new GLUniform { { "value", null } } },
+                    { "bloomTintColors", new GLUniform { { "value", null } } },
+                    { "bloomRadius", new GLUniform { { "value", 0.0f } } }
                 },
 
 
@@ -229,11 +229,11 @@ namespace THREE
                 { "SIGMA" , kernelRadius.ToString() }
             },
 
-                Uniforms = new Uniforms
+                Uniforms = new GLUniforms
             {
-                { "colorTexture", new Uniform { {"value", null } } },
-                { "texSize", new Uniform{ { "value", new Vector2(0.5f, 0.5f) } } },
-                { "direction", new Uniform{{"value", new Vector2(0.5f, 0.5f) } } }
+                { "colorTexture", new GLUniform { {"value", null } } },
+                { "texSize", new GLUniform{ { "value", new Vector2(0.5f, 0.5f) } } },
+                { "direction", new GLUniform{{"value", new Vector2(0.5f, 0.5f) } } }
             },
 
                 VertexShader = @"
@@ -306,8 +306,8 @@ namespace THREE
 
             // 1. Extract Bright Areas
 
-            (this.highPassUniforms["tDiffuse"] as Uniform)["value"] = readBuffer.Texture;
-            (this.highPassUniforms["luminosityThreshold"] as Uniform)["value"] = this.Threshold;
+            (this.highPassUniforms["tDiffuse"] as GLUniform)["value"] = readBuffer.Texture;
+            (this.highPassUniforms["luminosityThreshold"] as GLUniform)["value"] = this.Threshold;
             this.fullScreenQuad.material = this.materialHighPassFilter;
 
             renderer.SetRenderTarget(this.renderTargetBright);
@@ -323,14 +323,14 @@ namespace THREE
 
                 this.fullScreenQuad.material = this.separableBlurMaterials[i];
 
-                (this.separableBlurMaterials[i].Uniforms["colorTexture"] as Uniform)["value"] = inputRenderTarget.Texture;
-                (this.separableBlurMaterials[i].Uniforms["direction"] as Uniform)["value"] = UnrealBloomPass.BlurDirectionX;
+                (this.separableBlurMaterials[i].Uniforms["colorTexture"] as GLUniform)["value"] = inputRenderTarget.Texture;
+                (this.separableBlurMaterials[i].Uniforms["direction"] as GLUniform)["value"] = UnrealBloomPass.BlurDirectionX;
                 renderer.SetRenderTarget(this.RenderTargetsHorizontal[i]);
                 renderer.Clear();
                 this.fullScreenQuad.Render(renderer);
 
-                (this.separableBlurMaterials[i].Uniforms["colorTexture"] as Uniform)["value"] = this.RenderTargetsHorizontal[i].Texture;
-                (this.separableBlurMaterials[i].Uniforms["direction"] as Uniform)["value"] = UnrealBloomPass.BlurDirectionY;
+                (this.separableBlurMaterials[i].Uniforms["colorTexture"] as GLUniform)["value"] = this.RenderTargetsHorizontal[i].Texture;
+                (this.separableBlurMaterials[i].Uniforms["direction"] as GLUniform)["value"] = UnrealBloomPass.BlurDirectionY;
                 renderer.SetRenderTarget(this.RenderTargetsVertical[i]);
                 renderer.Clear();
                 this.fullScreenQuad.Render(renderer);
@@ -342,9 +342,9 @@ namespace THREE
             // Composite All the mips
 
             this.fullScreenQuad.material = this.compositeMaterial;
-            (this.compositeMaterial.Uniforms["bloomStrength"] as Uniform)["value"] = this.Strength;
-            (this.compositeMaterial.Uniforms["bloomRadius"] as Uniform)["value"] = this.Radius;
-            (this.compositeMaterial.Uniforms["bloomTintColors"] as Uniform)["value"] = this.BloomTintColors;
+            (this.compositeMaterial.Uniforms["bloomStrength"] as GLUniform)["value"] = this.Strength;
+            (this.compositeMaterial.Uniforms["bloomRadius"] as GLUniform)["value"] = this.Radius;
+            (this.compositeMaterial.Uniforms["bloomTintColors"] as GLUniform)["value"] = this.BloomTintColors;
 
             renderer.SetRenderTarget(this.RenderTargetsHorizontal[0]);
             renderer.Clear();
@@ -354,7 +354,7 @@ namespace THREE
 
             this.fullScreenQuad.material = this.materialCopy;
 
-            (this.copyUniforms["tDiffuse"] as Uniform)["value"] = this.RenderTargetsHorizontal[0].Texture;
+            (this.copyUniforms["tDiffuse"] as GLUniform)["value"] = this.RenderTargetsHorizontal[0].Texture;
             if (maskActive != null && maskActive.Value) renderer.state.buffers.stencil.SetTest(true);
 
             if (this.RenderToScreen)
@@ -391,7 +391,7 @@ namespace THREE
                 this.RenderTargetsHorizontal[i].SetSize(resx, resy);
                 this.RenderTargetsVertical[i].SetSize(resx, resy);
 
-                (this.separableBlurMaterials[i].Uniforms["texSize"] as Uniform)["value"] = new Vector2(resx, resy);
+                (this.separableBlurMaterials[i].Uniforms["texSize"] as GLUniform)["value"] = new Vector2(resx, resy);
 
                 resx = (int)System.Math.Round(resx / 2.0f);
                 resy = (int)System.Math.Round(resy / 2.0f);

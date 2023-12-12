@@ -19,10 +19,10 @@ namespace THREE
             {
                 type = "LightProbeHelperMaterial",
                 Name = "LightProbeHelperMaterial",
-                Uniforms = new Uniforms()
+                Uniforms = new GLUniforms()
                 {
-                    {"sh",new Uniform(){{"value", lightProbe.sh.Coefficients}} },
-                    {"intensity",new Uniform(){{"value",lightProbe.Intensity}} }
+                    {"sh",new GLUniform(){{"value", lightProbe.sh.Coefficients}} },
+                    {"intensity",new GLUniform(){{"value",lightProbe.Intensity}} }
                 },
                 VertexShader = @"
 
@@ -115,7 +115,7 @@ namespace THREE
 
             this.Scale.Set(1, 1, 1).MultiplyScalar(this.size);
 
-            ((this.Material as ShaderMaterial).Uniforms["intensity"] as Uniform)["value"] = this.lightProbe.Intensity;
+            ((this.Material as ShaderMaterial).Uniforms["intensity"] as GLUniform)["value"] = this.lightProbe.Intensity;
         }
         public override void Dispose()
         {

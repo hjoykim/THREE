@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using THREE.OpenGL.Extensions;
 
 namespace THREE
 {
@@ -916,8 +917,10 @@ namespace THREE
         public GLUniforms GetUniforms()
         {
             if (cachedUniforms == null)
-                cachedUniforms = new GLUniforms(program);
-
+            {
+                cachedUniforms = new GLUniforms();
+                cachedUniforms.LoadProgram(program);
+            }
             return cachedUniforms;
         }
 

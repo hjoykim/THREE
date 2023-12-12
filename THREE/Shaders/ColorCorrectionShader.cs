@@ -8,10 +8,10 @@ namespace THREE
     {
         public ColorCorrectionShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("powRGB", new Uniform { { "value", new Vector3(2, 2, 2) } });
-            Uniforms.Add("mulRGB", new Uniform { { "value", new Vector3(1, 1, 1) } });
-            Uniforms.Add("addRGB", new Uniform { { "value", new Vector3(0, 0, 0) } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("powRGB", new GLUniform { { "value", new Vector3(2, 2, 2) } });
+            Uniforms.Add("mulRGB", new GLUniform { { "value", new Vector3(1, 1, 1) } });
+            Uniforms.Add("addRGB", new GLUniform { { "value", new Vector3(0, 0, 0) } });
 
             VertexShader = @"
                 varying vec2 vUv; 

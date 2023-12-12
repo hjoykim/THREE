@@ -7,9 +7,9 @@ namespace THREE
     {
         public HueSaturationShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("hue", new Uniform { { "value", 0.0f } });
-            Uniforms.Add("saturation", new Uniform { { "value", 0.0f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("hue", new GLUniform { { "value", 0.0f } });
+            Uniforms.Add("saturation", new GLUniform { { "value", 0.0f } });
 
             VertexShader = @"
                 varying vec2 vUv; 

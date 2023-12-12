@@ -8,11 +8,11 @@ namespace THREE
     {
         public DotScreenShader()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("tSize", new Uniform { { "value", new Vector2(256, 256) } });
-            Uniforms.Add("center", new Uniform { { "value", new Vector2(0.5f, 0.5f) } });
-            Uniforms.Add("angle", new Uniform { { "value", 1.57f } });
-            Uniforms.Add("scale", new Uniform { { "value", 1.0f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("tSize", new GLUniform { { "value", new Vector2(256, 256) } });
+            Uniforms.Add("center", new GLUniform { { "value", new Vector2(0.5f, 0.5f) } });
+            Uniforms.Add("angle", new GLUniform { { "value", 1.57f } });
+            Uniforms.Add("scale", new GLUniform { { "value", 1.0f } });
 
             VertexShader = @"
 varying vec2 vUv; 

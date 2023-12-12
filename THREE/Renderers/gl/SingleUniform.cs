@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace THREE
 {
     [Serializable]
-    public class SingleUniform : GLUniform
+    public class SingleUniform : GLUniform,ISingleUniform
     {
         public SingleUniform()
         {
@@ -20,7 +20,7 @@ namespace THREE
 
             this.Addr = addr;
 
-            this.UniformType = type;
+            this.UniformType = (int)type;
         }
         public void SetValue(int v)
         {
@@ -116,7 +116,7 @@ namespace THREE
             //else Cache[0] = color;
 
         }
-        public void SetValue(Texture v, GLTextures textures)
+        public void SetValue(Texture v, IGLTextures textures)
         {
             //var cache = this.Cache;
             var unit = textures.AllocateTextureUnit();
@@ -139,49 +139,49 @@ namespace THREE
 
             switch (this.UniformType)
             {
-                case ActiveUniformType.Sampler2D:
+                case (int)ActiveUniformType.Sampler2D:
                     textures.SafeSetTexture2D(v, unit);
                     break;
-                case ActiveUniformType.Sampler3D:
+                case (int)ActiveUniformType.Sampler3D:
                     textures.SetTexture3D(v, unit);
                     break;
-                case ActiveUniformType.SamplerCube:
+                case (int)ActiveUniformType.SamplerCube:
                     textures.SafeSetTextureCube(v, unit);
                     break;
-                case ActiveUniformType.Sampler2DArray:
+                case (int)ActiveUniformType.Sampler2DArray:
                     textures.SetTexture2DArray(v, unit);
                     break;
 
             }
 
         }
-        public void SetValue(object v, GLTextures textures = null)
+        public void SetValue(object v, IGLTextures textures = null)
         {
             //Debug.WriteLine("SingleUniform, Id={0},Value={1}", this.Id, v);
             if (v is Texture && textures != null)
             {
                 SetValue((Texture)v, textures);
             }
-            else if (this.UniformType == ActiveUniformType.Int)
+            else if (this.UniformType == (int)ActiveUniformType.Int)
             {
                 if (v is bool)
                 {
                     bool value = Convert.ToBoolean(v);
                     SetValue(value == true ? 1 : 0);
-                    this.UniformType = ActiveUniformType.Int;
+                    this.UniformType = (int)ActiveUniformType.Int;
                 }
                 else
                 {
                     SetValue((int)v);
                 }
             }
-            else if (this.UniformType == ActiveUniformType.Bool)
+            else if (this.UniformType == (int)ActiveUniformType.Bool)
             {
                 bool value = Convert.ToBoolean(v);
                 SetValue(value == true ? 1 : 0);
-                this.UniformType = ActiveUniformType.Int;
+                this.UniformType = (int)ActiveUniformType.Int;
             }
-            else if (this.UniformType == ActiveUniformType.Float)
+            else if (this.UniformType == (int)ActiveUniformType.Float)
             {
                 SetValue(Convert.ToSingle(v));
             }

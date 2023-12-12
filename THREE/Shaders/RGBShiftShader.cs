@@ -7,9 +7,9 @@ namespace THREE
     {
         public RGBShiftShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("amount", new Uniform { { "value", 0.005f } });
-            Uniforms.Add("angle", new Uniform { { "value", 0.0f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("amount", new GLUniform { { "value", 0.005f } });
+            Uniforms.Add("angle", new GLUniform { { "value", 0.0f } });
 
 
             VertexShader = @"

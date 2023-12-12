@@ -142,7 +142,7 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("h", ref h, 0.0f, 0.01f))
                 {
-                    (pass.uniforms["h"] as Uniform)["value"] = h;
+                    (pass.uniforms["h"] as GLUniform)["value"] = h;
                 }
                 
                 ImGui.TreePop();
@@ -155,7 +155,7 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("v", ref v, 0.0f, 0.01f))
                 {
-                    (pass.uniforms["v"] as Uniform)["value"] = v;
+                    (pass.uniforms["v"] as GLUniform)["value"] = v;
                 }
 
                 ImGui.TreePop();
@@ -169,11 +169,11 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("r", ref hr, 0.0f, 1.0f))
                 {
-                    (pass.uniforms["r"] as Uniform)["value"] = hr;
+                    (pass.uniforms["r"] as GLUniform)["value"] = hr;
                 }
                 if (ImGui.SliderFloat("h", ref hh, 0.0f, 0.01f))
                 {
-                    (pass.uniforms["h"] as Uniform)["value"] = hh;
+                    (pass.uniforms["h"] as GLUniform)["value"] = hh;
                 }
 
                 ImGui.TreePop();
@@ -186,11 +186,11 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("r", ref vr, 0.0f, 1.0f))
                 {
-                    (pass.uniforms["r"] as Uniform)["value"] = vr;
+                    (pass.uniforms["r"] as GLUniform)["value"] = vr;
                 }
                 if (ImGui.SliderFloat("v", ref vv, 0.0f, 0.01f))
                 {
-                    (pass.uniforms["v"] as Uniform)["value"] = vv;
+                    (pass.uniforms["v"] as GLUniform)["value"] = vv;
                 }
 
                 ImGui.TreePop();
@@ -203,11 +203,11 @@ namespace THREEExample.Learning.Chapter11
                 ImGui.Checkbox("enabled", ref pass.Enabled);
                 if (ImGui.SliderFloat("sampleDistance", ref sampleDistance, 0.0f, 10.0f))
                 {
-                    (pass.uniforms["sampleDistance"] as Uniform)["value"] = sampleDistance;
+                    (pass.uniforms["sampleDistance"] as GLUniform)["value"] = sampleDistance;
                 }
                 if (ImGui.SliderFloat("waveFactor", ref waveFactor, 0.0f, 0.005f))
                 {
-                    (pass.uniforms["waveFactor"] as Uniform)["value"] = waveFactor;
+                    (pass.uniforms["waveFactor"] as GLUniform)["value"] = waveFactor;
                 }
 
                 ImGui.TreePop();

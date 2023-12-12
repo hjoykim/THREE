@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 namespace THREE
 {
     [Serializable]
-    public class GLTextures : DisposableObject
+    public class GLTextures : DisposableObject,IGLTextures
     {
         private bool IsGL2;
 

@@ -8,7 +8,7 @@ namespace THREE
     {
         private Texture map;
         private float opacity;
-        private Uniforms uniforms;
+        private GLUniforms uniforms;
         private ShaderMaterial material;
 
         public TexturePass(Texture map, float? opacity = null) : base()
@@ -39,8 +39,8 @@ namespace THREE
 
             this.fullScreenQuad.material = this.material;
 
-            (this.uniforms["opacity"] as Uniform)["value"] = this.opacity;
-            (this.uniforms["tDiffuse"] as Uniform)["value"] = this.map;
+            (this.uniforms["opacity"] as GLUniform)["value"] = this.opacity;
+            (this.uniforms["tDiffuse"] as GLUniform)["value"] = this.map;
             this.material.Transparent = (this.opacity < 1.0);
 
             renderer.SetRenderTarget(this.RenderToScreen ? null : readBuffer);

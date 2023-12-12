@@ -8,9 +8,9 @@ namespace THREE
     {
         public PixelShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("resolution", new Uniform { { "value", new Vector2(256, 256) } });
-            Uniforms.Add("pixelSize", new Uniform { { "value", 1.0f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("resolution", new GLUniform { { "value", new Vector2(256, 256) } });
+            Uniforms.Add("pixelSize", new GLUniform { { "value", 1.0f } });
 
 
             VertexShader = @"

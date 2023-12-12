@@ -36,7 +36,7 @@ namespace THREE
         ShaderMaterial separableBlurMaterial2;
         ShaderMaterial overlayMaterial;
 
-        Uniforms copyUniforms;
+        GLUniforms copyUniforms;
         ShaderMaterial materialCopy;
         Color oldClearColor;
         float oldClearAlpha;
@@ -112,11 +112,11 @@ namespace THREE
             var MAX_EDGE_GLOW = 4;
 
             this.separableBlurMaterial1 = this.GetSeperableBlurMaterial(MAX_EDGE_THICKNESS);
-            ((this.separableBlurMaterial1.Uniforms["texSize"] as Uniform)["value"] as Vector2).Set((float)resx, (float)resy);
-            (this.separableBlurMaterial1.Uniforms["kernelRadius"] as Uniform)["value"] = 1;
+            ((this.separableBlurMaterial1.Uniforms["texSize"] as GLUniform)["value"] as Vector2).Set((float)resx, (float)resy);
+            (this.separableBlurMaterial1.Uniforms["kernelRadius"] as GLUniform)["value"] = 1;
             this.separableBlurMaterial2 = this.GetSeperableBlurMaterial(MAX_EDGE_GLOW);
-            ((this.separableBlurMaterial2.Uniforms["texSize"] as Uniform)["value"] as Vector2).Set((float)System.Math.Round(resx / 2), (float)System.Math.Round(resy / 2));
-            (this.separableBlurMaterial2.Uniforms["kernelRadius"] as Uniform)["value"] = MAX_EDGE_GLOW;
+            ((this.separableBlurMaterial2.Uniforms["texSize"] as GLUniform)["value"] as Vector2).Set((float)System.Math.Round(resx / 2), (float)System.Math.Round(resy / 2));
+            (this.separableBlurMaterial2.Uniforms["kernelRadius"] as GLUniform)["value"] = MAX_EDGE_GLOW;
 
             // Overlay material
             this.overlayMaterial = this.GetOverlayMaterial();
@@ -126,7 +126,7 @@ namespace THREE
             var copyShader = new CopyShader();
 
             this.copyUniforms = UniformsUtils.CloneUniforms(copyShader.Uniforms);
-            (this.copyUniforms["opacity"] as Uniform)["value"] = 1.0f;
+            (this.copyUniforms["opacity"] as GLUniform)["value"] = 1.0f;
 
             this.materialCopy = new ShaderMaterial
             {
@@ -283,9 +283,9 @@ namespace THREE
                 // Make non selected objects invisible, and draw only the selected objects, by comparing the depth buffer of non selected objects
                 this.ChangeVisibilityOfNonSelectedObjects(false);
                 this.renderScene.OverrideMaterial = this.prepareMaskMaterial;
-                ((this.prepareMaskMaterial.Uniforms["cameraNearFar"] as Uniform)["value"] as Vector2).Set(this.renderCamera.Near, this.renderCamera.Far);
-                (this.prepareMaskMaterial.Uniforms["depthTexture"] as Uniform)["value"] = this.renderTargetDepthBuffer.Texture;
-                (this.prepareMaskMaterial.Uniforms["textureMatrix"] as Uniform)["value"] = this.textureMatrix;
+                ((this.prepareMaskMaterial.Uniforms["cameraNearFar"] as GLUniform)["value"] as Vector2).Set(this.renderCamera.Near, this.renderCamera.Far);
+                (this.prepareMaskMaterial.Uniforms["depthTexture"] as GLUniform)["value"] = this.renderTargetDepthBuffer.Texture;
+                (this.prepareMaskMaterial.Uniforms["textureMatrix"] as GLUniform)["value"] = this.textureMatrix;
                 renderer.SetRenderTarget(this.renderTargetMaskBuffer);
                 renderer.Clear();
                 renderer.Render(this.renderScene, this.renderCamera);
@@ -296,7 +296,7 @@ namespace THREE
 
                 // 2. Downsample to Half resolution
                 this.fullScreenQuad.material = this.materialCopy;
-                (this.copyUniforms["tDiffuse"] as Uniform)["value"] = this.renderTargetMaskBuffer.Texture;
+                (this.copyUniforms["tDiffuse"] as GLUniform)["value"] = this.renderTargetMaskBuffer.Texture;
                 renderer.SetRenderTarget(this.renderTargetMaskDownSampleBuffer);
                 renderer.Clear();
                 this.fullScreenQuad.Render(renderer);
@@ -315,50 +315,50 @@ namespace THREE
 
                 // 3. Apply Edge Detection Pass
                 this.fullScreenQuad.material = this.edgeDetectionMaterial;
-                (this.edgeDetectionMaterial.Uniforms["maskTexture"] as Uniform)["value"] = this.renderTargetMaskDownSampleBuffer.Texture;
-                ((this.edgeDetectionMaterial.Uniforms["texSize"] as Uniform)["value"] as Vector2).Set(this.renderTargetMaskDownSampleBuffer.Width, this.renderTargetMaskDownSampleBuffer.Height);
-                (this.edgeDetectionMaterial.Uniforms["visibleEdgeColor"] as Uniform)["value"] = this.tempPulseColor1;
-                (this.edgeDetectionMaterial.Uniforms["hiddenEdgeColor"] as Uniform)["value"] = this.tempPulseColor2;
+                (this.edgeDetectionMaterial.Uniforms["maskTexture"] as GLUniform)["value"] = this.renderTargetMaskDownSampleBuffer.Texture;
+                ((this.edgeDetectionMaterial.Uniforms["texSize"] as GLUniform)["value"] as Vector2).Set(this.renderTargetMaskDownSampleBuffer.Width, this.renderTargetMaskDownSampleBuffer.Height);
+                (this.edgeDetectionMaterial.Uniforms["visibleEdgeColor"] as GLUniform)["value"] = this.tempPulseColor1;
+                (this.edgeDetectionMaterial.Uniforms["hiddenEdgeColor"] as GLUniform)["value"] = this.tempPulseColor2;
                 renderer.SetRenderTarget(this.renderTargetEdgeBuffer1);
                 renderer.Clear();
                 this.fullScreenQuad.Render(renderer);
 
                 // 4. Apply Blur on Half res
                 this.fullScreenQuad.material = this.separableBlurMaterial1;
-                (this.separableBlurMaterial1.Uniforms["colorTexture"] as Uniform)["value"] = this.renderTargetEdgeBuffer1.Texture;
-                (this.separableBlurMaterial1.Uniforms["direction"] as Uniform)["value"] = OutlinePass.BlurDirectionX;
-                (this.separableBlurMaterial1.Uniforms["kernelRadius"] as Uniform)["value"] = this.edgeThickness;
+                (this.separableBlurMaterial1.Uniforms["colorTexture"] as GLUniform)["value"] = this.renderTargetEdgeBuffer1.Texture;
+                (this.separableBlurMaterial1.Uniforms["direction"] as GLUniform)["value"] = OutlinePass.BlurDirectionX;
+                (this.separableBlurMaterial1.Uniforms["kernelRadius"] as GLUniform)["value"] = this.edgeThickness;
                 renderer.SetRenderTarget(this.renderTargetBlurBuffer1);
                 renderer.Clear();
                 this.fullScreenQuad.Render(renderer);
-                (this.separableBlurMaterial1.Uniforms["colorTexture"] as Uniform)["value"] = this.renderTargetBlurBuffer1.Texture;
-                (this.separableBlurMaterial1.Uniforms["direction"] as Uniform)["value"] = OutlinePass.BlurDirectionY;
+                (this.separableBlurMaterial1.Uniforms["colorTexture"] as GLUniform)["value"] = this.renderTargetBlurBuffer1.Texture;
+                (this.separableBlurMaterial1.Uniforms["direction"] as GLUniform)["value"] = OutlinePass.BlurDirectionY;
                 renderer.SetRenderTarget(this.renderTargetEdgeBuffer1);
                 renderer.Clear();
                 this.fullScreenQuad.Render(renderer);
 
                 // Apply Blur on quarter res
                 this.fullScreenQuad.material = this.separableBlurMaterial2;
-                (this.separableBlurMaterial2.Uniforms["colorTexture"] as Uniform)["value"] = this.renderTargetEdgeBuffer1.Texture;
-                (this.separableBlurMaterial2.Uniforms["direction"] as Uniform)["value"] = OutlinePass.BlurDirectionX;
+                (this.separableBlurMaterial2.Uniforms["colorTexture"] as GLUniform)["value"] = this.renderTargetEdgeBuffer1.Texture;
+                (this.separableBlurMaterial2.Uniforms["direction"] as GLUniform)["value"] = OutlinePass.BlurDirectionX;
                 renderer.SetRenderTarget(this.renderTargetBlurBuffer2);
                 renderer.Clear();
                 this.fullScreenQuad.Render(renderer);
-                (this.separableBlurMaterial2.Uniforms["colorTexture"] as Uniform)["value"] = this.renderTargetBlurBuffer2.Texture;
-                (this.separableBlurMaterial2.Uniforms["direction"] as Uniform)["value"] = OutlinePass.BlurDirectionY;
+                (this.separableBlurMaterial2.Uniforms["colorTexture"] as GLUniform)["value"] = this.renderTargetBlurBuffer2.Texture;
+                (this.separableBlurMaterial2.Uniforms["direction"] as GLUniform)["value"] = OutlinePass.BlurDirectionY;
                 renderer.SetRenderTarget(this.renderTargetEdgeBuffer2);
                 renderer.Clear();
                 this.fullScreenQuad.Render(renderer);
 
                 // Blend it additively over the input texture
                 this.fullScreenQuad.material = this.overlayMaterial;
-                (this.overlayMaterial.Uniforms["maskTexture"] as Uniform)["value"] = this.renderTargetMaskBuffer.Texture;
-                (this.overlayMaterial.Uniforms["edgeTexture1"] as Uniform)["value"] = this.renderTargetEdgeBuffer1.Texture;
-                (this.overlayMaterial.Uniforms["edgeTexture2"] as Uniform)["value"] = this.renderTargetEdgeBuffer2.Texture;
-                (this.overlayMaterial.Uniforms["patternTexture"] as Uniform)["value"] = this.patternTexture;
-                (this.overlayMaterial.Uniforms["edgeStrength"] as Uniform)["value"] = this.edgeStrength;
-                (this.overlayMaterial.Uniforms["edgeGlow"] as Uniform)["value"] = this.edgeGlow;
-                (this.overlayMaterial.Uniforms["usePatternTexture"] as Uniform)["value"] = this.usePatternTexture;
+                (this.overlayMaterial.Uniforms["maskTexture"] as GLUniform)["value"] = this.renderTargetMaskBuffer.Texture;
+                (this.overlayMaterial.Uniforms["edgeTexture1"] as GLUniform)["value"] = this.renderTargetEdgeBuffer1.Texture;
+                (this.overlayMaterial.Uniforms["edgeTexture2"] as GLUniform)["value"] = this.renderTargetEdgeBuffer2.Texture;
+                (this.overlayMaterial.Uniforms["patternTexture"] as GLUniform)["value"] = this.patternTexture;
+                (this.overlayMaterial.Uniforms["edgeStrength"] as GLUniform)["value"] = this.edgeStrength;
+                (this.overlayMaterial.Uniforms["edgeGlow"] as GLUniform)["value"] = this.edgeGlow;
+                (this.overlayMaterial.Uniforms["usePatternTexture"] as GLUniform)["value"] = this.usePatternTexture;
 
 
                 if (maskActive != null && maskActive.Value) renderer.state.buffers.stencil.SetTest(true);
@@ -375,7 +375,7 @@ namespace THREE
             {
 
                 this.fullScreenQuad.material = this.materialCopy;
-                (this.copyUniforms["tDiffuse"] as Uniform)["value"] = readBuffer.Texture;
+                (this.copyUniforms["tDiffuse"] as GLUniform)["value"] = readBuffer.Texture;
                 renderer.SetRenderTarget(null);
                 this.fullScreenQuad.Render(renderer);
 
@@ -391,7 +391,7 @@ namespace THREE
             this.renderTargetMaskDownSampleBuffer.SetSize(resx, resy);
             this.renderTargetBlurBuffer1.SetSize(resx, resy);
             this.renderTargetEdgeBuffer1.SetSize(resx, resy);
-            var texSize = (this.separableBlurMaterial1.Uniforms["texSize"] as Uniform)["value"] as Vector2;
+            var texSize = (this.separableBlurMaterial1.Uniforms["texSize"] as GLUniform)["value"] as Vector2;
             texSize.X = resx; texSize.Y = resy;
 
             resx = (int)System.Math.Round(resx / 2.0f);
@@ -400,7 +400,7 @@ namespace THREE
             this.renderTargetBlurBuffer2.SetSize(resx, resy);
             this.renderTargetEdgeBuffer2.SetSize(resx, resy);
 
-            texSize = (this.separableBlurMaterial2.Uniforms["texSize"] as Uniform)["value"] as Vector2;
+            texSize = (this.separableBlurMaterial2.Uniforms["texSize"] as GLUniform)["value"] as Vector2;
             texSize.X = resx; texSize.Y = resy;
         }
         public virtual void Dispose()
@@ -441,10 +441,10 @@ namespace THREE
             return new ShaderMaterial
             {
 
-                Uniforms = new Uniforms {
-                    { "depthTexture", new Uniform { { "value", null } } },
-                    { "cameraNearFar", new Uniform { { "value", new Vector2(0.5f, 0.5f) } } },
-                    { "textureMatrix", new Uniform { { "value", null } } }
+                Uniforms = new GLUniforms {
+                    { "depthTexture", new GLUniform { { "value", null } } },
+                    { "cameraNearFar", new GLUniform { { "value", new Vector2(0.5f, 0.5f) } } },
+                    { "textureMatrix", new GLUniform { { "value", null } } }
                 },
 
                 VertexShader = @"
@@ -494,11 +494,11 @@ namespace THREE
             return new ShaderMaterial
             {
 
-                Uniforms = new Uniforms {
-                { "maskTexture",new Uniform { {"value", null } } },
-                { "texSize",new Uniform { {"value", new Vector2(0.5f, 0.5f) } } },
-                { "visibleEdgeColor",new Uniform { {"value", new Vector3(1.0f, 1.0f, 1.0f) } } },
-                { "hiddenEdgeColor",new Uniform { {"value", new Vector3(1.0f, 1.0f, 1.0f) } } }
+                Uniforms = new GLUniforms {
+                { "maskTexture",new GLUniform { {"value", null } } },
+                { "texSize",new GLUniform { {"value", new Vector2(0.5f, 0.5f) } } },
+                { "visibleEdgeColor",new GLUniform { {"value", new Vector3(1.0f, 1.0f, 1.0f) } } },
+                { "hiddenEdgeColor",new GLUniform { {"value", new Vector3(1.0f, 1.0f, 1.0f) } } }
             },
 
                 VertexShader = @"
@@ -546,12 +546,12 @@ namespace THREE
                 { "MAX_RADIUS", maxRadius.ToString() }
             },
 
-                Uniforms = new Uniforms
+                Uniforms = new GLUniforms
             {
-                { "colorTexture",new Uniform { {"value", null } } },
-                { "texSize", new Uniform{ {"value", new Vector2(0.5f, 0.5f) } } },
-                { "direction", new Uniform{ {"value", new Vector2(0.5f, 0.5f) } } },
-                { "kernelRadius", new Uniform{ {"value", 1.0f } } }
+                { "colorTexture",new GLUniform { {"value", null } } },
+                { "texSize", new GLUniform{ {"value", new Vector2(0.5f, 0.5f) } } },
+                { "direction", new GLUniform{ {"value", new Vector2(0.5f, 0.5f) } } },
+                { "kernelRadius", new GLUniform{ {"value", 1.0f } } }
             },
 
                 VertexShader = @"
@@ -601,14 +601,14 @@ namespace THREE
             return new ShaderMaterial
             {
 
-                Uniforms = new Uniforms {
-                    { "maskTexture", new Uniform{{ "value", null } } },
-                    { "edgeTexture1",new Uniform{{ "value", null } } },
-                    { "edgeTexture2",new Uniform {{ "value", null } } },
-                    { "patternTexture", new Uniform{{ "value", null } } },
-                    { "edgeStrength",  new Uniform{{"value", 1.0 } } },
-                    { "edgeGlow",  new Uniform {{"value", 1.0 } } },
-                    { "usePatternTexture", new Uniform {{ "value", 0.0 } } }
+                Uniforms = new GLUniforms {
+                    { "maskTexture", new GLUniform{{ "value", null } } },
+                    { "edgeTexture1",new GLUniform{{ "value", null } } },
+                    { "edgeTexture2",new GLUniform {{ "value", null } } },
+                    { "patternTexture", new GLUniform{{ "value", null } } },
+                    { "edgeStrength",  new GLUniform{{"value", 1.0 } } },
+                    { "edgeGlow",  new GLUniform {{"value", 1.0 } } },
+                    { "usePatternTexture", new GLUniform {{ "value", 0.0 } } }
                 },
 
                 VertexShader = @"

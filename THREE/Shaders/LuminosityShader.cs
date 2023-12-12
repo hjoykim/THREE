@@ -8,7 +8,7 @@ namespace THREE
     {
         public LuminosityShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
 
 
             VertexShader = @"

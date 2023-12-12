@@ -7,8 +7,8 @@ namespace THREE
     {
         public FreiChenShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("aspect", new Uniform { { "value", new Vector2(512, 512) } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("aspect", new GLUniform { { "value", new Vector2(512, 512) } });
 
             VertexShader = @"
                 varying vec2 vUv; 

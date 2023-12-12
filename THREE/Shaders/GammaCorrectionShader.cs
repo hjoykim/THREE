@@ -8,7 +8,7 @@ namespace THREE
     {
         public GammaCorrectionShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
 
             VertexShader = @"
                 varying vec2 vUv; 

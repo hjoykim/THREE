@@ -8,9 +8,9 @@ using System.Runtime.Serialization;
 namespace THREE
 {
     [Serializable]
-    public class PureArrayUniform : GLUniform
+    public class PureArrayUniform : GLUniform,IPureArrayUniform
     {
-        public int Size = 0;
+        public int Size { get; set; } = 0;
 
         private Hashtable arrayCacheF32 = new Hashtable();
 
@@ -30,7 +30,7 @@ namespace THREE
 
             this.Size = size;
 
-            this.UniformType = type;
+            this.UniformType = (int)type;
         }
 
         public void UpdateCache(object[] data)
@@ -45,7 +45,7 @@ namespace THREE
 
         public void SetValue(float[] v)
         {
-            if (this.UniformType == ActiveUniformType.FloatVec4)
+            if (this.UniformType == (int)ActiveUniformType.FloatVec4)
             {
                 GL.Uniform4(this.Addr, this.Size, v);
             }
@@ -174,7 +174,7 @@ namespace THREE
             GL.UniformMatrix4(this.Addr, v.Length, false, data.ToArray());
         }
 
-        private int[] AllocTextUnits(GLTextures textures, int n)
+        private int[] AllocTextUnits(IGLTextures textures, int n)
         {
             int[] r = null;
             if (!arrayCacheI32.ContainsKey(n))
@@ -197,7 +197,7 @@ namespace THREE
 
         // Array of textures(2D/Cube)
         //setValueT1Array
-        public void SetValue(Texture[] v, GLTextures textures)
+        public void SetValue(Texture[] v, IGLTextures textures)
         {
             int n = v.Length;
 
@@ -208,18 +208,17 @@ namespace THREE
 
             for (int i = 0; i != n; ++i)
             {
-                if (this.UniformType == ActiveUniformType.Sampler2D)
+                if (this.UniformType == (int)ActiveUniformType.Sampler2D)
                     //setValueT1Array
                     textures.SafeSetTexture2D(v[i], units[i]);
-                else if (this.UniformType == ActiveUniformType.SamplerCube)
+                else if (this.UniformType == (int)ActiveUniformType.SamplerCube)
                     //setValueT6Array
                     textures.SafeSetTextureCube(v[i], units[i]);
             }
         }
 
-        public void SetValue(object v, GLTextures textures = null)
+        public void SetValue(object v, IGLTextures textures = null)
         {
-            //Debug.WriteLine("PureArrayUniform, Id={0},Value={1}", this.Id, v);
             if (v is Texture[] && textures != null)
             {
                 SetValue((Texture[])v, textures);

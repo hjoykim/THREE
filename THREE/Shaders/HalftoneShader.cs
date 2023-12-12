@@ -8,19 +8,19 @@ namespace THREE
     {
         public HalftoneShader()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("shape", new Uniform { { "value", 1 } });
-            Uniforms.Add("radius", new Uniform { { "value", 4.0f } });
-            Uniforms.Add("rotateR", new Uniform { { "value", (float)System.Math.PI / 12 * 1 } });
-            Uniforms.Add("rotateG", new Uniform { { "value", (float)System.Math.PI / 12 * 2 } });
-            Uniforms.Add("rotateB", new Uniform { { "value", (float)System.Math.PI / 12 * 3 } });
-            Uniforms.Add("scatter", new Uniform { { "value", 0.0f } });
-            Uniforms.Add("width", new Uniform { { "value", 1.0f } });
-            Uniforms.Add("height", new Uniform { { "value", 1.0f } });
-            Uniforms.Add("blending", new Uniform { { "value", 1.0f } });
-            Uniforms.Add("blendingMode", new Uniform { { "value", 1 } });
-            Uniforms.Add("greyscale", new Uniform { { "value", false } });
-            Uniforms.Add("disable", new Uniform { { "value", false } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("shape", new GLUniform { { "value", 1 } });
+            Uniforms.Add("radius", new GLUniform { { "value", 4.0f } });
+            Uniforms.Add("rotateR", new GLUniform { { "value", (float)System.Math.PI / 12 * 1 } });
+            Uniforms.Add("rotateG", new GLUniform { { "value", (float)System.Math.PI / 12 * 2 } });
+            Uniforms.Add("rotateB", new GLUniform { { "value", (float)System.Math.PI / 12 * 3 } });
+            Uniforms.Add("scatter", new GLUniform { { "value", 0.0f } });
+            Uniforms.Add("width", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("height", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("blending", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("blendingMode", new GLUniform { { "value", 1 } });
+            Uniforms.Add("greyscale", new GLUniform { { "value", false } });
+            Uniforms.Add("disable", new GLUniform { { "value", false } });
 
             VertexShader =
 @"

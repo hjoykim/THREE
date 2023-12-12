@@ -399,13 +399,13 @@ namespace THREEExample.Learning.Chapter04
         }
         private ShaderMaterial CreateMaterial(string vertexShader, string fragmentShader)
         {
-            Uniforms uniforms = new Uniforms
+            GLUniforms uniforms = new GLUniforms
                 {
-                    { "time",       new Uniform {{"value", 0.2f}}},
-                    { "scale",      new Uniform {{"value", 0.2f}}},
+                    { "time",       new GLUniform {{"value", 0.2f}}},
+                    { "scale",      new GLUniform {{"value", 0.2f}}},
 
-                    { "alpha",      new Uniform {{"value", 0.6f}}},
-                    { "resolution", new Uniform {{"value",Resolution}}}
+                    { "alpha",      new GLUniform {{"value", 0.6f}}},
+                    { "resolution", new GLUniform {{"value",Resolution}}}
                 };
 
             var meshMaterial = new ShaderMaterial()

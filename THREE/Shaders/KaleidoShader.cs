@@ -8,9 +8,9 @@ namespace THREE
     {
         public KaleidoShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("sides", new Uniform { { "value", 6.0f } });
-            Uniforms.Add("angle", new Uniform { { "value", 0.0f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("sides", new GLUniform { { "value", 6.0f } });
+            Uniforms.Add("angle", new GLUniform { { "value", 0.0f } });
 
             VertexShader = @"
                 varying vec2 vUv; 

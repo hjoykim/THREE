@@ -8,9 +8,9 @@ namespace THREE
     {
         public VerticalTiltShiftShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("v", new Uniform { { "value", 1.0f / 512.0f } });
-            Uniforms.Add("r", new Uniform { { "value", 0.35f } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("v", new GLUniform { { "value", 1.0f / 512.0f } });
+            Uniforms.Add("r", new GLUniform { { "value", 0.35f } });
 
             VertexShader = @"
                 varying vec2 vUv; 

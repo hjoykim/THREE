@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>10</LangVersion>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\THREE\Renderers\gl\**\*.*" Link="Renderers\gl\%(RecursiveDir)%(FileName)%(Extension)" />
@@ -17,7 +17,10 @@
   <ItemGroup>
     <Compile Remove="..\THREE\Renderers\gl\GLBackground_old.cs" />
     <Compile Remove="..\THREE\Renderers\gl\GLShader.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLUniform.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLUniforms.cs" />
     <Compile Remove="..\THREE\Renderers\gl\IGLProgram.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\StructuredUniform.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\THREE\Lights\LightProbeGenerator.cs" Link="Lights\LightProbeGenerator.cs" />

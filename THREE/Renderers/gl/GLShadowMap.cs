@@ -104,9 +104,9 @@ namespace THREE
             shadowMaterialVertical.Defines.Add("SAMPLE_RATE", 2.0f / 8.0f);
             shadowMaterialVertical.Defines.Add("HALF_SAMPLE_RATE", 1.0f / 8.0f);
 
-            shadowMaterialVertical.Uniforms.Add("shadow_pass", new Uniform { { "value", null } });
-            shadowMaterialVertical.Uniforms.Add("resolution", new Uniform { { "value", Vector2.Zero() } });
-            shadowMaterialVertical.Uniforms.Add("radius", new Uniform { { "value", 4.0f } });
+            shadowMaterialVertical.Uniforms.Add("shadow_pass", new GLUniform { { "value", null } });
+            shadowMaterialVertical.Uniforms.Add("resolution", new GLUniform { { "value", Vector2.Zero() } });
+            shadowMaterialVertical.Uniforms.Add("radius", new GLUniform { { "value", 4.0f } });
 
             shadowMaterialVertical.VertexShader = vsm_vert;
             shadowMaterialVertical.FragmentShader = vsm_vert;
@@ -251,9 +251,9 @@ namespace THREE
             this.needsUpdate = false;
             _renderer.SetRenderTarget(currentRenderTarget, activeCubeFace, activeMipmapLevel);
         }
-        private void AddUniformsValue(Uniforms uniforms, string key, object value)
+        private void AddUniformsValue(GLUniforms uniforms, string key, object value)
         {
-            Uniform uniform = new Uniform() { { "value", value } };
+            GLUniform uniform = new GLUniform() { { "value", value } };
             if (!uniforms.ContainsKey(key))
             {
                 uniforms.Add(key, uniform);

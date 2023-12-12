@@ -422,11 +422,11 @@ namespace THREE
             if (!string.IsNullOrEmpty(shaderId))
             {
                 var  shader = (GLShader)ShaderLib[shaderId];
-                uniforms = (GLUniforms)UniformsUtils.CloneUniforms(shader.Uniforms).ToGLUniforms();
+                uniforms = (GLUniforms)shader.Uniforms.Clone();
             }
             else
             {
-                uniforms = (material as ShaderMaterial).Uniforms.ToGLUniforms();
+                uniforms = (material as ShaderMaterial).Uniforms;
             }
 
             return uniforms;

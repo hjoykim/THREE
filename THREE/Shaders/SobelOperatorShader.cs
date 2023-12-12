@@ -8,8 +8,8 @@ namespace THREE
     {
         public SobelOperatorShader() : base()
         {
-            Uniforms.Add("tDiffuse", new Uniform { { "value", null } });
-            Uniforms.Add("resolution", new Uniform { { "value", new Vector2(256, 256) } });
+            Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
+            Uniforms.Add("resolution", new GLUniform { { "value", new Vector2(256, 256) } });
 
 
             VertexShader = @"

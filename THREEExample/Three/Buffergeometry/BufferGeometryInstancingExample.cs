@@ -127,9 +127,9 @@ namespace THREEExample.Three.Buffergeometry
 
 			var material = new RawShaderMaterial() {
 
-				Uniforms = new Uniforms {
-					{ "time",new Uniform{ { "value", 1.0f } } },
-					{ "sineTime",new Uniform{{"value", 1.0f } } }
+				Uniforms = new GLUniforms {
+					{ "time",new GLUniform{ { "value", 1.0f } } },
+					{ "sineTime",new GLUniform{{"value", 1.0f } } }
 				},
 				VertexShader = vertexShader,
 				FragmentShader = fragmentShader,
@@ -149,9 +149,9 @@ namespace THREEExample.Three.Buffergeometry
 			var time = stopWatch.ElapsedMilliseconds;
 
 			mesh.Rotation.Y = time * 0.0005f;
-			((mesh.Material as RawShaderMaterial).Uniforms["time"] as Uniform)["value"] = time * 0.005f;
-			var timeValue = (float)((mesh.Material as RawShaderMaterial).Uniforms["time"] as Uniform)["value"];
-			((mesh.Material as RawShaderMaterial).Uniforms["sineTime"] as Uniform)["value"] = (float)System.Math.Sin(timeValue * 0.05);
+			((mesh.Material as RawShaderMaterial).Uniforms["time"] as GLUniform)["value"] = time * 0.005f;
+			var timeValue = (float)((mesh.Material as RawShaderMaterial).Uniforms["time"] as GLUniform)["value"];
+			((mesh.Material as RawShaderMaterial).Uniforms["sineTime"] as GLUniform)["value"] = (float)System.Math.Sin(timeValue * 0.05);
 
 			renderer.Render(scene, camera);
 			

@@ -60,7 +60,6 @@
     <Compile Remove="Renderers\gl\GLUtils.cs" />
     <Compile Remove="Renderers\gl\PureArrayUniform.cs" />
     <Compile Remove="Renderers\gl\SingleUniform.cs" />
-    <Compile Remove="Renderers\gl\StructuredUniform.cs" />
     <Compile Remove="Renderers\Shaders\Attribute.cs" />
     <Compile Remove="Renderers\Shaders\Attributes.cs" />
     <Compile Remove="Renderers\Shaders\ShaderLibVariable_org.cs" />

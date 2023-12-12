@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using THREE.OpenGL.Extensions;
 
 namespace THREE
 {
@@ -12,8 +13,6 @@ namespace THREE
     {
         public bool IsGL2 { get; set; }
         public IGraphicsContext Context;
-
-        //public Dictionary<string,RenderInfo> sceneList = new Dictionary<string,RenderInfo>();
 
         private GLRenderState CurrentRenderState;
 
@@ -1112,7 +1111,7 @@ namespace THREE
             }
 
             var progUniforms = (materialProperties["program"] as GLProgram).GetUniforms();
-            List<GLUniform> uniformsList = GLUniforms.SeqWithValue(progUniforms.Seq, uniforms);
+            List<GLUniform> uniformsList = GLUniformsLoader.SeqWithValue(progUniforms.Seq, uniforms);
             materialProperties["uniformsList"] = uniformsList;
 
         }
@@ -1483,7 +1482,7 @@ namespace THREE
                     material is MeshToonMaterial ||
                     material is MeshStandardMaterial || material.EnvMap != null)
                 {
-                    SingleUniform uCamPos = p_uniforms["cameraPosition"] as SingleUniform;
+                    SingleUniform uCamPos = p_uniforms.ContainsKey("cameraPosition") ? p_uniforms["cameraPosition"] as SingleUniform : null;
 
                     if (uCamPos != null)
                     {
@@ -1631,12 +1630,12 @@ namespace THREE
 
                 //if (material is MeshLambertMaterial)
                 //    Debug.WriteLine(material.type);
-                GLUniforms.Upload((List<GLUniform>)materialProperties["uniformsList"], m_uniforms, textures);
+                GLUniformsLoader.Upload((List<GLUniform>)materialProperties["uniformsList"], m_uniforms, textures);
             }
             if (material is ShaderMaterial && (material as ShaderMaterial).UniformsNeedUpdate == true)
             {
 
-                GLUniforms.Upload((List<GLUniform>)materialProperties["uniformsList"], m_uniforms, textures);
+                GLUniformsLoader.Upload((List<GLUniform>)materialProperties["uniformsList"], m_uniforms, textures);
                 (material as ShaderMaterial).UniformsNeedUpdate = false;
 
             }
@@ -1658,17 +1657,17 @@ namespace THREE
         //TODO: Hashtable -> Dictionary
         private void MarkUniformsLightsNeedsUpdate(GLUniforms uniforms, object value)
         {
-            (uniforms["ambientLightColor"] as Hashtable)["needsUpdate"] = value;
-            (uniforms["lightProbe"] as Hashtable)["needsUpdate"] = value;
+            (uniforms["ambientLightColor"] as GLUniform)["needsUpdate"] = value;
+            (uniforms["lightProbe"] as GLUniform)["needsUpdate"] = value;
 
-            (uniforms["directionalLights"] as Hashtable)["needsUpdate"] = value;
-            (uniforms["directionalLightShadows"] as Hashtable)["needsUpdate"] = value;
-            (uniforms["pointLights"] as Hashtable)["needsUpdate"] = value;
-            (uniforms["pointLightShadows"] as Hashtable)["needsUpdate"] = value;
-            (uniforms["spotLights"] as Hashtable)["needsUpdate"] = value;
-            (uniforms["spotLightShadows"] as Hashtable)["needsUpdate"] = value;
-            (uniforms["rectAreaLights"] as Hashtable)["needsUpdate"] = value;
-            (uniforms["hemisphereLights"] as Hashtable)["needsUpdate"] = value;
+            (uniforms["directionalLights"] as GLUniform)["needsUpdate"] = value;
+            (uniforms["directionalLightShadows"] as GLUniform)["needsUpdate"] = value;
+            (uniforms["pointLights"] as GLUniform)["needsUpdate"] = value;
+            (uniforms["pointLightShadows"] as GLUniform)["needsUpdate"] = value;
+            (uniforms["spotLights"] as GLUniform)["needsUpdate"] = value;
+            (uniforms["spotLightShadows"] as GLUniform)["needsUpdate"] = value;
+            (uniforms["rectAreaLights"] as GLUniform)["needsUpdate"] = value;
+            (uniforms["hemisphereLights"] as GLUniform)["needsUpdate"] = value;
         }
 
         private bool MaterialNeedsLights(Material material)
