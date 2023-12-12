@@ -8,6 +8,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\THREE\Renderers\gl\**\*.*" Link="Renderers\gl\%(RecursiveDir)%(FileName)%(Extension)" />
+    <Compile Include="..\THREE\Postprocessing\**\*.*">
+      <Link>Postprocessing\%(RecursiveDir)%(FileName)%(Extension)</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Lights\**" />

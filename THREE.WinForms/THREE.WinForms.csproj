@@ -13,9 +13,6 @@
     <Compile Include="..\THREE\Controls\**\*.*">
       <Link>Controls\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
-    <Compile Include="..\THREE\Postprocessing\**\*.*">
-      <Link>Postprocessing\%(RecursiveDir)%(FileName)%(Extension)</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.8.0" />
