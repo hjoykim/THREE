@@ -14,12 +14,18 @@
     <Compile Remove="Controls\**" />
     <Compile Remove="Postprocessing\**" />
     <Compile Remove="Properties\**" />
+    <Compile Remove="Renderers\Shaders\ShaderChunk\**" />
+    <Compile Remove="Renderers\Shaders\ShaderLib\**" />
     <EmbeddedResource Remove="Controls\**" />
     <EmbeddedResource Remove="Postprocessing\**" />
     <EmbeddedResource Remove="Properties\**" />
+    <EmbeddedResource Remove="Renderers\Shaders\ShaderChunk\**" />
+    <EmbeddedResource Remove="Renderers\Shaders\ShaderLib\**" />
     <None Remove="Controls\**" />
     <None Remove="Postprocessing\**" />
     <None Remove="Properties\**" />
+    <None Remove="Renderers\Shaders\ShaderChunk\**" />
+    <None Remove="Renderers\Shaders\ShaderLib\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,19 +61,12 @@
     <Compile Remove="Renderers\gl\GLShadowMap.cs" />
     <Compile Remove="Renderers\gl\GLState.cs" />
     <Compile Remove="Renderers\gl\GLTextures.cs" />
-    <Compile Remove="Renderers\gl\GLUniform.cs" />
-    <Compile Remove="Renderers\gl\GLUniforms.cs" />
     <Compile Remove="Renderers\gl\GLUtils.cs" />
     <Compile Remove="Renderers\gl\PureArrayUniform.cs" />
     <Compile Remove="Renderers\gl\SingleUniform.cs" />
     <Compile Remove="Renderers\Shaders\Attribute.cs" />
     <Compile Remove="Renderers\Shaders\Attributes.cs" />
     <Compile Remove="Renderers\Shaders\ShaderLibVariable_org.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Renderers\Shaders\ShaderChunk\" />
-    <Folder Include="Renderers\Shaders\ShaderLib\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,18 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <UseWindowsForms>true</UseWindowsForms>
     <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\THREE\Cameras\CinematicCamera.cs">
-      <Link>Cameras\%(RecursiveDir)%(FileName)%(Extension)</Link>
-    </Compile>
     <Compile Include="..\THREE\Controls\**\*.*">
       <Link>Controls\%(RecursiveDir)%(FileName)%(Extension)</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="..\THREE\Controls\ArcballControls.cs" />
+    <Compile Remove="..\THREE\Controls\DragControls.cs" />
+    <Compile Remove="..\THREE\Controls\FirstPersonControls.cs" />
+    <Compile Remove="..\THREE\Controls\FlyControls.cs" />
+    <Compile Remove="..\THREE\Controls\OrbitControls.cs" />
+    <Compile Remove="..\THREE\Controls\PointerLockControls.cs" />
+    <Compile Remove="..\THREE\Controls\TrackballControls.cs" />
+    <Compile Remove="..\THREE\Controls\TransformControls.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.8.0" />
@@ -21,6 +28,10 @@
   <ItemGroup>
     <ProjectReference Include="..\THREE.OpenGL\THREE.OpenGL.csproj" />
     <ProjectReference Include="..\THREE\THREE.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cameras\" />
+    <Folder Include="Controls\" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>10</LangVersion>
     <Nullable>disable</Nullable>
@@ -13,27 +13,74 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Lights\**" />
-    <EmbeddedResource Remove="Lights\**" />
-    <None Remove="Lights\**" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Remove="..\THREE\Postprocessing\BloomPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\BokehPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\ClearPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\DotScreenPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\EffectComposer.cs" />
+    <Compile Remove="..\THREE\Postprocessing\FilmPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\GlitchPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\HalftonePass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\MaskPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\OutlinePass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\Pass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\RenderPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\ShaderPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\SSAOPass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\TexturePass.cs" />
+    <Compile Remove="..\THREE\Postprocessing\UnrealBloomPass.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLAttribute.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLAttributes.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLBackground.cs" />
     <Compile Remove="..\THREE\Renderers\gl\GLBackground_old.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLBindingStates.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLBufferRenderer.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLCapabilities.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLClipping.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLCubeMap.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLExtensions.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLGeometries.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLIndexedBufferRenderer.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLInfo.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLLights.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLMaterials.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLMorphtargets.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLMultiview.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLObjects.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLProgram.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLPrograms.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLProperties.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLRenderList.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLRenderLists.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLRenderState.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLRenderStates.cs" />
     <Compile Remove="..\THREE\Renderers\gl\GLShader.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLShadowMap.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLState.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLTextures.cs" />
     <Compile Remove="..\THREE\Renderers\gl\GLUniform.cs" />
     <Compile Remove="..\THREE\Renderers\gl\GLUniforms.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\GLUtils.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\IGLAttribute.cs" />
     <Compile Remove="..\THREE\Renderers\gl\IGLProgram.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\IGLState.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\IGLTextures.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\IPureArrayUniform.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\ISingleUniform.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\IStructuredUniform.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\PureArrayUniform.cs" />
+    <Compile Remove="..\THREE\Renderers\gl\SingleUniform.cs" />
     <Compile Remove="..\THREE\Renderers\gl\StructuredUniform.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\THREE\Lights\LightProbeGenerator.cs" Link="Lights\LightProbeGenerator.cs" />
-    <Compile Include="..\THREE\Renderers\GLCubeRenderTarget.cs" Link="Renderers\GLCubeRenderTarget.cs" />
-    <Compile Include="..\THREE\Renderers\GLRenderer.cs" Link="Renderers\GLRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\THREE\THREE.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.8.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lights\" />
+    <Folder Include="Postprocessing\" />
+    <Folder Include="Renderers\gl\" />
   </ItemGroup>
 </Project>

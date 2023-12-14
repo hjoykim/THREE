@@ -54,15 +54,15 @@ namespace THREE
                 GLUniform u = Seq[i];
                 object v = null;
 
-                if (value is Hashtable)
+                if (value is GLUniform)
                 {
-                    v = (value as Hashtable)[u.Id];
+                    v = (value as GLUniform)[u.Id];
                 }
-                else if (value is Hashtable[])
+                else if (value is GLUniform[])
                 {
                     //var id = Convert.ToInt32(u.Id);
-                    //value = (value as Hashtable[])[id];
-                    v = (value as Hashtable[])[i];
+                    //value = (value as GLUniform[])[id];
+                    v = (value as GLUniform[])[i];
                     if (v == null)
                     {
                         Debug.WriteLine("Value is null");

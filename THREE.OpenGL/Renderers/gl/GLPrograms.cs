@@ -308,15 +308,15 @@ namespace THREE
 
             parameters.Add("maxMorphNormals", renderer.MaxMorphNormals);
 
-            parameters.Add("numDirLights", lights.state["directional"] != null ? (lights.state["directional"] as Hashtable[]).Length : 0);
+            parameters.Add("numDirLights", lights.state["directional"] != null ? (lights.state["directional"] as GLUniform[]).Length : 0);
 
-            parameters.Add("numPointLights", lights.state["point"] != null ? (lights.state["point"] as Hashtable[]).Length : 0);
+            parameters.Add("numPointLights", lights.state["point"] != null ? (lights.state["point"] as GLUniform[]).Length : 0);
 
-            parameters.Add("numSpotLights", lights.state["spot"] != null ? (lights.state["spot"] as Hashtable[]).Length : 0);
+            parameters.Add("numSpotLights", lights.state["spot"] != null ? (lights.state["spot"] as GLUniform[]).Length : 0);
 
-            parameters.Add("numRectAreaLights", lights.state["rectArea"] != null ? (lights.state["rectArea"] as Hashtable[]).Length : 0);
+            parameters.Add("numRectAreaLights", lights.state["rectArea"] != null ? (lights.state["rectArea"] as GLUniform[]).Length : 0);
 
-            parameters.Add("numHemiLights", lights.state["hemi"] != null ? (lights.state["hemi"] as Hashtable[]).Length : 0);
+            parameters.Add("numHemiLights", lights.state["hemi"] != null ? (lights.state["hemi"] as GLUniform[]).Length : 0);
 
             parameters.Add("numDirLightShadows", lights.state["directionalShadowMap"] != null ? (lights.state["directionalShadowMap"] as Texture[]).Length : 0);
 

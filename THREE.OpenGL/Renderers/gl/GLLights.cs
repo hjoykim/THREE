@@ -5,18 +5,18 @@ using System.Runtime.Serialization;
 namespace THREE
 {
     [Serializable]
-    public class UniformsCache : Hashtable
+    public class UniformsCache : GLUniforms
     {
         public UniformsCache()
             : base()
         {
-            this.Add("DirectionalLight", new Hashtable()
+            this.Add("DirectionalLight", new GLUniform()
                 {
                     {"direction", Vector3.Zero()},
                     {"color",new Color()}
                 });
 
-            this.Add("SpotLight", new Hashtable()
+            this.Add("SpotLight", new GLUniform()
                 {
                     {"position",Vector3.Zero()},
                     {"direction",Vector3.Zero()},
@@ -27,7 +27,7 @@ namespace THREE
                     {"decay",0.0f}
                 });
 
-            this.Add("PointLight", new Hashtable()
+            this.Add("PointLight", new GLUniform()
                 {
                     {"position", Vector3.Zero()},
                     {"color", new Color()},
@@ -35,14 +35,14 @@ namespace THREE
                     {"decay", 0}
                 });
 
-            this.Add("HemisphereLight", new Hashtable()
+            this.Add("HemisphereLight", new GLUniform()
                 {
                     {"direction", Vector3.Zero()},
                     {"skyColor", new Color()},
                     {"groundColor", new Color()}
                 });
 
-            this.Add("RectAreaLight", new Hashtable()
+            this.Add("RectAreaLight", new GLUniform()
                 {
                     {"color", new Color()},
                     {"position", Vector3.Zero()},
@@ -57,12 +57,12 @@ namespace THREE
     }
 
     [Serializable]
-    public class ShadowUniformsCache : Hashtable
+    public class ShadowUniformsCache : GLUniforms
     {
         public ShadowUniformsCache()
             : base()
         {
-            this.Add("DirectionalLight", new Hashtable()
+            this.Add("DirectionalLight", new GLUniform()
                 {
                     {"shadowBias",0.0f},
                     {"shadowNormalBias",0.0f },
@@ -70,7 +70,7 @@ namespace THREE
                     {"shadowMapSize",Vector2.Zero()}
                 });
 
-            this.Add("SpotLight", new Hashtable()
+            this.Add("SpotLight", new GLUniform()
                 {
                     {"shadowBias",0.0f},
                     {"shadowNormalBias",0.0f },
@@ -78,7 +78,7 @@ namespace THREE
                     {"shadowMapSize",Vector2.Zero()}
                 });
 
-            this.Add("PointLight", new Hashtable()
+            this.Add("PointLight", new GLUniform()
                 {
                     {"shadowBias", 0},
                     {"shadowNormalBias",0.0f },
@@ -99,7 +99,7 @@ namespace THREE
     { // TODO: Hashtable --> Dictionary<string,object>
         private UniformsCache cache = new UniformsCache();
         private ShadowUniformsCache shadowCache = new ShadowUniformsCache();
-        public Hashtable state;
+        public GLUniform state;
 
         private int nextVersion = 0;
 
@@ -110,11 +110,11 @@ namespace THREE
 
         public GLLights()
         {
-            state = new Hashtable()
+            state = new GLUniform()
                     {
                         {"version", 0},
 
-                        {"hash", new Hashtable()
+                        {"hash", new GLUniform()
                             {
                                 {"directionalLength", -1},
                                 {"pointLength", -1},
@@ -178,34 +178,34 @@ namespace THREE
                 return (lightB.CastShadow ? 1 : 0) - (lightA.CastShadow ? 1 : 0);
             });
 
-            List<Hashtable> directionalShadowList = new List<Hashtable>();
+            List<GLUniform> directionalShadowList = new List<GLUniform>();
 
             List<Texture> directionalShadowMapList = new List<Texture>();
 
             List<Matrix4> directionalShadowMatrixList = new List<Matrix4>();
 
-            List<Hashtable> directionalList = new List<Hashtable>();
+            List<GLUniform> directionalList = new List<GLUniform>();
 
-            List<Hashtable> spotShadowList = new List<Hashtable>();
+            List<GLUniform> spotShadowList = new List<GLUniform>();
 
             List<Texture> spotShadowMapList = new List<Texture>();
 
             List<Matrix4> spotShadowMatrixList = new List<Matrix4>();
 
-            List<Hashtable> spotList = new List<Hashtable>();
+            List<GLUniform> spotList = new List<GLUniform>();
 
 
-            List<Hashtable> rectAreaList = new List<Hashtable>();
+            List<GLUniform> rectAreaList = new List<GLUniform>();
 
-            List<Hashtable> pointShadowList = new List<Hashtable>();
+            List<GLUniform> pointShadowList = new List<GLUniform>();
 
             List<Texture> pointShadowMapList = new List<Texture>();
 
             List<Matrix4> pointShadowMatrixList = new List<Matrix4>();
 
-            List<Hashtable> pointList = new List<Hashtable>();
+            List<GLUniform> pointList = new List<GLUniform>();
 
-            List<Hashtable> hemiList = new List<Hashtable>();
+            List<GLUniform> hemiList = new List<GLUniform>();
 
             for (int i = 0; i < lights.Count; i++)
             {
@@ -233,7 +233,7 @@ namespace THREE
                 }
                 else if (light is DirectionalLight)
                 {
-                    Hashtable uniforms = (Hashtable)(cache[light.type] as Hashtable).Clone();
+                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
                     Color lightColor = light.Color;
 
                     uniforms["color"] = lightColor.MultiplyScalar(light.Intensity);
@@ -254,7 +254,7 @@ namespace THREE
                     if (light.CastShadow)
                     {
                         var shadow = light.Shadow;
-                        Hashtable shadowUniforms = (Hashtable)(shadowCache[light.type] as Hashtable).Clone();
+                        GLUniform shadowUniforms = (GLUniform)(shadowCache[light.type] as GLUniform).Clone();
                         shadowUniforms["shadowBias"] = shadow.Bias;
                         shadowUniforms["shadowNormalBias"] = shadow.NormalBias;
                         shadowUniforms["shadowRadius"] = shadow.Radius;
@@ -274,7 +274,7 @@ namespace THREE
                 }
                 else if (light is SpotLight)
                 {
-                    Hashtable uniforms = (Hashtable)(cache[light.type] as Hashtable).Clone();
+                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
                     //Hashtable uniforms = (Hashtable)cache[light.type];
 
                     Vector3 position = Vector3.Zero().SetFromMatrixPosition(light.MatrixWorld);
@@ -306,7 +306,7 @@ namespace THREE
                     {
                         var shadow = light.Shadow;
 
-                        Hashtable shadowUniforms = (Hashtable)(shadowCache[light.type] as Hashtable).Clone();
+                        GLUniform shadowUniforms = (GLUniform)(shadowCache[light.type] as GLUniform).Clone();
 
                         shadowUniforms["shadowBias"] = shadow.Bias;
                         shadowUniforms["shadowNormalBias"] = shadow.NormalBias;
@@ -324,7 +324,7 @@ namespace THREE
                 }
                 else if (light is RectAreaLight)
                 {
-                    Hashtable uniforms = (Hashtable)(cache[light.type] as Hashtable).Clone();
+                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
 
                     Color lightColor = light.Color;
                     uniforms["color"] = lightColor.MultiplyScalar(light.Intensity);
@@ -357,7 +357,7 @@ namespace THREE
                 }
                 else if (light is PointLight)
                 {
-                    Hashtable uniforms = (Hashtable)(cache[light.type] as Hashtable).Clone();
+                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
                     Vector3 position = Vector3.Zero().SetFromMatrixPosition(light.MatrixWorld);
                     position.ApplyMatrix4(viewMatrix);
                     uniforms["position"] = position;
@@ -374,7 +374,7 @@ namespace THREE
                     {
                         var shadow = light.Shadow;
 
-                        Hashtable shadowUniforms = (Hashtable)(shadowCache[light.type] as Hashtable).Clone();
+                        GLUniform shadowUniforms = (GLUniform)(shadowCache[light.type] as GLUniform).Clone();
 
                         shadowUniforms["shadowBias"] = shadow.Bias;
                         shadowUniforms["shadowNormalBias"] = shadow.NormalBias;
@@ -396,7 +396,7 @@ namespace THREE
                 }
                 else if (light is HemisphereLight)
                 {
-                    Hashtable uniforms = (Hashtable)(cache[light.type] as Hashtable).Clone();
+                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
 
                     Vector3 direction = Vector3.Zero().SetFromMatrixPosition(light.MatrixWorld);
 
@@ -434,7 +434,7 @@ namespace THREE
 
             state["ambient"] = ambientColor;
 
-            Hashtable hash = (Hashtable)state["hash"];
+            GLUniform hash = (GLUniform)state["hash"];
 
             if ((int)hash["directionalLength"] != directionalLength ||
                 (int)hash["pointLength"] != pointLength ||

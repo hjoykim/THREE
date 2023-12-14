@@ -76,7 +76,17 @@ namespace THREEExample.Three.Lights
 
             AddGuiControlsAction = ShowLightControls;
         }
-      
+
+        public override void Render()
+        {
+            if (!imGuiManager.ImWantMouse)
+                controls.Enabled = true;
+            else
+                controls.Enabled = false;
+
+            base.Render();
+        }
+
         private List<string> GenCubeUrls(string prefix, string postfix)
         {
 

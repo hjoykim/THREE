@@ -1,45 +1,43 @@
-﻿using OpenTK.Graphics.ES30;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 
 namespace THREE
 {
     [Serializable]
-    public class GLUniform : Hashtable
-    { //TODO: Hashtable --> Dictionary<string,object>
-        public string Id;
+    public class GLUniform : Dictionary<string, object>,ICloneable
+    {
+        public string Id { get; set; }
 
-        public int Addr;
+        public int Addr { get; set; }
 
-        public string UniformKind;
+        public string UniformKind { get; set; }
 
-        public ActiveUniformType UniformType;
+        public int UniformType { get; set; }
 
         public List<object> Cache = new List<object>();
 
-        public GLUniform()
+        public GLUniform() : base() 
         {
+            UniformKind = "GLUniform";
         }
 
-        public GLUniform Copy(GLUniform source)
+        public GLUniform(string id) : this()
         {
-            var target = new GLUniform();
-
-            target.Id = source.Id;
-            target.Addr = source.Addr;
-            target.UniformType = source.UniformType;
-            target.Cache = source.Cache.GetRange(0, source.Cache.Count);
-
-            foreach (DictionaryEntry entry in this)
-            {
-                target.Add(entry.Key, entry.Value);
-            }
-
-            return target;
+            Id = id;
         }
+
         public GLUniform(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        public object Clone()
+        {
+            return this.DeepCopy();
+        }
+
+        public GLUniform Copy(GLUniform original)
+        {
+            return original.DeepCopy();
+        }
+       
     }
-
-
 }
