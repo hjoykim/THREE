@@ -1,27 +1,30 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+	[Serializable]
     public class DigitalGlitch : ShaderMaterial
     {
-		public DigitalGlitch() : base()
-		{
-			Uniforms = new GLUniforms
-			{
+        public DigitalGlitch() : base()
+        {
+            Uniforms = new GLUniforms
+            {
 
-				{ "tDiffuse", new GLUniform{{"value", null } } }, //diffuse texture
+                { "tDiffuse", new GLUniform{{"value", null } } }, //diffuse texture
 				{ "tDisp", new GLUniform{{"value", null } } }, //displacement texture for digital glitch squares
 				{ "byp", new GLUniform{{"value", 0.0f } } }, //apply the glitch ?
 				{ "amount", new GLUniform{{"value", 0.08f } } },
-				{ "angle", new GLUniform{{"value", 0.02f } } },
-				{ "seed", new GLUniform{{"value", 0.02f } } },
-				{ "seed_x", new GLUniform{{"value", 0.02f } } }, //-1,1
+                { "angle", new GLUniform{{"value", 0.02f } } },
+                { "seed", new GLUniform{{"value", 0.02f } } },
+                { "seed_x", new GLUniform{{"value", 0.02f } } }, //-1,1
 				{ "seed_y", new GLUniform{{"value", 0.02f } } }, //-1,1
 				{ "distortion_x", new GLUniform{{"value", 0.5f } } },
-				{ "distortion_y", new GLUniform{{"value", 0.6f } } },
-				{ "col_s", new GLUniform{{"value", 0.05f } } }
-			};
+                { "distortion_y", new GLUniform{{"value", 0.6f } } },
+                { "col_s", new GLUniform{{"value", 0.05f } } }
+            };
 
-			VertexShader = @"
+            VertexShader = @"
 
 			varying vec2 vUv;
 			void main() {
@@ -31,7 +34,7 @@ namespace THREE
 			";
 
 
-			FragmentShader = @"
+            FragmentShader = @"
 		uniform int byp; //should we apply the glitch ?
 
 		uniform sampler2D tDiffuse;
@@ -93,6 +96,8 @@ namespace THREE
 			}
 		}
 		";
-		}
+        }
+
+        public DigitalGlitch(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

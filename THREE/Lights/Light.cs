@@ -1,6 +1,9 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
-    public class Light :Object3D
+    [Serializable]
+    public class Light : Object3D
     {
         public Color Color;
 
@@ -16,8 +19,8 @@
 
         public float Decay;
 
-        public float Power {get;set;}
-        
+        public float Power { get; set; }
+
         public float Penumbra;
 
         public Object3D Target;
@@ -32,15 +35,16 @@
 
         public int Height;
 
-        public Light() :base()
+        public Light() : base()
         {
             this.IsLight = true;
         }
+        public Light(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public Light(Color color,float? intensity=null) : base()
+        public Light(Color color, float? intensity = null) : base()
         {
             this.type = "Light";
-            
+
             this.Color = color;
 
             this.Intensity = intensity != null ? intensity.Value : 1;

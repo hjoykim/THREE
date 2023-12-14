@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
-    public class StructuredUniform : GLUniform
+    [Serializable]
+    public class StructuredUniform : GLUniform,IStructuredUniform
     {
-        public List<GLUniform> Seq = new List<GLUniform>();
+        public List<GLUniform> Seq { get; set; } = new List<GLUniform>();
 
 
         public StructuredUniform()
@@ -14,12 +16,14 @@ namespace THREE
             UniformKind = "StructuredUniform";
         }
 
-        public StructuredUniform(string id) :this()
+        public StructuredUniform(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        public StructuredUniform(string id) : this()
         {
             this.Id = id;
         }
 
-        public void SetValue(StructuredUniform uniform,object value,GLTextures textures)
+        public void SetValue(IStructuredUniform uniform, object value, IGLTextures textures=null)
         {
             for (int j = 0; j < uniform.Seq.Count; j++)
             {
@@ -27,14 +31,14 @@ namespace THREE
 
                 object v = (value as Hashtable)[u.Id];
 
-                if (u is SingleUniform)
-                    (u as SingleUniform).SetValue(v,textures);                  
+                if (u is ISingleUniform)
+                    (u as ISingleUniform).SetValue(v, textures);
 
-                else if (u is PureArrayUniform)
-                    (u as PureArrayUniform).SetValue(v,textures);                   
+                else if (u is IPureArrayUniform)
+                    (u as IPureArrayUniform).SetValue(v, textures);
 
-                else if (u is StructuredUniform)
-                    (u as StructuredUniform).SetValue(v, textures);
+                else if (u is IStructuredUniform)
+                    (u as IStructuredUniform).SetValue(v, textures);
                 else
                 {
                     Trace.TraceWarning("StructuredUniform.SetValue : Unknown uniformtype");
@@ -43,23 +47,23 @@ namespace THREE
 
         }
 
-        public void SetValue(object value, GLTextures textures)
+        public void SetValue(object value, IGLTextures textures=null)
         {
             for (int i = 0, n = Seq.Count; i != n; ++i)
             {
                 GLUniform u = Seq[i];
                 object v = null;
-               
-                if (value is Hashtable)
+
+                if (value is GLUniform)
                 {
-                    v = (value as Hashtable)[u.Id];
+                    v = (value as GLUniform)[u.Id];
                 }
-                else if (value is Hashtable[])
+                else if (value is GLUniform[])
                 {
                     //var id = Convert.ToInt32(u.Id);
-                    //value = (value as Hashtable[])[id];
-                    v = (value as Hashtable[])[i];
-                    if(v==null)
+                    //value = (value as GLUniform[])[id];
+                    v = (value as GLUniform[])[i];
+                    if (v == null)
                     {
                         Debug.WriteLine("Value is null");
                     }
@@ -70,15 +74,15 @@ namespace THREE
                 }
                 if (u.UniformKind.Equals("SingleUniform"))
                 {
-                    (u as SingleUniform).SetValue(v,textures);
+                    (u as ISingleUniform).SetValue(v, textures);
                 }
-                else if(u.UniformKind.Equals("PureArrayUniform"))
+                else if (u.UniformKind.Equals("PureArrayUniform"))
                 {
-                    (u as PureArrayUniform).SetValue(v,textures);
+                    (u as IPureArrayUniform).SetValue(v, textures);
                 }
-                else if(u is StructuredUniform)
+                else if (u is IStructuredUniform)
                 {
-                   
+
                     //if (value is Hashtable[])
                     //{
                     //    //var id = Convert.ToInt32(u.Id);
@@ -89,10 +93,10 @@ namespace THREE
                     //{
                     //    v = value;
                     //}
-                    (u as StructuredUniform).SetValue(v, textures);
+                    (u as IStructuredUniform).SetValue(v, textures);
                     //SetValue( u as StructuredUniform,v, textures);
                 }
-                    
+
                 else
                 {
                     Trace.TraceWarning("StructuredUniform.SetValue : Unknown uniformtype");

@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace THREE
 {
+    [Serializable]
     public static class ExtensionMethods
     {
         public static readonly Random random = new Random();
@@ -60,7 +61,7 @@ namespace THREE
         public static float[] ToFloatArray(this double[] d)
         {
             float[] f = new float[d.Length];
-            for(int i = 0; i < d.Length; i++)
+            for (int i = 0; i < d.Length; i++)
             {
                 f[i] = (float)d[i];
             }
@@ -81,7 +82,7 @@ namespace THREE
         public static float Lerp(this float x, float y, float t)
         {
             return (1 - t) * x + t * y;
-            
+
         }
 
 
@@ -90,7 +91,7 @@ namespace THREE
             return source.Skip(index).Take(count).ToList();
         }
 
-        public static List<T> Add<T>(this List<T> source,T x,T y,T z)
+        public static List<T> Add<T>(this List<T> source, T x, T y, T z)
         {
             source.Add(x);
             source.Add(y);
@@ -99,7 +100,7 @@ namespace THREE
             return source;
         }
 
-        public static List<T> Add<T>(this List<T> source, T x, T y, T z,T w)
+        public static List<T> Add<T>(this List<T> source, T x, T y, T z, T w)
         {
             source.Add(x);
             source.Add(y);
@@ -109,7 +110,7 @@ namespace THREE
             return source;
         }
 
-        public static List<T> Add<T>(this List<T> source, T x, T y, T z,T x1,T y1,T z1)
+        public static List<T> Add<T>(this List<T> source, T x, T y, T z, T x1, T y1, T z1)
         {
             source.Add(x);
             source.Add(y);
@@ -124,11 +125,11 @@ namespace THREE
         public static List<T> Add<T>(this List<T> source, T x, T y)
         {
             source.Add(x);
-            source.Add(y);          
+            source.Add(y);
 
             return source;
         }
-        public static List<T> Concat<T>(this List<T> source, List<T> target) 
+        public static List<T> Concat<T>(this List<T> source, List<T> target)
         {
             source.AddRange(target);
 
@@ -153,6 +154,6 @@ namespace THREE
                 list.AddRange(new T[size - count]);
             }
         }
-        
+
     }
 }

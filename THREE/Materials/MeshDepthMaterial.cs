@@ -1,5 +1,8 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+    [Serializable]
     public class MeshDepthMaterial : Material
     {
         public MeshDepthMaterial() : base()
@@ -25,5 +28,6 @@
             this.Fog = false;
 
         }
+        public MeshDepthMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

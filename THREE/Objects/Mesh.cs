@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public class Mesh : Object3D
     {
-		private Sphere _sphere = new Sphere();		
-		private Matrix4 _inverseMatrix = new Matrix4();
-		private Ray _ray = new Ray();
-		private Vector3 _intersectionPoint = new Vector3();
-		private Vector3 _intersectionPointWorld = new Vector3();
+        private Sphere _sphere = new Sphere();
+        private Matrix4 _inverseMatrix = new Matrix4();
+        private Ray _ray = new Ray();
+        private Vector3 _intersectionPoint = new Vector3();
+        private Vector3 _intersectionPointWorld = new Vector3();
 
         //public List<int> MorphTargetInfluences = new List<int>();
 
@@ -20,6 +21,7 @@ namespace THREE
         {
             InitGeometry(null, null);
         }
+        public Mesh(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public Mesh(Geometry geometry = null, List<Material> materials = null)
             : base()
@@ -32,8 +34,8 @@ namespace THREE
             InitGeometry(geometry, material);
         }
 
-		protected Mesh(Mesh source, bool recursive=true) : this()
-		{
+        protected Mesh(Mesh source, bool recursive = true) : this()
+        {
             this.Name = source.Name;
 
             this.Up.Copy(source.Up);
@@ -92,16 +94,16 @@ namespace THREE
         }
         public override object Clone()
         {
-			Hashtable hastTable = base.Clone() as Hashtable;
-			Mesh cloned = new Mesh(this);
-			foreach(DictionaryEntry entry in hastTable)
-			{
-				cloned.Add(entry.Key, entry.Value);
-			}
+            Hashtable hastTable = base.Clone() as Hashtable;
+            Mesh cloned = new Mesh(this);
+            foreach (DictionaryEntry entry in hastTable)
+            {
+                cloned.Add(entry.Key, entry.Value);
+            }
 
-			return cloned;
+            return cloned;
         }
-        public void InitGeometries(Geometry geometry,List<Material> materials)
+        public void InitGeometries(Geometry geometry, List<Material> materials)
         {
             this.type = "Mesh";
 
@@ -137,7 +139,7 @@ namespace THREE
             if (material == null)
             {
                 this.Material = new MeshBasicMaterial() { Color = new Color().SetHex(0xffffff) };
-                
+
             }
             else
             {
@@ -153,412 +155,412 @@ namespace THREE
         public void UpdateMorphTargets()
         {
             var geometry = this.Geometry as BufferGeometry;
-			if (geometry != null && geometry is BufferGeometry)
-			{
-				var morphAttributes = geometry.MorphAttributes;
-				var keys = morphAttributes.Keys;
+            if (geometry != null && geometry is BufferGeometry)
+            {
+                var morphAttributes = geometry.MorphAttributes;
+                var keys = morphAttributes.Keys;
 
-				//if (keys.Count > 0)
-				if(morphAttributes!=null && morphAttributes.Count>0)
-				{
+                //if (keys.Count > 0)
+                if (morphAttributes != null && morphAttributes.Count > 0)
+                {
 
-					foreach (DictionaryEntry entry in morphAttributes)
-					{
-						var morphAttribute = morphAttributes[entry.Key] as List<BufferAttribute<float>>;
+                    foreach (DictionaryEntry entry in morphAttributes)
+                    {
+                        var morphAttribute = morphAttributes[entry.Key] as List<BufferAttribute<float>>;
 
-						if (morphAttribute != null)
-						{
-							this.MorphTargetInfluences = new List<float>();
-							this.MorphTargetDictionary = new Hashtable();
+                        if (morphAttribute != null)
+                        {
+                            this.MorphTargetInfluences = new List<float>();
+                            this.MorphTargetDictionary = new Hashtable();
 
-							for (int m = 0; m < morphAttribute.Count; m++)
-							{
-								string name = morphAttribute[m] != null ? (morphAttribute[m] as BufferAttribute<float>).Name : m.ToString();
+                            for (int m = 0; m < morphAttribute.Count; m++)
+                            {
+                                string name = morphAttribute[m] != null ? (morphAttribute[m] as BufferAttribute<float>).Name : m.ToString();
 
-								this.MorphTargetInfluences.Add(0);
-								if (this.MorphTargetDictionary.ContainsKey(name))
-									this.MorphTargetDictionary[name] = m;
-								else
-									this.MorphTargetDictionary.Add(name, m);
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				if (geometry!=null && geometry.MorphTargets != null && geometry.MorphTargets.Count > 0)
-				{
-					Trace.TraceError("THREE.Mesh.updateMorphTargets() no longer supports THREE.Geometry. Use THREE.BufferGeometry instead.");
-				}
-			}
+                                this.MorphTargetInfluences.Add(0);
+                                if (this.MorphTargetDictionary.ContainsKey(name))
+                                    this.MorphTargetDictionary[name] = m;
+                                else
+                                    this.MorphTargetDictionary.Add(name, m);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (geometry != null && geometry.MorphTargets != null && geometry.MorphTargets.Count > 0)
+                {
+                    Trace.TraceError("THREE.Mesh.updateMorphTargets() no longer supports THREE.Geometry. Use THREE.BufferGeometry instead.");
+                }
+            }
         }
 
         public override void Raycast(Raycaster raycaster, List<Intersection> intersects)
         {
             if (Material == null) return;
 
-			// Checking boundingSphere distance to ray
+            // Checking boundingSphere distance to ray
 
-			if (Geometry.BoundingSphere == null) Geometry.ComputeBoundingSphere();
+            if (Geometry.BoundingSphere == null) Geometry.ComputeBoundingSphere();
 
-			_sphere.Copy(Geometry.BoundingSphere);
-			_sphere.ApplyMatrix4(MatrixWorld);
+            _sphere.Copy(Geometry.BoundingSphere);
+            _sphere.ApplyMatrix4(MatrixWorld);
 
-			if (raycaster.ray.IntersectsSphere(_sphere) == false) return;
+            if (raycaster.ray.IntersectsSphere(_sphere) == false) return;
 
-			//
+            //
 
-			_inverseMatrix.GetInverse(MatrixWorld);
-			_ray.copy(raycaster.ray).ApplyMatrix4(_inverseMatrix);
+            _inverseMatrix.GetInverse(MatrixWorld);
+            _ray.copy(raycaster.ray).ApplyMatrix4(_inverseMatrix);
 
-			// Check boundingBox before continuing
+            // Check boundingBox before continuing
 
-			if (Geometry.BoundingBox != null)
-			{
+            if (Geometry.BoundingBox != null)
+            {
 
-				if (_ray.IntersectsBox(Geometry.BoundingBox) == false) return;
+                if (_ray.IntersectsBox(Geometry.BoundingBox) == false) return;
 
-			}
+            }
 
-			Intersection intersection;
+            Intersection intersection;
 
-			if (Geometry is BufferGeometry)
-			{
-				BufferGeometry bufferGeometry = Geometry as BufferGeometry;
-				//const index = geometry.index;
-				BufferAttribute<float> position = bufferGeometry.Attributes.ContainsKey("position") ? bufferGeometry.Attributes["position"] as BufferAttribute<float> : null;
-				List<BufferAttribute<float>> morphPosition = bufferGeometry.MorphAttributes.ContainsKey("position") ? bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null;
-				var morphTargetsRelative = bufferGeometry.MorphTargetsRelative;
-				BufferAttribute<float> uv = bufferGeometry.Attributes.ContainsKey("uv") ? bufferGeometry.Attributes["uv"] as BufferAttribute<float> : null; ;
-				BufferAttribute<float> uv2 = bufferGeometry.Attributes.ContainsKey("uv2") ? bufferGeometry.Attributes["uv2"] as BufferAttribute<float> : null; ;
-				//const groups = geometry.groups;
-				//const drawRange = geometry.drawRange;
+            if (Geometry is BufferGeometry)
+            {
+                BufferGeometry bufferGeometry = Geometry as BufferGeometry;
+                //const index = geometry.index;
+                BufferAttribute<float> position = bufferGeometry.Attributes.ContainsKey("position") ? bufferGeometry.Attributes["position"] as BufferAttribute<float> : null;
+                List<BufferAttribute<float>> morphPosition = bufferGeometry.MorphAttributes.ContainsKey("position") ? bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null;
+                var morphTargetsRelative = bufferGeometry.MorphTargetsRelative;
+                BufferAttribute<float> uv = bufferGeometry.Attributes.ContainsKey("uv") ? bufferGeometry.Attributes["uv"] as BufferAttribute<float> : null; ;
+                BufferAttribute<float> uv2 = bufferGeometry.Attributes.ContainsKey("uv2") ? bufferGeometry.Attributes["uv2"] as BufferAttribute<float> : null; ;
+                //const groups = geometry.groups;
+                //const drawRange = geometry.drawRange;
 
-				if (bufferGeometry.Index != null)
-				{
+                if (bufferGeometry.Index != null)
+                {
 
-					// indexed buffer geometry
+                    // indexed buffer geometry
 
-					if (Materials.Count > 1 )
-					{
+                    if (Materials.Count > 1)
+                    {
 
-						for (int i = 0;i< bufferGeometry.Groups.Count;i++)
-						{
+                        for (int i = 0; i < bufferGeometry.Groups.Count; i++)
+                        {
 
-							var group = bufferGeometry.Groups[i];
-							var groupMaterial = Materials[group.MaterialIndex];
+                            var group = bufferGeometry.Groups[i];
+                            var groupMaterial = Materials[group.MaterialIndex];
 
-							var start = (int)System.Math.Max(group.Start, bufferGeometry.DrawRange.Start);
-							var end = (int)System.Math.Min((group.Start + group.Count), (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
+                            var start = (int)System.Math.Max(group.Start, bufferGeometry.DrawRange.Start);
+                            var end = (int)System.Math.Min((group.Start + group.Count), (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
 
-							for (int j = start;j< end; j += 3)
-							{
+                            for (int j = start; j < end; j += 3)
+                            {
 
-								var a = bufferGeometry.Index.getX(j);
-								var b = bufferGeometry.Index.getX(j + 1);
-								var c = bufferGeometry.Index.getX(j + 2);
+                                var a = bufferGeometry.Index.getX(j);
+                                var b = bufferGeometry.Index.getX(j + 1);
+                                var c = bufferGeometry.Index.getX(j + 2);
 
-								intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
+                                intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
 
-								if (intersection!=null)
-								{
+                                if (intersection != null)
+                                {
 
-									intersection.faceIndex =(int)System.Math.Floor((decimal)j / 3); // triangle number in indexed buffer semantics
-									intersection.face.MaterialIndex = group.MaterialIndex;
-									intersects.Add(intersection);
+                                    intersection.faceIndex = (int)System.Math.Floor((decimal)j / 3); // triangle number in indexed buffer semantics
+                                    intersection.face.MaterialIndex = group.MaterialIndex;
+                                    intersects.Add(intersection);
 
-								}
-							}
-						}
-					}
-					else
-					{
-						var start = (float)System.Math.Max(0, bufferGeometry.DrawRange.Start);
-						var end = (float)System.Math.Min(bufferGeometry.Index.count, (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var start = (float)System.Math.Max(0, bufferGeometry.DrawRange.Start);
+                        var end = (float)System.Math.Min(bufferGeometry.Index.count, (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
 
-						for (int i = (int)start;i<(int)end; i += 3)
-						{
+                        for (int i = (int)start; i < (int)end; i += 3)
+                        {
 
-							int a = bufferGeometry.Index.getX(i);
-							int b = bufferGeometry.Index.getX(i + 1);
-							int c = bufferGeometry.Index.getX(i + 2);
+                            int a = bufferGeometry.Index.getX(i);
+                            int b = bufferGeometry.Index.getX(i + 1);
+                            int c = bufferGeometry.Index.getX(i + 2);
 
-							intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
-							
-							if (intersection!=null)
-							{
+                            intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
 
-								intersection.faceIndex = (int)System.Math.Floor((decimal)i / 3); // triangle number in indexed buffer semantics
-								intersects.Add(intersection);
+                            if (intersection != null)
+                            {
 
-							}
+                                intersection.faceIndex = (int)System.Math.Floor((decimal)i / 3); // triangle number in indexed buffer semantics
+                                intersects.Add(intersection);
 
-						}
+                            }
 
-					}
+                        }
 
-				}
-				else if (bufferGeometry.Attributes["position"] != null)
-				{
+                    }
 
-					// non-indexed buffer geometry
+                }
+                else if (bufferGeometry.Attributes["position"] != null)
+                {
 
-					if (Materials.Count > 1)
-					{
+                    // non-indexed buffer geometry
 
-						for (int i = 0;i < bufferGeometry.Groups.Count; i++)
-						{
+                    if (Materials.Count > 1)
+                    {
 
-							var group = bufferGeometry.Groups[i];
-							Material groupMaterial = Materials[group.MaterialIndex];
+                        for (int i = 0; i < bufferGeometry.Groups.Count; i++)
+                        {
 
-							var start = (int)System.Math.Max(group.Start, bufferGeometry.DrawRange.Start);
-							var end = (int)System.Math.Min((group.Start + group.Count), (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
+                            var group = bufferGeometry.Groups[i];
+                            Material groupMaterial = Materials[group.MaterialIndex];
 
-							for (int j = start;j< end; j += 3)
-							{
+                            var start = (int)System.Math.Max(group.Start, bufferGeometry.DrawRange.Start);
+                            var end = (int)System.Math.Min((group.Start + group.Count), (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
 
-								int a = j;
-								int b = j + 1;
-								int c = j + 2;
+                            for (int j = start; j < end; j += 3)
+                            {
 
-								intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>, bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>, bufferGeometry.MorphTargetsRelative, bufferGeometry.Attributes["uv"] as BufferAttribute<float>, bufferGeometry.Attributes["uv2"] as BufferAttribute<float>, a, b, c);
+                                int a = j;
+                                int b = j + 1;
+                                int c = j + 2;
 
-								if (intersection!=null)
-								{
+                                intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>, bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>, bufferGeometry.MorphTargetsRelative, bufferGeometry.Attributes["uv"] as BufferAttribute<float>, bufferGeometry.Attributes["uv2"] as BufferAttribute<float>, a, b, c);
 
-									intersection.faceIndex = (int)System.Math.Floor((decimal)j / 3); // triangle number in non-indexed buffer semantics
-									intersection.face.MaterialIndex = group.MaterialIndex;
-									intersects.Add(intersection);
-								}
-							}
-						}
+                                if (intersection != null)
+                                {
 
-					}
-					else
-					{
+                                    intersection.faceIndex = (int)System.Math.Floor((decimal)j / 3); // triangle number in non-indexed buffer semantics
+                                    intersection.face.MaterialIndex = group.MaterialIndex;
+                                    intersects.Add(intersection);
+                                }
+                            }
+                        }
 
-						int start = (int)System.Math.Max(0, bufferGeometry.DrawRange.Start);
-						int end = (int)System.Math.Min((bufferGeometry.Attributes["position"] as BufferAttribute<float>).count, (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
+                    }
+                    else
+                    {
 
-						for (int i = start;i< end; i += 3)
-						{
+                        int start = (int)System.Math.Max(0, bufferGeometry.DrawRange.Start);
+                        int end = (int)System.Math.Min((bufferGeometry.Attributes["position"] as BufferAttribute<float>).count, (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
 
-							int a = i;
-							int b = i + 1;
-							int c = i + 2;
+                        for (int i = start; i < end; i += 3)
+                        {
 
-							intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>,
-								bufferGeometry.MorphAttributes.ContainsKey("position")?bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>:null,bufferGeometry.MorphTargetsRelative,
-								bufferGeometry.Attributes.ContainsKey("uv") ?bufferGeometry.Attributes["uv"] as BufferAttribute<float>:null,
-								bufferGeometry.Attributes.ContainsKey("uv2")?bufferGeometry.Attributes["uv2"] as BufferAttribute<float>:null, a, b, c);
+                            int a = i;
+                            int b = i + 1;
+                            int c = i + 2;
 
-							if (intersection!=null)
-							{
+                            intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>,
+                                bufferGeometry.MorphAttributes.ContainsKey("position") ? bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null, bufferGeometry.MorphTargetsRelative,
+                                bufferGeometry.Attributes.ContainsKey("uv") ? bufferGeometry.Attributes["uv"] as BufferAttribute<float> : null,
+                                bufferGeometry.Attributes.ContainsKey("uv2") ? bufferGeometry.Attributes["uv2"] as BufferAttribute<float> : null, a, b, c);
 
-								intersection.faceIndex = (int)System.Math.Floor((decimal)i / 3); // triangle number in non-indexed buffer semantics
-								intersects.Add(intersection);
+                            if (intersection != null)
+                            {
 
-							}
+                                intersection.faceIndex = (int)System.Math.Floor((decimal)i / 3); // triangle number in non-indexed buffer semantics
+                                intersects.Add(intersection);
 
-						}
+                            }
 
-					}
+                        }
 
-				}
+                    }
 
-			}
-			else if (this.Geometry is Geometry)
-			{
+                }
 
-				bool isMultiMaterial = Materials.Count > 1;
+            }
+            else if (this.Geometry is Geometry)
+            {
 
-				var vertices = this.Geometry.Vertices;
-				var faces = this.Geometry.Faces;
-				List<List<Vector2>> uvs = null;
+                bool isMultiMaterial = Materials.Count > 1;
 
-				var faceVertexUvs = this.Geometry.FaceVertexUvs[0];
-				if (faceVertexUvs.Count > 0) uvs = faceVertexUvs;
+                var vertices = this.Geometry.Vertices;
+                var faces = this.Geometry.Faces;
+                List<List<Vector2>> uvs = null;
 
-				for (int f = 0;f< faces.Count; f++)
-				{
+                var faceVertexUvs = this.Geometry.FaceVertexUvs[0];
+                if (faceVertexUvs.Count > 0) uvs = faceVertexUvs;
 
-					var face = faces[f];
-					var faceMaterial = isMultiMaterial ? Materials[face.MaterialIndex] : this.Material;
+                for (int f = 0; f < faces.Count; f++)
+                {
 
-					if (faceMaterial == null) continue;
+                    var face = faces[f];
+                    var faceMaterial = isMultiMaterial ? Materials[face.MaterialIndex] : this.Material;
 
-					Vector3 fvA = vertices[face.a];
-					Vector3 fvB = vertices[face.b];
-					Vector3 fvC = vertices[face.c];							
+                    if (faceMaterial == null) continue;
 
-					intersection = checkIntersection(this, faceMaterial, raycaster, _ray, fvA, fvB, fvC, _intersectionPoint);
-				
-					if (intersection!=null)
-					{
+                    Vector3 fvA = vertices[face.a];
+                    Vector3 fvB = vertices[face.b];
+                    Vector3 fvC = vertices[face.c];
 
-						if (uvs!=null && uvs.Count>0 && uvs[f].Count>0)
-						{
+                    intersection = checkIntersection(this, faceMaterial, raycaster, _ray, fvA, fvB, fvC, _intersectionPoint);
 
-							var uvs_f = uvs[f];
-							_uvA.Copy(uvs_f[0]);
-							_uvB.Copy(uvs_f[1]);
-							_uvC.Copy(uvs_f[2]);
+                    if (intersection != null)
+                    {
 
-							intersection.uv = Triangle.GetUV(_intersectionPoint, fvA, fvB, fvC, _uvA, _uvB, _uvC, new Vector2());
+                        if (uvs != null && uvs.Count > 0 && uvs[f].Count > 0)
+                        {
 
-						}
+                            var uvs_f = uvs[f];
+                            _uvA.Copy(uvs_f[0]);
+                            _uvB.Copy(uvs_f[1]);
+                            _uvC.Copy(uvs_f[2]);
 
-						intersection.face = face;
-						intersection.faceIndex = f;
-						intersects.Add(intersection);
+                            intersection.uv = Triangle.GetUV(_intersectionPoint, fvA, fvB, fvC, _uvA, _uvB, _uvC, new Vector2());
 
-					}
+                        }
 
-				}
+                        intersection.face = face;
+                        intersection.faceIndex = f;
+                        intersects.Add(intersection);
 
-			}
+                    }
 
-		}
+                }
 
-		private Intersection checkIntersection(Object3D object3D,Material material,Raycaster raycaster,Ray ray,Vector3 pA,Vector3 pB,Vector3 pC,Vector3 point)
-        {
-			Vector3 intersect;
+            }
 
-			if (material.Side == Constants.BackSide)
-				intersect = ray.IntersectTriangle(pC, pB, pA, true, point);
-			else
-				intersect = ray.IntersectTriangle(pA, pB, pC, material.Side != Constants.DoubleSide, point);
-
-
-			if (intersect == null) return null;
-
-			_intersectionPointWorld.Copy(point);
-			_intersectionPointWorld.ApplyMatrix4(object3D.MatrixWorld);
-
-			float distance = raycaster.ray.origin.DistanceTo(_intersectionPointWorld);
-
-			if (distance < raycaster.near || distance > raycaster.far) return null;
-
-			Intersection result = new Intersection();
-			result.distance= distance;
-			result.point =_intersectionPointWorld.Clone();
-			result.object3D = object3D;
-
-			return result;
         }
-		private Vector3 _vA = new Vector3();
-		private Vector3 _vB = new Vector3();
-		private Vector3 _vC = new Vector3();
-		private Vector3 _morphA = new Vector3();
-		private Vector3 _morphB = new Vector3();
-		private Vector3 _morphC = new Vector3();
-		private Vector3 _tempA = new Vector3();
-		private Vector3 _tempB = new Vector3();
-		private Vector3 _tempC = new Vector3();
 
-		private Vector2 _uvA = new Vector2();
-		private Vector2 _uvB = new Vector2();
-		private Vector2 _uvC = new Vector2();
-	
-		private Intersection checkBufferGeometryIntersection(Object3D object3D, Material material, Raycaster raycaster, Ray ray, BufferAttribute<float> position, List<BufferAttribute<float>> morphPosition, bool morphTargetsRelative, BufferAttribute<float> uv, BufferAttribute<float> uv2, int a, int b, int c)
+        private Intersection checkIntersection(Object3D object3D, Material material, Raycaster raycaster, Ray ray, Vector3 pA, Vector3 pB, Vector3 pC, Vector3 point)
         {
-			_vA.FromBufferAttribute(position, a);
-			_vB.FromBufferAttribute(position, b);
-			_vC.FromBufferAttribute(position, c);
+            Vector3 intersect;
 
-			var morphInfluences = object3D.MorphTargetInfluences;
+            if (material.Side == Constants.BackSide)
+                intersect = ray.IntersectTriangle(pC, pB, pA, true, point);
+            else
+                intersect = ray.IntersectTriangle(pA, pB, pC, material.Side != Constants.DoubleSide, point);
 
-			if (material.MorphTargets==true && (morphPosition!=null && morphPosition.Count>0) && (morphInfluences!=null && morphInfluences.Count>0))
-			{
 
-				_morphA.Set(0, 0, 0);
-				_morphB.Set(0, 0, 0);
-				_morphC.Set(0, 0, 0);
+            if (intersect == null) return null;
 
-				for (int i = 0;i< morphPosition.Count; i++)
-				{
+            _intersectionPointWorld.Copy(point);
+            _intersectionPointWorld.ApplyMatrix4(object3D.MatrixWorld);
 
-					var influence = morphInfluences[i];
-					var morphAttribute = morphPosition[i];
+            float distance = raycaster.ray.origin.DistanceTo(_intersectionPointWorld);
 
-					if (influence == 0) continue;
+            if (distance < raycaster.near || distance > raycaster.far) return null;
 
-					_tempA.FromBufferAttribute(morphAttribute, a);
-					_tempB.FromBufferAttribute(morphAttribute, b);
-					_tempC.FromBufferAttribute(morphAttribute, c);
+            Intersection result = new Intersection();
+            result.distance = distance;
+            result.point = _intersectionPointWorld.Clone();
+            result.object3D = object3D;
 
-					if (morphTargetsRelative)
-					{
+            return result;
+        }
+        private Vector3 _vA = new Vector3();
+        private Vector3 _vB = new Vector3();
+        private Vector3 _vC = new Vector3();
+        private Vector3 _morphA = new Vector3();
+        private Vector3 _morphB = new Vector3();
+        private Vector3 _morphC = new Vector3();
+        private Vector3 _tempA = new Vector3();
+        private Vector3 _tempB = new Vector3();
+        private Vector3 _tempC = new Vector3();
 
-						_morphA.AddScaledVector(_tempA, influence);
-						_morphB.AddScaledVector(_tempB, influence);
-						_morphC.AddScaledVector(_tempC, influence);
+        private Vector2 _uvA = new Vector2();
+        private Vector2 _uvB = new Vector2();
+        private Vector2 _uvC = new Vector2();
 
-					}
-					else
-					{
+        private Intersection checkBufferGeometryIntersection(Object3D object3D, Material material, Raycaster raycaster, Ray ray, BufferAttribute<float> position, List<BufferAttribute<float>> morphPosition, bool morphTargetsRelative, BufferAttribute<float> uv, BufferAttribute<float> uv2, int a, int b, int c)
+        {
+            _vA.FromBufferAttribute(position, a);
+            _vB.FromBufferAttribute(position, b);
+            _vC.FromBufferAttribute(position, c);
 
-						_morphA.AddScaledVector(_tempA.Sub(_vA), influence);
-						_morphB.AddScaledVector(_tempB.Sub(_vB), influence);
-						_morphC.AddScaledVector(_tempC.Sub(_vC), influence);
+            var morphInfluences = object3D.MorphTargetInfluences;
 
-					}
+            if (material.MorphTargets == true && (morphPosition != null && morphPosition.Count > 0) && (morphInfluences != null && morphInfluences.Count > 0))
+            {
 
-				}
+                _morphA.Set(0, 0, 0);
+                _morphB.Set(0, 0, 0);
+                _morphC.Set(0, 0, 0);
 
-				_vA.Add(_morphA);
-				_vB.Add(_morphB);
-				_vC.Add(_morphC);
+                for (int i = 0; i < morphPosition.Count; i++)
+                {
 
-			}
+                    var influence = morphInfluences[i];
+                    var morphAttribute = morphPosition[i];
 
-			if (object3D is SkinnedMesh)
-			{
-				SkinnedMesh skin = object3D as SkinnedMesh;
+                    if (influence == 0) continue;
 
-				skin.BoneTransform(a, _vA.ToVector4());
-				skin.BoneTransform(b, _vB.ToVector4());
-				skin.BoneTransform(c, _vC.ToVector4());
+                    _tempA.FromBufferAttribute(morphAttribute, a);
+                    _tempB.FromBufferAttribute(morphAttribute, b);
+                    _tempC.FromBufferAttribute(morphAttribute, c);
 
-			}
+                    if (morphTargetsRelative)
+                    {
 
-			var intersection = checkIntersection(object3D, material, raycaster, ray, _vA, _vB, _vC, _intersectionPoint);
+                        _morphA.AddScaledVector(_tempA, influence);
+                        _morphB.AddScaledVector(_tempB, influence);
+                        _morphC.AddScaledVector(_tempC, influence);
 
-			if (intersection!=null)
-			{
+                    }
+                    else
+                    {
 
-				if (uv!=null)
-				{
+                        _morphA.AddScaledVector(_tempA.Sub(_vA), influence);
+                        _morphB.AddScaledVector(_tempB.Sub(_vB), influence);
+                        _morphC.AddScaledVector(_tempC.Sub(_vC), influence);
 
-					_uvA.FromBufferAttribute(uv, a);
-					_uvB.FromBufferAttribute(uv, b);
-					_uvC.FromBufferAttribute(uv, c);
+                    }
 
-					intersection.uv = Triangle.GetUV(_intersectionPoint, _vA, _vB, _vC, _uvA, _uvB, _uvC, new Vector2());
+                }
 
-				}
+                _vA.Add(_morphA);
+                _vB.Add(_morphB);
+                _vC.Add(_morphC);
 
-				if (uv2!=null)
-				{
+            }
 
-					_uvA.FromBufferAttribute(uv2, a);
-					_uvB.FromBufferAttribute(uv2, b);
-					_uvC.FromBufferAttribute(uv2, c);
+            if (object3D is SkinnedMesh)
+            {
+                SkinnedMesh skin = object3D as SkinnedMesh;
 
-					intersection.uv2 =Triangle.GetUV(_intersectionPoint, _vA, _vB, _vC, _uvA, _uvB, _uvC, new Vector2());
+                skin.BoneTransform(a, _vA.ToVector4());
+                skin.BoneTransform(b, _vB.ToVector4());
+                skin.BoneTransform(c, _vC.ToVector4());
 
-				}
+            }
 
-				Face3 face = new Face3(a, b, c);
-				Triangle.GetNormal(_vA, _vB, _vC, face.Normal);
+            var intersection = checkIntersection(object3D, material, raycaster, ray, _vA, _vB, _vC, _intersectionPoint);
 
-				intersection.face = face;
+            if (intersection != null)
+            {
 
-			}
+                if (uv != null)
+                {
 
-			return intersection;
-		}
+                    _uvA.FromBufferAttribute(uv, a);
+                    _uvB.FromBufferAttribute(uv, b);
+                    _uvC.FromBufferAttribute(uv, c);
+
+                    intersection.uv = Triangle.GetUV(_intersectionPoint, _vA, _vB, _vC, _uvA, _uvB, _uvC, new Vector2());
+
+                }
+
+                if (uv2 != null)
+                {
+
+                    _uvA.FromBufferAttribute(uv2, a);
+                    _uvB.FromBufferAttribute(uv2, b);
+                    _uvC.FromBufferAttribute(uv2, c);
+
+                    intersection.uv2 = Triangle.GetUV(_intersectionPoint, _vA, _vB, _vC, _uvA, _uvB, _uvC, new Vector2());
+
+                }
+
+                Face3 face = new Face3(a, b, c);
+                Triangle.GetNormal(_vA, _vB, _vC, face.Normal);
+
+                intersection.face = face;
+
+            }
+
+            return intersection;
+        }
     }
 }

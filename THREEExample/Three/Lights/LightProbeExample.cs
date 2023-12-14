@@ -49,7 +49,7 @@ namespace THREEExample.Three.Lights
             directionalLight.Position.Set(10, 10, 10);
             scene.Add(directionalLight);
 
-            var urls = GenCubeUrls("../../../assets/textures/cube/pisa/", ".png");
+            var urls = GenCubeUrls("../../../../assets/textures/cube/pisa/", ".png");
 
             cubeTexture = CubeTextureLoader.Load(urls);
             cubeTexture.Encoding = Constants.sRGBEncoding;
@@ -76,7 +76,17 @@ namespace THREEExample.Three.Lights
 
             AddGuiControlsAction = ShowLightControls;
         }
-      
+
+        public override void Render()
+        {
+            if (!imGuiManager.ImWantMouse)
+                controls.Enabled = true;
+            else
+                controls.Enabled = false;
+
+            base.Render();
+        }
+
         private List<string> GenCubeUrls(string prefix, string postfix)
         {
 

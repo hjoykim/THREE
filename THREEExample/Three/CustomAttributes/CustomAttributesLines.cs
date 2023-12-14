@@ -79,7 +79,7 @@ namespace THREEExample.Three.CustomAttributes
 				Transparent = true
 			};
 
-			var font = THREE.FontLoader.Load("../../../assets/fonts/helvetiker_bold.typeface.json");
+			var font = THREE.FontLoader.Load("../../../../assets/fonts/helvetiker_bold.typeface.json");
 
 			var parameter = new Hashtable
 			{

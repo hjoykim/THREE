@@ -60,7 +60,7 @@ namespace THREEExample.Learning.Chapter11
             var cube = new Mesh(plane, new MeshPhongMaterial
                     {
                         Color = Color.Hex(0xffffff),
-                        Map = TextureLoader.Load("../../../assets/textures/general/floor-wood.jpg"),
+                        Map = TextureLoader.Load("../../../../assets/textures/general/floor-wood.jpg"),
                         NormalScale = new Vector2(0.6f, 0.6f)
                     });
             cube.Material.Map.WrapS = Constants.RepeatWrapping;

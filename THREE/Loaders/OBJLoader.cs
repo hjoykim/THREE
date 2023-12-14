@@ -7,12 +7,14 @@ using System.Text.RegularExpressions;
 
 namespace THREE
 {
-    class Object
+    [Serializable]
+    internal class Object
     {
+        [Serializable]
         public class ObjectMaterial
         {
             public int Index;
-            
+
             public string Name;
 
             public int GroupStart = 0;
@@ -48,6 +50,7 @@ namespace THREE
             }
         }
 
+        [Serializable]
         public class ObjectGeometry
         {
             public List<float> Vertices = new List<float>();
@@ -61,7 +64,7 @@ namespace THREE
             public string type;
         }
 
-        public string Name ="";
+        public string Name = "";
 
         public bool FromDeclaration = true;
 
@@ -86,7 +89,7 @@ namespace THREE
 
             var previous = this.Finalize(false);
 
-            if(previous!=null && (previous.Inherited || previous.GroupCount<=0))
+            if (previous != null && (previous.Inherited || previous.GroupCount <= 0))
             {
                 this.Materials.RemoveAt(previous.Index);
             }
@@ -117,31 +120,37 @@ namespace THREE
                 lastMultiMaterial.Inherited = false;
             }
             // Ignore objects tail materials if no face declarations followed them before a new o/g started.
-			if ( end && this.Materials.Count > 1 ) {
+            if (end && this.Materials.Count > 1)
+            {
 
-			    for ( var mi = this.Materials.Count - 1; mi >= 0; mi -- ) {
+                for (var mi = this.Materials.Count - 1; mi >= 0; mi--)
+                {
 
-				    if(this.Materials[ mi ].GroupCount <= 0 ) {
+                    if (this.Materials[mi].GroupCount <= 0)
+                    {
 
-							this.Materials.RemoveAt(mi);
+                        this.Materials.RemoveAt(mi);
 
-					}
-				}
-			}
+                    }
+                }
+            }
 
-			// Guarantee at least one empty material, this makes the creation later more straight forward.
-			if ( end && this.Materials.Count == 0 ) {
+            // Guarantee at least one empty material, this makes the creation later more straight forward.
+            if (end && this.Materials.Count == 0)
+            {
 
-                ObjectMaterial material = new ObjectMaterial(){Name="",Smooth=this.Smooth};
+                ObjectMaterial material = new ObjectMaterial() { Name = "", Smooth = this.Smooth };
 
                 this.Materials.Add(material);
-				
-			}
 
-			return lastMultiMaterial;
+            }
+
+            return lastMultiMaterial;
         }
     }
-    class ObjectState
+
+    [Serializable]
+    internal class ObjectState
     {
         public List<Object> Objects = new List<Object>();
 
@@ -159,11 +168,11 @@ namespace THREE
 
         public void StartObject(string name, bool fromDeclaration)
         {
-            if(this.Object!=null && this.Object.FromDeclaration==false)
+            if (this.Object != null && this.Object.FromDeclaration == false)
             {
                 this.Object.Name = name;
                 this.Object.FromDeclaration = fromDeclaration != false;
-           
+
                 return;
             }
 
@@ -173,23 +182,23 @@ namespace THREE
             {
                 this.Object.Finalize(true);
             }
-            
-            this.Object = new Object() 
-            { 
+
+            this.Object = new Object()
+            {
                 Name = name,
-                FromDeclaration = fromDeclaration!=false,
-                Geometry = new Object.ObjectGeometry()                
+                FromDeclaration = fromDeclaration != false,
+                Geometry = new Object.ObjectGeometry()
             };
 
-            if (previousMaterial != null && previousMaterial.Name!=null)
+            if (previousMaterial != null && previousMaterial.Name != null)
             {
                 var declared = previousMaterial.Clone(0);
                 declared.Inherited = true;
                 this.Object.Materials.Add(declared);
             }
 
-            this.Objects.Add(this.Object);  
-          
+            this.Objects.Add(this.Object);
+
         }
 
         public void finalize()
@@ -200,69 +209,69 @@ namespace THREE
             }
         }
 
-        private int ParseVertexIndex(int value,int len)
+        private int ParseVertexIndex(int value, int len)
         {
             var index = (int)value;
 
             return (index >= 0 ? index - 1 : index + len / 3) * 3;
         }
-        private int ParseNormalIndex(int value, int len ) 
+        private int ParseNormalIndex(int value, int len)
         {
 
-			var index = (int)value;
-			return ( index >= 0 ? index - 1 : index + len / 3 ) * 3;
+            var index = (int)value;
+            return (index >= 0 ? index - 1 : index + len / 3) * 3;
 
-		}
-
-		private int ParseUVIndex(int value, int len ) 
-        {
-
-			var index = (int)value;
-				
-            return ( index >= 0 ? index - 1 : index + len / 2 ) * 2;
         }
 
-        private void AddVertex(int a, int b, int c ) 
+        private int ParseUVIndex(int value, int len)
         {
-			var src = this.Vertices;
-			var dst = this.Object.Geometry.Vertices;
 
-			dst.Add( src[ a + 0 ], src[ a + 1 ], src[ a + 2 ] );
-			dst.Add( src[ b + 0 ], src[ b + 1 ], src[ b + 2 ] );
-			dst.Add( src[ c + 0 ], src[ c + 1 ], src[ c + 2 ] );
+            var index = (int)value;
+
+            return (index >= 0 ? index - 1 : index + len / 2) * 2;
         }
-		private void AddColor(int a, int b, int c ) 
+
+        private void AddVertex(int a, int b, int c)
+        {
+            var src = this.Vertices;
+            var dst = this.Object.Geometry.Vertices;
+
+            dst.Add(src[a + 0], src[a + 1], src[a + 2]);
+            dst.Add(src[b + 0], src[b + 1], src[b + 2]);
+            dst.Add(src[c + 0], src[c + 1], src[c + 2]);
+        }
+        private void AddColor(int a, int b, int c)
         {
 
-			var src = this.Colors;
-			var dst = this.Object.Geometry.Colors;
+            var src = this.Colors;
+            var dst = this.Object.Geometry.Colors;
 
-			dst.Add( src[ a + 0 ], src[ a + 1 ], src[ a + 2 ] );
-			dst.Add( src[ b + 0 ], src[ b + 1 ], src[ b + 2 ] );
-			dst.Add( src[ c + 0 ], src[ c + 1 ], src[ c + 2 ] );
+            dst.Add(src[a + 0], src[a + 1], src[a + 2]);
+            dst.Add(src[b + 0], src[b + 1], src[b + 2]);
+            dst.Add(src[c + 0], src[c + 1], src[c + 2]);
 
-		}     
-        private void AddUV(int a, int b, int c ) 
+        }
+        private void AddUV(int a, int b, int c)
         {
             var src = this.Uvs;
-			var dst = this.Object.Geometry.Uvs;
+            var dst = this.Object.Geometry.Uvs;
 
-			dst.Add( src[ a + 0 ], src[ a + 1 ] );
-			dst.Add( src[ b + 0 ], src[ b + 1 ] );
-			dst.Add( src[ c + 0 ], src[ c + 1 ] );
-		}
+            dst.Add(src[a + 0], src[a + 1]);
+            dst.Add(src[b + 0], src[b + 1]);
+            dst.Add(src[c + 0], src[c + 1]);
+        }
 
-        private void AddNormal(int a, int b, int c ) 
+        private void AddNormal(int a, int b, int c)
         {
 
-			var src = this.Normals;
-			var dst = this.Object.Geometry.Normals;
+            var src = this.Normals;
+            var dst = this.Object.Geometry.Normals;
 
-			dst.Add( src[ a + 0 ], src[ a + 1 ], src[ a + 2 ] );
-			dst.Add( src[ b + 0 ], src[ b + 1 ], src[ b + 2 ] );
-			dst.Add( src[ c + 0 ], src[ c + 1 ], src[ c + 2 ] );
+            dst.Add(src[a + 0], src[a + 1], src[a + 2]);
+            dst.Add(src[b + 0], src[b + 1], src[b + 2]);
+            dst.Add(src[c + 0], src[c + 1], src[c + 2]);
 
-		}
+        }
 
         public void AddVertexPoint(int a)
         {
@@ -306,12 +315,12 @@ namespace THREE
 
             var vLen = this.Vertices.Count;
 
-            for(var vi = 0;vi< vertices.Length; vi++)
+            for (var vi = 0; vi < vertices.Length; vi++)
             {
-                this.AddVertexPoint(this.ParseVertexIndex((int)vertices[vi],vLen));
+                this.AddVertexPoint(this.ParseVertexIndex((int)vertices[vi], vLen));
             }
         }
-        public void AddLineGeometry(List<string> vertices,List<string> uvs)
+        public void AddLineGeometry(List<string> vertices, List<string> uvs)
         {
             this.Object.Geometry.type = "Line";
 
@@ -335,14 +344,14 @@ namespace THREE
                 }
             }
         }
-        public void AddLineGeometry(float[] vertices,float[] uvs=null)
+        public void AddLineGeometry(float[] vertices, float[] uvs = null)
         {
             this.Object.Geometry.type = "Line";
 
             var vLen = this.Vertices.Count;
             var uvLen = this.Uvs.Count;
 
-            for (var vi = 0;vi< vertices.Length; vi++)
+            for (var vi = 0; vi < vertices.Length; vi++)
             {
 
                 this.AddVertexLine(this.ParseVertexIndex((int)vertices[vi], vLen));
@@ -351,7 +360,7 @@ namespace THREE
 
             if (uvs != null)
             {
-                for (var uvi = 0;uvi< uvs.Length;uvi++)
+                for (var uvi = 0; uvi < uvs.Length; uvi++)
                 {
 
                     this.AddUVLine(this.ParseUVIndex((int)uvs[uvi], uvLen));
@@ -385,7 +394,7 @@ namespace THREE
                 ib = this.ParseUVIndex((int)ub, uvLen);
                 ic = this.ParseUVIndex((int)uc, uvLen);
 
-                this.AddUV(ia, ib, ic);                               
+                this.AddUV(ia, ib, ic);
             }
 
             if (na != null)
@@ -403,14 +412,14 @@ namespace THREE
             }
         }
 
-        public void AddFace(int? a, int? b, int? c, int?d ,int? ua, int? ub, int? uc, int? ud,int? na, int? nb, int? nc,int? nd ) 
+        public void AddFace(int? a, int? b, int? c, int? d, int? ua, int? ub, int? uc, int? ud, int? na, int? nb, int? nc, int? nd)
         {
 
-			var vLen = this.Vertices.Count;
+            var vLen = this.Vertices.Count;
 
-			var ia = this.ParseVertexIndex((int) a, vLen );
-			var ib = this.ParseVertexIndex((int) b, vLen );
-			var ic = this.ParseVertexIndex((int) c, vLen );
+            var ia = this.ParseVertexIndex((int)a, vLen);
+            var ib = this.ParseVertexIndex((int)b, vLen);
+            var ic = this.ParseVertexIndex((int)c, vLen);
 
             if (d == null)
             {
@@ -418,26 +427,26 @@ namespace THREE
             }
             else
             {
-                var id = ParseVertexIndex(d.Value,vLen);
+                var id = ParseVertexIndex(d.Value, vLen);
 
                 AddVertex(ia, ib, id);
                 AddVertex(ib, ic, id);
             }
 
-			if ( this.Colors.Count > 0 ) 
+            if (this.Colors.Count > 0)
             {
 
-				this.AddColor( ia, ib, ic );
+                this.AddColor(ia, ib, ic);
 
-			}
+            }
 
-			if ( ua != null) 
+            if (ua != null)
             {
 
-				var uvLen = this.Uvs.Count;
-				ia = this.ParseUVIndex( (int)ua, uvLen );
-				ib = this.ParseUVIndex( (int)ub, uvLen );
-				ic = this.ParseUVIndex( (int)uc, uvLen );
+                var uvLen = this.Uvs.Count;
+                ia = this.ParseUVIndex((int)ua, uvLen);
+                ib = this.ParseUVIndex((int)ub, uvLen);
+                ic = this.ParseUVIndex((int)uc, uvLen);
 
                 if (d == null)
                 {
@@ -452,17 +461,17 @@ namespace THREE
                 }
 
 
-			}
+            }
 
-			if ( na != null) 
+            if (na != null)
             {
 
-				// Normals are many times the same. If so, skip function call and parseInt.
-				var nLen = this.Normals.Count;
-				ia = this.ParseNormalIndex((int)na, nLen );
+                // Normals are many times the same. If so, skip function call and parseInt.
+                var nLen = this.Normals.Count;
+                ia = this.ParseNormalIndex((int)na, nLen);
 
-				ib = na.Value == nb.Value ? ia : this.ParseNormalIndex( (int)nb, nLen );
-				ic = na.Value == nc.Value ? ia : this.ParseNormalIndex( (int)nc, nLen );
+                ib = na.Value == nb.Value ? ia : this.ParseNormalIndex((int)nb, nLen);
+                ic = na.Value == nc.Value ? ia : this.ParseNormalIndex((int)nc, nLen);
 
                 if (d == null)
                 {
@@ -476,12 +485,13 @@ namespace THREE
                     AddNormal(ib, ic, id);
                 }
 
-			}
+            }
 
-		}
-       
+        }
+
     }
 
+    [Serializable]
     public class OBJLoader
     {
         private MTLLoader.MaterialCreator Materials;

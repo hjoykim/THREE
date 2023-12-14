@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public class Line : Object3D
     {
         public int LineStrip = 0;
@@ -20,6 +22,7 @@ namespace THREE
         {
 
         }
+        public Line(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public Line(Geometry geometry = null, Material material = null, int? type = null) : base()
         {
@@ -111,7 +114,7 @@ namespace THREE
                     var lineDistances = new List<float>();
                     lineDistances.Add(0);
 
-                    for (var i = 1;i< positionAttribute.count; i++)
+                    for (var i = 1; i < positionAttribute.count; i++)
                     {
 
                         _start.FromBufferAttribute(positionAttribute, i - 1);
@@ -141,12 +144,12 @@ namespace THREE
 
                 var vertices = geometry.Vertices;
                 var lineDistances = geometry.LineDistances;
-                
+
                 lineDistances.Clear();
 
                 lineDistances.Add(0);
 
-                for (var i = 1;i< vertices.Count;i++)
+                for (var i = 1; i < vertices.Count; i++)
                 {
 
                     lineDistances.Add(lineDistances[i - 1]);
@@ -163,6 +166,6 @@ namespace THREE
         {
             throw new NotImplementedException();
         }
-        
+
     }
 }

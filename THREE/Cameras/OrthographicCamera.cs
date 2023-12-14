@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace THREE
 {
-    public class OrthographicCamera : Camera,ICloneable
+    [Serializable]
+    public class OrthographicCamera : Camera, ICloneable
     {
         #region Constructors and Destructors
 
@@ -18,7 +19,7 @@ namespace THREE
         /// <param name="bottom"></param>
         /// <param name="near"></param>
         /// <param name="far"></param>
-        public OrthographicCamera(float? left=null, float? right=null, float? top=null, float? bottom=null, float? near = null, float? far = null)
+        public OrthographicCamera(float? left = null, float? right = null, float? top = null, float? bottom = null, float? near = null, float? far = null)
         {
             this.type = "OrthographicCamera";
 
@@ -74,23 +75,24 @@ namespace THREE
             var top = cy + dy;
             var bottom = cy - dy;
 
-            if (this.View.Enabled ) {
+            if (this.View.Enabled)
+            {
 
-			    //var zoomW = this.Zoom / ( this.View.Width / this.View.FullWidth );
-			    //var zoomH = this.Zoom / ( this.View.Height / this.View.FullHeight );
+                //var zoomW = this.Zoom / ( this.View.Width / this.View.FullWidth );
+                //var zoomH = this.Zoom / ( this.View.Height / this.View.FullHeight );
 
-			    var scaleW = ( this.CameraRight - this.Left ) / this.View.FullWidth / this.Zoom;
-			    var scaleH = ( this.Top - this.Bottom ) / this.View.FullHeight / this.Zoom;
+                var scaleW = (this.CameraRight - this.Left) / this.View.FullWidth / this.Zoom;
+                var scaleH = (this.Top - this.Bottom) / this.View.FullHeight / this.Zoom;
 
-			    left += scaleW *  this.View.OffsetX ;
-			    right = left + scaleW * this.View.Width;
-			    top -= scaleH * this.View.OffsetY;
-			    bottom = top - scaleH *this.View.Height;
+                left += scaleW * this.View.OffsetX;
+                right = left + scaleW * this.View.Width;
+                top -= scaleH * this.View.OffsetY;
+                bottom = top - scaleH * this.View.Height;
 
-		    }
+            }
 
-            this.ProjectionMatrix = Matrix4.Identity().MakeOrthographic(left,right,top,bottom, this.Near, this.Far);
-            
+            this.ProjectionMatrix = Matrix4.Identity().MakeOrthographic(left, right, top, bottom, this.Near, this.Far);
+
             this.ProjectionMatrixInverse.GetInverse(this.ProjectionMatrix);
         }
 

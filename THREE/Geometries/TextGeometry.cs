@@ -3,11 +3,12 @@ using System.Collections;
 
 namespace THREE
 {
+    [Serializable]
     public class TextGeometry : Geometry
     {
         public Hashtable parameters;
 
-        public TextGeometry(string text,Hashtable parameters) : base()
+        public TextGeometry(string text, Hashtable parameters) : base()
         {
             this.type = "TextGeometry";
 
@@ -22,6 +23,8 @@ namespace THREE
         }
 
     }
+
+    [Serializable]
     public class TextBufferGeometry : ExtrudeBufferGeometry
     {
         public TextBufferGeometry()
@@ -38,7 +41,7 @@ namespace THREE
                 {"parameters",parameters }
             };
 
-            if(!parameters.ContainsKey("font") || parameters["font"]==null)
+            if (!parameters.ContainsKey("font") || parameters["font"] == null)
             {
                 Console.WriteLine("Error: TextGeometry font parameter is not an instance of THREE.Font");
                 return;
@@ -48,7 +51,7 @@ namespace THREE
 
             var shapes = font.GenerateShapes(text, parameters.ContainsKey("size") ? (int?)parameters["size"] : null);
 
-            if (!parameters.ContainsKey("bevelThickness") || parameters["bevelThickness"]==null) parameters["bevelThickness"] = 10;
+            if (!parameters.ContainsKey("bevelThickness") || parameters["bevelThickness"] == null) parameters["bevelThickness"] = 10;
             if (!parameters.ContainsKey("bevelSize") || parameters["bevelSize"] == null) parameters["bevelSize"] = 8;
             if (!parameters.ContainsKey("bevelEnabled") || parameters["bevelEnabled"] == null) parameters["bevelEnabled"] = false;
 

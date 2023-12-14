@@ -84,7 +84,7 @@ namespace THREEExample.Learning.Chapter11
 
             imGuiManager = new ImGuiManager(this.glControl);
 
-            scene.Background = TextureLoader.Load("../../../assets/textures/bg/starry-deep-outer-space-galaxy.jpg");
+            scene.Background = TextureLoader.Load("../../../../assets/textures/bg/starry-deep-outer-space-galaxy.jpg");
 
             (earth, pivot) = Util11.AddEarth(scene);
 

@@ -65,7 +65,7 @@ namespace THREEExample.Three.Loader
         private void LoadObject()
         {
             X3DLoader loader = new X3DLoader();
-            loader.Load("../../../assets/models/x3d/as1_pe_203.x3d");
+            loader.Load("../../../../assets/models/x3d/as1_pe_203.x3d");
             var rootObject = loader.GetX3DObject();
             scene.Add(rootObject);
         }

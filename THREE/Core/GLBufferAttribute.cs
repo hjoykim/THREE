@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
-    public class GLBufferAttribute : Dictionary<object,object>
+    [Serializable]
+    public class GLBufferAttribute : Dictionary<object, object>
     {
         public int Version = 0;
         public int Buffer
@@ -16,7 +18,7 @@ namespace THREE
                 this["buffer"] = value;
             }
         }
-        
+
         public int Type
         {
             get
@@ -80,7 +82,7 @@ namespace THREE
         bool isGLBufferAttribute = true;
 
 
-        public GLBufferAttribute(int buffer,int type,int itemSize,int elementSize,int count)
+        public GLBufferAttribute(int buffer, int type, int itemSize, int elementSize, int count)
         {
             this.Buffer = buffer;
             this.Type = type;
@@ -89,5 +91,7 @@ namespace THREE
             this.count = count;
 
         }
+        public GLBufferAttribute() :base() { }
+        public GLBufferAttribute(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

@@ -57,8 +57,8 @@ namespace THREEExample.Learning.Chapter09
             dirLight.Position.Set(50, 10, 0);
             scene.Add(dirLight);
 
-            var planetTexture = TextureLoader.Load("../../../assets/textures/mars/mars_1k_color.jpg");
-            var normalTexture = TextureLoader.Load("../../../assets/textures/mars/mars_1k_normal.jpg");
+            var planetTexture = TextureLoader.Load("../../../../assets/textures/mars/mars_1k_color.jpg");
+            var normalTexture = TextureLoader.Load("../../../../assets/textures/mars/mars_1k_normal.jpg");
             var planetMaterial = new MeshLambertMaterial() { Map = planetTexture, NormalMap = normalTexture };
 
             scene.Add(new Mesh(new SphereGeometry(20, 40, 40), planetMaterial));

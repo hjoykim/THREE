@@ -44,12 +44,12 @@ namespace THREEExample.Learning.Chapter10
             DemoUtils.InitDefaultLighting(scene);
 
             var urls = new List<string> {
-                "../../../assets/textures/cubemap/colloseum/right.png",
-                "../../../assets/textures/cubemap/colloseum/left.png",
-                "../../../assets/textures/cubemap/colloseum/top.png",
-                "../../../assets/textures/cubemap/colloseum/bottom.png",
-                "../../../assets/textures/cubemap/colloseum/front.png",
-                "../../../assets/textures/cubemap/colloseum/back.png"
+                "../../../../assets/textures/cubemap/colloseum/right.png",
+                "../../../../assets/textures/cubemap/colloseum/left.png",
+                "../../../../assets/textures/cubemap/colloseum/top.png",
+                "../../../../assets/textures/cubemap/colloseum/bottom.png",
+                "../../../../assets/textures/cubemap/colloseum/front.png",
+                "../../../../assets/textures/cubemap/colloseum/back.png"
             };
 
             var cubeTexture = CubeTextureLoader.Load(urls);
@@ -64,8 +64,8 @@ namespace THREEExample.Learning.Chapter10
             };
 
             var sphereMaterial = cubeMaterial.Clone() as MeshStandardMaterial;
-            sphereMaterial.NormalMap = TextureLoader.Load("../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg");
-            sphereMaterial.AoMap = TextureLoader.Load("../../../assets/textures/engraved/Engraved_Metal_003_OCC.jpg");
+            sphereMaterial.NormalMap = TextureLoader.Load("../../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg");
+            sphereMaterial.AoMap = TextureLoader.Load("../../../../assets/textures/engraved/Engraved_Metal_003_OCC.jpg");
             var cubeRenderTarget = new GLCubeRenderTarget(512);
             cubeCamera = new CubeCamera(0.1f, 100, cubeRenderTarget);
             scene.Add(cubeCamera);

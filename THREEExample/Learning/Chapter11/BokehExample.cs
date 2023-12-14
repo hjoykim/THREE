@@ -51,18 +51,18 @@ namespace THREEExample.Learning.Chapter11
 
             List<string> urls = new List<string>
             {
-                "../../../assets/textures/cubemap/flowers/right.png",
-                "../../../assets/textures/cubemap/flowers/left.png",
-                "../../../assets/textures/cubemap/flowers/top.png",
-                "../../../assets/textures/cubemap/flowers/bottom.png",
-                "../../../assets/textures/cubemap/flowers/front.png",
-                "../../../assets/textures/cubemap/flowers/back.png"
+                "../../../../assets/textures/cubemap/flowers/right.png",
+                "../../../../assets/textures/cubemap/flowers/left.png",
+                "../../../../assets/textures/cubemap/flowers/top.png",
+                "../../../../assets/textures/cubemap/flowers/bottom.png",
+                "../../../../assets/textures/cubemap/flowers/front.png",
+                "../../../../assets/textures/cubemap/flowers/back.png"
             };
             sphereMaterial = new MeshStandardMaterial
             {
                 EnvMap = CubeTextureLoader.Load(urls),
-                NormalMap = TextureLoader.Load("../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg"),
-                AoMap = TextureLoader.Load("../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg"),
+                NormalMap = TextureLoader.Load("../../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg"),
+                AoMap = TextureLoader.Load("../../../../assets/textures/engraved/Engraved_Metal_003_NORM.jpg"),
                 Color = Color.Hex(0xffffff),
                 Metalness = 1.0f,
                 Roughness =0.3f

@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace THREE
 {
+    [Serializable]
     public class Eulerd : INotifyPropertyChanged
     {
         private double _x;
@@ -15,7 +16,7 @@ namespace THREE
             }
             set
             {
-                if (value != _x) 
+                if (value != _x)
                 {
                     _x = value;
                     //OnRotationChange(this);
@@ -44,7 +45,7 @@ namespace THREE
         }
 
         private double _z;
-       
+
         public double Z
         {
             get
@@ -72,7 +73,7 @@ namespace THREE
                     this._order = value;
                     OnPropertyChanged();
                 }
-                
+
             }
         }
 
@@ -109,12 +110,13 @@ namespace THREE
             return value.Clamp(min, max);
         }
 
-        public Eulerd SetFromRotationMatrix(Matrix4d m){
+        public Eulerd SetFromRotationMatrix(Matrix4d m)
+        {
 
             return SetFromRotationMatrix(m, this.Order);
         }
 
-        public Eulerd SetFromRotationMatrix(Matrix4d m,RotationOrder? rotationOrder=null,bool update=true)
+        public Eulerd SetFromRotationMatrix(Matrix4d m, RotationOrder? rotationOrder = null, bool update = true)
         {
 
 
@@ -177,9 +179,10 @@ namespace THREE
                     this._x = System.Math.Atan2(m32, m33);
                     this._z = System.Math.Atan2(m21, m11);
                 }
-                else {
+                else
+                {
                     this._x = 0;
-                    this._z = System.Math.Atan2(-m12,m22);
+                    this._z = System.Math.Atan2(-m12, m22);
                 }
             }
             else if (order == RotationOrder.YZX)
@@ -221,10 +224,10 @@ namespace THREE
             return this;
         }
 
-        public Eulerd SetFromQuaternion(Quaterniond q,RotationOrder? order,bool update=true)
+        public Eulerd SetFromQuaternion(Quaterniond q, RotationOrder? order, bool update = true)
         {
             Matrix4d _m = Matrix4d.Identity().MakeRotationFromQuaternion(q);
-            return SetFromRotationMatrix(_m, this.Order,update);
+            return SetFromRotationMatrix(_m, this.Order, update);
         }
 
         public Eulerd SetFromQuaternion(Quaterniond q, RotationOrder order)
@@ -293,7 +296,7 @@ namespace THREE
         {
             var q = new Quaterniond().SetFromEuler(this);// FromEulerdAngles(new Vector3(this._x, this._y, this._z));
             this.Order = newOrder;
-            this.SetFromQuaternion(q,newOrder);
+            this.SetFromQuaternion(q, newOrder);
         }
 
         public bool Equals(Eulerd o)
@@ -314,19 +317,19 @@ namespace THREE
 
         }
 
-        public double[] ToArray(int offset=0)
+        public double[] ToArray(int offset = 0)
         {
             double[] array = new double[4];
 
             array[offset] = this._x;
-            array[offset+1] = this._y;
+            array[offset + 1] = this._y;
             array[offset + 2] = this._z;
             array[offset + 3] = (int)this._order;
 
             return array;
         }
 
-        public Vector3d ToVector3(Vector3d optionalResult=null)
+        public Vector3d ToVector3(Vector3d optionalResult = null)
         {
             if (optionalResult != null)
             {
@@ -348,5 +351,5 @@ namespace THREE
             }
         }
     }
-    
+
 }

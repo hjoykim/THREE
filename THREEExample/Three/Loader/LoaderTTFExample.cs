@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Windows.Forms;
 using THREE;
-using Color = THREE.Color;
 
 namespace THREEExample.Three.Loaders
 {
@@ -161,7 +160,7 @@ namespace THREEExample.Three.Loaders
 
         private void CreateText()
         {
-            TTFFont ttfFont = new TTFFont(@"../../../assets/fonts/ttf/kenpixel.ttf");
+            TTFFont ttfFont = new TTFFont(@"../../../../assets/fonts/ttf/kenpixel.ttf");
             //var geometry = CreateTextGeometry();
             options = new Hashtable()
             {

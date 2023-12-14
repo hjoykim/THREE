@@ -1,5 +1,8 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+    [Serializable]
     public class ColorifyShader : ShaderMaterial
     {
         public ColorifyShader()
@@ -43,5 +46,7 @@
             ";
 
         }
+
+        public ColorifyShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

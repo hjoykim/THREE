@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace THREE
 {
+    [Serializable]
     public class CubeTextureLoader
     {
         public CubeTextureLoader()
@@ -12,7 +13,7 @@ namespace THREE
         public static CubeTexture Load(List<string> filePath)
         {
             CubeTexture texture = new CubeTexture();
-            for(int i = 0; i < filePath.Count; i++)
+            for (int i = 0; i < filePath.Count; i++)
             {
                 Bitmap bitmap = new Bitmap(filePath[i]);
                 //bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
@@ -22,7 +23,7 @@ namespace THREE
                 image.Format = Constants.RGBFormat;
                 image.NeedsUpdate = true;
 
-                texture.Images[i]=image;
+                texture.Images[i] = image;
             }
             texture.NeedsUpdate = true;
             return texture;

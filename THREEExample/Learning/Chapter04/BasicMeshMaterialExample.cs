@@ -66,7 +66,7 @@ namespace THREEExample.Learning.Chapter04
         public virtual void BuildGopher()
         {
             OBJLoader loader = new OBJLoader();
-            gopher = loader.Load(@"../../../assets/models/gopher/gopher.obj");
+            gopher = loader.Load(@"../../../../assets/models/gopher/gopher.obj");
 
             ComputeNormalsGroup(gopher);
 

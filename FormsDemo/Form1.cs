@@ -20,21 +20,23 @@ namespace FormsDemo
     public partial class Form1 : Form
     {
         private Example example;
-        private int SleepTime = 5;
+        //private int SleepTime = 5;
+        private System.Windows.Forms.Timer _timer;
+        private int timeInterval = 10;
         public Form1()
         {
             InitializeComponent();
             //this.WindowState = FormWindowState.Maximized;
         }
-        void Application_Idle(object sender, EventArgs e)
-        {
-            while (glControl.IsIdle)
-            {
-                Render();
+        //void Application_Idle(object sender, EventArgs e)
+        //{
+        //    //while (glControl.IsIdle)
+        //    {
+        //        Render();
 
-                Thread.Sleep(SleepTime);
-            }
-        }
+        //        Thread.Sleep(SleepTime);
+        //    }
+        //}
         private void Render()
         {
             this.glControl.MakeCurrent();
@@ -134,11 +136,16 @@ namespace FormsDemo
                 
                 example = null;
 
+                if (_timer != null)
+                {
+                    _timer.Stop();
+                    _timer.Dispose();
+                }
                 statusStrip1.Tag = statusStrip1.Text = string.Empty;                
                
             }
 
-            Application.Idle -= Application_Idle;
+            //Application.Idle -= Application_Idle;
 
             example = (Example)Activator.CreateInstance(e.Example);
             if (null != example)
@@ -147,6 +154,14 @@ namespace FormsDemo
 
                 example.Load(this.glControl);
 
+                _timer = new System.Windows.Forms.Timer();
+                _timer.Interval = timeInterval;
+                _timer.Tick += (sender, e) =>
+                {
+                    Render();
+                };
+                _timer.Start();
+
                 statusStrip1.Text = e.Example.Name.Replace("_", " - ");
                 statusStrip1.Tag = e.Example.Name;
 
@@ -154,7 +169,7 @@ namespace FormsDemo
                 GL.Viewport(0, 0, glControl.ClientSize.Width, glControl.ClientSize.Height);
                 example.Resize(glControl.ClientSize);
 
-                Application.Idle += Application_Idle;
+                //Application.Idle += Application_Idle;
             }
         }
 
@@ -167,7 +182,9 @@ namespace FormsDemo
                 GL.GetString(StringName.Vendor) + " " +
                 GL.GetString(StringName.Renderer) + " " +
                 GL.GetString(StringName.Version);
-
+#if NET6_0_OR_GREATER
+            this.glControl.Profile = OpenTK.Windowing.Common.ContextProfile.Compatability;
+#endif
             statusStrip1.Text = string.Empty;
         }
 

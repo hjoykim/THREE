@@ -55,7 +55,7 @@ namespace THREEExample.Learning.Chapter06
 
 
 
-            font = FontLoader.Load(@"../../../assets/fonts/bitstream_vera_sans_mono_roman.typeface.json");
+            font = FontLoader.Load(@"../../../../assets/fonts/bitstream_vera_sans_mono_roman.typeface.json");
 
             options = new Hashtable()
             {
@@ -108,9 +108,9 @@ namespace THREEExample.Learning.Chapter06
                 redraw = true;
                 switch(fontIndex)
                 {
-                    case 0: font = FontLoader.Load(@"../../../assets/fonts/bitstream_vera_sans_mono_roman.typeface.json");break;
-                    case 1: font = FontLoader.Load(@"../../../assets/fonts/helvetiker_regular.typeface.json"); break;
-                    case 2: font = FontLoader.Load(@"../../../assets/fonts/helvetiker_bold.typeface.json"); break;
+                    case 0: font = FontLoader.Load(@"../../../../assets/fonts/bitstream_vera_sans_mono_roman.typeface.json");break;
+                    case 1: font = FontLoader.Load(@"../../../../assets/fonts/helvetiker_regular.typeface.json"); break;
+                    case 2: font = FontLoader.Load(@"../../../../assets/fonts/helvetiker_bold.typeface.json"); break;
 
                 }
             }

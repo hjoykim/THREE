@@ -1,5 +1,6 @@
 ﻿namespace THREE
 {
+    [Serializable]
     public class EllipseCurve : Curve
     {
         public float AX;
@@ -19,7 +20,7 @@
         public float Rotation;
 
 
-        public EllipseCurve(float? aX=null,float? aY=null, float? xRadius=null, float? yRadius=null, float? aStartAngle=null,float? aEndAngle=null, bool? clockwise=null, float? rotation = null) : base()
+        public EllipseCurve(float? aX = null, float? aY = null, float? xRadius = null, float? yRadius = null, float? aStartAngle = null, float? aEndAngle = null, bool? clockwise = null, float? rotation = null) : base()
         {
             this.AX = aX != null ? aX.Value : 0;
             this.AY = aY != null ? aY.Value : 0;
@@ -124,7 +125,7 @@
 
             }
 
-            return point.Set(x,y,0);
+            return point.Set(x, y, 0);
         }
     }
 }

@@ -46,8 +46,8 @@ namespace THREEExample.Learning.Chapter10
             var sphere = new SphereBufferGeometry(8, 180, 180);
             sphereMaterial = new MeshStandardMaterial()
             {
-                Map = TextureLoader.Load("../../../assets/textures/w_c.jpg"),
-                DisplacementMap = TextureLoader.Load("../../../assets/textures/w_d.png"),
+                Map = TextureLoader.Load("../../../../assets/textures/w_c.jpg"),
+                DisplacementMap = TextureLoader.Load("../../../../assets/textures/w_d.png"),
                 Metalness=0.02f,
                 Roughness=0.07f,
                 Color = new THREE.Color(0xffffff)

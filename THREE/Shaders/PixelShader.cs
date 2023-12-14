@@ -1,15 +1,19 @@
 ﻿
-namespace THREE { 
+using System.Runtime.Serialization;
+
+namespace THREE
+{
+    [Serializable]
     public class PixelShader : ShaderMaterial
     {
         public PixelShader() : base()
         {
             Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
-            Uniforms.Add("resolution", new GLUniform { { "value", new Vector2(256,256) } });
-			Uniforms.Add("pixelSize", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("resolution", new GLUniform { { "value", new Vector2(256, 256) } });
+            Uniforms.Add("pixelSize", new GLUniform { { "value", 1.0f } });
 
 
-			VertexShader = @"
+            VertexShader = @"
                 varying vec2 vUv; 
 
 
@@ -42,5 +46,7 @@ namespace THREE {
 
 			";
         }
+
+        public PixelShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

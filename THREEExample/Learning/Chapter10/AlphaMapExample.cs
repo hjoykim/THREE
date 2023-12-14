@@ -45,7 +45,7 @@ namespace THREEExample.Learning.Chapter10
 
             var sphere = new SphereBufferGeometry(8, 180, 180);
             var sphereMaterial = new MeshStandardMaterial {
-                AlphaMap = TextureLoader.Load("../../../assets/textures/alpha/partial-transparency.png"),
+                AlphaMap = TextureLoader.Load("../../../../assets/textures/alpha/partial-transparency.png"),
                 Metalness = 0.02f,
                 Roughness = 0.07f,
                 Color = new THREE.Color(0xffffff),

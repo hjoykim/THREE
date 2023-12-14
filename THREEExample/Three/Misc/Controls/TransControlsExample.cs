@@ -23,7 +23,7 @@ namespace THREEExample.Three.Misc.Controls
             scene.Add(new GridHelper(1000, 10, 0x888888, 0x444444));
 
 
-            var texture = TextureLoader.Load(@"../../../assets/textures/crate.gif");
+            var texture = TextureLoader.Load(@"../../../../assets/textures/crate.gif");
             texture.Anisotropy = renderer.capabilities.GetMaxAnisotropy();
             
             var geometry = new BoxGeometry(200, 200, 200);

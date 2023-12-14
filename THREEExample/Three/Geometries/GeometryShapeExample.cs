@@ -50,7 +50,7 @@ namespace THREEExample.Three.Geometries
             group.Position.Y = 50;
             scene.Add(group);
 
-            texture = TextureLoader.Load(@"../../../assets/textures/uv_grid_opengl.jpg");
+            texture = TextureLoader.Load(@"../../../../assets/textures/uv_grid_opengl.jpg");
             texture.WrapS = texture.WrapS = Constants.RepeatWrapping;
             texture.Repeat.Set(0.008f, 0.008f);
 

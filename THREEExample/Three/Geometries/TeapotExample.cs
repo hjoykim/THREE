@@ -96,12 +96,12 @@ namespace THREEExample.Three.Geometries
         private void InitMaterial()
         {
 
-            var textureMap = TextureLoader.Load("../../../assets/textures/uv_grid_opengl.jpg");
+            var textureMap = TextureLoader.Load("../../../../assets/textures/uv_grid_opengl.jpg");
             textureMap.WrapS = textureMap.WrapT = Constants.RepeatWrapping;
             textureMap.Anisotropy = 16;
             textureMap.Encoding = Constants.sRGBEncoding;
 
-            string path = "../../../assets/textures/cube/pisa/";
+            string path = "../../../../assets/textures/cube/pisa/";
             List<string> urls = new List<string>()
             {
                     path + "px.png", path + "nx.png",

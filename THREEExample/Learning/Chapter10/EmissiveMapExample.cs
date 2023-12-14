@@ -52,9 +52,9 @@ namespace THREEExample.Learning.Chapter10
             var cubeMaterial = new MeshStandardMaterial
             {
                 Emissive = new THREE.Color(0xffffff),
-                EmissiveMap = TextureLoader.Load("../../../assets/textures/emissive/lava.png"),
-                NormalMap = TextureLoader.Load("../../../assets/textures/emissive/lava-normals.png"),
-                MetalnessMap = TextureLoader.Load("../../../assets/textures/emissive/lava-smoothness.png"),
+                EmissiveMap = TextureLoader.Load("../../../../assets/textures/emissive/lava.png"),
+                NormalMap = TextureLoader.Load("../../../../assets/textures/emissive/lava-normals.png"),
+                MetalnessMap = TextureLoader.Load("../../../../assets/textures/emissive/lava-smoothness.png"),
                 Metalness = 1,
                 Roughness = 0.4f,
                 NormalScale = new THREE.Vector2(4, 4)

@@ -41,7 +41,7 @@ namespace THREEExample.Learning.Chapter10
 
             scene.Add(new AmbientLight(0x444444));
 
-            var texture = TextureLoader.LoadDDS("../../../assets/textures/dds/test-dxt1.dds");
+            var texture = TextureLoader.LoadDDS("../../../../assets/textures/dds/test-dxt1.dds");
 
 
             var polyhedron = new IcosahedronBufferGeometry(8, 0);

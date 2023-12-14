@@ -1,13 +1,16 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class DotScreenShader : ShaderMaterial
     {
         public DotScreenShader()
         {
             Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
-            Uniforms.Add("tSize", new GLUniform { { "value", new Vector2(256,256) } });
-            Uniforms.Add("center", new GLUniform { { "value", new Vector2(0.5f,0.5f) } });
+            Uniforms.Add("tSize", new GLUniform { { "value", new Vector2(256, 256) } });
+            Uniforms.Add("center", new GLUniform { { "value", new Vector2(0.5f, 0.5f) } });
             Uniforms.Add("angle", new GLUniform { { "value", 1.57f } });
             Uniforms.Add("scale", new GLUniform { { "value", 1.0f } });
 
@@ -60,5 +63,7 @@ void main() {
 "
 ;
         }
+
+        public DotScreenShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

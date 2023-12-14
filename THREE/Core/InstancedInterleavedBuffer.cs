@@ -1,6 +1,9 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
-    class InstancedInterleavedBuffer<T> : InterleavedBuffer<T>
+    [Serializable]
+    public class InstancedInterleavedBuffer<T> : InterleavedBuffer<T>
     {
         public int MeshPerAttribute
         {
@@ -18,12 +21,14 @@
         {
             this.Add("meshPerAttribute", 1);
         }
+        public InstancedInterleavedBuffer(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
         public InstancedInterleavedBuffer(T[] array, int stride, int? meshPerAttribute = null) : this()
         {
             this.Array = array;
             this.Stride = stride;
             this.UpdateRange = new UpdateRange { Offset = 0, Count = -1 };
-            this.MeshPerAttribute = meshPerAttribute!=null ? (int)meshPerAttribute : 1;
+            this.MeshPerAttribute = meshPerAttribute != null ? (int)meshPerAttribute : 1;
         }
     }
 }

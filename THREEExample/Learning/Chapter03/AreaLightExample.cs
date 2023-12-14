@@ -2,8 +2,7 @@
 using OpenTK;
 using System;
 using THREE;
-
-using Color = THREE.Color;
+using THREEExample.ThreeImGui;
 
 namespace THREEExample.Learning.Chapter03
 {

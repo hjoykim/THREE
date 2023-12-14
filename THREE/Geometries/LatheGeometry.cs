@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace THREE
 {
+    [Serializable]
     public class LatheGeometry : Geometry
     {
         public Hashtable parameters;
@@ -22,8 +23,9 @@ namespace THREE
 
         }
     }
+    [Serializable]
 
-    public class LatheBufferGeometry : BufferGeometry 
+    public class LatheBufferGeometry : BufferGeometry
     {
         public Hashtable parameters;
         public LatheBufferGeometry(Vector3[] points, float? segments = null, float? phiStart = null, float? phiLength = null) : base()
@@ -155,6 +157,6 @@ namespace THREE
                 }
             }
         }
-    
+
     }
 }

@@ -2,13 +2,14 @@
 
 namespace THREE
 {
+    [Serializable]
     public class Spherical : ICloneable
     {
         public float Radius;
         public float Phi;
         public float Theta;
 
-        public Spherical(float radius=1,float phi=0,float theta=0)
+        public Spherical(float radius = 1, float phi = 0, float theta = 0)
         {
             Radius = radius;
             Phi = phi;
@@ -25,7 +26,7 @@ namespace THREE
             return new Spherical(this);
         }
 
-        public Spherical Set(float radius,float phi,float theta)
+        public Spherical Set(float radius, float phi, float theta)
         {
             Radius = radius;
             Phi = phi;
@@ -55,7 +56,7 @@ namespace THREE
         {
             return this.setFromCartesianCoords(v.X, v.Y, v.Z);
         }
-        public Spherical setFromCartesianCoords(float x, float y, float z )
+        public Spherical setFromCartesianCoords(float x, float y, float z)
         {
 
             this.Radius = (float)System.Math.Sqrt(x * x + y * y + z * z);

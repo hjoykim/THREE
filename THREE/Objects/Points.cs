@@ -1,21 +1,22 @@
 ﻿using System.Collections.Generic;
-
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public class Points : Object3D
     {
-        public Points(Geometry geometry=null, Material material=null)
+        public Points(Geometry geometry = null, Material material = null)
         {
             this.type = "Points";
 
             this.Geometry = geometry ?? new BufferGeometry();
             this.Material = material ?? new PointsMaterial { Color = new Color().SetHex(0xFFFFFF) };
-            
+
             this.UpdateMorphTargets();
         }
 
-        public Points(Geometry geometry=null, List<Material> materials=null)
+        public Points(Geometry geometry = null, List<Material> materials = null)
         {
             this.type = "Points";
 
@@ -33,6 +34,8 @@ namespace THREE
                     this.Material = this.Materials[0];
             }
         }
+
+        public Points(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public void UpdateMorphTargets()
         {
@@ -82,7 +85,7 @@ namespace THREE
                 return;
             }
             ray.copy(raycaster.ray).ApplyMatrix4(inverseMatrix);
-            
+
             float localThreshold = threshold / ((float)(Scale.X + Scale.Y + Scale.Z) / 3);
             Vector3 position = new Vector3();
             Vector3 intersectPoint = new Vector3();

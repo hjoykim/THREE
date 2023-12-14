@@ -1,6 +1,9 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class BrightnessContrastShader : ShaderMaterial
     {
         public BrightnessContrastShader() : base()
@@ -48,5 +51,7 @@ namespace THREE
 
             ";
         }
+
+        public BrightnessContrastShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

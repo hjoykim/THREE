@@ -1,6 +1,9 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class FilmShader : ShaderMaterial
     {
         public FilmShader()
@@ -82,6 +85,8 @@ void main() {
 ;
 
 
-		}
+        }
+
+        public FilmShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

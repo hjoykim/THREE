@@ -4,11 +4,12 @@ using System.Diagnostics;
 
 namespace THREE
 {
+    [Serializable]
     public class UniformsUtils
     {
         public static GLUniforms CloneUniforms(GLUniforms src)
         {
-            return GLUniforms.Copy(src);
+            return src.Copy(src);
         }
 
         public static GLUniforms Merge(List<GLUniforms> uniforms)
@@ -17,7 +18,7 @@ namespace THREE
 
             foreach (var uniform in uniforms)
             {
-                foreach (DictionaryEntry entry in uniform)
+                foreach (var entry in uniform)
                 {
                     if (merged.ContainsKey(entry.Key))
                     {

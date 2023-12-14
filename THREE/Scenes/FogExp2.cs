@@ -1,6 +1,7 @@
 ﻿
 namespace THREE
 {
+    [Serializable]
     public class FogExp2 : Fog
     {
 
@@ -9,7 +10,7 @@ namespace THREE
         public FogExp2(Color color, float? density = null)
         {
             this.Name = "";
-            this.Density = density != null ? density.Value :(float)0.00025;
+            this.Density = density != null ? density.Value : (float)0.00025;
         }
     }
 }

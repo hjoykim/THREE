@@ -1,6 +1,9 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
-    public class HueSaturationShader:ShaderMaterial
+	[Serializable]
+    public class HueSaturationShader : ShaderMaterial
     {
         public HueSaturationShader() : base()
         {
@@ -58,5 +61,7 @@
 
 			";
         }
+
+        public HueSaturationShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

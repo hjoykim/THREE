@@ -53,7 +53,7 @@ namespace THREEExample.Learning.Chapter11
             var sceneBG = new Scene();
 
             // create all the scenes we'll be rendering.
-            sceneBG.Background = TextureLoader.Load("../../../assets/textures/bg/starry-deep-outer-space-galaxy.jpg");
+            sceneBG.Background = TextureLoader.Load("../../../../assets/textures/bg/starry-deep-outer-space-galaxy.jpg");
             (earth,earthLight) = Util11.AddEarth(sceneEarth);
             sceneEarth.TranslateX(-16);
             sceneEarth.Scale.Set(1.2f, 1.2f, 1.2f);

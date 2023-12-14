@@ -61,7 +61,7 @@ namespace THREEExample.Learning.Chapter09
 
             OBJLoader loader = new OBJLoader();
 
-            var city = loader.Load(@"../../../assets/models/city/city.obj");
+            var city = loader.Load(@"../../../../assets/models/city/city.obj");
             DemoUtils.SetRandomColors(city);
             scene.Add(city);
         }

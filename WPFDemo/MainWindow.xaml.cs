@@ -13,7 +13,8 @@ namespace WPFDemo
     /// </summary>
     public partial class MainWindow : Window
     {
-        public DispatcherTimer timer;
+        public System.Windows.Forms.Timer timer;
+        public int timeInterval = 10;
         private List<GLRenderWindow> sceneList = new List<GLRenderWindow>();
 
         private GLRenderWindow currentWindow;
@@ -21,10 +22,6 @@ namespace WPFDemo
         public MainWindow()
         {
             InitializeComponent();
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(1);
-            timer.Tick += this.TimerOnTick;
-            timer.Start();
 
         }
         private void LoadExampleFromAssembly(Assembly assembly)
@@ -128,9 +125,19 @@ namespace WPFDemo
                 currentWindow.Dispose();
                 currentWindow = null;
             }
+            if(timer!=null)
+            {
+                timer.Stop();
+                timer.Dispose();
+            }
             currentExample = (Example)Activator.CreateInstance(info.Example);
             currentWindow = new GLRenderWindow(currentExample);
             currentExample.Load(currentExample.glControl);
+
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = timeInterval;
+            timer.Tick += TimerOnTick;
+            timer.Start();
 
             MainGrid.Children.Add(currentWindow as UserControl);
             Grid.SetColumn(currentWindow as UserControl, 2);

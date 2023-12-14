@@ -1,10 +1,12 @@
 ﻿using System.Collections;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
-    
+    [Serializable]
     public class ShaderMaterial : Material
     {
+        [Serializable]
         public struct Extensions
         {
             public bool derivatives;
@@ -15,16 +17,16 @@ namespace THREE
 
         public GLUniforms Uniforms;
 
-        public Extensions extensions;        
+        public Extensions extensions;
 
-        public GLAttributes Attributes;       
+        public Dictionary<string,object> Attributes;
 
         public string VertexShader =
             "void main() {\n\t" +
             "   gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0);\n" +
             "}";
 
-        public string FragmentShader=
+        public string FragmentShader =
             "void main() {\n\t" +
             "   gl_FragColor = vec4(1.0,0.0,0.0,1.0);\n" +
             "}";
@@ -42,14 +44,14 @@ namespace THREE
         public string Index0AttributeName = null;
 
         public bool UniformsNeedUpdate = false;
-        
+
         public Hashtable DefaultAttributeValues = new Hashtable();
 
         public ShaderMaterial(Hashtable parameters = null) : base()
         {
             this.type = "ShaderMaterial";
 
-            this.Attributes = new GLAttributes();
+            this.Attributes = new Dictionary<string,object>();
 
             this.Uniforms = new GLUniforms();
 
@@ -59,10 +61,10 @@ namespace THREE
 
             this.extensions = new Extensions()
             {
-               derivatives =false,
-               fragDepth =false,
-               drawBuffers=false,
-               shaderTextureLOD=false
+                derivatives = false,
+                fragDepth = false,
+                drawBuffers = false,
+                shaderTextureLOD = false
             };
 
             this.DefaultAttributeValues = new Hashtable()
@@ -72,11 +74,13 @@ namespace THREE
                 {"uv2",new float[]{0,0} }
             };
 
-            if(parameters!=null)
+            if (parameters != null)
                 this.SetValues(parameters);
         }
 
-        protected ShaderMaterial(ShaderMaterial other) :base(other)
+        public ShaderMaterial(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        protected ShaderMaterial(ShaderMaterial other) : base(other)
         {
             this.FragmentShader = other.FragmentShader;
             this.VertexShader = other.VertexShader;

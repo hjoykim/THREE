@@ -1,5 +1,8 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+	[Serializable]
     public class MirrorShader : ShaderMaterial
     {
         public MirrorShader() : base()
@@ -48,5 +51,7 @@
 
 			";
         }
+
+        public MirrorShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

@@ -1,6 +1,9 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class LuminosityHighPassShader : ShaderMaterial
     {
         public LuminosityHighPassShader()
@@ -51,7 +54,9 @@ void main() {
 }
 
 ";
-           
+
         }
+
+        public LuminosityHighPassShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

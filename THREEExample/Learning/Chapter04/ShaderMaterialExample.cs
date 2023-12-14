@@ -430,9 +430,9 @@ namespace THREEExample.Learning.Chapter04
 
             cube.Materials.ForEach(m =>
             {
-                var time = (float)((m as ShaderMaterial).Uniforms["time"] as Hashtable)["value"];
+                var time = (float)((m as ShaderMaterial).Uniforms["time"] as Dictionary<string,object>)["value"];
                 time += 0.01f;
-                ((m as ShaderMaterial).Uniforms["time"] as Hashtable)["value"] = time;
+                ((m as ShaderMaterial).Uniforms["time"] as Dictionary<string,object>)["value"] = time;
 
             });
         }

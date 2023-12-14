@@ -1,6 +1,9 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+	[Serializable]
     public class KaleidoShader : ShaderMaterial
     {
         public KaleidoShader() : base()
@@ -48,5 +51,7 @@ namespace THREE
 
 			";
         }
+
+        public KaleidoShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

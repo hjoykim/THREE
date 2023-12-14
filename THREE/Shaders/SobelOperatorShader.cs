@@ -1,15 +1,18 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+	[Serializable]
     public class SobelOperatorShader : ShaderMaterial
     {
         public SobelOperatorShader() : base()
         {
             Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
-            Uniforms.Add("resolution", new GLUniform { { "value", new Vector2(256,256) } });
+            Uniforms.Add("resolution", new GLUniform { { "value", new Vector2(256, 256) } });
 
 
-			VertexShader = @"
+            VertexShader = @"
                 varying vec2 vUv; 
 
 
@@ -81,5 +84,7 @@ namespace THREE
 
 			";
         }
+
+        public SobelOperatorShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

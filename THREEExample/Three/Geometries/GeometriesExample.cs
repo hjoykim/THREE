@@ -60,7 +60,7 @@ namespace THREEExample.Three.Geometries
         }
         private void CreateObject()
         {
-            var map = TextureLoader.Load(@"../../../assets/textures/uv_grid_opengl.jpg");
+            var map = TextureLoader.Load(@"../../../../assets/textures/uv_grid_opengl.jpg");
 
             map.WrapS = map.WrapT = Constants.RepeatWrapping;
 

@@ -1,9 +1,12 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class GammaCorrectionShader : ShaderMaterial
     {
-        public GammaCorrectionShader():base()
+        public GammaCorrectionShader() : base()
         {
             Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
 
@@ -38,5 +41,7 @@ namespace THREE
 
             ";
         }
+
+        public GammaCorrectionShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

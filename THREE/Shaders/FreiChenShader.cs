@@ -1,5 +1,8 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+	[Serializable]
     public class FreiChenShader : ShaderMaterial
     {
         public FreiChenShader() : base()
@@ -87,5 +90,7 @@
 
 			";
         }
+
+        public FreiChenShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

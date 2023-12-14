@@ -1,5 +1,8 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+    [Serializable]
     public class SepiaShader : ShaderMaterial
     {
         public SepiaShader()
@@ -21,7 +24,7 @@
 
                 "
              ;
-            
+
             FragmentShader = @"
             uniform float amount; 
 
@@ -45,5 +48,7 @@
             "
             ;
         }
+
+        public SepiaShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

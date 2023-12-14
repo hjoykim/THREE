@@ -1,9 +1,12 @@
 ﻿
+using System.Runtime.Serialization;
+
 namespace THREE
 {
+    [Serializable]
     public class ColorCorrectionShader : ShaderMaterial
     {
-        public ColorCorrectionShader():base()
+        public ColorCorrectionShader() : base()
         {
             Uniforms.Add("tDiffuse", new GLUniform { { "value", null } });
             Uniforms.Add("powRGB", new GLUniform { { "value", new Vector3(2, 2, 2) } });
@@ -42,5 +45,7 @@ namespace THREE
 		        }
             ";
         }
+
+        public ColorCorrectionShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

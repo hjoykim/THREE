@@ -46,7 +46,7 @@ namespace THREEExample.Learning.Chapter09
             DemoUtils.InitDefaultLighting(scene);
 
 
-            var texture = TextureLoader.Load("../../../assets/textures/dds/test-dxt1.jpg");
+            var texture = TextureLoader.Load("../../../../assets/textures/dds/test-dxt1.jpg");
 
             scene.Add(new AmbientLight(new THREE.Color(0x444444)));
 

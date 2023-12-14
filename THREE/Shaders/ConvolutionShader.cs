@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public class ConvolutionShader : ShaderMaterial
     {
         public ConvolutionShader()
@@ -50,9 +52,11 @@ void main() {
 
 }
 "
-;      
+;
 
         }
+
+        public ConvolutionShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public List<float> BuildKernel(float sigma)
         {
@@ -65,7 +69,7 @@ void main() {
             float sum = 0.0f;
             float halfWidth = (kernelSize - 1) * 0.5f;
 
-            for(int i = 0; i < kernelSize; i++)
+            for (int i = 0; i < kernelSize; i++)
             {
                 values.Add(Gauss(i - halfWidth, sigma));
                 sum += values[i];
@@ -77,7 +81,7 @@ void main() {
             return values;
         }
 
-        private float Gauss(float x,float sigma)
+        private float Gauss(float x, float sigma)
         {
             return (float)System.Math.Exp(-(x * x) / (2.0f * sigma * sigma));
         }

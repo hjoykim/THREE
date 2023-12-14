@@ -49,7 +49,7 @@ namespace THREEExample.Learning.Chapter10
             DemoUtils.InitDefaultLighting(scene);
 
             var material = new MeshStandardMaterial{
-                Map = TextureLoader.Load("../../../assets/textures/uv/ash_uvgrid01.jpg"),
+                Map = TextureLoader.Load("../../../../assets/textures/uv/ash_uvgrid01.jpg"),
                 Metalness = 0.02f,
                 Roughness = 0.07f,
                 Color = new Color(0xffffff)

@@ -1,42 +1,45 @@
-﻿namespace THREE
+﻿using System.Runtime.Serialization;
+
+namespace THREE
 {
+	[Serializable]
     public class BokehShader2 : ShaderMaterial
     {
-		public BokehShader2() : base()
-		{
-			Uniforms.Add("textureWidth", new GLUniform { { "value", 1.0f } });
-			Uniforms.Add("textureHeight", new GLUniform { { "value", 1.0f } });
+        public BokehShader2() : base()
+        {
+            Uniforms.Add("textureWidth", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("textureHeight", new GLUniform { { "value", 1.0f } });
 
-			Uniforms.Add("focalDepth", new GLUniform { { "value", 1.0f } });
-			Uniforms.Add("focalLength", new GLUniform { { "value", 24.0f } });
-			Uniforms.Add("fstop", new GLUniform { { "value", 0.9f } });
+            Uniforms.Add("focalDepth", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("focalLength", new GLUniform { { "value", 24.0f } });
+            Uniforms.Add("fstop", new GLUniform { { "value", 0.9f } });
 
-			Uniforms.Add("tColor", new GLUniform { { "value", null } });
-			Uniforms.Add("tDepth", new GLUniform { { "value", null } });
+            Uniforms.Add("tColor", new GLUniform { { "value", null } });
+            Uniforms.Add("tDepth", new GLUniform { { "value", null } });
 
-			Uniforms.Add("maxblur", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("maxblur", new GLUniform { { "value", 1.0f } });
 
-			Uniforms.Add("showFocus", new GLUniform { { "value", 0 } });
-			Uniforms.Add("manualdof", new GLUniform { { "value", 0 } });
-			Uniforms.Add("vignetting", new GLUniform { { "value", 0 } });
-			Uniforms.Add("depthblur", new GLUniform { { "value", 0 } });
+            Uniforms.Add("showFocus", new GLUniform { { "value", 0 } });
+            Uniforms.Add("manualdof", new GLUniform { { "value", 0 } });
+            Uniforms.Add("vignetting", new GLUniform { { "value", 0 } });
+            Uniforms.Add("depthblur", new GLUniform { { "value", 0 } });
 
-			Uniforms.Add("threshold", new GLUniform { { "value", 0.5f } });
-			Uniforms.Add("gain", new GLUniform { { "value", 2.0f } });
-			Uniforms.Add("bias", new GLUniform { { "value", 0.5f } });
-			Uniforms.Add("fringe", new GLUniform { { "value", 0.7f } });
+            Uniforms.Add("threshold", new GLUniform { { "value", 0.5f } });
+            Uniforms.Add("gain", new GLUniform { { "value", 2.0f } });
+            Uniforms.Add("bias", new GLUniform { { "value", 0.5f } });
+            Uniforms.Add("fringe", new GLUniform { { "value", 0.7f } });
 
-			Uniforms.Add("znear", new GLUniform { { "value", 0.1f } });
-			Uniforms.Add("zfar", new GLUniform { { "value", 100f } });
+            Uniforms.Add("znear", new GLUniform { { "value", 0.1f } });
+            Uniforms.Add("zfar", new GLUniform { { "value", 100f } });
 
-			Uniforms.Add("noise", new GLUniform { { "value", 1 } });
-			Uniforms.Add("dithering", new GLUniform { { "value", 0.0001f } });
-			Uniforms.Add("pentagon", new GLUniform { { "value", 0 } });
+            Uniforms.Add("noise", new GLUniform { { "value", 1 } });
+            Uniforms.Add("dithering", new GLUniform { { "value", 0.0001f } });
+            Uniforms.Add("pentagon", new GLUniform { { "value", 0 } });
 
-			Uniforms.Add("shaderFocus", new GLUniform { { "value", 1 } });
-			Uniforms.Add("focusCoords", new GLUniform { { "value", new Vector2() } });
+            Uniforms.Add("shaderFocus", new GLUniform { { "value", 1 } });
+            Uniforms.Add("focusCoords", new GLUniform { { "value", new Vector2() } });
 
-			VertexShader = @"
+            VertexShader = @"
 				varying vec2 vUv; 
 
 				void main() {
@@ -46,7 +49,7 @@
 
 				}
 				";
-			FragmentShader = @"
+            FragmentShader = @"
 		#include <common>
 
 		varying vec2 vUv;
@@ -335,17 +338,20 @@
 		} 
 
 			";
-		}
+        }
+
+        public BokehShader2(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 
-	public class BokehDepthShader : ShaderMaterial
+	[Serializable]
+    public class BokehDepthShader : ShaderMaterial
     {
-		public BokehDepthShader() : base()
+        public BokehDepthShader() : base()
         {
-			Uniforms.Add("mNear", new GLUniform { { "value", 1.0f } });
-			Uniforms.Add("mFar", new GLUniform { { "value", 1000.0f } });
+            Uniforms.Add("mNear", new GLUniform { { "value", 1.0f } });
+            Uniforms.Add("mFar", new GLUniform { { "value", 1000.0f } });
 
-			VertexShader = @"
+            VertexShader = @"
 				varying float vViewZDepth; 
 
 				void main() {
@@ -358,7 +364,7 @@
 				}
 			";
 
-			FragmentShader = @"
+            FragmentShader = @"
 			uniform float mNear; 
 			uniform float mFar;
 
@@ -372,6 +378,8 @@
 			} 
 
 			";
-		}
+        }
+
+        public BokehDepthShader(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
+
 namespace THREE
 {
-
+    [Serializable]
     public static class MathUtils
     {
         public static readonly Random random = new Random();
@@ -33,12 +34,12 @@ namespace THREE
         }
         public static float RadToDeg(double rad)
         {
-            return (float)(rad * 180.0f /System.Math.PI);
+            return (float)(rad * 180.0f / System.Math.PI);
         }
 
-        public static float RandFloat(float low,float high)
+        public static float RandFloat(float low, float high)
         {
-            return low + (float)random.NextDouble()*(high-low);
+            return low + (float)random.NextDouble() * (high - low);
         }
 
         public static float RandFloatSpread(float range)
@@ -65,12 +66,12 @@ namespace THREE
             return (float)(System.Math.Pow(2, System.Math.Floor(System.Math.Log(value) / System.Math.Log(2))));
         }
 
-        public static bool IsPowerOfTwo(int value ) 
+        public static bool IsPowerOfTwo(int value)
         {
-		    return ( value & ( value - 1 ) ) == 0 && value != 0;
-	    }
+            return (value & (value - 1)) == 0 && value != 0;
+        }
 
-        public static float Lerp(float x,float y,float t)
+        public static float Lerp(float x, float y, float t)
         {
             return (1 - t) * x + t * y;
         }

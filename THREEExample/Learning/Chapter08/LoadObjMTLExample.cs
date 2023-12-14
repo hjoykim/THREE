@@ -27,7 +27,7 @@ namespace THREEExample.Learning.Chapter08
         {
             OBJLoader loader = new OBJLoader();
 
-            var mesh = loader.Parse(@"../../../assets/models/butterfly/butterfly.obj");
+            var mesh = loader.Parse(@"../../../../assets/models/butterfly/butterfly.obj");
 
             List<int> wingsposition = new List<int> { 0, 2, 4, 6 };
 

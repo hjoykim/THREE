@@ -37,7 +37,7 @@ namespace THREEExample.Three.Geometries
         {
             scene.Add(new AxesHelper(20));
 
-            var texture = TextureLoader.Load("../../../assets/textures/sprites/disc.png");
+            var texture = TextureLoader.Load("../../../../assets/textures/sprites/disc.png");
 
             group = new Group();
            

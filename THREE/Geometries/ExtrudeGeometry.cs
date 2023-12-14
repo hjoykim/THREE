@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
 
 namespace THREE
 {
@@ -10,9 +10,10 @@ namespace THREE
         List<Vector2> GenerateTopUV(Geometry geometry, List<float> vertices, int indexA, int indexB, int indexC);
         List<Vector2> GenerateSideWallUV(Geometry geometry, List<float> vertices, int indexA, int indexB, int indexC, int indexD);
     }
+    [Serializable]
     public class WorldUVGenerator : UVGenerator
     {
-        public List<Vector2> GenerateTopUV(Geometry geometry, List<float> vertices, int indexA, int indexB, int indexC )
+        public List<Vector2> GenerateTopUV(Geometry geometry, List<float> vertices, int indexA, int indexB, int indexC)
         {
 
             var a_x = vertices[indexA * 3];
@@ -30,7 +31,7 @@ namespace THREE
 
         }
 
-	    public List<Vector2> GenerateSideWallUV(Geometry geometry, List<float> vertices, int indexA, int indexB, int indexC, int indexD )
+        public List<Vector2> GenerateSideWallUV(Geometry geometry, List<float> vertices, int indexA, int indexB, int indexC, int indexD)
         {
 
             var a_x = vertices[indexA * 3];
@@ -71,11 +72,12 @@ namespace THREE
 
         }
     }
+    [Serializable]
     public class ExtrudeGeometry : Geometry
     {
         public Hashtable parameters;
 
-        public ExtrudeGeometry(List<Shape> shapes,Hashtable options)
+        public ExtrudeGeometry(List<Shape> shapes, Hashtable options)
         {
             this.type = "ExtrudeGeometry";
 
@@ -89,12 +91,13 @@ namespace THREE
 
             this.MergeVertices();
         }
-        public ExtrudeGeometry(Shape shape,Hashtable options) : this(new List<Shape>() { shape }, options)
+        public ExtrudeGeometry(Shape shape, Hashtable options) : this(new List<Shape>() { shape }, options)
         {
 
         }
     }
 
+    [Serializable]
     public class ExtrudeBufferGeometry : BufferGeometry
     {
         public Hashtable parameters;
@@ -127,7 +130,7 @@ namespace THREE
 
         private UVGenerator uvgen;
 
-        private List<Vector3> contour=new List<Vector3>();
+        private List<Vector3> contour = new List<Vector3>();
 
         List<List<int>> faces = null;
 
@@ -143,16 +146,16 @@ namespace THREE
         public ExtrudeBufferGeometry(Shape shape, Hashtable options) : this(new List<Shape>() { shape }, options)
         {
         }
-        
-        public ExtrudeBufferGeometry(List<Shape> shapes,Hashtable options)
+
+        public ExtrudeBufferGeometry(List<Shape> shapes, Hashtable options)
         {
             this.type = "ExtrudeBufferGeometry";
 
             Init(shapes, options);
-           
+
         }
 
-       public void Init(List<Shape> shapes,Hashtable options)
+        public void Init(List<Shape> shapes, Hashtable options)
         {
             parameters = new Hashtable()
             {
@@ -179,7 +182,8 @@ namespace THREE
         {
             placeholder.Clear();
 
-            if (options != null) {
+            if (options != null)
+            {
 
                 curveSegments = options.ContainsKey("curveSegments") ? (int)options["curveSegments"] : 12;
 
@@ -211,7 +215,7 @@ namespace THREE
             }
 
             bool extrudeByPath = false;
-            
+
             List<Vector3> extrudePts = null;
 
             Hashtable splineTube = null;
@@ -220,13 +224,13 @@ namespace THREE
             Vector3 normal = new Vector3();
             Vector3 position2 = new Vector3();
 
-            if (extrudePath!=null)
+            if (extrudePath != null)
             {
 
                 extrudePts = extrudePath.GetSpacedPoints(steps);
 
                 extrudeByPath = true;
-            
+
                 bevelEnabled = false; // bevels not supported for path extrusion
 
                 // SETUP TNB variables
@@ -252,7 +256,7 @@ namespace THREE
 
             // Variables initialization
 
-          
+
 
             Hashtable shapePoints = shape.ExtractPoints(curveSegments.Value);
 
@@ -286,7 +290,7 @@ namespace THREE
             this.contour.Clear();
             this.contour.Concat(vertices); // vertices has all points but contour has only points of circumference
 
-          
+
 
             for (int h = 0, hl = holes.Count; h < hl; h++)
             {
@@ -320,7 +324,7 @@ namespace THREE
 
             var holesMovements = new List<List<Vector2>>();
 
-            
+
 
             List<Vector2> verticesMovements = contourMovements;
 
@@ -534,7 +538,7 @@ namespace THREE
 
                 // Bottom faces
 
-                for (int i  = 0; i < flen; i++)
+                for (int i = 0; i < flen; i++)
                 {
 
                     var face = faces[i];
@@ -612,7 +616,7 @@ namespace THREE
 
         }
 
-        private Vector2 GetBevelVec(Vector3 inPt, Vector3 inPrev, Vector3 inNext )
+        private Vector2 GetBevelVec(Vector3 inPt, Vector3 inPrev, Vector3 inNext)
         {
 
             // computes for inPt the corresponding point inPt' on a new contour
@@ -752,14 +756,14 @@ namespace THREE
             return new Vector2(v_trans_x / shrink_by, v_trans_y / shrink_by);
 
         }
-        private Vector2 ScalePt2(Vector3 pt, Vector2 vec, float size )
+        private Vector2 ScalePt2(Vector3 pt, Vector2 vec, float size)
         {
 
             return (vec.Clone() as Vector2).MultiplyScalar(size).Add(pt.ToVector2());
 
         }
 
-        private void Sidewalls(List<Vector3> contour, int layeroffset )
+        private void Sidewalls(List<Vector3> contour, int layeroffset)
         {
 
             int j, k;
@@ -796,11 +800,11 @@ namespace THREE
 
         }
 
-        private void V(float x,float y,float z)
+        private void V(float x, float y, float z)
         {
             placeholder.Add(x, y, z);
         }
-        private void F3(int a, int b, int c )
+        private void F3(int a, int b, int c)
         {
 
             AddVertex(a);
@@ -808,7 +812,7 @@ namespace THREE
             AddVertex(c);
 
             var nextIndex = verticesArray.Count / 3;
-            var uvs = uvgen.GenerateTopUV(this,verticesArray, nextIndex - 3, nextIndex - 2, nextIndex - 1);
+            var uvs = uvgen.GenerateTopUV(this, verticesArray, nextIndex - 3, nextIndex - 2, nextIndex - 1);
 
             AddUV(uvs[0]);
             AddUV(uvs[1]);
@@ -816,7 +820,7 @@ namespace THREE
 
         }
 
-        private void F4(int a, int b, int c, int d )
+        private void F4(int a, int b, int c, int d)
         {
 
             AddVertex(a);
@@ -841,7 +845,7 @@ namespace THREE
 
         }
 
-        private void AddVertex(int index )
+        private void AddVertex(int index)
         {
 
             verticesArray.Add(placeholder[index * 3 + 0]);
@@ -851,7 +855,7 @@ namespace THREE
         }
 
 
-        private void AddUV(Vector2 vector2 )
+        private void AddUV(Vector2 vector2)
         {
 
             uvArray.Add(vector2.X);

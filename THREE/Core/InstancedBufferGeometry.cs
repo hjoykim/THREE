@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
+    [Serializable]
     public struct InstancedGroups
     {
         public int Start;
@@ -10,6 +12,7 @@ namespace THREE
 
         public int Instances;
     }
+    [Serializable]
     public class InstancedBufferGeometry : BufferGeometry
     {
         public new List<InstancedGroups> Groups = new List<InstancedGroups>();
@@ -24,7 +27,7 @@ namespace THREE
         }
         protected InstancedBufferGeometry(InstancedBufferGeometry source)
         {
-            Copy(source);            
+            Copy(source);
         }
         public new InstancedBufferGeometry Clone()
         {
@@ -38,7 +41,7 @@ namespace THREE
 
             return this;
         }
-        public override void AddGroup(int start,int count,int instances)
+        public override void AddGroup(int start, int count, int instances)
         {
             this.Groups.Add(new InstancedGroups { Start = start, Count = count, Instances = instances });
         }

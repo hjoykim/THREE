@@ -75,15 +75,15 @@ namespace THREEExample.Three.Misc.Controls
 			material.Metalness = 1;
 
 			OBJLoader loader = new OBJLoader();
-			var group = loader.Load(@"../../../assets/models/obj/cerberus/Cerberus.obj");
+			var group = loader.Load(@"../../../../assets/models/obj/cerberus/Cerberus.obj");
 
-			Texture diffuseMap = TextureLoader.Load(@"../../../assets/models/obj/cerberus/Cerberus_A.jpg");
+			Texture diffuseMap = TextureLoader.Load(@"../../../../assets/models/obj/cerberus/Cerberus_A.jpg");
 			diffuseMap.Encoding = Constants.sRGBEncoding;
 			material.Map = diffuseMap;
 
-			material.MetalnessMap = material.RoughnessMap = TextureLoader.Load(@"../../../assets/models/obj/cerberus/Cerberus_RM.jpg");
+			material.MetalnessMap = material.RoughnessMap = TextureLoader.Load(@"../../../../assets/models/obj/cerberus/Cerberus_RM.jpg");
 			
-			material.NormalMap = TextureLoader.Load(@"../../../assets/models/obj/cerberus/Cerberus_N.jpg");
+			material.NormalMap = TextureLoader.Load(@"../../../../assets/models/obj/cerberus/Cerberus_N.jpg");
 
 			material.Map.WrapS = Constants.RepeatWrapping;
 			material.RoughnessMap.WrapS = Constants.RepeatWrapping;
