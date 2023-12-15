@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,64 +10,6 @@
 	<RootNamespace>THREE</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Controls\**" />
-    <Compile Remove="Postprocessing\**" />
-    <Compile Remove="Properties\**" />
-    <Compile Remove="Renderers\Shaders\ShaderChunk\**" />
-    <Compile Remove="Renderers\Shaders\ShaderLib\**" />
-    <EmbeddedResource Remove="Controls\**" />
-    <EmbeddedResource Remove="Postprocessing\**" />
-    <EmbeddedResource Remove="Properties\**" />
-    <EmbeddedResource Remove="Renderers\Shaders\ShaderChunk\**" />
-    <EmbeddedResource Remove="Renderers\Shaders\ShaderLib\**" />
-    <None Remove="Controls\**" />
-    <None Remove="Postprocessing\**" />
-    <None Remove="Properties\**" />
-    <None Remove="Renderers\Shaders\ShaderChunk\**" />
-    <None Remove="Renderers\Shaders\ShaderLib\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Cameras\CinematicCamera.cs" />
-    <Compile Remove="Lights\LightProbeGenerator.cs" />
-    <Compile Remove="Renderers\GLCubeRenderTarget.cs" />
-    <Compile Remove="Renderers\GLRenderer.cs" />
-    <Compile Remove="Renderers\gl\GLAttribute.cs" />
-    <Compile Remove="Renderers\gl\GLAttributes.cs" />
-    <Compile Remove="Renderers\gl\GLBackground.cs" />
-    <Compile Remove="Renderers\gl\GLBackground_old.cs" />
-    <Compile Remove="Renderers\gl\GLBindingStates.cs" />
-    <Compile Remove="Renderers\gl\GLBufferRenderer.cs" />
-    <Compile Remove="Renderers\gl\GLCapabilities.cs" />
-    <Compile Remove="Renderers\gl\GLClipping.cs" />
-    <Compile Remove="Renderers\gl\GLCubeMap.cs" />
-    <Compile Remove="Renderers\gl\GLExtensions.cs" />
-    <Compile Remove="Renderers\gl\GLGeometries.cs" />
-    <Compile Remove="Renderers\gl\GLIndexedBufferRenderer.cs" />
-    <Compile Remove="Renderers\gl\GLInfo.cs" />
-    <Compile Remove="Renderers\gl\GLLights.cs" />
-    <Compile Remove="Renderers\gl\GLMaterials.cs" />
-    <Compile Remove="Renderers\gl\GLMorphtargets.cs" />
-    <Compile Remove="Renderers\gl\GLMultiview.cs" />
-    <Compile Remove="Renderers\gl\GLObjects.cs" />
-    <Compile Remove="Renderers\gl\GLProgram.cs" />
-    <Compile Remove="Renderers\gl\GLPrograms.cs" />
-    <Compile Remove="Renderers\gl\GLProperties.cs" />
-    <Compile Remove="Renderers\gl\GLRenderList.cs" />
-    <Compile Remove="Renderers\gl\GLRenderLists.cs" />
-    <Compile Remove="Renderers\gl\GLRenderState.cs" />
-    <Compile Remove="Renderers\gl\GLRenderStates.cs" />
-    <Compile Remove="Renderers\gl\GLShadowMap.cs" />
-    <Compile Remove="Renderers\gl\GLState.cs" />
-    <Compile Remove="Renderers\gl\GLTextures.cs" />
-    <Compile Remove="Renderers\gl\GLUtils.cs" />
-    <Compile Remove="Renderers\gl\PureArrayUniform.cs" />
-    <Compile Remove="Renderers\gl\SingleUniform.cs" />
-    <Compile Remove="Renderers\Shaders\Attribute.cs" />
-    <Compile Remove="Renderers\Shaders\Attributes.cs" />
-    <Compile Remove="Renderers\Shaders\ShaderLibVariable_org.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MIConvexHull" Version="1.1.19.1019" />
