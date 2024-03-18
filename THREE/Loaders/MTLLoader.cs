@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -136,7 +137,7 @@ namespace THREE
                         value = (pos >= 0) ? line.Substring(pos - 1) : "";
                         value = value.Substring(pos).Trim();
                         var ss = Regex.Split(value, delimiter_pattern);
-                        info.Add(key, new float[] { float.Parse(ss[0]), float.Parse(ss[1]), float.Parse(ss[2]) });
+                        info.Add(key, new float[] { float.Parse(ss[0], CultureInfo.InvariantCulture.NumberFormat), float.Parse(ss[1], CultureInfo.InvariantCulture.NumberFormat), float.Parse(ss[2], CultureInfo.InvariantCulture.NumberFormat) });
                     }
                     else
                     {
@@ -343,10 +344,10 @@ namespace THREE
                             parameter["transparent"] = true;
                             break;
                         case "ns":
-                            parameter["shininess"] = float.Parse((string)value);
+                            parameter["shininess"] = float.Parse((string)value, CultureInfo.InvariantCulture.NumberFormat);
                             break;
                         case "d":
-                            n = float.Parse((string)value);
+                            n = float.Parse((string)value, CultureInfo.InvariantCulture.NumberFormat);
                             if (n < 1)
                             {
                                 parameter["opacity"] = n;
@@ -354,7 +355,7 @@ namespace THREE
                             }
                             break;
                         case "tr":
-                            n = float.Parse((string)value);
+                            n = float.Parse((string)value, CultureInfo.InvariantCulture.NumberFormat);
 
                             if (this.Options != null && this.Options.Value.invertTrproperty != null && this.Options.Value.invertTrproperty.Value) n = 1 - n;
 
@@ -411,7 +412,7 @@ namespace THREE
 
                 if (pos >= 0)
                 {
-                    matParams["bumpScale"] = float.Parse(items[pos + 1]);
+                    matParams["bumpScale"] = float.Parse(items[pos + 1], CultureInfo.InvariantCulture.NumberFormat);
                     items.Splice(pos, 2);
                 }
 
@@ -427,7 +428,7 @@ namespace THREE
                 if (pos >= 0)
                 {
                     Vector2 scale = texParams["scale"] as Vector2;
-                    scale.Set(float.Parse(items[pos + 1]), float.Parse(items[pos + 2]));
+                    scale.Set(float.Parse(items[pos + 1]), float.Parse(items[pos + 2], CultureInfo.InvariantCulture.NumberFormat));
                     items.Splice(pos, 4);
                 }
 
@@ -443,7 +444,7 @@ namespace THREE
                 if (pos >= 0)
                 {
                     Vector2 offset = texParams["offset"] as Vector2;
-                    offset.Set(float.Parse(items[pos + 1]), float.Parse(items[pos + 2]));
+                    offset.Set(float.Parse(items[pos + 1]), float.Parse(items[pos + 2], CultureInfo.InvariantCulture.NumberFormat));
                     items.Splice(pos, 4);
                 }
 

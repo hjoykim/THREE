@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -196,7 +197,7 @@ namespace THREE
                 {
                     var coords = Regex.Split(value, float3_pattern).ToList<string>();
                     coords.RemoveAll(s => string.IsNullOrWhiteSpace(s));
-                    var list = coords.Select(s => float.Parse(s)).ToList<float>();
+                    var list = coords.Select(s => float.Parse(s, CultureInfo.InvariantCulture.NumberFormat)).ToList<float>();
                     for(int i=0;i<list.Count;i+=3)
                     {
                         this.points.Add(new Vector3(list[i], list[i + 1], list[i+2]));
@@ -208,7 +209,7 @@ namespace THREE
                 {
                     var coords = Regex.Split(value, float2_pattern).ToList<string>();
                     coords.RemoveAll(s => string.IsNullOrWhiteSpace(s));
-                    var list = coords.Select(s => float.Parse(s)).ToList<float>();
+                    var list = coords.Select(s => float.Parse(s, CultureInfo.InvariantCulture.NumberFormat)).ToList<float>();
                     for (int i = 0; i < list.Count; i += 2)
                     {
                         this.uvPoints.Add(new Vector2(list[i], list[i + 1]));
@@ -231,7 +232,7 @@ namespace THREE
                             continue;
 
                         }
-                        this.angles.Add(float.Parse(parts[ind]));
+                        this.angles.Add(float.Parse(parts[ind], CultureInfo.InvariantCulture.NumberFormat));
                     }
                 }
 
@@ -242,7 +243,7 @@ namespace THREE
             {
                 var colorArray = Regex.Split(value, float3_pattern).ToList<string>();
                 colorArray.RemoveAll(s => string.IsNullOrWhiteSpace(s));
-                this.colors.AddRange(colorArray.Select(s => float.Parse(s)).ToList<float>());
+                this.colors.AddRange(colorArray.Select(s => float.Parse(s, CultureInfo.InvariantCulture.NumberFormat)).ToList<float>());
 
 
                 this.isRecordingColors = false;
@@ -263,7 +264,7 @@ namespace THREE
                             break;
                         }
 
-                        Color color = new Color(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
+                        Color color = new Color(float.Parse(parts[1], CultureInfo.InvariantCulture.NumberFormat), float.Parse(parts[2], CultureInfo.InvariantCulture.NumberFormat), float.Parse(parts[3], CultureInfo.InvariantCulture.NumberFormat));
                         node[fieldName] = color;
                         break;
 
@@ -277,7 +278,7 @@ namespace THREE
                             break;
                         }
 
-                        Vector3 vector = new Vector3(float.Parse(parts[1]),float.Parse(parts[2]), float.Parse(parts[3]));
+                        Vector3 vector = new Vector3(float.Parse(parts[1], CultureInfo.InvariantCulture.NumberFormat),float.Parse(parts[2], CultureInfo.InvariantCulture.NumberFormat), float.Parse(parts[3], CultureInfo.InvariantCulture.NumberFormat));
                         node[fieldName] = vector;
                         break;
 
@@ -296,7 +297,7 @@ namespace THREE
                             break;
                         }
 
-                        var fieldOfView = float.Parse(parts[1]);
+                        var fieldOfView = float.Parse(parts[1], CultureInfo.InvariantCulture.NumberFormat);
                         node[fieldName] = fieldOfView;
                         break;
 
@@ -307,7 +308,7 @@ namespace THREE
                             Console.WriteLine("Invalid quaternion format detected for " + fieldName);
                             break;
                         }
-                        Vector4 vec4 = new Vector4(float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]), float.Parse(parts[4]));
+                        Vector4 vec4 = new Vector4(float.Parse(parts[1], CultureInfo.InvariantCulture.NumberFormat), float.Parse(parts[2], CultureInfo.InvariantCulture.NumberFormat), float.Parse(parts[3], CultureInfo.InvariantCulture.NumberFormat), float.Parse(parts[4], CultureInfo.InvariantCulture.NumberFormat));
                         node[fieldName] = vec4;
                         break;
 

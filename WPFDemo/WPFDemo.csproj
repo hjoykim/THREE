@@ -5,7 +5,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>WPFDemo</RootNamespace>
     <AssemblyName>WPFDemo</AssemblyName>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <FileAlignment>512</FileAlignment>

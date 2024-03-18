@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -169,15 +170,15 @@ namespace THREE
 
                     var text = n.Groups[1].Value;
                     MatchCollection normalCollection = patternNormal.Matches(text);
-                    normal.X = float.Parse(normalCollection[0].Groups[1].Value);
-                    normal.Y = float.Parse(normalCollection[0].Groups[2].Value);
-                    normal.Z = float.Parse(normalCollection[0].Groups[3].Value);
+                    normal.X = float.Parse(normalCollection[0].Groups[1].Value, CultureInfo.InvariantCulture.NumberFormat);
+                    normal.Y = float.Parse(normalCollection[0].Groups[2].Value, CultureInfo.InvariantCulture.NumberFormat);
+                    normal.Z = float.Parse(normalCollection[0].Groups[3].Value, CultureInfo.InvariantCulture.NumberFormat);
                     normalCounterFace++;
 
                     MatchCollection vertexCollection = patternVertex.Matches(text);
                     foreach (Match v in vertexCollection)
                     {
-                        vertices.Add(float.Parse(v.Groups[1].Value), float.Parse(v.Groups[2].Value), float.Parse(v.Groups[3].Value));
+                        vertices.Add(float.Parse(v.Groups[1].Value, CultureInfo.InvariantCulture.NumberFormat), float.Parse(v.Groups[2].Value, CultureInfo.InvariantCulture.NumberFormat), float.Parse(v.Groups[3].Value, CultureInfo.InvariantCulture.NumberFormat));
                         normals.Add(normal.X, normal.Y, normal.Z);
                         vertexCountPerFace++;
                         endVertex++;
