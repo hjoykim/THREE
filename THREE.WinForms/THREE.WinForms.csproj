@@ -14,9 +14,5 @@
     <ProjectReference Include="..\THREE.OpenGL\THREE.OpenGL.csproj" />
     <ProjectReference Include="..\THREE\THREE.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cameras\" />
-    <Folder Include="Controls\" />
-  </ItemGroup>
 
 </Project>

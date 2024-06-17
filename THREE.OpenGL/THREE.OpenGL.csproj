@@ -14,7 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lights\" />
-    <Folder Include="Postprocessing\" />
     <Folder Include="Renderers\gl\" />
   </ItemGroup>
 </Project>
