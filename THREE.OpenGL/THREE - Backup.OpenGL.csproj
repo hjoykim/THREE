@@ -12,5 +12,9 @@
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.8.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Lights\" />
+    <Folder Include="Postprocessing\" />
+    <Folder Include="Renderers\gl\" />
+  </ItemGroup>
 </Project>
