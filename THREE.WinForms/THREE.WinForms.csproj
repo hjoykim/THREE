@@ -14,5 +14,7 @@
     <ProjectReference Include="..\THREE.OpenGL\THREE.OpenGL.csproj" />
     <ProjectReference Include="..\THREE\THREE.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>
 </Project>
