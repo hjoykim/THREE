@@ -233,9 +233,20 @@ namespace THREE
 
         public float Metalness = 0.5f;
 
+        public float Transmission = 0.0f;
+
+        public float Thickness = 0.01f;
+
+        public Texture ThicknessMap = null;
+
+        public float AttenuationDistance = 0.0f;
+
+        public Color AttenuationColor = new Color(1, 1, 1);
+
         public event EventHandler<EventArgs> Disposed;
 
         public Action<Hashtable, IGLRenderer> OnBeforeCompile;
+        public Action<Hashtable, IGLRenderer> OnBuild;
 
         public Material()
         {

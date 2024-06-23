@@ -51,7 +51,7 @@ namespace THREE
             }
 
         }
-        public void RefreshMaterialUniforms(GLUniforms m_uniforms, Material material, float pixelRatio, float height)
+        public void RefreshMaterialUniforms(GLUniforms m_uniforms, Material material, float pixelRatio, float height,GLRenderTarget transmissionRenderTarget)
         {
             if (material is MeshBasicMaterial)
             {
@@ -85,7 +85,7 @@ namespace THREE
                 if (material is MeshPhysicalMaterial)
                 {
 
-                    RefreshUniformsPhysical(m_uniforms, (MeshPhysicalMaterial)material);
+                    RefreshUniformsPhysical(m_uniforms, (MeshPhysicalMaterial)material, transmissionRenderTarget);
 
                 }
                 else
@@ -199,8 +199,8 @@ namespace THREE
 
         private void RefreshUniformsToon(GLUniforms uniforms, MeshToonMaterial material)
         {
-            (uniforms["specular"] as GLUniform)["value"] = material.Specular;
-            (uniforms["shininess"] as GLUniform)["value"] = (float)System.Math.Max(material.Shininess, 1e-4); // to prevent pow( 0.0, 0.0 )
+            //(uniforms["specular"] as GLUniform)["value"] = material.Specular;
+            //(uniforms["shininess"] as GLUniform)["value"] = (float)System.Math.Max(material.Shininess, 1e-4); // to prevent pow( 0.0, 0.0 )
 
             if (material.GradientMap != null)
             {
@@ -300,7 +300,7 @@ namespace THREE
             }
         }
 
-        private void RefreshUniformsPhysical(GLUniforms uniforms, MeshPhysicalMaterial material)
+        private void RefreshUniformsPhysical(GLUniforms uniforms, MeshPhysicalMaterial material, GLRenderTarget transmissionRenderTarget)
         {
             RefreshUniformsStandard(uniforms, material);
 
@@ -309,6 +309,16 @@ namespace THREE
             (uniforms["clearcoat"] as GLUniform)["value"] = material.Clearcoat;
             (uniforms["clearcoatRoughness"] as GLUniform)["value"] = material.ClearcoatRoughness;
             if (material.Sheen != null) (uniforms["sheen"] as GLUniform)["value"] = material.Sheen;
+
+            if (material.ClearcoatMap != null)
+            {
+                (uniforms["clearcoatMap"] as GLUniform)["value"] = material.ClearcoatMap;
+            }
+
+            if (material.ClearcoatRoughnessMap != null)
+            {
+                (uniforms["clearcoatRoughnessMap"] as GLUniform)["value"] = material.ClearcoatRoughnessMap;
+            }
 
             if (material.ClearcoatNormalMap != null)
             {
@@ -324,8 +334,23 @@ namespace THREE
                 }
 
             }
+            
+            (uniforms["transmission"] as GLUniform)["value"] = material.Transmission;
 
-            (uniforms["transparency"] as GLUniform)["value"] = material.Transparency;
+            if(material.Transmission > 0.0f)
+            {
+                (uniforms["transmissionSamplerMap"] as GLUniform)["value"] = transmissionRenderTarget.Texture;
+                (uniforms["transmissionSamplerSize"] as GLUniform)["value"] = new Vector2(transmissionRenderTarget.Width,transmissionRenderTarget.Height);
+            }
+
+            (uniforms["thickness"] as GLUniform)["value"] = material.Thickness;
+            if (material.ThicknessMap != null)
+            {
+                (uniforms["thicknessMap"] as GLUniform)["value"] = material.ThicknessMap;
+            }
+
+            (uniforms["attenuationDistance"] as GLUniform)["value"] = material.AttenuationDistance;
+            (uniforms["attenuationColor"] as GLUniform)["value"] = material.AttenuationColor;
         }
 
         private void RefreshUniformsStandard(GLUniforms uniforms, MeshStandardMaterial material)
@@ -389,7 +414,8 @@ namespace THREE
 
             }
 
-            if (material.EnvMap != null)
+            var envMap = properties.Get(material)["envMap"];
+            if (envMap != null)
             {
 
                 //(uniforms["envMap"] as GLUniform)["value"] = material.envMap; // part of uniforms common
@@ -512,22 +538,22 @@ namespace THREE
 
             }
 
-            if (material.EnvMap != null)
+            var envMap = properties.Get(material)["envMap"];
+
+            if (envMap != null)
             {
 
-                (uniforms["envMap"] as GLUniform)["value"] = material.EnvMap;
+                (uniforms["envMap"] as GLUniform)["value"] = envMap;
 
-                // don't flip CubeTexture envMaps, flip everything else:
-                //  WebGLRenderTargetCube will be flipped for backwards compatibility
-                //  WebGLRenderTargetCube.texture will be flipped because it's a Texture and NOT a CubeTexture
-                // this check must be handled differently, or removed entirely, if WebGLRenderTargetCube uses a CubeTexture in the future
-                (uniforms["flipEnvMap"] as GLUniform)["value"] = material.EnvMap is CubeTexture ? -1.0f : 1.0f;
+                (uniforms["flipEnvMap"] as GLUniform)["value"] = (envMap is CubeTexture && (envMap as CubeTexture).NeedsFlipEnvMap) ? -1.0f : 1.0f;
 
                 (uniforms["reflectivity"] as GLUniform)["value"] = material.Reflectivity;
                 (uniforms["refractionRatio"] as GLUniform)["value"] = material.RefractionRatio;
-
-                (uniforms["maxMipLevel"] as GLUniform)["value"] = (properties.Get(material.EnvMap) as Hashtable)["maxMipLevel"];
-
+                var maxMipLevel = (properties.Get(envMap))["maxMipLevel"];
+                if ((maxMipLevel != null))
+                {
+                    (uniforms["maxMipLevel"] as GLUniform)["value"] = maxMipLevel;
+                }
             }
 
             if (material.LightMap != null)
@@ -610,6 +636,18 @@ namespace THREE
                 uvScaleMap = material.EmissiveMap;
 
             }
+            else if(material.ClearcoatMap!=null)
+            {
+                uvScaleMap= material.ClearcoatMap;
+            }
+            else if (material.ClearcoatNormalMap != null)
+            {
+                uvScaleMap= material.ClearcoatNormalMap;
+            }
+            else if (material.ClearcoatRoughnessMap != null)
+            {
+                uvScaleMap = material.ClearcoatRoughnessMap;
+            }
 
             if (uvScaleMap != null)
             {
@@ -630,7 +668,30 @@ namespace THREE
                 }
 
                 (uniforms["uvTransform"] as GLUniform)["value"] = uvScaleMap.Matrix;
+            }
 
+            Texture uv2ScaleMap = null;
+
+            if(material.AoMap != null)
+            {
+                uv2ScaleMap= material.AoMap;
+            }
+            else if(material.LightMap != null)
+            {
+                uv2ScaleMap= material.LightMap;
+            }
+            
+            if(uv2ScaleMap != null)
+            {
+                if(uv2ScaleMap is GLRenderTarget)
+                {
+                    uv2ScaleMap = (uv2ScaleMap as GLRenderTarget).Texture;
+                }
+                if(uv2ScaleMap.MatrixAutoUpdate == true)
+                {
+                    uv2ScaleMap.UpdateMatrix();
+                }
+                (uniforms["uv2Transform"] as GLUniform)["value"] = uv2ScaleMap.Matrix;
             }
         }
 
@@ -699,13 +760,7 @@ namespace THREE
                     uvScaleMap.UpdateMatrix();
 
                 }
-
-                if (!uniforms.ContainsKey("uvTransfrom"))
-                {
-                    (uniforms["uvTransform"] as GLUniform)["value"] = new Matrix3();
-                }
-                (((uniforms["uvTransform"] as GLUniform)["value"]) as Matrix3).Copy(uvScaleMap.Matrix);
-
+                (uniforms["uvTransform"] as GLUniform)["value"] = uvScaleMap.Matrix;
             }
         }
 

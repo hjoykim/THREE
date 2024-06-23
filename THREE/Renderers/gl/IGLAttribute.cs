@@ -6,5 +6,6 @@ namespace THREE
     {
         string Name { get; set; }
         Type Type { get; set; }
+        int ItemSize { get; set; }
     }
 }

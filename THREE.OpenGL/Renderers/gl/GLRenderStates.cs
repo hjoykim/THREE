@@ -7,9 +7,12 @@ namespace THREE
     public class GLRenderStates
     {
         public Hashtable renderStates = new Hashtable();
-
-        public GLRenderStates()
+        private GLExtensions extensions;
+        private GLCapabilities capabilities;
+        public GLRenderStates(GLExtensions extensions, GLCapabilities capabilities)
         {
+            this.extensions = extensions;
+            this.capabilities = capabilities;
         }
 
         public void OnSceneDispose(object sender, EventArgs e)
@@ -20,28 +23,28 @@ namespace THREE
             renderStates.Remove(scene);
         }
 
-        public GLRenderState Get(Scene scene, Camera camera)
+        public GLRenderState Get(Scene scene, int renderCallDepth=0)
         {
             GLRenderState renderState;
 
             if (!renderStates.Contains(scene))
             {
-                renderState = new GLRenderState();
-                renderStates.Add(scene, new Hashtable());
-                (renderStates[scene] as Hashtable).Add(camera, renderState);
+                renderState = new GLRenderState(extensions,capabilities);
+                List<GLRenderState> list = new List<GLRenderState>() { renderState };
+                renderStates.Add(scene, list);
 
                 scene.Disposed += OnSceneDispose;
             }
             else
             {
-                if (!(renderStates[scene] as Hashtable).Contains(camera))
+                if (renderCallDepth >= (renderStates[scene] as List<GLRenderState>).Count)
                 {
-                    renderState = new GLRenderState();
-                    (renderStates[scene] as Hashtable).Add(camera, renderState);
+                    renderState = new GLRenderState(extensions,capabilities);
+                    (renderStates[scene] as List<GLRenderState>).Add(renderState);
                 }
                 else
                 {
-                    renderState = (renderStates[scene] as Hashtable)[camera] as GLRenderState;
+                    renderState = (renderStates[scene] as List<GLRenderState>)[renderCallDepth];
                 }
             }
 

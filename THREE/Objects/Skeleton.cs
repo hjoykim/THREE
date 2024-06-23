@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 
 namespace THREE
@@ -121,7 +123,7 @@ namespace THREE
         }
 
 
-        public Skeleton clone()
+        public Skeleton Clone()
         {
             return new Skeleton(Bones, BoneInverses);
         }
@@ -138,6 +140,40 @@ namespace THREE
             }
             return null;
         }
+        private byte[] ToByteArray(float[] floatArray)
+        {
+            byte[] byteArray = new byte[floatArray.Length];
+            for (int i = 0; i < floatArray.Length; i++)
+                byteArray[i] = (byte)(floatArray[i] * 255.0f);
 
+            return byteArray;
+        }
+        public Skeleton ComputeBoneTexture()
+        {
+
+            // layout (1 matrix = 4 pixels)
+            //      RGBA RGBA RGBA RGBA (=> column1, column2, column3, column4)
+            //  with  8x8  pixel texture max   16 bones * 4 pixels =  (8 * 8)
+            //       16x16 pixel texture max   64 bones * 4 pixels = (16 * 16)
+            //       32x32 pixel texture max  256 bones * 4 pixels = (32 * 32)
+            //       64x64 pixel texture max 1024 bones * 4 pixels = (64 * 64)
+
+            int size = (int)Math.Sqrt(this.Bones.Length * 4); // 4 pixels needed for 1 matrix
+            size = (int)Math.Ceiling((decimal)size / 4) * 4;
+            size = Math.Max(size, 4);
+
+            float[] boneMatrices = new float[size * size * 4]; // 4 floats per RGBA pixel
+            Array.Copy(this.BoneMatrices, boneMatrices, this.BoneMatrices.Length); // copy current values
+
+            Bitmap im = new Bitmap(size, size,size,System.Drawing.Imaging.PixelFormat.Format8bppIndexed,Marshal.UnsafeAddrOfPinnedArrayElement(ToByteArray(boneMatrices),0));
+            DataTexture boneTexture = new DataTexture(im, size, size, Constants.RGBAFormat, Constants.FloatType);
+            boneTexture.NeedsUpdate = true;
+
+            this.BoneMatrices = boneMatrices;
+            this.BoneTexture = boneTexture;
+
+            return this;
+
+        }
     }
 }

@@ -8,6 +8,9 @@ namespace THREE
     {
         public static Texture LTC_FLOAT_1;
         public static Texture LTC_FLOAT_2;
+        public static Texture LTC_HALF_1;
+        public static Texture LTC_HALF_2;
+
         public UniformsLib()
         {
             this.Add("common", this.Common());
@@ -39,7 +42,7 @@ namespace THREE
 
                 { "map",                new GLUniform {{"value", null}}},
                 { "uvTransform",        new GLUniform {{"value",new Matrix3()}}},
-                { "uvTransform2",        new GLUniform {{"value",new Matrix3()}}},
+                { "uv2Transform",        new GLUniform {{"value",new Matrix3()}}},
 
                 { "alphaMap",           new GLUniform {{"value", null}}},
             };

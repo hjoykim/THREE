@@ -20,7 +20,7 @@ namespace THREE
 
             this.Mapping = mapping != null ? mapping.Value : (int)Constants.CubeReflectionMapping;
             this.Format = format != null ? format.Value : (int)Constants.RGBAFormat;
-
+            this.NeedsFlipEnvMap = true;
             this.flipY = false;
         }
     }

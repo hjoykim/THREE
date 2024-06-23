@@ -110,6 +110,7 @@ namespace THREE
 
         private readonly int defaultMapping = Constants.UVMapping;
 
+        public bool NeedsFlipEnvMap = false;
         #endregion
 
 

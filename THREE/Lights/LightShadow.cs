@@ -39,6 +39,9 @@ namespace THREE
         public bool AutoUpdate = true;
 
         public bool NeedsUpdate = false;
+
+        public float Focus = 1;
+
         public LightShadow(Camera camera)
         {
             this.Camera = camera;

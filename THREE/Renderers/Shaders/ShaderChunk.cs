@@ -1,41 +1,36 @@
-
-
 namespace THREE
 {
-	[Serializable]
+    [Serializable]
     public class ShaderChunk
-    {
-
-
-        public static string alphamap_fragment = @"
-
+{
+      public static string alphamap_fragment = @"
 #ifdef USE_ALPHAMAP
 
 	diffuseColor.a *= texture2D( alphaMap, vUv ).g;
 
 #endif
+;
+
 ";
-
-        public static string alphamap_pars_fragment = @"
-
+      public static string alphamap_pars_fragment = @"
 #ifdef USE_ALPHAMAP
 
 	uniform sampler2D alphaMap;
 
 #endif
+;
+
 ";
-
-        public static string alphatest_fragment = @"
-
+      public static string alphatest_fragment = @"
 #ifdef ALPHATEST
 
 	if ( diffuseColor.a < ALPHATEST ) discard;
 
 #endif
+;
+
 ";
-
-        public static string aomap_fragment = @"
-
+      public static string aomap_fragment = @"
 #ifdef USE_AOMAP
 
 	// reads channel R, compatible with a combined OcclusionRoughnessMetallic (RGB) texture
@@ -52,20 +47,25 @@ namespace THREE
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string aomap_pars_fragment = @"
-
+      public static string aomap_pars_fragment = @"
 #ifdef USE_AOMAP
 
 	uniform sampler2D aoMap;
 	uniform float aoMapIntensity;
 
 #endif
+;
+
 ";
+      public static string begin_vertex = @"
+vec3 transformed = vec3( position );
+;
 
-        public static string beginnormal_vertex = @"
-
+";
+      public static string beginnormal_vertex = @"
 vec3 objectNormal = vec3( normal );
 
 #ifdef USE_TANGENT
@@ -73,19 +73,14 @@ vec3 objectNormal = vec3( normal );
 	vec3 objectTangent = vec3( tangent.xyz );
 
 #endif
+;
+
 ";
-
-        public static string begin_vertex = @"
-
-vec3 transformed = vec3( position );
-";
-
-        public static string bsdfs = @"
-
+      public static string bsdfs = @"
 
 // Analytical approximation of the DFG LUT, one half of the
 // split-sum approximation used in indirect specular lighting.
-// via 'environmentBRDF' from 'Physically Based Shading on Mobile'
+// via 'environmentBRDF' from Physically Based Shading on Mobile
 // https://www.unrealengine.com/blog/physically-based-shading-on-mobile - environmentBRDF for GGX on mobile
 vec2 integrateSpecularBRDF( const in float dotNV, const in float roughness ) {
 	const vec4 c0 = vec4( - 1, - 0.0275, - 0.572, 0.022 );
@@ -165,7 +160,7 @@ vec3 F_Schlick_RoughnessDependent( const in vec3 F0, const in float dotNV, const
 
 // Microfacet Models for Refraction through Rough Surfaces - equation (34)
 // http://graphicrants.blogspot.com/2013/08/specular-brdf-reference.html
-// alpha is 'roughness squared' in Disney's reparameterization
+// alpha is roughness squared in Disney’s reparameterization
 float G_GGX_Smith( const in float alpha, const in float dotNL, const in float dotNV ) {
 
 	// geometry term (normalized) = G(l)⋅G(v) / 4(n⋅l)(n⋅v)
@@ -196,7 +191,7 @@ float G_GGX_SmithCorrelated( const in float alpha, const in float dotNL, const i
 
 // Microfacet Models for Refraction through Rough Surfaces - equation (33)
 // http://graphicrants.blogspot.com/2013/08/specular-brdf-reference.html
-// alpha is 'roughness squared' in Disney’s reparameterization
+// alpha is roughness squared in Disney’s reparameterization
 float D_GGX( const in float alpha, const in float dotNH ) {
 
 	float a2 = pow2( alpha );
@@ -357,7 +352,7 @@ vec3 BRDF_Specular_GGX_Environment( const in vec3 viewDir, const in vec3 normal,
 
 } // validated
 
-// Fdez-Agüera's 'Multiple-Scattering Microfacet Model for Real-Time Image Based Lighting'
+// Fdez-Agüera's Multiple-Scattering Microfacet Model for Real-Time Image Based Lighting
 // Approximates multiscattering in order to preserve energy.
 // http://www.jcgt.org/published/0008/01/03/
 void BRDF_Specular_Multiscattering_Environment( const in GeometricContext geometry, const in vec3 specularColor, const in float roughness, inout vec3 singleScatter, inout vec3 multiScatter ) {
@@ -424,7 +419,7 @@ float BlinnExponentToGGXRoughness( const in float blinnExponent ) {
 
 // https://github.com/google/filament/blob/master/shaders/src/brdf.fs#L94
 float D_Charlie(float roughness, float NoH) {
-	// Estevez and Kulla 2017, 'Production Friendly Microfacet Sheen BRDF'
+	// Estevez and Kulla 2017, Production Friendly Microfacet Sheen BRDF
 	float invAlpha = 1.0 / roughness;
 	float cos2h = NoH * NoH;
 	float sin2h = max(1.0 - cos2h, 0.0078125); // 2^(-14/2), so sin2h^2 > 0 in fp16
@@ -433,7 +428,7 @@ float D_Charlie(float roughness, float NoH) {
 
 // https://github.com/google/filament/blob/master/shaders/src/brdf.fs#L136
 float V_Neubelt(float NoV, float NoL) {
-	// Neubelt and Pettineo 2013, 'Crafting a Next-gen Material Pipeline for The Order: 1886'
+	// Neubelt and Pettineo 2013, Crafting a Next-gen Material Pipeline for The Order: 1886
 	return saturate(1.0 / (4.0 * (NoL + NoV - NoL * NoV)));
 }
 
@@ -450,10 +445,10 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 }
 
 #endif
+;
+
 ";
-
-        public static string bumpmap_pars_fragment = @"
-
+      public static string bumpmap_pars_fragment = @"
 #ifdef USE_BUMPMAP
 
 	uniform sampler2D bumpMap;
@@ -477,7 +472,7 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 
 	}
 
-	vec3 perturbNormalArb( vec3 surf_pos, vec3 surf_norm, vec2 dHdxy ) {
+	vec3 perturbNormalArb( vec3 surf_pos, vec3 surf_norm, vec2 dHdxy, float faceDirection ) {
 
 		// Workaround for Adreno 3XX dFd*( vec3 ) bug. See #9988
 
@@ -488,9 +483,7 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 		vec3 R1 = cross( vSigmaY, vN );
 		vec3 R2 = cross( vN, vSigmaX );
 
-		float fDet = dot( vSigmaX, R1 );
-
-		fDet *= ( float( gl_FrontFacing ) * 2.0 - 1.0 );
+		float fDet = dot( vSigmaX, R1 ) * faceDirection;
 
 		vec3 vGrad = sign( fDet ) * ( dHdxy.x * R1 + dHdxy.y * R2 );
 		return normalize( abs( fDet ) * surf_norm - vGrad );
@@ -498,19 +491,19 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 	}
 
 #endif
+;
+
 ";
-
-        public static string clearcoat_normal_fragment_begin = @"
-
+      public static string clearcoat_normal_fragment_begin = @"
 #ifdef CLEARCOAT
 
 	vec3 clearcoatNormal = geometryNormal;
 
 #endif
+;
+
 ";
-
-        public static string clearcoat_normal_fragment_maps = @"
-
+      public static string clearcoat_normal_fragment_maps = @"
 #ifdef USE_CLEARCOAT_NORMALMAP
 
 	vec3 clearcoatMapN = texture2D( clearcoatNormalMap, vUv ).xyz * 2.0 - 1.0;
@@ -522,15 +515,15 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 
 	#else
 
-		clearcoatNormal = perturbNormal2Arb( - vViewPosition, clearcoatNormal, clearcoatMapN );
+		clearcoatNormal = perturbNormal2Arb( - vViewPosition, clearcoatNormal, clearcoatMapN, faceDirection );
 
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string clearcoat_pars_fragment = @"
-
+      public static string clearcoat_pars_fragment = @"
 
 #ifdef USE_CLEARCOATMAP
 
@@ -550,10 +543,10 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 	uniform vec2 clearcoatNormalScale;
 
 #endif
+;
+
 ";
-
-        public static string clipping_planes_fragment = @"
-
+      public static string clipping_planes_fragment = @"
 #if NUM_CLIPPING_PLANES > 0
 
 	vec4 plane;
@@ -585,10 +578,10 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string clipping_planes_pars_fragment = @"
-
+      public static string clipping_planes_pars_fragment = @"
 #if NUM_CLIPPING_PLANES > 0
 
 	varying vec3 vClipPosition;
@@ -596,56 +589,72 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 	uniform vec4 clippingPlanes[ NUM_CLIPPING_PLANES ];
 
 #endif
+;
+
 ";
-
-        public static string clipping_planes_pars_vertex = @"
-
+      public static string clipping_planes_pars_vertex = @"
 #if NUM_CLIPPING_PLANES > 0
 
 	varying vec3 vClipPosition;
 
 #endif
+;
+
 ";
-
-        public static string clipping_planes_vertex = @"
-
+      public static string clipping_planes_vertex = @"
 #if NUM_CLIPPING_PLANES > 0
 
 	vClipPosition = - mvPosition.xyz;
 
 #endif
+;
+
 ";
+      public static string color_fragment = @"
+#if defined( USE_COLOR_ALPHA )
 
-        public static string color_fragment = @"
+	diffuseColor *= vColor;
 
-#ifdef USE_COLOR
+#elif defined( USE_COLOR )
 
 	diffuseColor.rgb *= vColor;
 
 #endif
+;
+
 ";
+      public static string color_pars_fragment = @"
+#if defined( USE_COLOR_ALPHA )
 
-        public static string color_pars_fragment = @"
+	varying vec4 vColor;
 
-#ifdef USE_COLOR
+#elif defined( USE_COLOR )
 
 	varying vec3 vColor;
 
 #endif
+;
+
 ";
+      public static string color_pars_vertex = @"
+#if defined( USE_COLOR_ALPHA )
 
-        public static string color_pars_vertex = @"
+	varying vec4 vColor;
 
-#if defined( USE_COLOR ) || defined( USE_INSTANCING_COLOR )
+#elif defined( USE_COLOR ) || defined( USE_INSTANCING_COLOR )
 
 	varying vec3 vColor;
 
 #endif
+;
+
 ";
+      public static string color_vertex = @"
+#if defined( USE_COLOR_ALPHA )
 
-        public static string color_vertex = @"
+	vColor = vec4( 1.0 );
 
-#if defined( USE_COLOR ) || defined( USE_INSTANCING_COLOR )
+#elif defined( USE_COLOR ) || defined( USE_INSTANCING_COLOR )
 
 	vColor = vec3( 1.0 );
 
@@ -653,7 +662,7 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 
 #ifdef USE_COLOR
 
-	vColor.xyz *= color.xyz;
+	vColor *= color;
 
 #endif
 
@@ -662,10 +671,10 @@ vec3 BRDF_Specular_Sheen( const in float roughness, const in vec3 L, const in Ge
 	vColor.xyz *= instanceColor.xyz;
 
 #endif
+;
+
 ";
-
-        public static string common = @"
-
+      public static string common = @"
 #define PI 3.141592653589793
 #define PI2 6.283185307179586
 #define PI_HALF 1.5707963267948966
@@ -796,10 +805,10 @@ vec2 equirectUv( in vec3 dir ) {
 	return vec2( u, v );
 
 }
+;
+
 ";
-
-        public static string cube_uv_reflection_fragment = @"
-
+      public static string cube_uv_reflection_fragment = @"
 #ifdef ENVMAP_TYPE_CUBE_UV
 
 	#define cubeUV_maxMipLevel 8.0
@@ -1012,10 +1021,24 @@ vec2 equirectUv( in vec3 dir ) {
 	}
 
 #endif
+;
+
 ";
+      public static string default_fragment = @"
+void main() {
+	gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+}
+;
 
-        public static string defaultnormal_vertex = @"
+";
+      public static string default_vertex = @"
+void main() {
+	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+}
+;
 
+";
+      public static string defaultnormal_vertex = @"
 vec3 transformedNormal = objectNormal;
 
 #ifdef USE_INSTANCING
@@ -1050,24 +1073,10 @@ transformedNormal = normalMatrix * transformedNormal;
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string default_fragment = @"
-
-void main() {
-	gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
-}
-";
-
-        public static string default_vertex = @"
-
-void main() {
-	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-}
-";
-
-        public static string displacementmap_pars_vertex = @"
-
+      public static string displacementmap_pars_vertex = @"
 #ifdef USE_DISPLACEMENTMAP
 
 	uniform sampler2D displacementMap;
@@ -1075,28 +1084,28 @@ void main() {
 	uniform float displacementBias;
 
 #endif
+;
+
 ";
-
-        public static string displacementmap_vertex = @"
-
+      public static string displacementmap_vertex = @"
 #ifdef USE_DISPLACEMENTMAP
 
 	transformed += normalize( objectNormal ) * ( texture2D( displacementMap, vUv ).x * displacementScale + displacementBias );
 
 #endif
+;
+
 ";
-
-        public static string dithering_fragment = @"
-
+      public static string dithering_fragment = @"
 #ifdef DITHERING
 
 	gl_FragColor.rgb = dithering( gl_FragColor.rgb );
 
 #endif
+;
+
 ";
-
-        public static string dithering_pars_fragment = @"
-
+      public static string dithering_pars_fragment = @"
 #ifdef DITHERING
 
 	// based on https://www.shadertoy.com/view/MslGR8
@@ -1115,10 +1124,10 @@ void main() {
 	}
 
 #endif
+;
+
 ";
-
-        public static string emissivemap_fragment = @"
-
+      public static string emissivemap_fragment = @"
 #ifdef USE_EMISSIVEMAP
 
 	vec4 emissiveColor = texture2D( emissiveMap, vUv );
@@ -1128,24 +1137,24 @@ void main() {
 	totalEmissiveRadiance *= emissiveColor.rgb;
 
 #endif
+;
+
 ";
-
-        public static string emissivemap_pars_fragment = @"
-
+      public static string emissivemap_pars_fragment = @"
 #ifdef USE_EMISSIVEMAP
 
 	uniform sampler2D emissiveMap;
 
 #endif
+;
+
 ";
-
-        public static string encodings_fragment = @"
-
+      public static string encodings_fragment = @"
 gl_FragColor = linearToOutputTexel( gl_FragColor );
+;
+
 ";
-
-        public static string encodings_pars_fragment = @"
-
+      public static string encodings_pars_fragment = @"
 // For a discussion of what this is, please read this: http://lousodrome.net/blog/light/2013/05/26/gamma-correct-and-hdr-rendering-in-a-32-bits-buffer/
 
 vec4 LinearToLinear( in vec4 value ) {
@@ -1233,10 +1242,10 @@ vec4 LogLuvToLinear( in vec4 value ) {
 	vec3 vRGB = cLogLuvInverseM * Xp_Y_XYZp.rgb;
 	return vec4( max( vRGB, 0.0 ), 1.0 );
 }
+;
+
 ";
-
-        public static string envmap_common_pars_fragment = @"
-
+      public static string envmap_common_pars_fragment = @"
 #ifdef USE_ENVMAP
 
 	uniform float envMapIntensity;
@@ -1250,10 +1259,10 @@ vec4 LogLuvToLinear( in vec4 value ) {
 	#endif
 	
 #endif
+;
+
 ";
-
-        public static string envmap_fragment = @"
-
+      public static string envmap_fragment = @"
 #ifdef USE_ENVMAP
 
 	#ifdef ENV_WORLDPOS
@@ -1324,10 +1333,10 @@ vec4 LogLuvToLinear( in vec4 value ) {
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string envmap_pars_fragment = @"
-
+      public static string envmap_pars_fragment = @"
 #ifdef USE_ENVMAP
 
 	uniform float reflectivity;
@@ -1347,10 +1356,10 @@ vec4 LogLuvToLinear( in vec4 value ) {
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string envmap_pars_vertex = @"
-
+      public static string envmap_pars_vertex = @"
 #ifdef USE_ENVMAP
 
 	#if defined( USE_BUMPMAP ) || defined( USE_NORMALMAP ) ||defined( PHONG )
@@ -1371,10 +1380,10 @@ vec4 LogLuvToLinear( in vec4 value ) {
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string envmap_physical_pars_fragment = @"
-
+      public static string envmap_physical_pars_fragment = @"
 #if defined( USE_ENVMAP )
 
 	#ifdef ENVMAP_MODE_REFRACTION
@@ -1478,10 +1487,10 @@ vec4 LogLuvToLinear( in vec4 value ) {
 	}
 
 #endif
+;
+
 ";
-
-        public static string envmap_vertex = @"
-
+      public static string envmap_vertex = @"
 #ifdef USE_ENVMAP
 
 	#ifdef ENV_WORLDPOS
@@ -1517,10 +1526,10 @@ vec4 LogLuvToLinear( in vec4 value ) {
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string fog_fragment = @"
-
+      public static string fog_fragment = @"
 #ifdef USE_FOG
 
 	#ifdef FOG_EXP2
@@ -1536,10 +1545,10 @@ vec4 LogLuvToLinear( in vec4 value ) {
 	gl_FragColor.rgb = mix( gl_FragColor.rgb, fogColor, fogFactor );
 
 #endif
+;
+
 ";
-
-        public static string fog_pars_fragment = @"
-
+      public static string fog_pars_fragment = @"
 #ifdef USE_FOG
 
 	uniform vec3 fogColor;
@@ -1557,28 +1566,28 @@ vec4 LogLuvToLinear( in vec4 value ) {
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string fog_pars_vertex = @"
-
+      public static string fog_pars_vertex = @"
 #ifdef USE_FOG
 
 	varying float fogDepth;
 
 #endif
+;
+
 ";
-
-        public static string fog_vertex = @"
-
+      public static string fog_vertex = @"
 #ifdef USE_FOG
 
 	fogDepth = - mvPosition.z;
 
 #endif
+;
+
 ";
-
-        public static string gradientmap_pars_fragment = @"
-
+      public static string gradientmap_pars_fragment = @"
 
 #ifdef USE_GRADIENTMAP
 
@@ -1603,30 +1612,30 @@ vec3 getGradientIrradiance( vec3 normal, vec3 lightDirection ) {
 	#endif
 
 }
+;
+
 ";
-
-        public static string lightmap_fragment = @"
-
+      public static string lightmap_fragment = @"
 #ifdef USE_LIGHTMAP
 
 	vec4 lightMapTexel= texture2D( lightMap, vUv2 );
 	reflectedLight.indirectDiffuse += PI * lightMapTexelToLinear( lightMapTexel ).rgb * lightMapIntensity; // factor of PI should not be present; included here to prevent breakage
 
 #endif
+;
+
 ";
-
-        public static string lightmap_pars_fragment = @"
-
+      public static string lightmap_pars_fragment = @"
 #ifdef USE_LIGHTMAP
 
 	uniform sampler2D lightMap;
 	uniform float lightMapIntensity;
 
 #endif
+;
+
 ";
-
-        public static string lights_fragment_begin = @"
-
+      public static string lights_fragment_begin = @"
 /**
  * This is a template that can be used to light a material, it uses pluggable
  * RenderEquations (RE)for specific lighting scenarios.
@@ -1777,10 +1786,10 @@ IncidentLight directLight;
 	vec3 clearcoatRadiance = vec3( 0.0 );
 
 #endif
+;
+
 ";
-
-        public static string lights_fragment_end = @"
-
+      public static string lights_fragment_end = @"
 #if defined( RE_IndirectDiffuse )
 
 	RE_IndirectDiffuse( irradiance, geometry, material, reflectedLight );
@@ -1792,10 +1801,10 @@ IncidentLight directLight;
 	RE_IndirectSpecular( radiance, iblIrradiance, clearcoatRadiance, geometry, material, reflectedLight );
 
 #endif
+;
+
 ";
-
-        public static string lights_fragment_maps = @"
-
+      public static string lights_fragment_maps = @"
 #if defined( RE_IndirectDiffuse )
 
 	#ifdef USE_LIGHTMAP
@@ -1832,10 +1841,10 @@ IncidentLight directLight;
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string lights_lambert_vertex = @"
-
+      public static string lights_lambert_vertex = @"
 vec3 diffuse = vec3( 1.0 );
 
 GeometricContext geometry;
@@ -1968,10 +1977,10 @@ vIndirectFront += getLightProbeIrradiance( lightProbe, geometry );
 	#pragma unroll_loop_end
 
 #endif
+;
+
 ";
-
-        public static string lights_pars_begin = @"
-
+      public static string lights_pars_begin = @"
 uniform bool receiveShadow;
 uniform vec3 ambientLightColor;
 uniform vec3 lightProbe[ 9 ];
@@ -2164,19 +2173,19 @@ vec3 getAmbientLightIrradiance( const in vec3 ambientLightColor ) {
 	}
 
 #endif
+;
+
 ";
-
-        public static string lights_phong_fragment = @"
-
+      public static string lights_phong_fragment = @"
 BlinnPhongMaterial material;
 material.diffuseColor = diffuseColor.rgb;
 material.specularColor = specular;
 material.specularShininess = shininess;
 material.specularStrength = specularStrength;
+;
+
 ";
-
-        public static string lights_phong_pars_fragment = @"
-
+      public static string lights_phong_pars_fragment = @"
 varying vec3 vViewPosition;
 
 #ifndef FLAT_SHADED
@@ -2222,10 +2231,10 @@ void RE_IndirectDiffuse_BlinnPhong( const in vec3 irradiance, const in Geometric
 #define RE_IndirectDiffuse		RE_IndirectDiffuse_BlinnPhong
 
 #define Material_LightProbeLOD( material )	(0)
+;
+
 ";
-
-        public static string lights_physical_fragment = @"
-
+      public static string lights_physical_fragment = @"
 PhysicalMaterial material;
 material.diffuseColor = diffuseColor.rgb * ( 1.0 - metalnessFactor );
 
@@ -2238,11 +2247,11 @@ material.specularRoughness = min( material.specularRoughness, 1.0 );
 
 #ifdef REFLECTIVITY
 
-	material.specularColor = mix( vec3( MAXIMUM_SPECULAR_COEFFICIENT * pow2( reflectivity ) ), diffuseColor.rgb, metalnessFactor );
+	material.specularColor = mix( vec3( MAXIMUM_SPECULAR_COEFFICIENT * pow2( reflectivity ) ), rawDiffuseColor, metalnessFactor );
 
 #else
 
-	material.specularColor = mix( vec3( DEFAULT_SPECULAR_COEFFICIENT ), diffuseColor.rgb, metalnessFactor );
+	material.specularColor = mix( vec3( DEFAULT_SPECULAR_COEFFICIENT ), rawDiffuseColor, metalnessFactor );
 
 #endif
 
@@ -2275,10 +2284,10 @@ material.specularRoughness = min( material.specularRoughness, 1.0 );
 	material.sheenColor = sheen;
 
 #endif
+;
+
 ";
-
-        public static string lights_physical_pars_fragment = @"
-
+      public static string lights_physical_pars_fragment = @"
 struct PhysicalMaterial {
 
 	vec3 diffuseColor;
@@ -2448,16 +2457,16 @@ float computeSpecularOcclusion( const in float dotNV, const in float ambientOccl
 	return saturate( pow( dotNV + ambientOcclusion, exp2( - 16.0 * roughness - 1.0 ) ) - 1.0 + ambientOcclusion );
 
 }
+;
+
 ";
-
-        public static string lights_toon_fragment = @"
-
+      public static string lights_toon_fragment = @"
 ToonMaterial material;
 material.diffuseColor = diffuseColor.rgb;
+;
+
 ";
-
-        public static string lights_toon_pars_fragment = @"
-
+      public static string lights_toon_pars_fragment = @"
 varying vec3 vViewPosition;
 
 #ifndef FLAT_SHADED
@@ -2497,10 +2506,10 @@ void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContex
 #define RE_IndirectDiffuse		RE_IndirectDiffuse_Toon
 
 #define Material_LightProbeLOD( material )	(0)
+;
+
 ";
-
-        public static string logdepthbuf_fragment = @"
-
+      public static string logdepthbuf_fragment = @"
 #if defined( USE_LOGDEPTHBUF ) && defined( USE_LOGDEPTHBUF_EXT )
 
 	// Doing a strict comparison with == 1.0 can cause noise artifacts
@@ -2508,10 +2517,10 @@ void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContex
 	gl_FragDepthEXT = vIsPerspective == 0.0 ? gl_FragCoord.z : log2( vFragDepth ) * logDepthBufFC * 0.5;
 
 #endif
+;
+
 ";
-
-        public static string logdepthbuf_pars_fragment = @"
-
+      public static string logdepthbuf_pars_fragment = @"
 #if defined( USE_LOGDEPTHBUF ) && defined( USE_LOGDEPTHBUF_EXT )
 
 	uniform float logDepthBufFC;
@@ -2519,10 +2528,10 @@ void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContex
 	varying float vIsPerspective;
 
 #endif
+;
+
 ";
-
-        public static string logdepthbuf_pars_vertex = @"
-
+      public static string logdepthbuf_pars_vertex = @"
 #ifdef USE_LOGDEPTHBUF
 
 	#ifdef USE_LOGDEPTHBUF_EXT
@@ -2537,10 +2546,10 @@ void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContex
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string logdepthbuf_vertex = @"
-
+      public static string logdepthbuf_vertex = @"
 #ifdef USE_LOGDEPTHBUF
 
 	#ifdef USE_LOGDEPTHBUF_EXT
@@ -2561,10 +2570,10 @@ void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContex
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string map_fragment = @"
-
+      public static string map_fragment = @"
 #ifdef USE_MAP
 
 	vec4 texelColor = texture2D( map, vUv );
@@ -2573,19 +2582,19 @@ void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContex
 	diffuseColor *= texelColor;
 
 #endif
+;
+
 ";
-
-        public static string map_pars_fragment = @"
-
+      public static string map_pars_fragment = @"
 #ifdef USE_MAP
 
 	uniform sampler2D map;
 
 #endif
+;
+
 ";
-
-        public static string map_particle_fragment = @"
-
+      public static string map_particle_fragment = @"
 #if defined( USE_MAP ) || defined( USE_ALPHAMAP )
 
 	vec2 uv = ( uvTransform * vec3( gl_PointCoord.x, 1.0 - gl_PointCoord.y, 1 ) ).xy;
@@ -2604,10 +2613,10 @@ void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContex
 	diffuseColor.a *= texture2D( alphaMap, uv ).g;
 
 #endif
+;
+
 ";
-
-        public static string map_particle_pars_fragment = @"
-
+      public static string map_particle_pars_fragment = @"
 #if defined( USE_MAP ) || defined( USE_ALPHAMAP )
 
 	uniform mat3 uvTransform;
@@ -2625,10 +2634,10 @@ void RE_IndirectDiffuse_Toon( const in vec3 irradiance, const in GeometricContex
 	uniform sampler2D alphaMap;
 
 #endif
+;
+
 ";
-
-        public static string metalnessmap_fragment = @"
-
+      public static string metalnessmap_fragment = @"
 float metalnessFactor = metalness;
 
 #ifdef USE_METALNESSMAP
@@ -2639,19 +2648,19 @@ float metalnessFactor = metalness;
 	metalnessFactor *= texelMetalness.b;
 
 #endif
+;
+
 ";
-
-        public static string metalnessmap_pars_fragment = @"
-
+      public static string metalnessmap_pars_fragment = @"
 #ifdef USE_METALNESSMAP
 
 	uniform sampler2D metalnessMap;
 
 #endif
+;
+
 ";
-
-        public static string morphnormal_vertex = @"
-
+      public static string morphnormal_vertex = @"
 #ifdef USE_MORPHNORMALS
 
 	// morphTargetBaseInfluence is set based on BufferGeometry.morphTargetsRelative value:
@@ -2664,10 +2673,10 @@ float metalnessFactor = metalness;
 	objectNormal += morphNormal3 * morphTargetInfluences[ 3 ];
 
 #endif
+;
+
 ";
-
-        public static string morphtarget_pars_vertex = @"
-
+      public static string morphtarget_pars_vertex = @"
 #ifdef USE_MORPHTARGETS
 
 	uniform float morphTargetBaseInfluence;
@@ -2683,10 +2692,10 @@ float metalnessFactor = metalness;
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string morphtarget_vertex = @"
-
+      public static string morphtarget_vertex = @"
 #ifdef USE_MORPHTARGETS
 
 	// morphTargetBaseInfluence is set based on BufferGeometry.morphTargetsRelative value:
@@ -2708,59 +2717,15 @@ float metalnessFactor = metalness;
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string normalmap_pars_fragment = @"
-
-#ifdef USE_NORMALMAP
-
-	uniform sampler2D normalMap;
-	uniform vec2 normalScale;
-
-#endif
-
-#ifdef OBJECTSPACE_NORMALMAP
-
-	uniform mat3 normalMatrix;
-
-#endif
-
-#if ! defined ( USE_TANGENT ) && ( defined ( TANGENTSPACE_NORMALMAP ) || defined ( USE_CLEARCOAT_NORMALMAP ) )
-
-	// Per-Pixel Tangent Space Normal Mapping
-	// http://hacksoflife.blogspot.ch/2009/11/per-pixel-tangent-space-normal-mapping.html
-
-	vec3 perturbNormal2Arb( vec3 eye_pos, vec3 surf_norm, vec3 mapN ) {
-
-		// Workaround for Adreno 3XX dFd*( vec3 ) bug. See #9988
-
-		vec3 q0 = vec3( dFdx( eye_pos.x ), dFdx( eye_pos.y ), dFdx( eye_pos.z ) );
-		vec3 q1 = vec3( dFdy( eye_pos.x ), dFdy( eye_pos.y ), dFdy( eye_pos.z ) );
-		vec2 st0 = dFdx( vUv.st );
-		vec2 st1 = dFdy( vUv.st );
-
-		float scale = sign( st1.t * st0.s - st0.t * st1.s ); // we do not care about the magnitude
-
-		vec3 S = normalize( ( q0 * st1.t - q1 * st0.t ) * scale );
-		vec3 T = normalize( ( - q0 * st1.s + q1 * st0.s ) * scale );
-		vec3 N = normalize( surf_norm );
-
-		mat3 tsn = mat3( S, T, N );
-
-		mapN.xy *= ( float( gl_FrontFacing ) * 2.0 - 1.0 );
-
-		return normalize( tsn * mapN );
-
-	}
-
-#endif
-";
-
-        public static string normal_fragment_begin = @"
+      public static string normal_fragment_begin = @"
+float faceDirection = gl_FrontFacing ? 1.0 : - 1.0;
 
 #ifdef FLAT_SHADED
 
-	// Workaround for Adreno/Nexus5 not able able to do dFdx( vViewPosition ) ...
+	// Workaround for Adreno GPUs not able to do dFdx( vViewPosition )
 
 	vec3 fdx = vec3( dFdx( vViewPosition.x ), dFdx( vViewPosition.y ), dFdx( vViewPosition.z ) );
 	vec3 fdy = vec3( dFdy( vViewPosition.x ), dFdy( vViewPosition.y ), dFdy( vViewPosition.z ) );
@@ -2772,7 +2737,7 @@ float metalnessFactor = metalness;
 
 	#ifdef DOUBLE_SIDED
 
-		normal = normal * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
+		normal = normal * faceDirection;
 
 	#endif
 
@@ -2783,8 +2748,8 @@ float metalnessFactor = metalness;
 
 		#ifdef DOUBLE_SIDED
 
-			tangent = tangent * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
-			bitangent = bitangent * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
+			tangent = tangent * faceDirection;
+			bitangent = bitangent * faceDirection;
 
 		#endif
 
@@ -2802,10 +2767,10 @@ float metalnessFactor = metalness;
 
 vec3 geometryNormal = normal;
 
+;
+
 ";
-
-        public static string normal_fragment_maps = @"
-
+      public static string normal_fragment_maps = @"
 
 #ifdef OBJECTSPACE_NORMALMAP
 
@@ -2819,7 +2784,7 @@ vec3 geometryNormal = normal;
 
 	#ifdef DOUBLE_SIDED
 
-		normal = normal * ( float( gl_FrontFacing ) * 2.0 - 1.0 );
+		normal = normal * faceDirection;
 
 	#endif
 
@@ -2836,19 +2801,66 @@ vec3 geometryNormal = normal;
 
 	#else
 
-		normal = perturbNormal2Arb( -vViewPosition, normal, mapN );
+		normal = perturbNormal2Arb( -vViewPosition, normal, mapN, faceDirection );
 
 	#endif
 
 #elif defined( USE_BUMPMAP )
 
-	normal = perturbNormalArb( -vViewPosition, normal, dHdxy_fwd() );
+	normal = perturbNormalArb( -vViewPosition, normal, dHdxy_fwd(), faceDirection );
 
 #endif
+;
+
 ";
+      public static string normalmap_pars_fragment = @"
+#ifdef USE_NORMALMAP
 
-        public static string packing = @"
+	uniform sampler2D normalMap;
+	uniform vec2 normalScale;
 
+#endif
+
+#ifdef OBJECTSPACE_NORMALMAP
+
+	uniform mat3 normalMatrix;
+
+#endif
+
+#if ! defined ( USE_TANGENT ) && ( defined ( TANGENTSPACE_NORMALMAP ) || defined ( USE_CLEARCOAT_NORMALMAP ) )
+
+	// Normal Mapping Without Precomputed Tangents
+	// http://www.thetenthplanet.de/archives/1180
+
+	vec3 perturbNormal2Arb( vec3 eye_pos, vec3 surf_norm, vec3 mapN, float faceDirection ) {
+
+		// Workaround for Adreno 3XX dFd*( vec3 ) bug. See #9988
+
+		vec3 q0 = vec3( dFdx( eye_pos.x ), dFdx( eye_pos.y ), dFdx( eye_pos.z ) );
+		vec3 q1 = vec3( dFdy( eye_pos.x ), dFdy( eye_pos.y ), dFdy( eye_pos.z ) );
+		vec2 st0 = dFdx( vUv.st );
+		vec2 st1 = dFdy( vUv.st );
+
+		vec3 N = surf_norm; // normalized
+
+		vec3 q1perp = cross( q1, N );
+		vec3 q0perp = cross( N, q0 );
+
+		vec3 T = q1perp * st0.x + q0perp * st1.x;
+		vec3 B = q1perp * st0.y + q0perp * st1.y;
+
+		float det = max( dot( T, T ), dot( B, B ) );
+		float scale = ( det == 0.0 ) ? 0.0 : faceDirection * inversesqrt( det );
+
+		return normalize( T * ( mapN.x * scale ) + B * ( mapN.y * scale ) + N * mapN.z );
+
+	}
+
+#endif
+;
+
+";
+      public static string packing = @"
 vec3 packNormalToRGB( const in vec3 normal ) {
 	return normalize( normal ) * 0.5 + 0.5;
 }
@@ -2892,26 +2904,28 @@ float orthographicDepthToViewZ( const in float linearClipZ, const in float near,
 	return linearClipZ * ( near - far ) - near;
 }
 
+// NOTE: https://twitter.com/gonnavis/status/1377183786949959682
+
 float viewZToPerspectiveDepth( const in float viewZ, const in float near, const in float far ) {
 	return (( near + viewZ ) * far ) / (( far - near ) * viewZ );
 }
 float perspectiveDepthToViewZ( const in float invClipZ, const in float near, const in float far ) {
 	return ( near * far ) / ( ( far - near ) * invClipZ - far );
 }
+;
+
 ";
-
-        public static string premultiplied_alpha_fragment = @"
-
+      public static string premultiplied_alpha_fragment = @"
 #ifdef PREMULTIPLIED_ALPHA
 
 	// Get get normal blending with premultipled, use with CustomBlending, OneFactor, OneMinusSrcAlphaFactor, AddEquation.
 	gl_FragColor.rgb *= gl_FragColor.a;
 
 #endif
+;
+
 ";
-
-        public static string project_vertex = @"
-
+      public static string project_vertex = @"
 vec4 mvPosition = vec4( transformed, 1.0 );
 
 #ifdef USE_INSTANCING
@@ -2923,10 +2937,10 @@ vec4 mvPosition = vec4( transformed, 1.0 );
 mvPosition = modelViewMatrix * mvPosition;
 
 gl_Position = projectionMatrix * mvPosition;
+;
+
 ";
-
-        public static string roughnessmap_fragment = @"
-
+      public static string roughnessmap_fragment = @"
 float roughnessFactor = roughness;
 
 #ifdef USE_ROUGHNESSMAP
@@ -2937,19 +2951,19 @@ float roughnessFactor = roughness;
 	roughnessFactor *= texelRoughness.g;
 
 #endif
+;
+
 ";
-
-        public static string roughnessmap_pars_fragment = @"
-
+      public static string roughnessmap_pars_fragment = @"
 #ifdef USE_ROUGHNESSMAP
 
 	uniform sampler2D roughnessMap;
 
 #endif
+;
+
 ";
-
-        public static string shadowmap_pars_fragment = @"
-
+      public static string shadowmap_pars_fragment = @"
 #ifdef USE_SHADOWMAP
 
 	#if NUM_DIR_LIGHT_SHADOWS > 0
@@ -3258,10 +3272,10 @@ float roughnessFactor = roughness;
 	}
 
 #endif
+;
+
 ";
-
-        public static string shadowmap_pars_vertex = @"
-
+      public static string shadowmap_pars_vertex = @"
 #ifdef USE_SHADOWMAP
 
 	#if NUM_DIR_LIGHT_SHADOWS > 0
@@ -3323,10 +3337,10 @@ float roughnessFactor = roughness;
 	*/
 
 #endif
+;
+
 ";
-
-        public static string shadowmap_vertex = @"
-
+      public static string shadowmap_vertex = @"
 #ifdef USE_SHADOWMAP
 
 	#if NUM_DIR_LIGHT_SHADOWS > 0 || NUM_SPOT_LIGHT_SHADOWS > 0 || NUM_POINT_LIGHT_SHADOWS > 0
@@ -3385,10 +3399,10 @@ float roughnessFactor = roughness;
 	*/
 
 #endif
+;
+
 ";
-
-        public static string shadowmask_pars_fragment = @"
-
+      public static string shadowmask_pars_fragment = @"
 float getShadowMask() {
 
 	float shadow = 1.0;
@@ -3453,10 +3467,10 @@ float getShadowMask() {
 	return shadow;
 
 }
+;
+
 ";
-
-        public static string skinbase_vertex = @"
-
+      public static string skinbase_vertex = @"
 #ifdef USE_SKINNING
 
 	mat4 boneMatX = getBoneMatrix( skinIndex.x );
@@ -3465,10 +3479,10 @@ float getShadowMask() {
 	mat4 boneMatW = getBoneMatrix( skinIndex.w );
 
 #endif
+;
+
 ";
-
-        public static string skinning_pars_vertex = @"
-
+      public static string skinning_pars_vertex = @"
 #ifdef USE_SKINNING
 
 	uniform mat4 bindMatrix;
@@ -3515,10 +3529,10 @@ float getShadowMask() {
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string skinning_vertex = @"
-
+      public static string skinning_vertex = @"
 #ifdef USE_SKINNING
 
 	vec4 skinVertex = bindMatrix * vec4( transformed, 1.0 );
@@ -3532,10 +3546,10 @@ float getShadowMask() {
 	transformed = ( bindMatrixInverse * skinned ).xyz;
 
 #endif
+;
+
 ";
-
-        public static string skinnormal_vertex = @"
-
+      public static string skinnormal_vertex = @"
 #ifdef USE_SKINNING
 
 	mat4 skinMatrix = mat4( 0.0 );
@@ -3554,10 +3568,10 @@ float getShadowMask() {
 	#endif
 
 #endif
+;
+
 ";
-
-        public static string specularmap_fragment = @"
-
+      public static string specularmap_fragment = @"
 float specularStrength;
 
 #ifdef USE_SPECULARMAP
@@ -3570,28 +3584,28 @@ float specularStrength;
 	specularStrength = 1.0;
 
 #endif
+;
+
 ";
-
-        public static string specularmap_pars_fragment = @"
-
+      public static string specularmap_pars_fragment = @"
 #ifdef USE_SPECULARMAP
 
 	uniform sampler2D specularMap;
 
 #endif
+;
+
 ";
-
-        public static string tonemapping_fragment = @"
-
+      public static string tonemapping_fragment = @"
 #if defined( TONE_MAPPING )
 
 	gl_FragColor.rgb = toneMapping( gl_FragColor.rgb );
 
 #endif
+;
+
 ";
-
-        public static string tonemapping_pars_fragment = @"
-
+      public static string tonemapping_pars_fragment = @"
 #ifndef saturate
 // <common> may have defined saturate() already
 #define saturate(a) clamp( a, 0.0, 1.0 )
@@ -3667,67 +3681,143 @@ vec3 ACESFilmicToneMapping( vec3 color ) {
 }
 
 vec3 CustomToneMapping( vec3 color ) { return color; }
+;
+
 ";
+      public static string transmission_fragment = @"
+#ifdef USE_TRANSMISSION
 
-        public static string transmissionmap_fragment = @"
+	#ifdef USE_TRANSMISSIONMAP
 
-#ifdef USE_TRANSMISSIONMAP
+		totalTransmission *= texture2D( transmissionMap, vUv ).r;
 
-	totalTransmission *= texture2D( transmissionMap, vUv ).r;
+	#endif
+
+	#ifdef USE_THICKNESSNMAP
+
+		thicknessFactor *= texture2D( thicknessMap, vUv ).g;
+
+	#endif
+
+	vec3 pos = vWorldPosition.xyz / vWorldPosition.w;
+	vec3 v = normalize( cameraPosition - pos );
+	vec3 viewDir = ( isOrthographic ) ? vec3( 0, 0, 1 ) : normalize( vViewPosition );
+	float ior = ( 1.0 + 0.4 * reflectivity ) / ( 1.0 - 0.4 * reflectivity );
+
+	// From https://google.github.io/filament/Filament.html#materialsystem/parameterization/remapping
+	vec3 f0 = vec3( pow( ior - 1.0, 2.0 ) / pow( ior + 1.0, 2.0 ) );
+	vec3 f90 = vec3( 1.0 );
+
+	vec3 f_transmission = totalTransmission * getIBLVolumeRefraction(
+		normal, v, viewDir, roughnessFactor, diffuseColor.rgb, f0, f90,
+		pos, modelMatrix, viewMatrix, projectionMatrix, ior, thicknessFactor,
+		attenuationColor, attenuationDistance);
+
+	diffuseColor.rgb = mix( diffuseColor.rgb, f_transmission, totalTransmission );
 
 #endif
+;
+
 ";
+      public static string transmission_pars_fragment = @"
+#ifdef USE_TRANSMISSION
 
-        public static string transmissionmap_pars_fragment = @"
+	// Transmission code is based on glTF-Sampler-Viewer
+	// https://github.com/KhronosGroup/glTF-Sample-Viewer
 
-#ifdef USE_TRANSMISSIONMAP
+	#ifdef USE_TRANSMISSIONMAP
 
-	uniform sampler2D transmissionMap;
+		uniform sampler2D transmissionMap;
 
+	#endif
+
+	#ifdef USE_THICKNESSMAP
+
+		uniform sampler2D thicknessMap;
+
+	#endif
+
+	uniform vec2 transmissionSamplerSize;
+	uniform sampler2D transmissionSamplerMap;
+
+	uniform mat4 modelMatrix;
+	uniform mat4 projectionMatrix;
+
+	varying vec4 vWorldPosition;
+
+	vec3 getVolumeTransmissionRay(vec3 n, vec3 v, float thickness, float ior, mat4 modelMatrix) {
+		// Direction of refracted light.
+		vec3 refractionVector = refract(-v, normalize(n), 1.0 / ior);
+
+		// Compute rotation-independant scaling of the model matrix.
+		vec3 modelScale;
+		modelScale.x = length(vec3(modelMatrix[0].xyz));
+		modelScale.y = length(vec3(modelMatrix[1].xyz));
+		modelScale.z = length(vec3(modelMatrix[2].xyz));
+
+		// The thickness is specified in local space.
+		return normalize(refractionVector) * thickness * modelScale;
+	}
+
+	float applyIorToRoughness(float roughness, float ior) {
+		// Scale roughness with IOR so that an IOR of 1.0 results in no microfacet refraction and
+		// an IOR of 1.5 results in the default amount of microfacet refraction.
+		return roughness * clamp(ior * 2.0 - 2.0, 0.0, 1.0);
+	}
+
+	vec3 getTransmissionSample(vec2 fragCoord, float roughness, float ior) {
+		float framebufferLod = log2(transmissionSamplerSize.x) * applyIorToRoughness(roughness, ior);
+		return texture2DLodEXT(transmissionSamplerMap, fragCoord.xy, framebufferLod).rgb;
+	}
+
+	vec3 applyVolumeAttenuation(vec3 radiance, float transmissionDistance, vec3 attenuationColor, float attenuationDistance) {
+		if (attenuationDistance == 0.0) {
+			// Attenuation distance is +∞ (which we indicate by zero), i.e. the transmitted color is not attenuated at all.
+			return radiance;
+		} else {
+			// Compute light attenuation using Beer's law.
+			vec3 attenuationCoefficient = -log(attenuationColor) / attenuationDistance;
+			vec3 transmittance = exp(-attenuationCoefficient * transmissionDistance); // Beer's law
+			return transmittance * radiance;
+		}
+	}
+
+	vec3 getIBLVolumeRefraction(vec3 n, vec3 v, vec3 viewDir, float perceptualRoughness, vec3 baseColor, vec3 f0, vec3 f90,
+		vec3 position, mat4 modelMatrix, mat4 viewMatrix, mat4 projMatrix, float ior, float thickness, vec3 attenuationColor, float attenuationDistance) {
+		vec3 transmissionRay = getVolumeTransmissionRay(n, v, thickness, ior, modelMatrix);
+		vec3 refractedRayExit = position + transmissionRay;
+
+		// Project refracted vector on the framebuffer, while mapping to normalized device coordinates.
+		vec4 ndcPos = projMatrix * viewMatrix * vec4(refractedRayExit, 1.0);
+		vec2 refractionCoords = ndcPos.xy / ndcPos.w;
+		refractionCoords += 1.0;
+		refractionCoords /= 2.0;
+
+		// Sample framebuffer to get pixel the refracted ray hits.
+		vec3 transmittedLight = getTransmissionSample(refractionCoords, perceptualRoughness, ior);
+
+		vec3 attenuatedColor = applyVolumeAttenuation(transmittedLight, length(transmissionRay), attenuationColor, attenuationDistance);
+
+		float NdotV = saturate(dot(n, viewDir));
+		vec2 brdf = integrateSpecularBRDF(NdotV, perceptualRoughness);
+		vec3 specularColor = f0 * brdf.x + f90 * brdf.y;
+
+		return (1.0 - specularColor) * attenuatedColor * baseColor;
+	}
 #endif
+;
+
 ";
-
-        public static string uv2_pars_fragment = @"
-
-#if defined( USE_LIGHTMAP ) || defined( USE_AOMAP )
-
-	varying vec2 vUv2;
-
-#endif
-";
-
-        public static string uv2_pars_vertex = @"
-
-#if defined( USE_LIGHTMAP ) || defined( USE_AOMAP )
-
-	attribute vec2 uv2;
-	varying vec2 vUv2;
-
-	uniform mat3 uv2Transform;
-
-#endif
-";
-
-        public static string uv2_vertex = @"
-
-#if defined( USE_LIGHTMAP ) || defined( USE_AOMAP )
-
-	vUv2 = ( uv2Transform * vec3( uv2, 1 ) ).xy;
-
-#endif
-";
-
-        public static string uv_pars_fragment = @"
-
+      public static string uv_pars_fragment = @"
 #if ( defined( USE_UV ) && ! defined( UVS_VERTEX_ONLY ) )
 
 	varying vec2 vUv;
 
 #endif
+;
+
 ";
-
-        public static string uv_pars_vertex = @"
-
+      public static string uv_pars_vertex = @"
 #ifdef USE_UV
 
 	#ifdef UVS_VERTEX_ONLY
@@ -3743,20 +3833,50 @@ vec3 CustomToneMapping( vec3 color ) { return color; }
 	uniform mat3 uvTransform;
 
 #endif
+;
+
 ";
-
-        public static string uv_vertex = @"
-
+      public static string uv_vertex = @"
 #ifdef USE_UV
 
 	vUv = ( uvTransform * vec3( uv, 1 ) ).xy;
 
 #endif
+;
+
 ";
+      public static string uv2_pars_fragment = @"
+#if defined( USE_LIGHTMAP ) || defined( USE_AOMAP )
 
-        public static string worldpos_vertex = @"
+	varying vec2 vUv2;
 
-#if defined( USE_ENVMAP ) || defined( DISTANCE ) || defined ( USE_SHADOWMAP )
+#endif
+;
+
+";
+      public static string uv2_pars_vertex = @"
+#if defined( USE_LIGHTMAP ) || defined( USE_AOMAP )
+
+	attribute vec2 uv2;
+	varying vec2 vUv2;
+
+	uniform mat3 uv2Transform;
+
+#endif
+;
+
+";
+      public static string uv2_vertex = @"
+#if defined( USE_LIGHTMAP ) || defined( USE_AOMAP )
+
+	vUv2 = ( uv2Transform * vec3( uv2, 1 ) ).xy;
+
+#endif
+;
+
+";
+      public static string worldpos_vertex = @"
+#if defined( USE_ENVMAP ) || defined( DISTANCE ) || defined ( USE_SHADOWMAP ) || defined ( USE_TRANSMISSION )
 
 	vec4 worldPosition = vec4( transformed, 1.0 );
 
@@ -3769,9 +3889,8 @@ vec3 CustomToneMapping( vec3 color ) { return color; }
 	worldPosition = modelMatrix * worldPosition;
 
 #endif
+;
+
 ";
-
-
-
+        }
     }
-}

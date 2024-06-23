@@ -151,10 +151,12 @@ namespace THREE
                     (bool)parameters["roughnessMap"] ? "#define USE_ROUGHNESSMAP" : "",
                     (bool)parameters["metalnessMap"] ? "#define USE_METALNESSMAP" : "",
                     (bool)parameters["alphaMap"] ? "#define USE_ALPHAMAP" : "",
+                    (bool)parameters["transmission"]?"#define USE_TRANSMISSION":"",
                 (bool)parameters["transmissionMap"]?"#define USE_TRANSMISSIONMAP":"",
 
                     (bool)parameters["vertexTangents"] ? "#define USE_TANGENT" : "",
                     (bool)parameters["vertexColors"] ? "#define USE_COLOR" : "",
+                    (bool)parameters["vertexAlphas"]?"#define USE_COLOR_ALPHA":"",
                     (bool)parameters["vertexUvs"] ? "#define USE_UV" : "",
                 (bool)parameters["uvsVertexOnly"] ? "#define UVS_VERTEX_ONLY":"",
                     (bool)parameters["flatShading"] ? "#define FLAT_SHADED" : "",
@@ -205,7 +207,10 @@ namespace THREE
 
                     "#endif",
 
-                    "#ifdef USE_COLOR",
+                    "#if defined(USE_COLOR_ALPHA)",
+                    "   attribute vec4 color;",
+
+                    "#elif defined(USE_COLOR)",
 
                     "	attribute vec3 color;",
 
@@ -307,9 +312,9 @@ namespace THREE
                      (bool)parameters["alphaMap"] ? "#define USE_ALPHAMAP" : "",
 
                      (bool)parameters["sheen"] ? "#define USE_SHEEN" : "",
-
+                     (bool)parameters["transmission"]?"#define USE_TRANSMISSION":"",
                      (bool)parameters["transmissionMap"] ? "#define USE_TRANSMISSIONMAP" : "",
-
+                     (bool)parameters["thicknessMap"]?"#define USE_THICKNESSMAP":"",
                      (bool)parameters["vertexTangents"] ? "#define USE_TANGENT" : "",
                      (bool)parameters["vertexColors"] ||(bool)parameters["instancingColor"] ? "#define USE_COLOR" : "",
                      (bool)parameters["vertexUvs"] ? "#define USE_UV" : "",
@@ -345,12 +350,12 @@ namespace THREE
                      (bool)parameters["dithering"] ? "#define DITHERING" : "",
 
                      renderer.ShaderLib.getChunk("encodings_pars_fragment") , // this code is required here because it is used by the various encoding/decoding function defined below
-			         parameters["mapEncoding"]!=null ? GetTexelDecodingFunction( "mapTexelToLinear", (int)parameters["mapEncoding"] ) : "",
-                     parameters["matcapEncoding"]!=null ? GetTexelDecodingFunction( "matcapTexelToLinear", (int)parameters["matcapEncoding"] ) : "",
-                     parameters["envMapEncoding"]!=null ? GetTexelDecodingFunction( "envMapTexelToLinear", (int)parameters["envMapEncoding"] ) : "",
-                     parameters["emissiveMapEncoding"]!=null ? GetTexelDecodingFunction( "emissiveMapTexelToLinear", (int)parameters["emissiveMapEncoding"] ) : "",
-                     parameters["lightMapEncoding"]!=null ? GetTexelDecodingFunction("lightMapTexelToLinear",(int)parameters["lightMapEncoding"]) : "",
-                     parameters["outputEncoding"]!=null ?GetTexelEncodingFunction("linearToOutputTexel",(int)parameters["outputEncoding"]) :"",
+			         parameters["map"]!=null ? GetTexelDecodingFunction( "mapTexelToLinear", (int)parameters["mapEncoding"] ) : "",
+                     parameters["matcap"]!=null ? GetTexelDecodingFunction( "matcapTexelToLinear", (int)parameters["matcapEncoding"] ) : "",
+                     parameters["envMap"]!=null ? GetTexelDecodingFunction( "envMapTexelToLinear", (int)parameters["envMapEncoding"] ) : "",
+                     parameters["emissiveMap"]!=null ? GetTexelDecodingFunction( "emissiveMapTexelToLinear", (int)parameters["emissiveMapEncoding"] ) : "",
+                     parameters["lightMap"]!=null ? GetTexelDecodingFunction("lightMapTexelToLinear",(int)parameters["lightMapEncoding"]) : "",
+                     GetTexelEncodingFunction("linearToOutputTexel",(int)parameters["outputEncoding"]),
                      !customDefines.Contains("DEPTH_PACKING") && parameters["depthPacking"]!= null  ? "#define DEPTH_PACKING " + (int)parameters["depthPacking"] : "",
                      "\n"
                 };
@@ -641,7 +646,7 @@ namespace THREE
             else
                 chunks[2] = "";
 
-            if (((bool)parameters["extensionShaderTextureLOD"] || (bool)parameters["envMap"]) && (bool)parameters["renderExtensionShaderTextureLod"])
+            if (((bool)parameters["extensionShaderTextureLOD"] || (bool)parameters["envMap"] || (float)parameters["transmission"]>0.0f) && (bool)parameters["renderExtensionShaderTextureLod"])
                 chunks[3] = "#extension GL_EXT_shader_texture_lod : enable";
             else
                 chunks[3] = "";
@@ -661,7 +666,7 @@ namespace THREE
                 chunks.Add(string.Format("#define {0} {1}", entry.Key, entry.Value));
             }
 
-            return String.Join("\n", chunks).Trim();
+            return string.Join("\n", chunks).Trim();
         }
 
         private Hashtable FetchAttributeLocations(int program)

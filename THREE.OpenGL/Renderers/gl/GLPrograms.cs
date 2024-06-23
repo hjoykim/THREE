@@ -89,7 +89,7 @@ namespace THREE
                 "numDirLightShadows", "numPointLightShadows", "numSpotLightShadows",
                 "shadowMapEnabled", "shadowMapType", "toneMapping", "physicallyCorrectLights",
                 "alphaTest", "doubleSided", "flipSided", "numClippingPlanes", "numClipIntersection", "depthPacking", "dithering",
-                "sheen","transmissionMap"};
+                "sheen","transmission","transmissionMap"};
 
         }
 
@@ -147,7 +147,7 @@ namespace THREE
         }
 
 
-        public Hashtable GetParameter(Material material, GLLights lights, List<Light> shadows, Scene scene, Object3D object3D)
+        public Hashtable GetParameters(Material material, GLLights lights, List<Light> shadows, Scene scene, Object3D object3D)
         {
 
             Fog fog = scene.Fog;
@@ -268,15 +268,19 @@ namespace THREE
 
             parameters.Add("sheen", material.Sheen != null);
 
+            parameters.Add("transmission", material.Transmission > 0);
+
             parameters.Add("combine", material.Combine != 0 ? material.Combine : (int?)null);
 
             parameters.Add("transmissionMap", material.TransmissionMap != null);
 
-
+            parameters.Add("thicknessMap",material.ThicknessMap!=null);            
 
             parameters.Add("vertexTangents", (material.NormalMap != null && material.VertexTangents));
 
             parameters.Add("vertexColors", material.VertexColors);
+
+            parameters.Add("vertexAlphas", material.VertexColors && object3D.Geometry != null && object3D.Geometry is BufferGeometry && (object3D.Geometry as BufferGeometry).Attributes["color"] != null && ((object3D.Geometry as BufferGeometry).Attributes["color"] as IGLAttribute).ItemSize == 4);
 
             parameters.Add("vertexUvs", material.Map != null || material.BumpMap != null || material.NormalMap != null || material.SpecularMap != null || material.AlphaMap != null || material.EmissiveMap != null || material.RoughnessMap != null || material.MetalnessMap != null || material.ClearcoatNormalMap != null);
 
@@ -364,7 +368,7 @@ namespace THREE
 
             return parameters;
         }
-        public string getProgramCacheKey(Material material, Hashtable parameters)
+        public string getProgramCacheKey(Hashtable parameters)
         {
             var array = new List<string>();
 
@@ -374,13 +378,13 @@ namespace THREE
             }
             else
             {
-                array.Add((material as ShaderMaterial).FragmentShader);
-                array.Add((material as ShaderMaterial).VertexShader);
+                array.Add((string)parameters["fragmentShader"]);
+                array.Add((string)parameters["vertexShader"]);
             }
 
-            if (material.Defines != null)
+            if (parameters.ContainsKey("defines"))
             {
-                foreach (DictionaryEntry entry in material.Defines)
+                foreach (DictionaryEntry entry in parameters["defines"] as Hashtable)
                 {
                     array.Add((string)entry.Key);
                     if (entry.Value is string)

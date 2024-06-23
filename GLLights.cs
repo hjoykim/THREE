@@ -8,6 +8,7 @@ namespace THREE
     [Serializable]
     public class UniformsCache : GLUniforms
     {
+        Dictionary<string,GLUniform> cachedLight = new Dictionary<string, GLUniform> ();
         public UniformsCache()
             : base()
         {
@@ -55,11 +56,26 @@ namespace THREE
         }
 
         public UniformsCache(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        public GLUniform Get(Light light)
+        {
+            if(cachedLight.ContainsKey(light.Id.ToString()))
+            {
+                return (GLUniform)cachedLight[light.Id.ToString()];
+            }
+            else
+            {
+                GLUniform uniform = (GLUniform)this[light.type];
+                cachedLight.Add(light.Id.ToString(), uniform);
+                return uniform;
+            }
+        }
     }
 
     [Serializable]
     public class ShadowUniformsCache : GLUniforms
     {
+        Dictionary<string, GLUniform> cachedLight = new Dictionary<string, GLUniform>();
         public ShadowUniformsCache()
             : base()
         {
@@ -93,6 +109,19 @@ namespace THREE
         }
 
         public ShadowUniformsCache(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public GLUniform Get(Light light)
+        {
+            if (cachedLight.ContainsKey(light.Id.ToString()))
+            {
+                return (GLUniform)cachedLight[light.Id.ToString()];
+            }
+            else
+            {
+                GLUniform uniform = (GLUniform)this[light.type];
+                cachedLight.Add(light.Id.ToString(), uniform);
+                return uniform;
+            }
+        }
     }
 
     [Serializable]
@@ -104,11 +133,10 @@ namespace THREE
 
         private int nextVersion = 0;
 
-        private Vector3 vector3 = Vector3.Zero();
-        private Matrix4 matrix4 = Matrix4.Identity();
-        private Quaternion quaternion = Quaternion.Identity();
-        private Matrix4 matrix42 = Matrix4.Identity();
-
+        //private Vector3 vector3 = Vector3.Zero();
+        //private Matrix4 matrix4 = Matrix4.Identity();
+        //private Quaternion quaternion = Quaternion.Identity();
+        //private Matrix4 matrix42 = Matrix4.Identity();
         private GLExtensions extension;
         private GLCapabilities capabilities;
         public GLLights(GLExtensions extension, GLCapabilities capabilities)
@@ -159,9 +187,11 @@ namespace THREE
 
             Vector3 Zero = Vector3.Zero();
             state["probe"] = new Vector3[] { Zero, Zero, Zero, Zero, Zero, Zero, Zero, Zero, Zero };
+            this.extension = extension;
+            this.capabilities = capabilities;
         }
 
-        public void Setup(List<Light> lights)
+        public void Setup(List<Light> lights,Camera camera)
         {
 
             Color ambientColor = Color.Hex(0x000000);
@@ -175,8 +205,7 @@ namespace THREE
             var numDirectionalShadows = 0;
             var numPointShadows = 0;
             var numSpotShadows = 0;
-
-            //var viewMatrix = camera.MatrixWorldInverse;
+            var viewMatrix = camera.MatrixWorldInverse;
 
             lights.Sort(delegate (Light lightA, Light lightB)
             {
@@ -233,19 +262,20 @@ namespace THREE
                     Vector3[] probe = (Vector3[])state["probe"];
                     for (int j = 0; j < 9; j++)
                     {
+                        //probe[j].AddScaledVector(light.sh.Coefficients[j], intensity);
                         probe[j] = light.sh.Coefficients[j] * intensity;
                     }
                 }
                 else if (light is DirectionalLight)
                 {
-                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
+                    GLUniform uniforms = cache.Get(light);// (GLUniform)(cache[light.type] as GLUniform).Clone();
                     Color lightColor = light.Color;
                     uniforms["color"] = lightColor.MultiplyScalar(light.Intensity);
 
                     if (light.CastShadow)
                     {
                         var shadow = light.Shadow;
-                        GLUniform shadowUniforms = (GLUniform)(shadowCache[light.type] as GLUniform).Clone();
+                        GLUniform shadowUniforms = shadowCache.Get(light);// (GLUniform)(shadowCache[light.type] as GLUniform).Clone();
                         shadowUniforms["shadowBias"] = shadow.Bias;
                         shadowUniforms["shadowNormalBias"] = shadow.NormalBias;
                         shadowUniforms["shadowRadius"] = shadow.Radius;
@@ -258,18 +288,28 @@ namespace THREE
                     }
                     directionalList.Add(uniforms);
                     directionalLength++;
-
                 }
                 else if (light is SpotLight)
                 {
-                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
+                    GLUniform uniforms = cache.Get(light); //(GLUniform)(cache[light.type] as GLUniform).Clone();
                     Vector3 position = Vector3.Zero().SetFromMatrixPosition(light.MatrixWorld);
+                    position.ApplyMatrix4(viewMatrix);
                     uniforms["position"] = position;
 
                     Color lightColor = light.Color;
 
                     uniforms["color"] = lightColor.MultiplyScalar(light.Intensity);
                     uniforms["distance"] = distance;
+
+                    Vector3 direction = Vector3.Zero().SetFromMatrixPosition(light.MatrixWorld);
+
+                    Vector3 vector3 = Vector3.Zero().SetFromMatrixPosition(light.Target.MatrixWorld);
+
+                    direction.Sub(vector3);
+
+                    direction.TransformDirection(viewMatrix);
+
+                    uniforms["direction"] = direction;
 
                     uniforms["coneCos"] = (float)System.Math.Cos(light.Angle);
                     uniforms["penumbraCos"] = (float)System.Math.Cos(light.Angle * (1 - light.Penumbra));
@@ -279,7 +319,7 @@ namespace THREE
                     {
                         var shadow = light.Shadow;
 
-                        GLUniform shadowUniforms = (GLUniform)(shadowCache[light.type] as GLUniform).Clone();
+                        GLUniform shadowUniforms = shadowCache.Get(light); //(GLUniform)(shadowCache[light.type] as GLUniform).Clone();
 
                         shadowUniforms["shadowBias"] = shadow.Bias;
                         shadowUniforms["shadowNormalBias"] = shadow.NormalBias;
@@ -294,11 +334,11 @@ namespace THREE
                     }
                     spotList.Add(uniforms);
                     spotLength++;
-
                 }
                 else if (light is RectAreaLight)
                 {
-                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
+                    GLUniform uniforms = cache.Get(light); //(GLUniform)(cache[light.type] as GLUniform).Clone();
+
                     Color lightColor = light.Color;
                     uniforms["color"] = lightColor.MultiplyScalar(light.Intensity);
 
@@ -311,11 +351,12 @@ namespace THREE
                     rectAreaList.Add(uniforms);
 
                     rectAreaLength++;
-   
+
                 }
                 else if (light is PointLight)
                 {
-                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
+                    GLUniform uniforms = cache.Get(light); //(GLUniform)(cache[light.type] as GLUniform).Clone();
+
                     Color lightColor = light.Color;
                     uniforms["color"] = lightColor.MultiplyScalar(light.Intensity);
                     uniforms["distance"] = distance;
@@ -325,7 +366,7 @@ namespace THREE
                     {
                         var shadow = light.Shadow;
 
-                        GLUniform shadowUniforms = (GLUniform)(shadowCache[light.type] as GLUniform).Clone();
+                        GLUniform shadowUniforms = shadowCache.Get(light); //(GLUniform)(shadowCache[light.type] as GLUniform).Clone();
 
                         shadowUniforms["shadowBias"] = shadow.Bias;
                         shadowUniforms["shadowNormalBias"] = shadow.NormalBias;
@@ -344,11 +385,11 @@ namespace THREE
                     pointList.Add(uniforms);
 
                     pointLength++;
-
                 }
                 else if (light is HemisphereLight)
                 {
-                    GLUniform uniforms = (GLUniform)(cache[light.type] as GLUniform).Clone();
+                    GLUniform uniforms = cache.Get(light); //(GLUniform)(cache[light.type] as GLUniform).Clone();
+
                     Color lightColor = light.Color;
                     uniforms["skyColor"] = lightColor.MultiplyScalar(light.Intensity);
 
@@ -358,21 +399,6 @@ namespace THREE
                     hemiList.Add(uniforms);
 
                     hemiLength++;
-                    /*
-                    Vector3 direction = Vector3.Zero().SetFromMatrixPosition(light.MatrixWorld);
-
-                    direction.TransformDirection(viewMatrix);
-
-                    uniforms["direction"] = direction;
-
-                    Color lightColor = light.Color;
-                    uniforms["skyColor"] = lightColor.MultiplyScalar(light.Intensity);
-
-                    Color groundColor = light.GroundColor;
-                    uniforms["groundColor"] = groundColor.MultiplyScalar(light.Intensity);
-                    hemiList.Add(uniforms);
-                    hemiLength++;
-                    */
                 }
             }
 
@@ -396,7 +422,7 @@ namespace THREE
                 else
                 {
                     //WebGL1
-                    if (extension.Get("OES_texture_float_linear") > -1)
+                    if(extension.Get("OES_texture_float_linear")>-1)
                     {
                         if (UniformsLib.LTC_FLOAT_1 != null)
                         {
@@ -407,7 +433,7 @@ namespace THREE
                             state["rectAreaLTC2"] = UniformsLib.LTC_FLOAT_2;
                         }
                     }
-                    else if (extension.Get("OES_texture_half_float_linear") > -1)
+                    else if(extension.Get("OES_texture_half_float_linear")>-1)
                     {
                         if (UniformsLib.LTC_HALF_1 != null)
                         {
@@ -424,8 +450,6 @@ namespace THREE
                         Debug.WriteLine("THREE.GLRenderer : unable to use RectAreaLight : Missing GL Extension");
                     }
                 }
-                //if (state.Contains("rectAreaLTC1")) state["rectAreaLTC1"] = TextureLoader.LoadEmbedded("ltc_1.png");
-                //if (state.Contains("rectAreaLTC2")) state["rectAreaLTC2"] = TextureLoader.LoadEmbedded("ltc_2.png");
             }
 
             state["ambient"] = ambientColor;
@@ -469,8 +493,6 @@ namespace THREE
             state["point"] = pointList.ToArray();
             state["hemi"] = hemiList.ToArray();
         }
-
-
 
         public void SetupView(List<Light> lights, Camera camera)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace THREE
 {
@@ -29,6 +30,8 @@ namespace THREE
     {
         public List<RenderItem> Opaque = new List<RenderItem>();
 
+        public List<RenderItem> Transmissive = new List<RenderItem>();
+
         public List<RenderItem> Transparent = new List<RenderItem>();
 
         public List<RenderItem> renderItems = new List<RenderItem>();
@@ -37,16 +40,19 @@ namespace THREE
 
         private GLProgram defaultProgram = new GLProgram() { Id = -1 };
 
+        private GLProperties properties;
 
-        public GLRenderList()
+        public GLRenderList(GLProperties properties)
         {
+            this.properties = properties;
         }
 
 
         private RenderItem GetNextRenderItem(Object3D object3D, BufferGeometry geometry, Material material, int groupOrder, float z, DrawRange? group)
         {
             RenderItem renderItem;
-
+            Hashtable materialProperties = properties.Get(material);
+            GLProgram program = (GLProgram)materialProperties["program"];
             if (this.renderItemsIndex > this.renderItems.Count - 1)
             {
                 renderItem = new RenderItem
@@ -55,7 +61,7 @@ namespace THREE
                     Object3D = object3D,
                     Geometry = geometry,
                     Material = material,
-                    Program = defaultProgram,
+                    Program = program!=null ? program :defaultProgram,
                     GroupOrder = groupOrder,
                     RenderOrder = object3D.RenderOrder,
                     Z = z,
@@ -70,7 +76,7 @@ namespace THREE
                 renderItem.Object3D = object3D;
                 renderItem.Geometry = geometry;
                 renderItem.Material = material;
-                renderItem.Program = defaultProgram;
+                renderItem.Program = program!=null ? program : defaultProgram;
                 renderItem.GroupOrder = groupOrder;
                 renderItem.RenderOrder = object3D.RenderOrder;
                 renderItem.Z = z;
@@ -84,8 +90,9 @@ namespace THREE
         public void Push(Object3D object3D, BufferGeometry geometry, Material material, int groupOrder, float z, DrawRange? group)
         {
             RenderItem renderItem = this.GetNextRenderItem(object3D, geometry, material, groupOrder, z, group);
-
-            if (material.Transparent == true)
+            if (material.Transmission > 0.0f)
+                this.Transmissive.Add(renderItem);
+            else if (material.Transparent == true)
                 this.Transparent.Add(renderItem);
             else
                 this.Opaque.Add(renderItem);
@@ -94,8 +101,9 @@ namespace THREE
         public void Unshift(Object3D object3D, BufferGeometry geometry, Material material, int groupOrder, float z, DrawRange? group)
         {
             RenderItem renderItem = this.GetNextRenderItem(object3D, geometry, material, groupOrder, z, group);
-
-            if (material.Transparent == true)
+            if(material.Transmission > 0.0f)
+                this.Transmissive.Insert(0,renderItem);
+            else if (material.Transparent == true)
                 this.Transparent.Insert(0, renderItem);
             else
                 this.Opaque.Insert(0, renderItem);
@@ -105,6 +113,7 @@ namespace THREE
         {
             Opaque.Clear();
             Transparent.Clear();
+            Transmissive.Clear();
             renderItems.Clear();
             renderItemsIndex = 0;
         }

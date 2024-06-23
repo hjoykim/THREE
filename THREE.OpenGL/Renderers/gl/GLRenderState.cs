@@ -9,7 +9,7 @@ namespace THREE
 
         private List<Light> shadowsArray = new List<Light>();
 
-        private GLLights lights = new GLLights();
+        private GLLights lights;
 
         public struct RenderState
         {
@@ -22,8 +22,9 @@ namespace THREE
 
         public RenderState State;
 
-        public GLRenderState()
+        public GLRenderState(GLExtensions extensions, GLCapabilities capabilities)
         {
+            lights = new GLLights(extensions, capabilities);
             State.LightsArray = lightsArray;
             State.ShadowsArray = shadowsArray;
             State.Lights = lights;
@@ -35,11 +36,14 @@ namespace THREE
             shadowsArray.Clear();
         }
 
-        public void SetupLights(Camera camera)
+        public void SetupLights()
         {
-            lights.Setup(lightsArray, camera);
+            lights.Setup(lightsArray);
         }
-
+        public void SetupLightsView(Camera camera)
+        {
+            lights.SetupView(lightsArray, camera);
+        }
         public void PushLight(Light light)
         {
             lightsArray.Add(light);

@@ -18,7 +18,10 @@ namespace THREE
         public Matrix3()
         {
         }
-
+        public static Matrix3 Identity()
+        {
+            return new Matrix3();
+        }
         public object Clone()
         {
             return new Matrix3().FromArray(this.Elements);

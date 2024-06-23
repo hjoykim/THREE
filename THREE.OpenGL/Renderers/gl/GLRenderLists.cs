@@ -5,34 +5,34 @@ namespace THREE
     [Serializable]
     public class GLRenderLists : Hashtable
     {
-        public GLRenderList Get(Scene scene, Camera camera)
+        GLProperties properties;
+        public GLRenderLists(GLProperties properties)
         {
-            Hashtable cameras = null;
+            this.properties = properties;
+        }
+
+        public GLRenderList Get(Scene scene, int renderCallDepth)
+        {
             GLRenderList list = null;
 
             if (!this.ContainsKey(scene))
             {
-                list = new GLRenderList();
+                list = new GLRenderList(properties);
+                List<GLRenderList> lists = new List<GLRenderList>() { list };
 
-                cameras = new Hashtable();
-
-                cameras.Add(camera, list);
-
-                this.Add(scene, cameras);
+                this.Add(scene, lists);
             }
             else
             {
-                cameras = (Hashtable)this[scene];
 
-                if (!cameras.ContainsKey(camera))
+                if (renderCallDepth >= (this[scene] as List<GLRenderList>).Count)
                 {
-                    list = new GLRenderList();
-                    cameras.Add(camera, list);
-                    this[scene] = cameras;
+                    list = new GLRenderList(properties);
+                    (this[scene] as List<GLRenderList>).Add(list);
                 }
                 else
                 {
-                    list = (GLRenderList)cameras[camera];
+                    list = (this[scene] as List<GLRenderList>)[renderCallDepth];
                 }
             }
 

@@ -18,6 +18,7 @@ namespace THREE
 
         public Texture Environment;
 
+        public bool IsScene = true;
         public Scene()
         {
             this.type = "Scene";

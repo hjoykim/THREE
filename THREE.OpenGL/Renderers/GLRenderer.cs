@@ -18,6 +18,10 @@ namespace THREE
 
         private GLRenderList CurrentRenderList;
 
+        private Stack<GLRenderList> renderListStack = new Stack<GLRenderList>();
+
+        private Stack<GLRenderState> renderStateStack = new Stack<GLRenderState>();
+
         public bool AutoClear { get; set; } = true;
 
         public bool AutoClearColor { get; set; } = true;
@@ -193,6 +197,7 @@ namespace THREE
 
         private bool _localClippingEnabled = false;
 
+        private GLRenderTarget _transmissionRenderTarget = null;
         // camera matrices cache
 
         private Matrix4 _projScreenMatrix = Matrix4.Identity();
@@ -354,9 +359,9 @@ namespace THREE
 
             this.programCache = new GLPrograms(this, cubeMaps, extensions, capabilities, bindingStates, _clipping);
 
-            this.renderLists = new GLRenderLists();
+            this.renderLists = new GLRenderLists(properties);
 
-            this.renderStates = new GLRenderStates();
+            this.renderStates = new GLRenderStates(extensions, capabilities);
 
             this.background = new GLBackground(this, cubeMaps, state, objects, premultipliedAlpha);
 
@@ -726,9 +731,9 @@ namespace THREE
                 scene.OnBeforeRender(this, scene, camera, null, null, null, renderTarget != null ? renderTarget : _currentRenderTarget);
             }
 
-            CurrentRenderState = renderStates.Get(scene, camera);
+            CurrentRenderState = renderStates.Get(scene, renderStateStack.Count);
             CurrentRenderState.Init();
-
+            renderStateStack.Push(CurrentRenderState);
 
 
             _projScreenMatrix = camera.ProjectionMatrix * camera.MatrixWorldInverse;
@@ -737,8 +742,9 @@ namespace THREE
             _localClippingEnabled = this.LocalClippingEnabled;
             _clippingEnabled = _clipping.Init(this.ClippingPlanes, _localClippingEnabled, camera);
 
-            CurrentRenderList = renderLists.Get(scene, camera);
+            CurrentRenderList = renderLists.Get(scene, renderListStack.Count);
             CurrentRenderList.Init();
+            renderListStack.Push(CurrentRenderList);
 
             ProjectObject(scene, camera, 0, this.SortObjects);
 
@@ -755,7 +761,8 @@ namespace THREE
 
             ShadowMap.Render(shadowsArray, scene, camera);
 
-            CurrentRenderState.SetupLights(camera);
+            CurrentRenderState.SetupLights();
+            CurrentRenderState.SetupLightsView(camera);
 
             if (_clippingEnabled) _clipping.EndShadows();
 
@@ -777,9 +784,11 @@ namespace THREE
             // render scene
 
             var opaqueObjects = CurrentRenderList.Opaque;
+            var transmissionObjects = CurrentRenderList.Transmissive;
             var transparentObjects = CurrentRenderList.Transparent;
 
             if (opaqueObjects.Count > 0) RenderObjects(opaqueObjects, scene, camera);
+            if(transmissionObjects.Count>0) RenderTransmissiveObjects(opaqueObjects,transmissionObjects,scene, camera);
             if (transparentObjects.Count > 0) RenderObjects(transparentObjects, scene, camera);
 
             if (scene.OnAfterRender != null)
@@ -808,8 +817,31 @@ namespace THREE
 
             state.SetPolygonOffset(false);
 
-            CurrentRenderList = null;
-            CurrentRenderState = null;
+            bindingStates.ResetDefaultState();
+            _currentMaterialId = -1;
+            _currentCamera = null;
+
+            renderStateStack.Pop();
+            if(renderStateStack.Count>0)
+            {
+                //CurrentRenderState = renderStateStack.ElementAt(renderStateStack.Count-1);
+                CurrentRenderState = renderStateStack.Last();
+            }
+            else
+            {
+                CurrentRenderState = null;
+            }
+
+            renderListStack.Pop();
+            if (renderListStack.Count > 0)
+            {
+                //CurrentRenderList = renderListStack.ElementAt(renderListStack.Count - 1);
+                CurrentRenderList = renderListStack.Last();
+            }
+            else
+            {
+                CurrentRenderList = null;
+            }
 
         }
 
@@ -928,6 +960,31 @@ namespace THREE
             }
         }
 
+        private void RenderTransmissiveObjects(List<RenderItem> opaqueObjects,List<RenderItem> transmissiveObjects, Scene scene, Camera camera)
+        {
+            if(_transmissionRenderTarget==null)
+            {
+                _transmissionRenderTarget = new GLRenderTarget(1024, 1024, new Hashtable()
+                {
+                    {"generateMipmaps", true },
+                    {"minFilter" , Constants.LinearMipmapLinearFilter },
+                    {"magFilter" , Constants.NearestFilter },
+                    {"wrapS" , Constants.ClampToEdgeWrapping },
+                    {"wrapT" , Constants.ClampToEdgeWrapping }
+                });
+            }
+            GLRenderTarget currentRenderTarget = GetRenderTarget();
+            SetRenderTarget(_transmissionRenderTarget);
+            Clear();
+
+            RenderObjects(opaqueObjects, scene, camera);
+
+            textures.UpdateRenderTargetMipmap(_transmissionRenderTarget);
+
+            SetRenderTarget(currentRenderTarget);
+
+            RenderObjects(transmissiveObjects, scene, camera);
+        }
         private void RenderObjects(List<RenderItem> renderList, Scene scene, Camera camera)
         {
             var overrideMaterial = scene is Scene ? scene.OverrideMaterial : null;
@@ -960,7 +1017,7 @@ namespace THREE
 
                             state.Viewport(_currentViewport.Copy(camera2.Viewport));
 
-                            CurrentRenderState.SetupLights(camera2);
+                            CurrentRenderState.SetupLightsView(camera2);
                             RenderObject(object3D, scene, camera2, geometry, material, group);
                         }
                     }
@@ -983,7 +1040,7 @@ namespace THREE
             if (object3D.OnBeforeRender != null)
                 object3D.OnBeforeRender(this, scene, camera, geometry, material, group, null);
 
-            CurrentRenderState = renderStates.Get(scene, _currentArrayCamera != null ? _currentArrayCamera : camera);
+            //CurrentRenderState = renderStates.Get(scene, _currentArrayCamera != null ? _currentArrayCamera : camera);
 
             object3D.ModelViewMatrix = camera.MatrixWorldInverse * object3D.MatrixWorld;
             object3D.NormalMatrix.GetNormalMatrix(object3D.ModelViewMatrix);
@@ -1003,89 +1060,73 @@ namespace THREE
 
             //TODO:
             //object3D.OnAfterRender()
-            CurrentRenderState = renderStates.Get(scene, _currentArrayCamera != null ? _currentArrayCamera : camera);
+            //CurrentRenderState = renderStates.Get(scene, _currentArrayCamera != null ? _currentArrayCamera : camera);
+            if (object3D.OnAfterRender != null)
+                object3D.OnAfterRender(this, scene, camera);
 
         }
 
 #endregion
-        private void InitMaterial(Material material, Scene scene, Object3D object3D)
+        private GLProgram GetProgram(Material material, Scene scene, Object3D object3D)
         {
-            var fog = scene.Fog;
+            if (!scene.IsScene) scene = emptyScene;
+
             var materialProperties = this.properties.Get(material);
 
             var lights = CurrentRenderState.State.Lights;
             var shadowsArray = CurrentRenderState.State.ShadowsArray;
 
-            var lightsStateVersion = lights.state["version"];
+            int lightsStateVersion = (int)lights.state["version"];
 
-            var parameters = programCache.GetParameter(material, lights, shadowsArray, scene, object3D);
+            var parameters = programCache.GetParameters(material, lights, shadowsArray, scene, object3D);
 
-            var programCacheKey = programCache.getProgramCacheKey(material, parameters).Replace("False", "false").Replace("True", "true");
+            var programCacheKey = programCache.getProgramCacheKey(parameters).Replace("False", "false").Replace("True", "true");
 
-            var program = (GLProgram)materialProperties["program"];
+            Hashtable programs = (Hashtable)materialProperties["programs"];
+            materialProperties["environment"] = material is MeshStandardMaterial ? scene.Environment : null;
+            materialProperties["fog"] = scene.Fog;
+            materialProperties["envMap"] = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : materialProperties["environment"] as Texture);
 
-            var programChange = true;
-
-            if (program == null)
+            if (programs == null)
             {
                 material.Disposed += (sender, e) =>
                 {
                     DeallocateMaterial(material);
                 };
+                programs = new Hashtable();
+                materialProperties["programs"] = programs;
             }
-            else if (!program.Code.Equals(programCacheKey))
+
+            GLProgram program = programs.ContainsKey(programCacheKey) ? (GLProgram)programs[programCacheKey] : null;
+            if(program!=null)
             {
-                ReleaseMaterialProgramReference(material);
-            }
-            else if (materialProperties["lightsStateVersion"] != lightsStateVersion)
-            {
-                materialProperties["lightsStateVersion"] = lightsStateVersion;
-                programChange = false;
-            }
-            else if (parameters["shaderId"] != null)
-            {
-                // same glsl and uniform list
-                //const environment = material.isMeshStandardMaterial ? scene.environment : null;
-                //materialProperties.envMap = cubemaps.get(material.envMap || environment);
-                return;
+                if(materialProperties.ContainsKey("currentProgram") && (GLProgram)materialProperties["currentProgram"] == program &&
+                    materialProperties.ContainsKey("lightsStateVersion") && (int)materialProperties["lightsStateVersion"] == lightsStateVersion)
+                {
+                    UpdateCommonMaterialProperties(material, parameters);
+                    return program;
+                }
             }
             else
             {
-                // only rebuild uniform list
-                programChange = false;
-            }
-
-            if (programChange)
-            {
-
                 parameters["uniforms"] = programCache.GetUniforms(material);
-
-                if (material.OnBeforeCompile != null)
-                    material.OnBeforeCompile(parameters, this);
-
+                if (material.OnBuild != null) material.OnBuild(parameters, this);
+                if (material.OnBeforeCompile != null) material.OnBeforeCompile(parameters, this);
                 program = programCache.AcquireProgram(parameters, programCacheKey);
-
-
-                materialProperties["program"] = program;
-                material.Program = program;
+                programs[programCacheKey] = program;
                 materialProperties["uniforms"] = parameters["uniforms"];
-                materialProperties["outputEncoding"] = parameters["outputEncoding"];
             }
 
             var uniforms = materialProperties["uniforms"] as GLUniforms;
 
             if (!(material is ShaderMaterial) && !(material is RawShaderMaterial) || material.Clipping == true)
             {
-                materialProperties["numClippingPlanes"] = _clipping.numPlanes;
-                materialProperties["numIntersection"] = _clipping.numIntersection;
                 uniforms["clippingPlanes"] = _clipping.uniform;
             }
-            materialProperties["environment"] = material is MeshStandardMaterial ? scene.Environment : null;
-            materialProperties["fog"] = scene.Fog;
-            materialProperties["envMap"] = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : materialProperties["environment"] as Texture);
 
+            UpdateCommonMaterialProperties (material, parameters);
             materialProperties["needsLights"] = MaterialNeedsLights(material);
-            materialProperties["lightsStateVersion"] = lightsStateVersion;
+            materialProperties["lightsStateVersion"] = lightsStateVersion;                       
 
             if ((bool)materialProperties["needsLights"])
             {
@@ -1110,10 +1151,12 @@ namespace THREE
                 (uniforms["pointShadowMatrix"] as GLUniform)["value"] = lights.state["pointShadowMatrix"];
             }
 
-            var progUniforms = (materialProperties["program"] as GLProgram).GetUniforms();
+            var progUniforms = program.GetUniforms();
             List<GLUniform> uniformsList = GLUniformsLoader.SeqWithValue(progUniforms.Seq, uniforms);
+            materialProperties["currentProgram"] = program;
             materialProperties["uniformsList"] = uniformsList;
 
+            return program;
         }
 
         #region public Render function
@@ -1332,6 +1375,16 @@ namespace THREE
             state.UnbindTexture();
         }
 
+        private void UpdateCommonMaterialProperties(Material material, Hashtable parameters)
+        {
+            var materialProperties = properties.Get(material);
+            materialProperties["outputEncoding"] = parameters["outputEncoding"];
+            materialProperties["instancing"] = parameters["instancing"];
+            materialProperties["skinning"] = parameters["skinning"];
+            materialProperties["numClippingPlanes"] = parameters["numClippingPlanes"];
+            materialProperties["numIntersection"] = parameters["numClipIntersection"];
+            materialProperties["vertexAlphas"] = parameters["vertexAlphas"];
+        }
         private GLProgram SetProgram(Camera camera, Scene scene, Material material, Object3D object3D)
         {
             //if(scene.isScene!=true) scene = emptyScene;
@@ -1343,9 +1396,12 @@ namespace THREE
             var environment = material is MeshStandardMaterial ? scene.Environment : null;
             var encoding = (_currentRenderTarget == null) ? outputEncoding : _currentRenderTarget.Texture.Encoding;
             var envMap = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : environment);
-
+            var vertexAlphas = material.VertexColors == true && object3D.Geometry!=null && object3D.Geometry is BufferGeometry && (object3D.Geometry as BufferGeometry).Attributes.ContainsKey("color")&&((object3D.Geometry as BufferGeometry).Attributes["color"] as BufferAttribute<float>).ItemSize == 4;
 
             var materialProperties = properties.Get(material);
+
+
+            //&& ((int)materialProperties["numClippingPlanes"] != _clipping.numPlanes) || (materialProperties.ContainsKey("numIntersection") && (int)materialProperties["numIntersection"] != _clipping.numIntersection))
 
             var lights = CurrentRenderState.State.Lights;
 
@@ -1361,48 +1417,87 @@ namespace THREE
                 }
             }
 
+            bool needsProgramChange = false;
+
             int version = materialProperties.ContainsKey("version") ? (int)materialProperties["version"] : -1;
 
             if (version == material.Version)
             {
-
-                if (material.Fog && (Fog)materialProperties["fog"] != fog)
+                if (materialProperties.ContainsKey("needsLights") && (bool)materialProperties["needsLights"])
                 {
-                    InitMaterial(material, scene, object3D);
-                }
-                else if (materialProperties.ContainsKey("environment") && (Texture)materialProperties["environment"] != environment)
-                {
-                    InitMaterial(material, scene, object3D);
-                }
-                else if (materialProperties.ContainsKey("needsLights") && (bool)materialProperties["needsLights"])
-                {
-                    if (materialProperties.ContainsKey("lightsStateVersion") && lights.state.ContainsKey("version") && (int)materialProperties["lightsStateVersion"] != (int)lights.state["version"])
+                    if (materialProperties.ContainsKey("lightsStateVersion") && (int)materialProperties["lightsStateVersion"] != (int)lights.state["version"])
                     {
-                        InitMaterial(material, scene, object3D);
+                        needsProgramChange = true;
                     }
-                }
-                else if (materialProperties.ContainsKey("numClippingPlanes") && ((int)materialProperties["numClippingPlanes"] != _clipping.numPlanes ||
-                    (materialProperties.ContainsKey("numInterSection") && (int)materialProperties["numInterSection"] != _clipping.numIntersection)))
-                {
-                    InitMaterial(material, scene, object3D);
                 }
                 else if (materialProperties.ContainsKey("outputEncoding") && (int)materialProperties["outputEncoding"] != encoding)
                 {
-                    InitMaterial(material, scene, object3D);
+                    needsProgramChange = true;
+                }
+                else if (object3D is InstancedMesh && (bool)materialProperties["instancing"] == false)
+                {
+
+                    needsProgramChange = true;
+
+                }
+                else if (object3D is not InstancedMesh && (bool)materialProperties["instancing"] == true)
+                {
+
+                    needsProgramChange = true;
+
+                }
+                else if (object3D is SkinnedMesh && (bool)materialProperties["skinning"] == false)
+                {
+
+                    needsProgramChange = true;
+
+                }
+                else if (object3D is not SkinnedMesh && (bool)materialProperties["skinning"] == true)
+                {
+
+                    needsProgramChange = true;
+
                 }
                 else if (materialProperties.ContainsKey("envMap") && (Texture)materialProperties["envMap"] != envMap)
                 {
-                    InitMaterial(material, scene, object3D);
+
+                    needsProgramChange = true;
+
+                }
+                else if (material.Fog && (Fog)materialProperties["fog"] != fog)
+                {
+
+                    needsProgramChange = true;
+
                 }
 
+
+                else if (materialProperties.ContainsKey("numClippingPlanes") && ((int)materialProperties["numClippingPlanes"] != _clipping.numPlanes) || (materialProperties.ContainsKey("numIntersection") && (int)materialProperties["numIntersection"] != _clipping.numIntersection))
+                {
+
+                    needsProgramChange = true;
+
+                }
+                else if (materialProperties.ContainsKey("vertexAlphas") && (bool)materialProperties["vertexAlphas"] != vertexAlphas)
+                {
+
+                    needsProgramChange = true;
+
+                }              
             }
             else
             {
-                InitMaterial(material, scene, object3D);
+
+                needsProgramChange = true;
                 materialProperties["version"] = material.Version;
+
             }
 
-            GLProgram program = (GLProgram)materialProperties["program"];
+            GLProgram program = (GLProgram)materialProperties["currentProgram"];
+            if(needsProgramChange)
+            {
+                program = GetProgram(material, scene, object3D);
+            }
             GLUniforms p_uniforms = program.GetUniforms();
             GLUniforms m_uniforms = materialProperties["uniforms"] as GLUniforms;
 
@@ -1451,18 +1546,6 @@ namespace THREE
 
             if (refreshProgram || (_currentCamera != null && !_currentCamera.Equals(camera)))
             {
-                //if (program.NumMultiviewViews > 0)
-                //{
-                //    Multiview.UpdateCameraProjectionMatricesUniform(camera, p_uniforms);
-                //}
-                //else
-                //{
-                //    // if screen was resized, camera.ProjectionMatrix was updated and this value is same to uniform["projectionMatrix"],
-                //    // so those values are alwasys same because they is pointed at same address
-                //    // single.setValue will not this change the matrix.Elements value to glsl memory
-
-                //    //p_uniforms.SetValue("projectionMatrix", camera.ProjectionMatrix);
-                //}
 
                 if (capabilities.logarithmicDepthBuffer)
                 {
@@ -1527,7 +1610,7 @@ namespace THREE
             //skinning uniforms must be set even if material didn't change auto-setting of texture unit for bone texture must go before other textures
             // not sure why, but otherwise weird things happen
 
-            if (material.Skinning)
+            if (object3D is SkinnedMesh)
             {
                 p_uniforms.SetOptional(object3D, "bindMatrix");
                 p_uniforms.SetOptional(object3D, "bindMatrixInverse");
@@ -1542,35 +1625,7 @@ namespace THREE
                     if (capabilities.floatVertexTextures)
                     {
 
-                        if (skeleton.BoneTexture != null)
-                        {
-
-                            // layout (1 matrix = 4 pixels)
-                            //      RGBA RGBA RGBA RGBA (=> column1, column2, column3, column4)
-                            //  with  8x8  pixel texture max   16 bones * 4 pixels =  (8 * 8)
-                            //       16x16 pixel texture max   64 bones * 4 pixels = (16 * 16)
-                            //       32x32 pixel texture max  256 bones * 4 pixels = (32 * 32)
-                            //       64x64 pixel texture max 1024 bones * 4 pixels = (64 * 64)
-
-
-                            var size = (float)System.Math.Sqrt(bones.Length * 4); // 4 pixels needed for 1 matrix
-                            size = MathUtils.CeilPowerOfTwo(size);
-                            size = System.Math.Max(size, 4);
-
-                            var boneMatrices = new float[(int)(size * size * 4)]; // 4 floats per RGBA pixel
-                            Array.Copy(skeleton.BoneMatrices, boneMatrices, skeleton.BoneMatrices.Length); // copy current values
-
-                            TypeConverter tc = TypeDescriptor.GetConverter(typeof(System.Drawing.Bitmap));
-                            System.Drawing.Bitmap bitmap = (System.Drawing.Bitmap)tc.ConvertFrom(boneMatrices);
-
-                            var boneTexture = new DataTexture(bitmap, (int)size, (int)size, Constants.RGBAFormat, Constants.FloatType);
-
-
-                            skeleton.BoneMatrices = boneMatrices;
-                            skeleton.BoneTexture = boneTexture;
-                            skeleton.BoneTextureSize = (int)size;
-
-                        }
+                        if (skeleton.BoneTexture != null) skeleton.ComputeBoneTexture();                      
 
                         p_uniforms.SetValue("boneTexture", skeleton.BoneTexture, textures);
                         p_uniforms.SetValue("boneTextureSize", skeleton.BoneTextureSize);
@@ -1623,7 +1678,7 @@ namespace THREE
 
                 }
 
-                materials.RefreshMaterialUniforms(m_uniforms, material, _pixelRatio, this.Height);
+                materials.RefreshMaterialUniforms(m_uniforms, material, _pixelRatio, this.Height,_transmissionRenderTarget);
 
                 if (ShaderLib.UniformsLib.ContainsKey("ltc_1")) (m_uniforms["ltc_1"] as GLUniform)["value"] = ShaderLib.UniformsLib["LTC_1"];
                 if (ShaderLib.UniformsLib.ContainsKey("ltc_2")) (m_uniforms["ltc_2"] as GLUniform)["value"] = ShaderLib.UniformsLib["LTC_2"];
