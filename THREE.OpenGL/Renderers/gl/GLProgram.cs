@@ -646,7 +646,7 @@ namespace THREE
             else
                 chunks[2] = "";
 
-            if (((bool)parameters["extensionShaderTextureLOD"] || (bool)parameters["envMap"] || (float)parameters["transmission"]>0.0f) && (bool)parameters["renderExtensionShaderTextureLod"])
+            if (((bool)parameters["extensionShaderTextureLOD"] || (bool)parameters["envMap"] || (bool)parameters["transmission"]) && (parameters.ContainsKey("renderExtensionShaderTextureLod") && (bool)parameters["renderExtensionShaderTextureLod"]))
                 chunks[3] = "#extension GL_EXT_shader_texture_lod : enable";
             else
                 chunks[3] = "";
