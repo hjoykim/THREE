@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using OpenTK.Graphics.ES30;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace THREE
@@ -43,6 +46,41 @@ namespace THREE
 
         public void Dispose()
         {
+            Debug.WriteLine("Properties Disposing");
+            foreach (var entry in Properties)
+            {
+                Debug.WriteLine("###"+entry.Key.GetType().Name);
+                if(entry.Key is Texture)
+                {
+                    Hashtable hashtable = (Hashtable)entry.Value;
+                    foreach (DictionaryEntry entry1 in hashtable)
+                    {
+                        Debug.WriteLine(entry1.Key);
+                        if(entry1.Key.Equals("glFramebuffer") || entry1.Key.Equals("glDepthbuffer"))
+                        {
+                            Debug.WriteLine("###" + entry1.Key.GetType().Name);
+                            object value = hashtable[entry1.Key];
+                            if (value is int)
+                            {
+                                GL.DeleteFramebuffer((int)value);
+                                Debug.WriteLine("   ---" + entry1.Key + " is deleted");
+                            }
+                            if(value is int[])
+                            {
+                                int[] buffers = (int[])value;
+                                GL.DeleteFramebuffers(buffers.Length,buffers);
+                                Debug.WriteLine("   ---" + entry1.Key + " is deleted");
+                            }
+                        }
+                        if(entry1.Key.Equals("glTexture"))
+                        {
+                            GL.DeleteTexture((int)hashtable[entry1.Key]);
+                            Debug.WriteLine("   ---" + entry1.Key + " is deleted");
+                        }
+
+                    }
+                }
+            }
             Properties = new Dictionary<object, Hashtable>();
         }
     }

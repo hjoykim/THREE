@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using THREEExample;
+using WPFDemo.Controls;
 
 namespace WPFDemo
 {
@@ -131,8 +132,14 @@ namespace WPFDemo
                 timer.Dispose();
             }
             currentExample = (Example)Activator.CreateInstance(info.Example);
+            GLRenderControl glControl = new GLRenderControl();
+#if NET6_0_OR_GREATER
+            glControl.Profile = OpenTK.Windowing.Common.ContextProfile.Compatability;
+#endif
+            currentExample.Load(glControl);
+            currentExample.imGuiManager = new THREEExample.ThreeImGui.ImGuiManager(glControl);
             currentWindow = new GLRenderWindow(currentExample);
-            currentExample.Load(currentExample.glControl);
+            
 
             timer = new System.Windows.Forms.Timer();
             timer.Interval = timeInterval;

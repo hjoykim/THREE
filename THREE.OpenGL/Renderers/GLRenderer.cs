@@ -817,7 +817,10 @@ namespace THREE
 
             state.SetPolygonOffset(false);
 
-            bindingStates.ResetDefaultState();
+            //bindingStates.ResetDefaultState();
+            state.currentProgram = -1;
+            bindingStates.Reset();
+
             _currentMaterialId = -1;
             _currentCamera = null;
 
@@ -1743,6 +1746,8 @@ namespace THREE
         }
         public override void Dispose()
         {
+            properties.Dispose();
+
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.DepthTest);
@@ -1771,8 +1776,8 @@ namespace THREE
             GL.FrontFace(FrontFaceDirection.Ccw);
 
             GL.PolygonOffset(0, 0);
-
-            GL.ActiveTexture(TextureUnit.Texture0);
+           
+            GL.ActiveTexture(TextureUnit.Texture0);                       
 
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 

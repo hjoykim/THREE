@@ -70,16 +70,15 @@ namespace THREE
             return texture;
         }
         public static Texture Load(string filePath)
-        {
+        {           
+         
             Bitmap bitmap = new Bitmap(filePath);
-
             bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
             Texture texture = new Texture();
             texture.Image = bitmap;
             texture.Format = Constants.RGBFormat;
             texture.NeedsUpdate = true;
-
+      
             return texture;
         }
 

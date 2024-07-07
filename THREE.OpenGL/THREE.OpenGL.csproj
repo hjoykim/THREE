@@ -5,12 +5,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>10</LangVersion>
     <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\THREE\THREE.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="4.8.0" />
+    <PackageReference Include="StbImageSharp" Version="2.27.14" />
   </ItemGroup>
 
 </Project>

@@ -1,11 +1,15 @@
 ﻿/**
  * This WinForms project  and Example templates were created by referring to Three.cs( (https://github.com/lathoub/three.cs).  
  * */
+using ImGuiNET;
 using OpenTK.Graphics.ES30;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -14,20 +18,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using THREEExample;
+using THREEExample.ThreeImGui;
 
 namespace FormsDemo
 {
     public partial class Form1 : Form
     {
-        private Example example;
+        private Example? currentExample;
+        private ImGuiManager imGuiManager;
         //private int SleepTime = 5;
         private System.Windows.Forms.Timer _timer;
         private int timeInterval = 10;
         public Form1()
         {
             InitializeComponent();
+            glControl.MouseWheel += glControl_MouseWheel;
             //this.WindowState = FormWindowState.Maximized;
         }
+
+
+
         //void Application_Idle(object sender, EventArgs e)
         //{
         //    //while (glControl.IsIdle)
@@ -40,8 +50,22 @@ namespace FormsDemo
         private void Render()
         {
             this.glControl.MakeCurrent();
-            if (null != example)
-                example.Render();
+            if (null != currentExample)
+            {
+                currentExample.Render();
+
+                if (currentExample != null && currentExample.AddGuiControlsAction != null)
+                {
+                    ImGui.NewFrame();
+                    currentExample.ShowGUIControls();
+
+                    ImGui.Render();
+                    imGuiManager.ImGui_ImplOpenGL3_RenderDrawData(ImGui.GetDrawData());
+
+                    //this.currentExample.renderer.state.currentProgram = -1;
+                    //this.currentExample.renderer.bindingStates.currentState = this.currentExample.renderer.bindingStates.defaultState;
+                }
+            }
 
             //stats.update();
 
@@ -130,30 +154,30 @@ namespace FormsDemo
         }
         void RunSample(ExampleInfo e)
         {
-            if (null != example)
+            if (null != currentExample)
             {
-                example.Unload();
-                
-                example = null;
+                currentExample.Dispose();
+
+                currentExample = null;
 
                 if (_timer != null)
                 {
                     _timer.Stop();
                     _timer.Dispose();
                 }
-                statusStrip1.Tag = statusStrip1.Text = string.Empty;                
-               
+                statusStrip1.Tag = statusStrip1.Text = string.Empty;
+
             }
 
             //Application.Idle -= Application_Idle;
 
-            example = (Example)Activator.CreateInstance(e.Example);
-            if (null != example)
+            currentExample = (Example)Activator.CreateInstance(e.Example);
+            if (null != currentExample)
             {
                 this.glControl.MakeCurrent();
 
-                example.Load(this.glControl);
-
+                currentExample.Load(this.glControl);
+                currentExample.imGuiManager = imGuiManager;
                 _timer = new System.Windows.Forms.Timer();
                 _timer.Interval = timeInterval;
                 _timer.Tick += (sender, e) =>
@@ -167,7 +191,7 @@ namespace FormsDemo
 
 
                 GL.Viewport(0, 0, glControl.ClientSize.Width, glControl.ClientSize.Height);
-                example.Resize(glControl.ClientSize);
+                currentExample.OnResize(new ResizeEventArgs(glControl.ClientSize.Width, glControl.ClientSize.Height));
 
                 //Application.Idle += Application_Idle;
             }
@@ -186,21 +210,23 @@ namespace FormsDemo
             this.glControl.Profile = OpenTK.Windowing.Common.ContextProfile.Compatability;
 #endif
             statusStrip1.Text = string.Empty;
+
+            imGuiManager = new ImGuiManager(glControl);
         }
 
         private void glControl_Resize(object sender, EventArgs e)
         {
 
-            var control = sender as Control;
+            var control = sender as GLControl;
 
             if (control.ClientSize.Height == 0)
                 control.ClientSize = new Size(control.ClientSize.Width, 1);
 
             GL.Viewport(0, 0, control.ClientSize.Width, control.ClientSize.Height);
 
-            if (example != null)
-                example.Resize(control.ClientSize);
-           
+            if (currentExample != null)
+                currentExample.OnResize(new ResizeEventArgs(control.ClientSize.Width, control.ClientSize.Height));
+
         }
 
         private void glControl_Paint(object sender, PaintEventArgs e)
@@ -210,8 +236,71 @@ namespace FormsDemo
 
         private void glControl_KeyDown(object sender, KeyEventArgs e)
         {
-            if (example != null)
-                example.KeyDown(e.KeyCode);
+            if (currentExample != null)
+                currentExample.KeyDown((OpenTK.Windowing.GraphicsLibraryFramework.Keys)e.KeyCode);
         }
+
+        private void glControl_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (currentExample == null) return;
+            if (currentExample.controls == null) return;
+            bool lbutton_down = false;
+            bool rbutton_down = false;
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    lbutton_down = true;
+                    break;
+                case MouseButtons.Right:
+                    rbutton_down = true;
+                    break;
+            }
+            if (lbutton_down || rbutton_down)
+            {               
+                if (lbutton_down)
+                {
+                    currentExample.controls.Control_MouseDown(0, e.X, e.Y);
+                }
+                else
+                {
+                    currentExample.controls.Control_MouseDown(2, e.X, e.Y);
+                }
+            }           
+        }
+
+        private void glControl_MouseEnter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void glControl_MouseHover(object sender, EventArgs e)
+        {
+
+        }
+
+        private void glControl_MouseLeave(object sender, EventArgs e)
+        {
+
+        }
+
+        private void glControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (currentExample == null) return;
+            if (currentExample.controls == null) return;
+            currentExample.controls.Control_MouseMove(e.X, e.Y);
+        }
+
+        private void glControl_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (currentExample == null) return;
+            if (currentExample.controls == null) return;
+            currentExample.controls.Control_MouseUp();
+        }
+        private void glControl_MouseWheel(object? sender, MouseEventArgs e)
+        {
+            if (currentExample == null) return;
+            currentExample.controls.Control_MouseWheel(e.Delta);
+        }
+
     }
 }

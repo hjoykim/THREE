@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);WSL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);WSL</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controls\**" />
+    <Compile Remove="GLFW\**" />
+    <Compile Remove="THREEExample\**" />
+    <EmbeddedResource Remove="Controls\**" />
+    <EmbeddedResource Remove="GLFW\**" />
+    <EmbeddedResource Remove="THREEExample\**" />
+    <None Remove="Controls\**" />
+    <None Remove="GLFW\**" />
+    <None Remove="THREEExample\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ThreeWindow.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.90.8.1" />
+    <PackageReference Include="OpenTK" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\THREE.OpenGL\THREE.OpenGL.csproj" />
+    <ProjectReference Include="..\THREE\THREE.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\THREEExample\THREEExample.projitems" Label="Shared" />
+
+</Project>

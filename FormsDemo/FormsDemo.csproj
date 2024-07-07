@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,13 +16,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.90.8.1" />
     <PackageReference Include="OpenTK" Version="4.8.2" />
     <PackageReference Include="OpenTK.WinForms" Version="4.0.0-pre.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\THREEExample\THREEExample.csproj" />
+    <ProjectReference Include="..\THREE.OpenGL\THREE.OpenGL.csproj" />
+    <ProjectReference Include="..\THREE.WinForms\THREE.WinForms.csproj" />
     <ProjectReference Include="..\THREE\THREE.csproj" />
   </ItemGroup>
 
+  <Import Project="..\THREEExample\THREEExample.projitems" Label="Shared" />
 </Project>
