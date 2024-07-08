@@ -4,7 +4,7 @@ using System.Diagnostics;
 using THREE;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
-
+using Color = THREE.Color;
 namespace THREEExample.Learning.Chapter10
 {
     [Example("15-emissive-map", ExampleCategory.LearnThreeJS, "Chapter10")]
@@ -16,34 +16,10 @@ namespace THREEExample.Learning.Chapter10
         {
 
         }
-        public override void Load(GLControl control)
+        public override void SetGeometryWithTexture()
         {
-            Debug.Assert(null != control);
-
-            glControl = control;
-
-            this.renderer = new THREE.GLRenderer();
-
-            this.renderer.Context = control.Context;
-            this.renderer.Width = control.Width;
-            this.renderer.Height = control.Height;
-
-            this.renderer.Init();
-
-            stopWatch.Start();
-
-            InitRenderer();
-
-            InitCamera();
-
-            InitCameraController();
-
-            imguiManager = new ImGuiManager(this.glControl);
-
             var groundPlane = DemoUtils.AddLargeGroundPlane(scene);
             groundPlane.Position.Y = -8;
-
-            DemoUtils.InitDefaultLighting(scene);
 
             spotLight = (SpotLight)scene.GetObjectByName("spotLight");
             spotLight.Intensity = 0.1f;
@@ -70,9 +46,10 @@ namespace THREEExample.Learning.Chapter10
             sphere1.Rotation.Y = 1 / 6 * (float)System.Math.PI;
             sphere1.Position.X = 15;
         }
+
         public override void Render()
         {
-            if (!imguiManager.ImWantMouse)
+            if (!imGuiManager.ImWantMouse)
                 controls.Enabled = true;
             else
                 controls.Enabled = false;
@@ -80,8 +57,6 @@ namespace THREEExample.Learning.Chapter10
             controls.Update();
 
             this.renderer.Render(scene, camera);
-
-            ShowGUIControls();
         }
         
         public override void AddSpecificMaterialSettings(Material material, string name)

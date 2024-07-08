@@ -22,34 +22,10 @@ namespace THREEExample.Learning.Chapter09
         {
 
         }
-
-        public override void Load(GLControl control)
+        public override void SetGeometryWithTexture()
         {
-            Debug.Assert(null != control);
-
-            glControl = control;
-            this.renderer = new THREE.GLRenderer();
-
-            this.renderer.Context = control.Context;
-            this.renderer.Width = control.Width;
-            this.renderer.Height = control.Height;
-
-            this.renderer.Init();
-
-            stopWatch.Start();
-
-            InitRenderer();
-
-            InitCamera();
-
-            InitCameraController();
-
-            imguiManager = new ImGuiManager(this.glControl);
-
             var groundPlane = DemoUtils.AddLargeGroundPlane(scene);
             groundPlane.Position.Y = -10;
-
-            DemoUtils.InitDefaultLighting(scene);
 
             scene.Add(new AmbientLight(new THREE.Color(0x444444)));
 
@@ -78,12 +54,26 @@ namespace THREEExample.Learning.Chapter09
             var cube2 = AddGeometryWithMaterial(scene, cube, "cube-2", cubeMaterialWithNormalMap);
             cube2.Position.X = 17;
             cube2.Rotation.Y = -1.0f / 3 * (float)System.Math.PI;
-           
         }
 
+        public override void Init()
+        {
+            base.Init();
+
+            AddGuiControlsAction = () =>
+            {
+                foreach (var item in materialsLib)
+                {
+                    AddBasicMaterialSettings(item.Value, item.Key + "-THREE.Material");
+                    AddSpecificMaterialSettings(item.Value, item.Key + "-THREE.MeshStandardMaterial");
+                }
+                ImGui.SliderFloat("naormalScaleX", ref cubeMaterialWithNormalMap.NormalScale.X, -3.0f, 3.0f);
+                ImGui.SliderFloat("naormalScaleY", ref cubeMaterialWithNormalMap.NormalScale.Y, -3.0f, 3.0f);
+            };
+        }
         public override void Render()
         {
-            if (!imguiManager.ImWantMouse)
+            if (!imGuiManager.ImWantMouse)
                 controls.Enabled = true;
             else
                 controls.Enabled = false;
@@ -111,30 +101,6 @@ namespace THREEExample.Learning.Chapter09
             }
             pointLight.Position.Copy(sphereLightMesh.Position);
 
-
-            ShowGUIControls();
-
-        }
-
-      
-        public override void ShowGUIControls()
-        {
-            ImGui.NewFrame();
-
-            foreach (var item in materialsLib)
-            {
-
-                AddBasicMaterialSettings(item.Value, item.Key + "-THREE.Material");
-                AddSpecificMaterialSettings(item.Value, item.Key + "-THREE.MeshStandardMaterial");
-            }
-
-            ImGui.Begin(cubeMaterialWithNormalMap.type);
-            ImGui.SliderFloat("naormalScaleX", ref cubeMaterialWithNormalMap.NormalScale.X,-3.0f,3.0f);
-            ImGui.SliderFloat("naormalScaleY", ref cubeMaterialWithNormalMap.NormalScale.Y, -3.0f, 3.0f);
-            ImGui.End();
-            ImGui.Render();
-
-            imguiManager.ImGui_ImplOpenGL3_RenderDrawData(ImGui.GetDrawData());
         }
     }
 }

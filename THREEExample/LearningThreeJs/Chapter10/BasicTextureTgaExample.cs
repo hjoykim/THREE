@@ -20,8 +20,6 @@ namespace THREEExample.Learning.Chapter09
             var groundPlane = DemoUtils.AddLargeGroundPlane(scene);
             groundPlane.Position.Y = -10;
 
-            DemoUtils.InitDefaultLighting(scene);
-
             scene.Add(new AmbientLight(new THREE.Color(0x444444)));
 
             var polyhedron = new IcosahedronBufferGeometry(8, 0);

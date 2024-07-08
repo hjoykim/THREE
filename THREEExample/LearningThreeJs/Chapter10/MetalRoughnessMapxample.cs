@@ -3,10 +3,8 @@ using System;
 using System.Diagnostics;
 using THREE;
 using THREEExample.ThreeImGui;
-
 using System.Collections.Generic;
-
-
+using Color = THREE.Color;
 namespace THREEExample.Learning.Chapter10
 {
     [Example("13-metal-roughness-map", ExampleCategory.LearnThreeJS, "Chapter10")]
@@ -21,34 +19,16 @@ namespace THREEExample.Learning.Chapter10
         {
 
         }
-
-        public override void Load(GLControl control)
+        public override void InitLighting()
         {
-            Debug.Assert(null != control);
-
-            glControl = control;
-            this.renderer = new THREE.GLRenderer();
-
-            this.renderer.Context = control.Context;
-            this.renderer.Width = control.Width;
-            this.renderer.Height = control.Height;
-
-            this.renderer.Init();
-
-            stopWatch.Start();
-
-            InitRenderer();
-
-            InitCamera();
-
-            InitCameraController();
-
-            imguiManager = new ImGuiManager(this.glControl);
-           
             scene.Add(new AmbientLight(new THREE.Color(0x888888)));
 
             pointLight = new PointLight(new THREE.Color(0xffffff));
             scene.Add(pointLight);
+        }
+        public override void SetGeometryWithTexture()
+        {
+           
 
             var sphereLight = new SphereBufferGeometry(0.2f);
             var sphereLightMaterial = new MeshStandardMaterial() { Color = new THREE.Color(0xff5808) };
@@ -81,9 +61,9 @@ namespace THREEExample.Learning.Chapter10
 
             var cubeMaterialWithRoughnessMap = (MeshStandardMaterial)cubeMaterial.Clone();
             cubeMaterialWithRoughnessMap.RoughnessMap = TextureLoader.Load("../../../../assets/textures/engraved/roughness-map.jpg");
-           
 
-           
+
+
             var cube1 = AddGeometryWithMaterial(scene, sphere, "metal", cubeMaterialWithMetalMap);
             cube1.Position.X = -10;
             cube1.Rotation.Y = 1.0f / 3 * (float)System.Math.PI;
@@ -91,18 +71,19 @@ namespace THREEExample.Learning.Chapter10
             var cube2 = AddGeometryWithMaterial(scene, sphere, "rough", cubeMaterialWithRoughnessMap);
             cube2.Position.X = 17;
             cube2.Rotation.Y = -1.0f / 3 * (float)System.Math.PI;
-           
         }
+          
 
         public override void Render()
         {
-            if (!imguiManager.ImWantMouse)
+            if (!imGuiManager.ImWantMouse)
                 controls.Enabled = true;
             else
                 controls.Enabled = false;
 
             controls.Update();
             this.renderer.Render(scene, camera);
+
             if (phase > 2 * System.Math.PI)
             {
                 invert = invert * -1;
@@ -125,14 +106,7 @@ namespace THREEExample.Learning.Chapter10
             pointLight.Position.Copy(sphereLightMesh.Position);
 
 
-            ShowGUIControls();
 
         }
-
-      
-        //public override void ShowGUIControls()
-        //{
-            
-        //}
     }
 }

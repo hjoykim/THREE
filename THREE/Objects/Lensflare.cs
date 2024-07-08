@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SkiaSharp;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.Serialization;
 
@@ -131,13 +132,17 @@ namespace THREE
             var positionView = new Vector3();
 
             // textures
-            tempMap = new DataTexture(new Bitmap(16, 16), 16, 16, Constants.RGBAFormat, Constants.UnsignedByteType);
+            tempMap = new DataTexture(new SKBitmap(16, 16), 16, 16, Constants.RGBAFormat, Constants.UnsignedByteType);
+            tempMap.ImageSize.Width = 16;
+            tempMap.ImageSize.Height = 16;
             tempMap.MinFilter = Constants.NearestFilter;
             tempMap.MagFilter = Constants.NearestFilter;
             tempMap.WrapS = Constants.ClampToEdgeWrapping;
             tempMap.WrapT = Constants.ClampToEdgeWrapping;
 
-            occlusionMap = new DataTexture(new Bitmap(16, 16), 16, 16, Constants.RGBAFormat, Constants.UnsignedByteType);
+            occlusionMap = new DataTexture(new SKBitmap(16, 16), 16, 16, Constants.RGBAFormat, Constants.UnsignedByteType);
+            occlusionMap.ImageSize.Width = 16;
+            occlusionMap.ImageSize.Height = 16;
             occlusionMap.MinFilter = Constants.NearestFilter;
             occlusionMap.MagFilter = Constants.NearestFilter;
             occlusionMap.WrapS = Constants.ClampToEdgeWrapping;

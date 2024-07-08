@@ -1747,7 +1747,7 @@ namespace THREE
         public override void Dispose()
         {
             properties.Dispose();
-
+            state.Dispose();
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.DepthTest);

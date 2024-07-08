@@ -199,14 +199,14 @@ namespace THREE
                 data[stride + 3] = 1;
 
             }
-            Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, width, height), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
-            IntPtr iptr = bitmapData.Scan0;
+            //Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            //BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, width, height), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
+            //IntPtr iptr = bitmapData.Scan0;
 
-            Marshal.Copy(iptr, data, 0, data.Length);
+            //Marshal.Copy(iptr, data, 0, data.Length);
 
-            bitmap.UnlockBits(bitmapData);
-
+            //bitmap.UnlockBits(bitmapData);
+            var bitmap = data.ToByteArray().ToSKBitMap(width,height);
             this.noiseTexture = new DataTexture(bitmap, width, height, Constants.RGBAFormat, Constants.FloatType);
             this.noiseTexture.WrapS = Constants.RepeatWrapping;
             this.noiseTexture.WrapT = Constants.RepeatWrapping;

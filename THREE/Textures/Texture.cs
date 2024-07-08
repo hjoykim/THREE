@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace THREE
         public int TextureAddress { get; protected set; }
 
 
-        public Bitmap Image;
+        public SKBitmap Image;
 
         public Texture[] Images = new Texture[] { null, null, null, null, null, null };
 
@@ -150,7 +151,7 @@ namespace THREE
         /// <summary>
         /// Constructor
         /// </summary>
-        public Texture(Bitmap image = null, int? mapping = null, int? wrapS = null, int? wrapT = null, int? magFilter = null, int? minFilter = null, int? format = null, int? type = null, int? anisotropy = null, int? encoding = null)
+        public Texture(SKBitmap image = null, int? mapping = null, int? wrapS = null, int? wrapT = null, int? magFilter = null, int? minFilter = null, int? format = null, int? type = null, int? anisotropy = null, int? encoding = null)
             : this()
         {
 
@@ -224,38 +225,5 @@ namespace THREE
         {
             return new Texture(this);
         }
-
-        //private void HandleLoadingBitmapData(Bitmap bitmap, bool flipY = true)
-        //{
-        //    /* .net library has methods for converting many image formats so I exploit that by using 
-        //      * .net to convert any filetype to a bitmap.  Then the bitmap is locked into memory so
-        //      * that the garbage collector doesn't touch it, and it is read via OpenGL glTexImage2D. */
-        //    if (flipY) bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);     // bitmaps read from bottom up, so flip it
-        //    Resolution = bitmap.Size;
-
-        //    // must be Format32bppArgb file format, so convert it if it isn't in that format
-        //    var bitmapData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-        //    // set the texture target and then generate the texture ID            
-        //    TextureTarget = TextureTarget.Texture2D;
-        //    TextureAddress = GL.GenTexture();
-
-        //    GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1); // set pixel alignment
-        //    GL.BindTexture(TextureTarget, TextureAddress);     // bind the texture to memory in OpenGL
-
-        //    //Gl.TexParameteri(TextureTarget, TextureParameterName.GenerateMipmap, 0);
-        //    TextureTarget2d target = (TextureTarget2d)Enum.Parse(typeof(TextureTarget), TextureTarget.ToString());
-        //    GL.TexImage2D(target, 0, TextureComponentCount.Rgba, bitmapData.Width, bitmapData.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, bitmapData.Scan0);
-
-        //    GL.TexParameter(TextureTarget, TextureParameterName.TextureMagFilter, MagFilter);
-        //    GL.TexParameter(TextureTarget, TextureParameterName.TextureMinFilter, MinFilter);
-
-
-        //    if (GenerateMipmaps) GL.GenerateMipmap(TextureTarget.Texture2D);
-
-
-        //    bitmap.UnlockBits(bitmapData);
-        //}
-
     }
 }

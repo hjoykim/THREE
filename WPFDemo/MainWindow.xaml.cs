@@ -155,7 +155,8 @@ namespace WPFDemo
         
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            timer.Stop();
+            if(timer!=null)
+                timer.Stop();
             int index = 0;
             foreach (var example in sceneList)
             {

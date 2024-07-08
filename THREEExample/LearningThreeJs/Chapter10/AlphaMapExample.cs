@@ -13,38 +13,19 @@ namespace THREEExample.Learning.Chapter10
         {
 
         }
-        public override void Load(GLControl control)
+        public override void InitLighting()
         {
-            Debug.Assert(null != control);
-            glControl = control;
-
-            this.renderer = new GLRenderer();
-
-            this.renderer.Context = control.Context;
-            this.renderer.Width = control.Width;
-            this.renderer.Height = control.Height;
-
-            this.renderer.Init();
-
-            stopWatch.Start();
-
-            InitRenderer();
-
-            InitCamera();
-
-            InitCameraController();
-
-            imguiManager = new ImGuiManager(this.glControl);
-
-            DemoUtils.InitDefaultLighting(scene);
-
+            base.InitLighting();
             scene.Add(new AmbientLight(new THREE.Color(0x444444)));
-
+        }
+        public override void SetGeometryWithTexture()
+        {
             var groundPlane = DemoUtils.AddLargeGroundPlane(scene, true);
             groundPlane.Position.Y = -8;
 
             var sphere = new SphereBufferGeometry(8, 180, 180);
-            var sphereMaterial = new MeshStandardMaterial {
+            var sphereMaterial = new MeshStandardMaterial
+            {
                 AlphaMap = TextureLoader.Load("../../../../assets/textures/alpha/partial-transparency.png"),
                 Metalness = 0.02f,
                 Roughness = 0.07f,
@@ -59,20 +40,17 @@ namespace THREEExample.Learning.Chapter10
             var mesh = AddGeometryWithMaterial(scene, sphere, "sphere", sphereMaterial);
             mesh.CastShadow = false;
             mesh.ReceiveShadow = false;
-        }
+        }   
         
         public override void Render()
         {
-            if (!imguiManager.ImWantMouse)
+            if (!imGuiManager.ImWantMouse)
                 controls.Enabled = true;
             else
                 controls.Enabled = false;
 
             controls.Update();
             this.renderer.Render(scene, camera);
-
-            ShowGUIControls();
-            
         }
     }
 }

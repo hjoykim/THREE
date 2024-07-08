@@ -1,27 +1,30 @@
 ﻿using OpenTK;
 using System.Diagnostics;
-using THREE;
+using THREEExample.Learning.Chapter10;
 using THREEExample.Learning.Utils;
 using THREEExample.ThreeImGui;
+using THREE;
+
 
 namespace THREEExample.Learning.Chapter10
 {
-    [Example("02-Basic-texture-dds",ExampleCategory.LearnThreeJS,"Chapter10")]
-    public class BasicTextureDDSExample : TemplateExample
+    [Example("01-basic-texture", ExampleCategory.LearnThreeJS, "Chapter10")]
+    public class BasicTextureExample : TemplateExample
     {
-        public BasicTextureDDSExample() : base() { }
+       
+        public BasicTextureExample() : base()
+        {
+
+        }
         public override void SetGeometryWithTexture()
         {
             var groundPlane = DemoUtils.AddLargeGroundPlane(scene);
             groundPlane.Position.Y = -10;
 
-            DemoUtils.InitDefaultLighting(scene);
+            var texture = TextureLoader.Load("../../../../assets/textures/dds/test-dxt1.jpg");
 
-            scene.Add(new AmbientLight(0x444444));
+            scene.Add(new AmbientLight(new THREE.Color(0x444444)));
 
-            var texture = TextureLoader.LoadDDS("../../../../assets/textures/dds/test-dxt1.dds");
-
-            texture.flipY = true;
             var polyhedron = new IcosahedronBufferGeometry(8, 0);
             polyhedronMesh = AddGeometry(scene, polyhedron, "polyhedron", texture);
             polyhedronMesh.Position.X = 20;
@@ -32,6 +35,6 @@ namespace THREEExample.Learning.Chapter10
             var cube = new BoxBufferGeometry(10, 10, 10);
             cubeMesh = AddGeometry(scene, cube, "cube", texture);
             cubeMesh.Position.X = -20;
-        }
+        }        
     }
 }

@@ -46,7 +46,7 @@ namespace THREEExample.Learning.Chapter10
         public override void InitLighting()
         {
             base.InitLighting();
-            DemoUtils.InitDefaultDirectionalLighting(scene);
+            DemoUtils.InitDefaultLighting(scene);
         }
         public override void InitCameraController()
         {

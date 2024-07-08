@@ -1,7 +1,7 @@
 ﻿using Pfim;
+using SkiaSharp;
 using StbImageSharp;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -41,11 +41,14 @@ namespace THREE
                     data[i * 4 + 3] = a;
                 }
 
-                Bitmap bmp = new Bitmap(image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, image.Width, image.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, bmp.PixelFormat);
+                //Bitmap bmp = new Bitmap(image.Width, image.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                //BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, image.Width, image.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, bmp.PixelFormat);
 
-                Marshal.Copy(data, 0, bmpData.Scan0, bmpData.Stride * bmp.Height);
-                bmp.UnlockBits(bmpData);
+                //Marshal.Copy(data, 0, bmpData.Scan0, bmpData.Stride * bmp.Height);
+                //bmp.UnlockBits(bmpData);
+                // create an empty bitmap
+
+                SKBitmap bmp = data.ToSKBitMap(image.Width,image.Height);
 
                 texture.Image = bmp;
                 texture.Format = Constants.RGBFormat;
@@ -59,11 +62,11 @@ namespace THREE
         {
             var image = Pfimage.FromFile(filePath);
 
-            var data = Marshal.UnsafeAddrOfPinnedArrayElement(image.Data, 0);
-            Bitmap bitmap = new Bitmap(image.Width, image.Height, image.Stride, System.Drawing.Imaging.PixelFormat.Format32bppArgb, data);
-            bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //var data = Marshal.UnsafeAddrOfPinnedArrayElement(image.Data, 0);
+            //Bitmap bitmap = new Bitmap(image.Width, image.Height, image.Stride, System.Drawing.Imaging.PixelFormat.Format32bppArgb, data);
+            //bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
             var texture = new Texture();
-            texture.Image = bitmap;
+            texture.Image = image.Data.ToSKBitMap(image.Width,image.Height); // TOSKBitmap() is defined in THREE.Extensions.ImageExtension.cs
             texture.Format = Constants.RGBFormat;
             texture.NeedsUpdate = true;
 
@@ -72,8 +75,8 @@ namespace THREE
         public static Texture Load(string filePath)
         {           
          
-            Bitmap bitmap = new Bitmap(filePath);
-            bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            SKBitmap bitmap = SKBitmap.Decode(filePath);
+            //bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
             Texture texture = new Texture();
             texture.Image = bitmap;
             texture.Format = Constants.RGBFormat;
@@ -85,12 +88,12 @@ namespace THREE
         public static Texture LoadEmbedded(string EmbeddedPath)
         {
             string embeddedNameBase = "THREE.Resources.";
-            Bitmap bitmap = new Bitmap(typeof(THREE.Object3D).GetTypeInfo().Assembly.GetManifestResourceStream(embeddedNameBase + EmbeddedPath));
+            //Bitmap bitmap = new Bitmap(typeof(THREE.Object3D).GetTypeInfo().Assembly.GetManifestResourceStream(embeddedNameBase + EmbeddedPath));
 
-            bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             Texture texture = new Texture();
-            texture.Image = bitmap;
+            texture.Image = SKBitmap.Decode(embeddedNameBase + EmbeddedPath);
             texture.Format = Constants.RGBFormat;
             texture.NeedsUpdate = true;
 
