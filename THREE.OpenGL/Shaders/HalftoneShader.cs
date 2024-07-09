@@ -24,12 +24,12 @@ namespace THREE
 
             VertexShader =
 @"
-varying vec2 vUv;
+varying vec2 vUV;
 
 
 void main() {
 
-    vUv = uv;
+    vUV = uv;
 
 	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
 

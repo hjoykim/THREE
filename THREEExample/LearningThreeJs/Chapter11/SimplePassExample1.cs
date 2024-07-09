@@ -64,7 +64,11 @@ namespace THREEExample.Learning.Chapter11
         public override void Render()
         {
 
-            base.Render();
+            if (!imGuiManager.ImWantMouse) controls.Enabled = true;
+            else controls.Enabled = false;
+
+            earth.Rotation.Y += 0.001f;
+            pivot.Rotation.Y += -0.0003f;
 
             renderer.AutoClear = false;
             renderer.Clear();

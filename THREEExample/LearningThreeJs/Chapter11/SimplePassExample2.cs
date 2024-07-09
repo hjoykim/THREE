@@ -68,7 +68,10 @@ namespace THREEExample.Learning.Chapter11
         {
             if (!imGuiManager.ImWantMouse) controls.Enabled = true;
             else controls.Enabled = false;
-            renderer.Render(scene,camera);
+            //renderer.Render(scene,camera);
+
+            earth.Rotation.Y += 0.001f;
+            pivot.Rotation.Y += -0.0003f;
 
             renderer.AutoClear = false;
             renderer.Clear();
