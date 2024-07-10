@@ -8,10 +8,11 @@ using THREEExample.ThreeImGui;
 using Keys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
 using System.Diagnostics;
 using OpenTK.Windowing.Common;
+using Rectangle = THREE.Rectangle;
 namespace THREEExample
 {
     [Serializable]
-    abstract public class Example
+    abstract public class Example : ControlsContainer
     {
         public GLRenderer renderer;
         public Camera camera;
@@ -60,6 +61,10 @@ namespace THREEExample
 
             stopWatch.Start();
         }
+        public override Rectangle GetClientSize()
+        {
+            return new Rectangle(0,0,renderer.Width,renderer.Height);
+        }
         public virtual void InitCamera()
         {
             camera.Fov = 45.0f;
@@ -79,7 +84,7 @@ namespace THREEExample
         }
         public virtual void InitCameraController()
         {
-            controls = new TrackballControls(camera, new Vector4(0, 0, renderer.Width, renderer.Height));
+            controls = new TrackballControls(this, camera);
             controls.StaticMoving = false;
             controls.RotateSpeed = 4.0f;
             controls.ZoomSpeed = 3;
@@ -117,26 +122,7 @@ namespace THREEExample
                 camera.Aspect = this.glControl.AspectRatio;
                 camera.UpdateProjectionMatrix();
             }
-        }
-
-        public virtual void MouseUp(MouseButtonEventArgs clientSize, Vector2 point)
-        {
-
-        }
-
-        public virtual void MouseWheel(MouseButtonEventArgs clientSize, Vector2 point, int delta)
-        {
-
-        }
-
-        public virtual void MouseMove(MouseButtonEventArgs clientSize, double posX, double posY)
-        {
-
-        }
-
-        public virtual void MouseDown(MouseButtonEventArgs clientSize, double posX, double posY)
-        {
-
+            base.OnResize(clientSize);
         }
 
         public virtual void Render()
@@ -166,37 +152,15 @@ namespace THREEExample
             this.renderer.Dispose();
         }
 
-        public virtual void KeyDown(Keys keyCode)
+        public override void Dispose()
         {
-
-        }
-        public virtual void KeyUp(Keys keyCode)
-        {
-
-        }
-        public virtual void Dispose()
-        {
-            Dispose(disposed);
+            OnDispose();
         }
         public virtual void OnDispose()
         {
             Unload();
         }
-        private bool disposed;
-        protected virtual void Dispose(bool disposing)
-        {
-            if (this.disposed) return;
-            try
-            {
-                OnDispose();
-                this.disposed = true;
-            }
-            finally
-            {
 
-            }
-            this.disposed = true;
-        }
     }
 }
 

@@ -71,12 +71,12 @@ namespace THREE
 
         private Vector3 up0;
 
-
-        public TrackballControls(Camera camera,Vector4 screen)
+        private IControlsContainer control;
+        public TrackballControls(IControlsContainer control,Camera camera)
         {
             this.camera = camera;
 
-            this.screen.Copy(screen);
+            this.screen = new Vector4(0,0,control.ClientSize.Width,control.ClientSize.Height);
 
             target0 = target;
 
@@ -84,17 +84,16 @@ namespace THREE
 
             up0 = this.camera.Up;
 
-            //control.MouseDown += Control_MouseDown;
+            control.MouseDown += Control_MouseDown;
 
-            //control.MouseMove += Control_MouseMove;
+            control.MouseMove += Control_MouseMove;
 
-            //control.MouseUp += Control_MouseUp;
+            control.MouseUp += Control_MouseUp;
 
-            //control.MouseWheel += Control_MouseWheel;
+            control.MouseWheel += Control_MouseWheel;
 
-            //control.Resize += Control_SizeChanged;
-            
-            //this.window = control;
+            control.SizeChanged += Control_SizeChanged;
+
 
         }
         public void SetSize(Vector4 size)
@@ -322,30 +321,30 @@ namespace THREE
 
 
         }
-        public void Control_SizeChanged(Vector4 size)
+        public void Control_SizeChanged(object sender, ResizeEventArgs e)
         {
-            this.screen.Copy(size);
+            this.screen.Set(0, 0, e.Width, e.Height);
             camera.Aspect = (screen.Z / screen.W);
             camera.UpdateProjectionMatrix();
 
         }
 
-        public void Control_MouseWheel(float delta)
+        public void Control_MouseWheel(object sender,MouseEventArgs e)
         {
             if (!Enabled) { return; }
 
-            var _delta = delta / 40;
+            var _delta = e.Delta / 40;
 
             zoomStart.Y += _delta * 0.01f;
         }
 
-        public void Control_MouseUp()
+        public void Control_MouseUp(object sender,MouseEventArgs e)
         {
             if (!Enabled) return;
             state = STATE.NONE;
         }
 
-        public void Control_MouseMove(float x,float y)
+        public void Control_MouseMove(object sender, MouseEventArgs e)
         {
 
 
@@ -354,39 +353,39 @@ namespace THREE
             if (state == STATE.ROTATE && !NoRotate)
             {
 
-                rotateEnd = GetMouseProjectionOnBall((int)x, (int)y);
+                rotateEnd = GetMouseProjectionOnBall(e.X, e.Y);
 
             }
             else if (state == STATE.ZOOM && !NoZoom)
             {
 
-                zoomEnd = GetMouseOnScreen((int)x, (int)y);
+                zoomEnd = GetMouseOnScreen(e.X, e.Y);
 
             }
             else if (state == STATE.PAN && !NoPan)
             {
 
-                panEnd = GetMouseOnScreen((int)x, (int)y);
+                panEnd = GetMouseOnScreen(e.X, e.Y);
 
             }
         }
 
-        public void Control_MouseDown(int button,float xPos,float yPos)
+        public void Control_MouseDown(object sender, MouseEventArgs e)
         {
             if (!Enabled) return;
 
 
             if (state == STATE.NONE)
             {
-                switch (button)
+                switch (e.Button)
                 {
-                    case 0:
+                    case MouseButton.Left:
                         state = STATE.ROTATE;
                         break;
-                    case 1:
+                    case MouseButton.Middle:
                         state = STATE.ZOOM;
                         break;
-                    case 2:
+                    case MouseButton.Right:
                         state = STATE.PAN;
                         break;
                 }
@@ -394,14 +393,14 @@ namespace THREE
             if (state == STATE.ROTATE && !NoRotate)
             {
 
-                rotateStart = GetMouseProjectionOnBall((int)xPos, (int)yPos);
+                rotateStart = GetMouseProjectionOnBall(e.X, e.Y);
                 rotateEnd = rotateStart;
 
             }
             else if (state == STATE.ZOOM && !NoZoom)
             {
 
-                zoomStart = GetMouseOnScreen((int)xPos, (int)yPos);
+                zoomStart = GetMouseOnScreen(e.X, e.Y);
                 zoomEnd = zoomStart;
 
 
@@ -409,7 +408,7 @@ namespace THREE
             else if (state == STATE.PAN && !NoPan)
             {
 
-                panStart = GetMouseOnScreen((int)xPos, (int)yPos);
+                panStart = GetMouseOnScreen(e.X, e.Y);
                 panEnd = panStart;
 
             }

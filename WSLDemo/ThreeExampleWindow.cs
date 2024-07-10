@@ -274,11 +274,11 @@ namespace WSLDemo
             }
             ImGui.Render();
             imGuiManager.ImGui_ImplOpenGL3_RenderDrawData(ImGui.GetDrawData());
-            if (currentExample != null && currentExample.AddGuiControlsAction != null)
-            {
-                this.currentExample.renderer.state.currentProgram = -1;
-                this.currentExample.renderer.bindingStates.currentState = this.currentExample.renderer.bindingStates.defaultState;
-            }
+            //if (currentExample != null && currentExample.AddGuiControlsAction != null)
+            //{
+            //    this.currentExample.renderer.state.currentProgram = -1;
+            //    this.currentExample.renderer.bindingStates.currentState = this.currentExample.renderer.bindingStates.defaultState;
+            //}
             base.SwapBuffers();
         }
         public override void OnResize(ResizeEventArgs clientSize)
@@ -303,16 +303,16 @@ namespace WSLDemo
         {
             base.OnMouseMove(args);
             if (currentExample == null) return;
-            if (currentExample.controls == null) return;
-            currentExample.controls.Control_MouseMove(args.X, args.Y);
+            currentExample.OnMouseMove(0,(int)args.X, (int)args.Y);
         }
         public override unsafe void MouseButtonCallback(Window* window, MouseButton button, InputAction action, KeyModifiers modes)
         {
             base.MouseButtonCallback(window, button, action, modes);
             if (currentExample == null) return;
-            if (currentExample.controls == null) return;
             bool lbutton_down = false;
             bool rbutton_down = false;
+            bool mbutton_down = false;
+
             switch(button)
             {
                 case MouseButton.Left:
@@ -321,6 +321,12 @@ namespace WSLDemo
                     else
                         lbutton_down=false;
                     break;
+                case MouseButton.Middle:
+                    if (action == InputAction.Press)
+                        mbutton_down = true;
+                    else
+                        mbutton_down = false;
+                    break;
                 case MouseButton.Right:
                     if (action == InputAction.Press)
                         rbutton_down = true;
@@ -328,28 +334,23 @@ namespace WSLDemo
                         rbutton_down = false;
                     break;
             }
-            if (lbutton_down || rbutton_down)
+            THREE.Vector2 pos = base.GetMousePosition();
+            if (lbutton_down || rbutton_down || mbutton_down)
             {
-                THREE.Vector2 pos = base.GetMousePosition();
-                if (lbutton_down)
-                {
-                    currentExample.controls.Control_MouseDown(0,(int)pos.X,(int)pos.Y);
-                }
-                else
-                {
-                    currentExample.controls.Control_MouseDown(2,(int)pos.X,(int)pos.Y);
-                }
+                currentExample.OnMouseDown(button, (int)pos.X, (int)pos.Y);
             }
             else
             {
-                currentExample.controls.Control_MouseUp();
+                currentExample.OnMouseUp(button, (int)pos.X, (int)pos.Y);
             }
+           
         }
         public override void OnMouseWheel(MouseWheelEventArgs args)
         {
             base.OnMouseWheel(args);
             if(currentExample==null) return;
-            currentExample.controls.Control_MouseWheel(args.OffsetY * 120);
+            THREE.Vector2 pos = base.GetMousePosition();
+            currentExample.OnMouseWheel((int)pos.X, (int)pos.Y,(int)args.OffsetY * 120);
         }
     }
 }

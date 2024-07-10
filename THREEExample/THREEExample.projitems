@@ -37,6 +37,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter04\MeshStandardMeterailExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter04\MeshToonMaterialExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter04\ShaderMaterialExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter09\OrbitControlsExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter09\TrackballControlsCameraExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter10\AlphaMapExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter10\BasicTextureDDSExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter10\BasicTextureExample.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\LightprobeCubeCamera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\LightProbeExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\RectArealightExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Misc\Controls\ArcballControlsExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\DemoUtils.cs" />
   </ItemGroup>
 </Project>

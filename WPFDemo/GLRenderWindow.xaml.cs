@@ -10,6 +10,7 @@ using THREEExample;
 using WPFDemo.Controls;
 using OpenTK.Graphics.OpenGL4;
 using System.Windows.Input;
+using MouseButton = OpenTK.Windowing.GraphicsLibraryFramework.MouseButton;
 namespace WPFDemo
 {
     /// <summary>
@@ -65,7 +66,7 @@ namespace WPFDemo
         private void GlControl_SizeChanged(object sender, EventArgs e)
         {
             var control = sender as GLControl;
-            this.currentExample.controls?.SetSize(new THREE.Vector4(0, 0, control.Width, control.Height));
+            this.currentExample?.OnResize(new ResizeEventArgs(control.Width, control.Height));
         }
 
  
@@ -84,50 +85,46 @@ namespace WPFDemo
                 currentExample.OnResize(new ResizeEventArgs(control.ClientSize.Width, control.ClientSize.Height));
 
         }
+        private MouseButton GetMouseButton(System.Windows.Forms.MouseEventArgs e)
+        {
+            MouseButton button = MouseButton.Left;
+            switch (e.Button)
+            {
+                case MouseButtons.Middle:
+                    button = MouseButton.Middle;
+                    break;
+                case MouseButtons.Right:
+                    button = MouseButton.Right;
+                    break;
+                case MouseButtons.Left:
+                case MouseButtons.None:
+                default:
+                    break;
+            }
+            return button;
+        }
+
         private void glControl_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (currentExample == null) return;
-            if (currentExample.controls == null) return;
-            bool lbutton_down = false;
-            bool rbutton_down = false;
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                    lbutton_down = true;
-                    break;
-                case MouseButtons.Right:
-                    rbutton_down = true;
-                    break;
-            }
-            if (lbutton_down || rbutton_down)
-            {
-                if (lbutton_down)
-                {
-                    currentExample.controls.Control_MouseDown(0, e.X, e.Y);
-                }
-                else
-                {
-                    currentExample.controls.Control_MouseDown(2, e.X, e.Y);
-                }
-            }
+            MouseButton button = MouseButton.Left;
+            currentExample.OnMouseDown(GetMouseButton(e), e.X, e.Y);
         }
         private void glControl_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (currentExample == null) return;
-            if (currentExample.controls == null) return;
-            currentExample.controls.Control_MouseMove(e.X, e.Y);
+            currentExample.OnMouseMove(GetMouseButton(e),e.X, e.Y);
         }
 
         private void glControl_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (currentExample == null) return;
-            if (currentExample.controls == null) return;
-            currentExample.controls.Control_MouseUp();
+            currentExample.OnMouseUp(GetMouseButton(e),e.X,e.Y);
         }
-        private void glControl_MouseWheel(object? sender, System.Windows.Forms.MouseEventArgs e)
+        private void glControl_MouseWheel(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             if (currentExample == null) return;
-            currentExample.controls.Control_MouseWheel(e.Delta);
+            currentExample.OnMouseWheel(e.X,e.Y,e.Delta);
         }
         public void Render()
         {
