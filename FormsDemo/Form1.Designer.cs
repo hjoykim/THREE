@@ -137,12 +137,14 @@ namespace FormsDemo
             glControl.Load += glControl_Load;
             glControl.Paint += glControl_Paint;
             glControl.KeyDown += glControl_KeyDown;
+            glControl.KeyUp += glControl_KeyUp;
             glControl.MouseDown += glControl_MouseDown;
             glControl.MouseEnter += glControl_MouseEnter;
             glControl.MouseLeave += glControl_MouseLeave;
             glControl.MouseHover += glControl_MouseHover;
             glControl.MouseMove += glControl_MouseMove;
             glControl.MouseUp += glControl_MouseUp;
+            glControl.PreviewKeyDown += glControl_PreviewKeyDown;
             glControl.Resize += glControl_Resize;
             // 
             // statusStrip2

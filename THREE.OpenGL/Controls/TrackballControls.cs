@@ -76,7 +76,7 @@ namespace THREE
         {
             this.camera = camera;
 
-            this.screen = new Vector4(0,0,control.ClientSize.Width,control.ClientSize.Height);
+            this.screen = new Vector4(0,0,control.ClientRectangle.Width,control.ClientRectangle.Height);
 
             target0 = target;
 

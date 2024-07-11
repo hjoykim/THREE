@@ -281,7 +281,7 @@ namespace WSLDemo
             //}
             base.SwapBuffers();
         }
-        public override void OnResize(ResizeEventArgs clientSize)
+        protected override void OnResize(ResizeEventArgs clientSize)
         {
             base.OnResize(clientSize);
             if (currentExample != null)
@@ -299,53 +299,39 @@ namespace WSLDemo
             base.OnDispose();
 
         }
-        public override void OnMouseMove(MouseMoveEventArgs args)
+        protected override void OnKeyDown(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (currentExample == null) return;
+            currentExample.OnKeyDown(e.Key,e.ScanCode,e.Modifiers);
+        }
+        protected override void OnKeyUp(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (currentExample == null) return;
+            currentExample.OnKeyUp(e.Key, e.ScanCode, e.Modifiers);
+        }
+        protected override void OnMouseMove(MouseMoveEventArgs args)
         {
             base.OnMouseMove(args);
             if (currentExample == null) return;
             currentExample.OnMouseMove(0,(int)args.X, (int)args.Y);
         }
-        public override unsafe void MouseButtonCallback(Window* window, MouseButton button, InputAction action, KeyModifiers modes)
+        protected override void OnMouseDown(MouseButtonEventArgs e)
         {
-            base.MouseButtonCallback(window, button, action, modes);
+            base.OnMouseDown(e);
             if (currentExample == null) return;
-            bool lbutton_down = false;
-            bool rbutton_down = false;
-            bool mbutton_down = false;
-
-            switch(button)
-            {
-                case MouseButton.Left:
-                    if (action == InputAction.Press) 
-                        lbutton_down=true;
-                    else
-                        lbutton_down=false;
-                    break;
-                case MouseButton.Middle:
-                    if (action == InputAction.Press)
-                        mbutton_down = true;
-                    else
-                        mbutton_down = false;
-                    break;
-                case MouseButton.Right:
-                    if (action == InputAction.Press)
-                        rbutton_down = true;
-                    else
-                        rbutton_down = false;
-                    break;
-            }
             THREE.Vector2 pos = base.GetMousePosition();
-            if (lbutton_down || rbutton_down || mbutton_down)
-            {
-                currentExample.OnMouseDown(button, (int)pos.X, (int)pos.Y);
-            }
-            else
-            {
-                currentExample.OnMouseUp(button, (int)pos.X, (int)pos.Y);
-            }
-           
+            currentExample.OnMouseDown(e.Button,(int)pos.X, (int)pos.Y);
         }
-        public override void OnMouseWheel(MouseWheelEventArgs args)
+        protected override void OnMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnMouseUp(e);
+            if (currentExample == null) return;
+            THREE.Vector2 pos = base.GetMousePosition();
+            currentExample.OnMouseUp(e.Button, (int)pos.X, (int)pos.Y);
+        }
+        protected override void OnMouseWheel(MouseWheelEventArgs args)
         {
             base.OnMouseWheel(args);
             if(currentExample==null) return;

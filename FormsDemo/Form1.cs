@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using THREEExample;
 using THREEExample.ThreeImGui;
-
+using Keys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
 namespace FormsDemo
 {
     public partial class Form1 : Form
@@ -222,14 +222,55 @@ namespace FormsDemo
         {
             if (currentExample != null)
             {
-                currentExample.OnKeyDown((OpenTK.Windowing.GraphicsLibraryFramework.Keys)e.KeyCode,e.KeyValue,(OpenTK.Windowing.GraphicsLibraryFramework.KeyModifiers)e.Modifiers);
+                Keys key = (Keys)e.KeyCode;
+                switch (e.KeyCode)
+                {
+                    case System.Windows.Forms.Keys.Right:
+                        key = Keys.Right;
+                        break;
+                    case System.Windows.Forms.Keys.Left:
+                        key = Keys.Left;
+                        break;
+                    case System.Windows.Forms.Keys.Down:
+                        key = Keys.Down;
+                        break;
+                    case System.Windows.Forms.Keys.Up:
+                        key = Keys.Up;
+                        break;
+
+                }
+                currentExample.OnKeyDown(key, e.KeyValue, (KeyModifiers)e.Modifiers);
+            }
+        }
+        private void glControl_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (currentExample != null)
+            {
+                Keys key = (Keys)e.KeyCode;
+                switch (e.KeyCode)
+                {
+                    case System.Windows.Forms.Keys.Right:
+                        key = Keys.Right;
+                        break;
+                    case System.Windows.Forms.Keys.Left:
+                        key = Keys.Left;
+                        break;
+                    case System.Windows.Forms.Keys.Down:
+                        key = Keys.Down;
+                        break;
+                    case System.Windows.Forms.Keys.Up:
+                        key = Keys.Up;
+                        break;
+
+                }
+                currentExample.OnKeyUp(key, e.KeyValue, (KeyModifiers)e.Modifiers);
             }
         }
         private MouseButton GetMouseButton(MouseEventArgs e)
         {
             MouseButton button = MouseButton.Left;
             switch (e.Button)
-            {                   
+            {
                 case MouseButtons.Middle:
                     button = MouseButton.Middle;
                     break;
@@ -246,8 +287,8 @@ namespace FormsDemo
         private void glControl_MouseDown(object sender, MouseEventArgs e)
         {
             if (currentExample == null) return;
-            MouseButton button = MouseButton.Left;     
-            currentExample.OnMouseDown(GetMouseButton(e), e.X, e.Y);                   
+            MouseButton button = MouseButton.Left;
+            currentExample.OnMouseDown(GetMouseButton(e), e.X, e.Y);
         }
 
         private void glControl_MouseEnter(object sender, EventArgs e)
@@ -268,19 +309,28 @@ namespace FormsDemo
         private void glControl_MouseMove(object sender, MouseEventArgs e)
         {
             if (currentExample == null) return;
-            currentExample.OnMouseMove(GetMouseButton(e),e.X, e.Y);
+            (currentExample.glControl as GLControl).Focus();
+            currentExample.OnMouseMove(GetMouseButton(e), e.X, e.Y);
         }
 
         private void glControl_MouseUp(object sender, MouseEventArgs e)
         {
             if (currentExample == null) return;
-            currentExample.OnMouseUp(GetMouseButton(e),e.X,e.Y);
+            (currentExample.glControl as GLControl).Focus();
+            currentExample.OnMouseUp(GetMouseButton(e), e.X, e.Y);
         }
         private void glControl_MouseWheel(object? sender, MouseEventArgs e)
         {
             if (currentExample == null) return;
-            currentExample.OnMouseWheel(e.X,e.Y,e.Delta);
+            (currentExample.glControl as GLControl).Focus();
+            currentExample.OnMouseWheel(e.X, e.Y, e.Delta);
         }
+
+        private void glControl_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            e.IsInputKey = true;
+        }
+
 
     }
 }

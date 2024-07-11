@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using THREE;
 using THREEExample.ThreeImGui;
 using Color = THREE.Color;
-namespace THREEExample.Learning.Chapter04
+namespace THREEExample.Learning.Utils
 {
     public class MaterialExampleTemplate : Example
     {
@@ -120,21 +120,20 @@ namespace THREEExample.Learning.Chapter04
         {
             Color? materialColor = material.Color;
             Color? emissiveColor = material.Emissive;
-            
+
             if (ImGui.TreeNode(name))
             {
-                if(materialColor!=null)
+                if (materialColor != null)
                     AddColorPicker(material);
-                if(emissiveColor!=null)
+                if (emissiveColor != null)
                     AddEmissivePicker(material);
                 AddSpecularPicker(material);
+                AddShiness(material);
+                AddMetalness(material);
+                AddRoughness(material);
+                AddWireframeProperty(material);
                 ImGui.TreePop();
             }
-            AddShiness(material);
-            AddMetalness(material);
-            AddRoughness(material);
-            AddWireframeProperty(material);
-            AddWireframeLineProperty(material);
         }
     }
 }

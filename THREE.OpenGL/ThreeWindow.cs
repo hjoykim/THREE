@@ -443,7 +443,7 @@ namespace THREE
                 _callbackExceptions.Enqueue(ExceptionDispatchInfo.Capture(source));
             }
         }
-        public unsafe virtual void MouseButtonCallback(Window* window,MouseButton button,InputAction action,KeyModifiers modes)
+        protected unsafe virtual void MouseButtonCallback(Window* window,MouseButton button,InputAction action,KeyModifiers modes)
         {
             try
             {
@@ -570,25 +570,25 @@ namespace THREE
                 _callbackExceptions.Enqueue(ExceptionDispatchInfo.Capture(source));
             }
         }
-        public virtual void OnMouseDown(MouseButtonEventArgs args)
+        protected virtual void OnMouseDown(MouseButtonEventArgs args)
         {
             this.MouseDown?.Invoke(args);
         }
-        public virtual void OnMouseUp(MouseButtonEventArgs args)
+        protected virtual void OnMouseUp(MouseButtonEventArgs args)
         {
             this.MouseUp?.Invoke(args);
         }
 
-        public virtual void OnMouseWheel(MouseWheelEventArgs args)
+        protected virtual void OnMouseWheel(MouseWheelEventArgs args)
         {
             this.MouseWheel?.Invoke(args);
         }
 
-        public virtual void OnMouseMove(MouseMoveEventArgs args)
+        protected virtual void OnMouseMove(MouseMoveEventArgs args)
         {
             this.MouseMove?.Invoke(args);
         }
-        public virtual void OnResize(ResizeEventArgs clientSize)
+        protected virtual void OnResize(ResizeEventArgs clientSize)
         {
             SizeChanged?.Invoke(clientSize);
         }

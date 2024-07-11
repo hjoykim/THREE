@@ -11,6 +11,8 @@ using WPFDemo.Controls;
 using OpenTK.Graphics.OpenGL4;
 using System.Windows.Input;
 using MouseButton = OpenTK.Windowing.GraphicsLibraryFramework.MouseButton;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using Keys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
 namespace WPFDemo
 {
     /// <summary>
@@ -59,11 +61,62 @@ namespace WPFDemo
             this.currentExample.glControl.MouseUp += glControl_MouseUp;
             this.currentExample.glControl.Resize += glControl_Resize;
             this.currentExample.glControl.MouseWheel += glControl_MouseWheel;
-            this.currentExample.glControl.SizeChanged += GlControl_SizeChanged;
+            this.currentExample.glControl.SizeChanged += glControl_SizeChanged;
+            this.currentExample.glControl.KeyDown += glControl_KeyDown;
+            this.currentExample.glControl.KeyUp += glControl_KeyUp;
 
         }
+        private void glControl_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (currentExample != null)
+            {
+                Keys key = (Keys)e.KeyCode;
+                switch (e.KeyCode)
+                {
+                    case System.Windows.Forms.Keys.Right:
+                        key = Keys.Right;
+                        break;
+                    case System.Windows.Forms.Keys.Left:
+                        key = Keys.Left;
+                        break;
+                    case System.Windows.Forms.Keys.Down:
+                        key = Keys.Down;
+                        break;
+                    case System.Windows.Forms.Keys.Up:
+                        key = Keys.Up;
+                        break;
 
-        private void GlControl_SizeChanged(object sender, EventArgs e)
+                }
+                currentExample.OnKeyDown(key, e.KeyValue, (KeyModifiers)e.Modifiers);
+            }
+        }
+        private void glControl_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (currentExample != null)
+            {
+                Keys key = (Keys)e.KeyCode;
+                switch (e.KeyCode)
+                {
+                    case System.Windows.Forms.Keys.Right:
+                        key = Keys.Right;
+                        break;
+                    case System.Windows.Forms.Keys.Left:
+                        key = Keys.Left;
+                        break;
+                    case System.Windows.Forms.Keys.Down:
+                        key = Keys.Down;
+                        break;
+                    case System.Windows.Forms.Keys.Up:
+                        key = Keys.Up;
+                        break;
+
+                }
+                currentExample.OnKeyUp(key, e.KeyValue, (KeyModifiers)e.Modifiers);
+            }
+        }
+
+
+        private void glControl_SizeChanged(object sender, EventArgs e)
         {
             var control = sender as GLControl;
             this.currentExample?.OnResize(new ResizeEventArgs(control.Width, control.Height));

@@ -3,7 +3,7 @@ namespace THREE
 {
     public interface IControlsContainer
     {
-        Rectangle ClientSize { get; }
+        Rectangle ClientRectangle { get; }
         event EventHandler<MouseEventArgs> MouseDown;
         event EventHandler<MouseEventArgs> MouseUp;
         event EventHandler<MouseEventArgs> MouseMove;

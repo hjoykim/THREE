@@ -5,7 +5,7 @@ namespace THREE
 {
     public abstract class ControlsContainer : DisposableObject, IControlsContainer
     {
-        public Rectangle ClientSize => GetClientSize();
+        public Rectangle ClientRectangle => GetClientRectangle();
 
         public event EventHandler<MouseEventArgs> MouseDown;
         public event EventHandler<MouseEventArgs> MouseUp;
@@ -15,7 +15,7 @@ namespace THREE
         public event EventHandler<KeyboardKeyEventArgs> KeyDown;
         public event EventHandler<KeyboardKeyEventArgs> KeyUp;
 
-        abstract public Rectangle GetClientSize();
+        abstract public Rectangle GetClientRectangle();
         public virtual void OnResize(ResizeEventArgs args)
         {
             SizeChanged?.Invoke(this, args);

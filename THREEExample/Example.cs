@@ -61,7 +61,7 @@ namespace THREEExample
 
             stopWatch.Start();
         }
-        public override Rectangle GetClientSize()
+        public override Rectangle GetClientRectangle()
         {
             return new Rectangle(0,0,renderer.Width,renderer.Height);
         }

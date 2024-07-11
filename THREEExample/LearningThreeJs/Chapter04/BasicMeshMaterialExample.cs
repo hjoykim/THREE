@@ -1,7 +1,9 @@
 ﻿using ImGuiNET;
 using OpenTK;
 using THREE;
+using THREEExample.Learning.Utils;
 using Color = THREE.Color;
+
 namespace THREEExample.Learning.Chapter04
 {
     [Example("01.BasicMeshMaterial", ExampleCategory.LearnThreeJS, "Chapter04")]

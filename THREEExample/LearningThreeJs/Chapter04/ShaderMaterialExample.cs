@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using THREE;
-
+using THREEExample.Learning.Utils;
 namespace THREEExample.Learning.Chapter04
 {
     [Example("11.ShaderMaterial", ExampleCategory.LearnThreeJS, "Chapter04")]

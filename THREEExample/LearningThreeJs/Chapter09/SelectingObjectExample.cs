@@ -6,7 +6,7 @@ using THREEExample.Learning.Utils;
 using ImGuiNET;
 using THREEExample.ThreeImGui;
 using OpenTK.Windowing.Common;
-
+using Color = THREE.Color;
 namespace THREEExample.Learning.Chapter09
 {
     [Example("02-SelectingObject", ExampleCategory.LearnThreeJS, "Chapter09")]
@@ -23,64 +23,24 @@ namespace THREEExample.Learning.Chapter09
         float bouncingSpeed = 0.03f;
         float scalingSpeed = 0.03f;
 
-        Scene scene;
-
-        Camera camera;
-
-        TrackballControls controls;
-
-        ImGuiManager imGuiManager;
-        public SelectingObjectExample() : base()
+        public SelectingObjectExample() : base() { }
+   
+        public override void InitRenderer()
         {
-            camera = new PerspectiveCamera();
-            scene = new Scene();
-        }
-        private void InitRenderer()
-        {
-            this.renderer.SetClearColor(new Color().SetHex(0x000000));
+            this.renderer.SetClearColor(Color.Hex(0x000000));
             this.renderer.ShadowMap.Enabled = true;
             this.renderer.ShadowMap.type = Constants.PCFSoftShadowMap;
         }
-        private void InitCamera()
+        public override void InitLighting()
         {
-            camera.Fov = 45.0f;
-            camera.Aspect = this.glControl.AspectRatio;
-            camera.Near = 0.1f;
-            camera.Far = 1000.0f;
-            camera.Position.X = -30;
-            camera.Position.Y = 50;
-            camera.Position.Z = 40;
-            camera.LookAt(THREE.Vector3.Zero());
-        }
-        private void InitCameraController()
-        {
-            controls = new TrackballControls(this.glControl, camera);
-            controls.StaticMoving = false;
-            controls.RotateSpeed = 3.0f;
-            controls.ZoomSpeed = 2;
-            controls.PanSpeed = 2;
-            controls.NoZoom = false;
-            controls.NoPan = false;
-            controls.NoRotate = false;
-            controls.StaticMoving = true;
-            controls.DynamicDampingFactor = 0.2f;
-        }
-        public override void Load(GLControl glControl)
-        {
-            base.Load(glControl);
-
-            this.glControl.MouseMove += MouseMove;
-            this.glControl.MouseDown += MouseDown;
-
-            InitRenderer();
-
-            InitCamera();
-
-            InitCameraController();
-
-            imGuiManager = new ImGuiManager(this.glControl);
-
+            base.InitLighting();
             DemoUtils.InitDefaultLighting(scene);
+        }
+        public override void Init()
+        {
+            base.Init();
+            this.MouseMove += OnMouseMove;
+            this.MouseDown += OnMouseDown;
 
             var groundPlane = DemoUtils.AddGroundPlane(scene);
 
@@ -112,8 +72,15 @@ namespace THREEExample.Learning.Chapter09
             var ambienLight = new AmbientLight(Color.Hex(0x353535));
             scene.Add(ambienLight);
 
-            
+            AddGuiControlsAction = () =>
+            {
+                ImGui.Text("This is Rotaion Speed Control box");
+                ImGui.SliderFloat("RotationSpeed", ref rotationSpeed, 0.0f, 0.5f);
+                ImGui.SliderFloat("bouncingSpeed", ref bouncingSpeed, 0.0f, 0.5f);
+                ImGui.SliderFloat("scalingSpeed", ref scalingSpeed, 0.0f, 0.5f);
+            };
         }
+
 
         public override void Render()
         {
@@ -134,15 +101,13 @@ namespace THREEExample.Learning.Chapter09
             var scaleZ = (float)Math.Abs(Math.Sin(scalingStep / 7));
             cylinder.Scale.Set(scaleX, scaleY, scaleZ);
 
-            if (!imGuiManager.ImWantMouse) controls.Update();
 
             this.renderer.Render(scene, camera);
 
-            showControls();
 
         }
 
-        public void MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        public void OnMouseDown(object sender, THREE.MouseEventArgs e)
         {
 
 
@@ -158,28 +123,10 @@ namespace THREEExample.Learning.Chapter09
                 intersects[0].object3D.Material.Opacity = 0.1f;
             }
         }
-        public void MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        public void OnMouseMove(object sender, THREE.MouseEventArgs e)
         {
         }
-        public override void Resize(ResizeEventArgs clientSize)
-        {
-            base.Resize(clientSize);
-            camera.Aspect = this.glControl.AspectRatio;
-            camera.UpdateProjectionMatrix();
-        }
-        private void showControls()
-        {
-            ImGui.NewFrame();
-            ImGui.Begin("Controls");
-            ImGui.Text("This is Rotaion Speed Control box");
-            ImGui.SliderFloat("RotationSpeed", ref rotationSpeed, 0.0f, 0.5f);
-            ImGui.SliderFloat("bouncingSpeed", ref bouncingSpeed, 0.0f, 0.5f);
-            ImGui.SliderFloat("scalingSpeed", ref scalingSpeed, 0.0f, 0.5f);
-            ImGui.End();
 
-            ImGui.Render();
-
-            imGuiManager.ImGui_ImplOpenGL3_RenderDrawData(ImGui.GetDrawData());
-        }
+  
     }
 }

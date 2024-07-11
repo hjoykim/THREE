@@ -224,16 +224,16 @@ namespace THREE
                 targetDistance *= (float)System.Math.Tan(camera.Fov / 2 * System.Math.PI / 180.0);
 
                 // we use only clientHeight here so aspect ratio does not distort speed
-                PanLeft(2 * deltaX * targetDistance / control.ClientSize.Height, camera.Matrix);
-                PanUp(2 * deltaY * targetDistance / control.ClientSize.Height, camera.Matrix);
+                PanLeft(2 * deltaX * targetDistance / control.ClientRectangle.Height, camera.Matrix);
+                PanUp(2 * deltaY * targetDistance / control.ClientRectangle.Height, camera.Matrix);
 
             }
             else if (camera is OrthographicCamera)
             {
                 var ocamera = camera as OrthographicCamera;
                 // orthographic
-                PanLeft(deltaX * (ocamera.CameraRight - ocamera.Left) / camera.Zoom / control.ClientSize.Width, camera.Matrix);
-                PanUp(deltaY * (ocamera.Top - ocamera.Bottom) / camera.Zoom / control.ClientSize.Height, camera.Matrix);
+                PanLeft(deltaX * (ocamera.CameraRight - ocamera.Left) / camera.Zoom / control.ClientRectangle.Width, camera.Matrix);
+                PanUp(deltaY * (ocamera.Top - ocamera.Bottom) / camera.Zoom / control.ClientRectangle.Height, camera.Matrix);
 
             }
             else
@@ -309,8 +309,8 @@ namespace THREE
             rotateDelta.SubVectors(rotateEnd, rotateStart).MultiplyScalar(RotateSpeed);
 
 
-            RotateLeft(2 * (float)System.Math.PI * rotateDelta.X / control.ClientSize.Height);
-            RotateUp(2 * (float)System.Math.PI * rotateDelta.Y / control.ClientSize.Height);
+            RotateLeft(2 * (float)System.Math.PI * rotateDelta.X / control.ClientRectangle.Height);
+            RotateUp(2 * (float)System.Math.PI * rotateDelta.Y / control.ClientRectangle.Height);
 
             rotateStart.Copy(rotateEnd);
 

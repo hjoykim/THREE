@@ -1470,7 +1470,7 @@ namespace THREE
 		 */
         private Vector2 GetCursorNDC(float cursorX, float cursorY)
         {
-            var canvasRect = glControl.ClientSize;
+            var canvasRect = glControl.ClientRectangle;
             this._v2_1.SetX(((cursorX - canvasRect.Left) / canvasRect.Width) * 2 - 1);
             this._v2_1.SetY(((canvasRect.Bottom - cursorY) / canvasRect.Height) * 2 - 1);
             return this._v2_1.Clone();

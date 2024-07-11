@@ -13,7 +13,7 @@ namespace THREEExample.Learning.Chapter04
         {
             meshMaterial = new MeshStandardMaterial();
             meshMaterial.Color = Color.Hex(0x7777ff);
-            meshMaterial.Name = "MeshToonMaterial";
+            meshMaterial.Name = "MeshStandardMaterial";
 
         }
     }
