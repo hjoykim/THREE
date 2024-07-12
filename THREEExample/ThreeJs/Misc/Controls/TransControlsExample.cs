@@ -37,7 +37,7 @@ namespace THREEExample.Three.Misc.Controls
             var mesh = new Mesh(geometry, material);
             scene.Add(mesh);
 
-            transformControls = new TransformControls(glControl,camera);
+            transformControls = new TransformControls(this,camera);
             transformControls.PropertyChanged += OnPropertyChanged;
             transformControls.Attach(mesh);
 

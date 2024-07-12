@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using THREE;
-
-
+using Color = THREE.Color;
+using Path = THREE.Path;
 namespace THREEExample.Three.Geometries
 {
 	[Example("Text Shapes",ExampleCategory.ThreeJs,"geometry")]
-    public class GeometryTextShapeExample : ExampleTemplate
+    public class GeometryTextShapeExample : Example
     {
         public GeometryTextShapeExample() : base() 
         {
@@ -26,7 +26,7 @@ namespace THREEExample.Three.Geometries
         }
 		private void InitTextShape()
 		{
-			var font = Font.Load(@"../../../../assets/fonts/helvetiker_regular.typeface.json");
+			var font = THREE.Font.Load(@"../../../../assets/fonts/helvetiker_regular.typeface.json");
 
 			float xMid;
 			Mesh text;

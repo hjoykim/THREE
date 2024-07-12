@@ -1,11 +1,11 @@
 ﻿using ImGuiNET;
 using System.Collections.Generic;
 using THREE;
-
+using Color = THREE.Color;
 namespace THREEExample.Three.Geometries
 {
     [Example("teapot",ExampleCategory.ThreeJs,"geometry")]
-    public class TeapotExample : ExampleTemplate
+    public class TeapotExample : Example
     {
         Mesh teapot;
 
@@ -279,8 +279,7 @@ namespace THREEExample.Three.Geometries
             light.Position.Set(lx, ly, lz);
             light.Color.SetHSL(lhue, lsaturation, llightness);
 
-            renderer.Render(scene, camera);
-            ShowGUIControls();
+            base.Render();
         }
     }
 }

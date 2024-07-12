@@ -54,8 +54,54 @@ namespace THREE
     }
     public unsafe class ThreeWindow : IThreeWindow,IDisposable
     {
-        public Window* windowPtr { get; set; }        
-        public Rectangle Bounds { get; set; }
+        public Window* windowPtr { get; set; }
+        public unsafe Vector2i Size
+        {
+            get
+            {
+                GLFW.GetWindowFrameSize(windowPtr, out var left, out var top, out var right, out var bottom);
+                GLFW.GetWindowSize(windowPtr, out var width, out var height);
+                return (width + left + right, height + top + bottom);
+            }
+            set
+            {
+                GLFW.GetWindowFrameSize(windowPtr, out var left, out var top, out var right, out var bottom);
+                int val = value.X - left - right;
+                int val2 = value.Y - top - bottom;
+                val = Math.Max(val, 0);
+                val2 = Math.Max(val2, 0);
+                GLFW.SetWindowSize(windowPtr, val, val2);
+            }
+        }
+        public unsafe Vector2i Location
+        {
+            get
+            {
+                GLFW.GetWindowFrameSize(windowPtr, out var left, out var top, out var _, out var _);
+                GLFW.GetWindowPos(windowPtr, out var x, out var y);
+                return (x - left, y - top);
+            }
+            set
+            {
+                GLFW.GetWindowFrameSize(windowPtr, out var left, out var top, out var _, out var _);
+                GLFW.SetWindowPos(windowPtr, value.X + left, value.Y + top);
+            }
+        }
+        public unsafe Box2i Bounds
+        {
+            get
+            {
+                return new Box2i(Location, Location + Size);
+            }
+            set
+            {
+                GLFW.GetWindowFrameSize(windowPtr, out var left, out var top, out var right, out var bottom);
+                int num = left + right;
+                int num2 = top + bottom;
+                GLFW.SetWindowSize(windowPtr, value.Size.X - num, value.Size.Y - num2);
+                GLFW.SetWindowPos(windowPtr, value.Min.X + left, value.Min.Y + top);
+            }
+        }
         public int Width { get; set; }        
         public int Height { get; set; }
         public IGraphicsContext Context { get; set; }

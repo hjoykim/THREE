@@ -1,14 +1,10 @@
-﻿using OpenTK.Graphics;
-using OpenTK.Graphics.ES30;
+﻿using OpenTK.Graphics.ES30;
 using SkiaSharp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
+
 
 namespace THREE
 {
@@ -71,7 +67,7 @@ namespace THREE
 
         private SKBitmap ResizeImage(SKBitmap image, int width, int height)
         {
-            return image.Resize(image.Info, SKFilterQuality.High);
+            return image.Resize(new SKImageInfo(width,height), SKFilterQuality.High);
             //var destRect = new Rectangle(0, 0, width, height);
             //var destImage = new Bitmap(width, height);
 

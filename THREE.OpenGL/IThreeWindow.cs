@@ -10,7 +10,7 @@ namespace THREE
     public interface IThreeWindow
     {
         unsafe Window* windowPtr { get; set; }
-        Rectangle Bounds { get; set; }
+        Box2i Bounds { get; set; }
         int Width { get; set; }
         int Height { get; set; }
         float AspectRatio{get;}

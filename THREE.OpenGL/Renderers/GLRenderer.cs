@@ -1401,7 +1401,7 @@ namespace THREE
             var envMap = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : environment);
             var geometry = object3D.Geometry;
             var isBufferGeometry = geometry is BufferGeometry;
-            var containsColor = (geometry as BufferGeometry).Attributes.ContainsKey("color");
+            var containsColor = isBufferGeometry && (geometry as BufferGeometry).Attributes.ContainsKey("color");
             var colorAttribute = containsColor ? (geometry as BufferGeometry).Attributes["color"] : null;
             var ItemSize = containsColor && colorAttribute is BufferAttribute<float> ? (colorAttribute as BufferAttribute<float>).ItemSize : containsColor && colorAttribute is BufferAttribute<byte> ? (colorAttribute as BufferAttribute<byte>).ItemSize : 0;
             var vertexAlphas = material.VertexColors == true && geometry!=null && isBufferGeometry && containsColor && ItemSize == 4;

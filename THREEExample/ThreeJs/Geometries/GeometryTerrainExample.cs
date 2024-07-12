@@ -1,18 +1,13 @@
 ﻿using OpenTK.Windowing.Common;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using THREE;
-
+using Color = THREE.Color;
 namespace THREEExample.Three.Geometries
 {
     [Example("Terrain", ExampleCategory.ThreeJs, "geometry")]
-    public class GeometryTerrainExample : ExampleTemplate
+    public class GeometryTerrainExample : Example
     {
         public int worldWidth = 256;
         public int worldDepth = 256;
@@ -40,7 +35,7 @@ namespace THREEExample.Three.Geometries
         }
         public override void InitCameraController()
         {
-            firstPersonControl = new FirstPersonControls(glControl,camera);
+            firstPersonControl = new FirstPersonControls(this,camera);
             firstPersonControl.MovementSpeed = 20;
             firstPersonControl.LookSpeed = 0.1f;
             firstPersonControl.LookVertical = true;
@@ -114,29 +109,18 @@ namespace THREEExample.Three.Geometries
         private Texture GenerateTexture(List<float> data, int width, int height)
         {
 
-            BitmapData bmpdata = null;
-            BitmapData bmpdata1 = null;
-            Bitmap bitmap = new Bitmap(width, height);
-            Bitmap canvasScaled = null;
+            SKBitmap bitmap ;
+            SKBitmap canvasScaled ;
 
             var vector3 = new Vector3(0, 0, 0);
             var sun = new Vector3(1, 1, 1);
             sun.Normalize();
 
 
-            Graphics graphics = Graphics.FromImage(bitmap);
-
-            System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.FromArgb(0x000));
-            graphics.FillRectangle(myBrush, 0, 0, width, height);
 
 
-            bmpdata = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
-            int numbytes = bmpdata.Stride * bitmap.Height;
-            byte[] bytedata = new byte[numbytes];
-            IntPtr ptr = bmpdata.Scan0;
+            byte[] imageData = new byte[width * height*4];
 
-            Marshal.Copy(ptr, bytedata, 0, numbytes);
-            var imageData = bytedata;
             int j = 0;
 
             for (var i = 0; i < imageData.Length; i += 4, j++)
@@ -175,18 +159,13 @@ namespace THREEExample.Three.Geometries
                 }
 
             }
-            Marshal.Copy(imageData, 0, ptr, numbytes);
-            bitmap.UnlockBits(bmpdata);
 
+            bitmap = imageData.ToSKBitMap(width,height);
+            
 
-            canvasScaled = new Bitmap(bitmap, width * 4, height * 4);
-            bmpdata1 = canvasScaled.LockBits(new Rectangle(0, 0, canvasScaled.Width, canvasScaled.Height), ImageLockMode.ReadOnly, bitmap.PixelFormat);
-            numbytes = bmpdata1.Stride * bmpdata1.Height;
-            byte[] bytedata1 = new byte[numbytes];
-            IntPtr ptr1 = bmpdata1.Scan0;
-            Marshal.Copy(ptr1, bytedata1, 0, numbytes);
+            canvasScaled = bitmap.Resize(new SKImageInfo(height*4, width*4), SKFilterQuality.High);
 
-            var imageData1 = bytedata1;
+            var imageData1 = canvasScaled.Bytes;
             for (var i = 0; i < imageData1.Length; i += 4)
             {
 
@@ -197,8 +176,7 @@ namespace THREEExample.Three.Geometries
                 imageData1[i + 2] += (byte)v;
 
             }
-            Marshal.Copy(imageData1, 0, ptr1, numbytes);
-            canvasScaled.UnlockBits(bmpdata1);
+            canvasScaled = imageData1.ToSKBitMap(width*4, height*4);
             Texture texture = new Texture();
             texture.Image = canvasScaled;
 
@@ -211,12 +189,6 @@ namespace THREEExample.Three.Geometries
             stopWatch.Start();
             firstPersonControl.Update(delta);
             renderer.Render(scene, camera);
-        }
-        public override void Resize(ResizeEventArgs clientSize)
-        {
-            base.Resize(clientSize);
-            firstPersonControl.HandleResize();
-
         }
     }
 }

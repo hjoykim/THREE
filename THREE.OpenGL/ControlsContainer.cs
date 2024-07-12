@@ -1,5 +1,6 @@
 ﻿using OpenTK.Windowing.Common;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using System.Runtime.CompilerServices;
 
 namespace THREE
 {
@@ -11,10 +12,12 @@ namespace THREE
         public event EventHandler<MouseEventArgs> MouseUp;
         public event EventHandler<MouseEventArgs> MouseMove;
         public event EventHandler<MouseEventArgs> MouseWheel;
+        public event EventHandler<EventArgs> MouseEnter;
+        public event EventHandler<EventArgs> MouseLeave;
         public event EventHandler<ResizeEventArgs> SizeChanged;
         public event EventHandler<KeyboardKeyEventArgs> KeyDown;
         public event EventHandler<KeyboardKeyEventArgs> KeyUp;
-
+        public event EventHandler<KeyPressEventArgs> KeyPress;
         abstract public Rectangle GetClientRectangle();
         public virtual void OnResize(ResizeEventArgs args)
         {
@@ -43,6 +46,18 @@ namespace THREE
         public virtual void OnKeyUp(Keys key,int scanCode,KeyModifiers modifer)
         {
             KeyDown?.Invoke(this, new KeyboardKeyEventArgs(key, scanCode, modifer, false));
+        }
+        public virtual void OnKeyPress(string ch)
+        {
+            KeyPress?.Invoke(this, new KeyPressEventArgs(ch));
+        }
+        public virtual void OnMouseEnter()
+        {
+            MouseEnter?.Invoke(this, EventArgs.Empty);
+        }
+        public virtual void OnMouseLeave()
+        {
+            MouseLeave?.Invoke(this, EventArgs.Empty);
         }
 
     }

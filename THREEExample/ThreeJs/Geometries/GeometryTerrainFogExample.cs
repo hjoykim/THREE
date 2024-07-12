@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace THREEExample.Three.Geometries
+﻿namespace THREEExample.Three.Geometries
 {
     [Example("Terrain Fog", ExampleCategory.ThreeJs, "geometry")]
     public class GeometryTerrainFogExample : GeometryTerrainExample 

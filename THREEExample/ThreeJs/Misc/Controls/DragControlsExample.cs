@@ -1,9 +1,10 @@
-﻿using System;
+﻿using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using THREE;
-
-
+using Color = THREE.Color;
+using Keys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
 namespace THREEExample.Three.Misc.Controls
 {
     [Example("Controls-Drag",ExampleCategory.Misc,"Controls")]
@@ -84,12 +85,11 @@ namespace THREEExample.Three.Misc.Controls
 
             }
 
-            dragControls = new DragControls(glControl, objects, camera);
+            dragControls = new DragControls(this, objects, camera);
          
-           
-            glControl.MouseClick += OnMouseClick;
-            glControl.KeyUp += OnKeyUp;
-            glControl.KeyDown += OnKeyDown;
+            this.MouseDown += OnMouseClick;
+            this.KeyUp += OnKeyUp;
+            this.KeyDown += OnKeyDown;
 
             dragControls.DragStart += OnDragStart;
             dragControls.DragEnd += OnDragEnd;
@@ -103,22 +103,22 @@ namespace THREEExample.Three.Misc.Controls
             controls.state = TrackballControls.STATE.NONE;
             controls.Enabled = false;
         }
-        private void OnKeyUp(object sender,KeyEventArgs e)
+        private void OnKeyUp(object sender,KeyboardKeyEventArgs e)
         {
             enableSelection = false;
         }
-        private void OnKeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyboardKeyEventArgs e)
         {
-            enableSelection = (e.KeyCode == Keys.ShiftKey) ? true : false;
+            enableSelection = (e.Key == Keys.LeftShift) ? true : false;
         }
 
-        private void OnMouseClick(object sender,MouseEventArgs e)
+        private void OnMouseClick(object sender,THREE.MouseEventArgs e)
         {
-            if(enableSelection==true && e.Button==MouseButtons.Left)
+            if(enableSelection==true && e.Button==MouseButton.Left)
             {
                 var draggableObjects = dragControls.objects;
-                mouse.X = e.X * 1.0f / (sender as Control).Width * 2 - 1.0f;
-                mouse.Y = -e.Y * 1.0f / (sender as Control).Height * 2 + 1.0f;
+                mouse.X = e.X * 1.0f / ClientRectangle.Width * 2 - 1.0f;
+                mouse.Y = -e.Y * 1.0f / ClientRectangle.Height * 2 + 1.0f;
 
                 raycaster.SetFromCamera(mouse, camera);
                 var intersections = raycaster.IntersectObjects(objects, true);

@@ -331,6 +331,10 @@ namespace FormsDemo
             e.IsInputKey = true;
         }
 
-
+        private void glControl_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (currentExample == null) return;
+            currentExample.OnKeyPress(e.KeyChar.ToString());
+        }
     }
 }

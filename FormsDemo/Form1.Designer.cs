@@ -137,6 +137,7 @@ namespace FormsDemo
             glControl.Load += glControl_Load;
             glControl.Paint += glControl_Paint;
             glControl.KeyDown += glControl_KeyDown;
+            glControl.KeyPress += glControl_KeyPress;
             glControl.KeyUp += glControl_KeyUp;
             glControl.MouseDown += glControl_MouseDown;
             glControl.MouseEnter += glControl_MouseEnter;

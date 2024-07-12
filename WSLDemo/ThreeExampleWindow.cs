@@ -299,6 +299,12 @@ namespace WSLDemo
             base.OnDispose();
 
         }
+        protected override void OnTextInput(TextInputEventArgs e)
+        {
+            base.OnTextInput(e);
+            if (currentExample == null) return;
+            currentExample.OnKeyPress(e.AsString);
+        }
         protected override void OnKeyDown(KeyboardKeyEventArgs e)
         {
             base.OnKeyDown(e);
@@ -337,6 +343,18 @@ namespace WSLDemo
             if(currentExample==null) return;
             THREE.Vector2 pos = base.GetMousePosition();
             currentExample.OnMouseWheel((int)pos.X, (int)pos.Y,(int)args.OffsetY * 120);
+        }
+        protected override void OnMouseLeave()
+        {
+            base.OnMouseLeave();
+            if (currentExample == null) return;
+            currentExample.OnMouseLeave();
+        }
+        protected override void OnMouseEnter()
+        {
+            base.OnMouseEnter();
+            if (currentExample == null) return;
+            currentExample.OnMouseEnter();
         }
     }
 }
