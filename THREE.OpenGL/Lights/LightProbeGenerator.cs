@@ -35,24 +35,24 @@ namespace THREE
                 var width = image.Image.Width;
                 var height = image.Image.Height;
 
-                BitmapData imageData = image.Image.LockBits(new System.Drawing.Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, image.Image.PixelFormat);
+                //BitmapData imageData = image.Image.LockBits(new System.Drawing.Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, image.Image.PixelFormat);
 
 
-                var imageWidth = imageData.Width; // assumed to be square
+                var imageWidth = image.Image.Width; // assumed to be square
 
                 var pixelSize = 2.0f / imageWidth;
 
-                var data = new byte[imageData.Height * imageData.Stride];
+                //var data = new byte[imageData.Height * imageData.Stride];
 
-                try
-                {
-                    Marshal.Copy(imageData.Scan0, data, 0, data.Length);
-                }
-                finally
-                {
-                    image.Image.UnlockBits(imageData);
-                }
-
+                //try
+                //{
+                //    Marshal.Copy(imageData.Scan0, data, 0, data.Length);
+                //}
+                //finally
+                //{
+                //    image.Image.UnlockBits(imageData);
+                //}
+                byte[] data = image.Image.Bytes;
                 for (var i = 0; i < data.Length; i += 4)
                 { // RGBA assumed
 

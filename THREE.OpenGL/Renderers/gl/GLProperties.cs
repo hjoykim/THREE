@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using OpenTK.Graphics.ES30;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace THREE
@@ -43,6 +46,34 @@ namespace THREE
 
         public void Dispose()
         {
+            foreach (var entry in Properties)
+            {
+                if(entry.Key is Texture)
+                {
+                    Hashtable hashtable = (Hashtable)entry.Value;
+                    foreach (DictionaryEntry entry1 in hashtable)
+                    {
+                        if(entry1.Key.Equals("glFramebuffer") || entry1.Key.Equals("glDepthbuffer"))
+                        {
+                            object value = hashtable[entry1.Key];
+                            if (value is int)
+                            {
+                                GL.DeleteFramebuffer((int)value);
+                            }
+                            if(value is int[])
+                            {
+                                int[] buffers = (int[])value;
+                                GL.DeleteFramebuffers(buffers.Length,buffers);
+                            }
+                        }
+                        if(entry1.Key.Equals("glTexture"))
+                        {
+                            GL.DeleteTexture((int)hashtable[entry1.Key]);
+                        }
+
+                    }
+                }
+            }
             Properties = new Dictionary<object, Hashtable>();
         }
     }

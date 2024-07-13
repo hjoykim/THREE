@@ -49,11 +49,11 @@ namespace THREE
         {
             get
             {
-                return (int)this["itemSize"];
+                return (int)this["ItemSize"];
             }
             set
             {
-                this["itemSize"] = value;
+                this["ItemSize"] = value;
             }
         }
 
@@ -104,7 +104,7 @@ namespace THREE
         public BufferAttribute()
         {
             this.Add("array", null);
-            this.Add("itemSize", -1);
+            this.Add("ItemSize", -1);
             this.Add("buffer", -1);
             this.Add("needsUpdate", false);
             this.Add("type", null);

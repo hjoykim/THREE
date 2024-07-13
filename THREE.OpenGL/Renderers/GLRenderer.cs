@@ -817,7 +817,10 @@ namespace THREE
 
             state.SetPolygonOffset(false);
 
-            bindingStates.ResetDefaultState();
+            //bindingStates.ResetDefaultState();
+            state.currentProgram = -1;
+            bindingStates.Reset();
+
             _currentMaterialId = -1;
             _currentCamera = null;
 
@@ -1396,7 +1399,14 @@ namespace THREE
             var environment = material is MeshStandardMaterial ? scene.Environment : null;
             var encoding = (_currentRenderTarget == null) ? outputEncoding : _currentRenderTarget.Texture.Encoding;
             var envMap = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : environment);
-            var vertexAlphas = material.VertexColors == true && object3D.Geometry!=null && object3D.Geometry is BufferGeometry && (object3D.Geometry as BufferGeometry).Attributes.ContainsKey("color")&&((object3D.Geometry as BufferGeometry).Attributes["color"] as BufferAttribute<float>).ItemSize == 4;
+            var geometry = object3D.Geometry;
+            var isBufferGeometry = geometry is BufferGeometry;
+            var containsColor = isBufferGeometry && (geometry as BufferGeometry).Attributes.ContainsKey("color");
+            var colorAttribute = containsColor ? (geometry as BufferGeometry).Attributes["color"] : null;
+            var ItemSize = containsColor && colorAttribute is BufferAttribute<float> ? (colorAttribute as BufferAttribute<float>).ItemSize : containsColor && colorAttribute is BufferAttribute<byte> ? (colorAttribute as BufferAttribute<byte>).ItemSize : 0;
+            var vertexAlphas = material.VertexColors == true && geometry!=null && isBufferGeometry && containsColor && ItemSize == 4;
+
+            //var vertexAlphas = material.VertexColors == true && object3D.Geometry!=null && object3D.Geometry is BufferGeometry && (object3D.Geometry as BufferGeometry).Attributes.ContainsKey("color")&&((object3D.Geometry as BufferGeometry).Attributes["color"] as BufferAttribute<float>).ItemSize == 4;
 
             var materialProperties = properties.Get(material);
 
@@ -1743,6 +1753,8 @@ namespace THREE
         }
         public override void Dispose()
         {
+            properties.Dispose();
+            state.Dispose();
             GL.Disable(EnableCap.Blend);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.DepthTest);
@@ -1771,8 +1783,8 @@ namespace THREE
             GL.FrontFace(FrontFaceDirection.Ccw);
 
             GL.PolygonOffset(0, 0);
-
-            GL.ActiveTexture(TextureUnit.Texture0);
+           
+            GL.ActiveTexture(TextureUnit.Texture0);                       
 
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 

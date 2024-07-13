@@ -281,7 +281,7 @@ namespace THREE
 
         public IGLStencilBuffer stencil { get; set; }
     }
-    public class GLState : IGLState
+    public class GLState : DisposableObject, IGLState
     {
 
         public IGLStateBuffer buffers { get; set; } = new GLStateBuffer();
@@ -917,8 +917,10 @@ namespace THREE
             depthBuffer.Reset();
             stencilBuffer.Reset();
         }
-
-
-
+        public override void Dispose()
+        {
+            Reset();
+            base.Dispose();
+        }
     }
 }

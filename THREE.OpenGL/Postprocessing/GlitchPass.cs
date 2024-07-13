@@ -118,14 +118,14 @@ namespace THREE
                 data_arr[i * 3 + 2] = val;
 
             }
-            Bitmap bitmap = new Bitmap((int)dt_size, (int)dt_size, PixelFormat.Format32bppArgb);
-            BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, (int)dt_size, (int)dt_size), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
-            IntPtr iptr = bitmapData.Scan0;
+            //Bitmap bitmap = new Bitmap((int)dt_size, (int)dt_size, PixelFormat.Format32bppArgb);
+            //BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, (int)dt_size, (int)dt_size), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
+            //IntPtr iptr = bitmapData.Scan0;
 
-            Marshal.Copy(iptr, data_arr, 0, data_arr.Length);
+            //Marshal.Copy(iptr, data_arr, 0, data_arr.Length);
 
-            bitmap.UnlockBits(bitmapData);
-
+            //bitmap.UnlockBits(bitmapData);
+            var bitmap = data_arr.ToSKBitMap((int)dt_size,(int)dt_size);
             return new DataTexture(bitmap, (int)dt_size, (int)dt_size, Constants.RGBAFormat, Constants.ByteType);
         }
     }

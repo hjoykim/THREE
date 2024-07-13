@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THREE", "THREE\THREE.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THREE.OpenGL", "THREE.OpenGL\THREE.OpenGL.csproj", "{631706F0-1A5B-4EDF-9F55-6D92F61B1A2B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THREE.WinForms", "THREE.WinForms\THREE.WinForms.csproj", "{CBCBA54F-C169-4829-BABA-DF158F809C21}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "THREEExample", "THREEExample\THREEExample.csproj", "{03A7E4D1-FDBD-48F9-9B7B-B6755991F11E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FormsDemo", "FormsDemo\FormsDemo.csproj", "{2925D108-15D2-49D2-AD08-D5928EA9C03F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFDemo", "WPFDemo\WPFDemo.csproj", "{7929F436-ACA4-4FD7-ABD1-044D23DCDC87}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WSLDemo", "WSLDemo\WSLDemo.csproj", "{4A0520F1-F557-4C6D-A5CA-677EEA89FEB4}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "THREEExample", "THREEExample\THREEExample.shproj", "{30D00158-3966-4B7A-8DA5-A0A08A7B61BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,14 +29,6 @@ Global
 		{631706F0-1A5B-4EDF-9F55-6D92F61B1A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{631706F0-1A5B-4EDF-9F55-6D92F61B1A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{631706F0-1A5B-4EDF-9F55-6D92F61B1A2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBCBA54F-C169-4829-BABA-DF158F809C21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBCBA54F-C169-4829-BABA-DF158F809C21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBCBA54F-C169-4829-BABA-DF158F809C21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBCBA54F-C169-4829-BABA-DF158F809C21}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03A7E4D1-FDBD-48F9-9B7B-B6755991F11E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03A7E4D1-FDBD-48F9-9B7B-B6755991F11E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03A7E4D1-FDBD-48F9-9B7B-B6755991F11E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03A7E4D1-FDBD-48F9-9B7B-B6755991F11E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2925D108-15D2-49D2-AD08-D5928EA9C03F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2925D108-15D2-49D2-AD08-D5928EA9C03F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2925D108-15D2-49D2-AD08-D5928EA9C03F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,11 +37,21 @@ Global
 		{7929F436-ACA4-4FD7-ABD1-044D23DCDC87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7929F436-ACA4-4FD7-ABD1-044D23DCDC87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7929F436-ACA4-4FD7-ABD1-044D23DCDC87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A0520F1-F557-4C6D-A5CA-677EEA89FEB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A0520F1-F557-4C6D-A5CA-677EEA89FEB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A0520F1-F557-4C6D-A5CA-677EEA89FEB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A0520F1-F557-4C6D-A5CA-677EEA89FEB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {33018965-578D-4AD9-9903-0BC2E163E4B9}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		THREEExample\THREEExample.projitems*{2925d108-15d2-49d2-ad08-d5928ea9c03f}*SharedItemsImports = 5
+		THREEExample\THREEExample.projitems*{30d00158-3966-4b7a-8da5-a0a08a7b61ba}*SharedItemsImports = 13
+		THREEExample\THREEExample.projitems*{4a0520f1-f557-4c6d-a5ca-677eea89feb4}*SharedItemsImports = 5
+		THREEExample\THREEExample.projitems*{7929f436-aca4-4fd7-abd1-044d23dcdc87}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

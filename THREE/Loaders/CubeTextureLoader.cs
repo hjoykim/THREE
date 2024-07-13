@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SkiaSharp;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace THREE
@@ -15,7 +16,7 @@ namespace THREE
             CubeTexture texture = new CubeTexture();
             for (int i = 0; i < filePath.Count; i++)
             {
-                Bitmap bitmap = new Bitmap(filePath[i]);
+                SKBitmap bitmap = SKBitmap.Decode(filePath[i]);
                 //bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
                 Texture image = new Texture();

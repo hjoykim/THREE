@@ -1,5 +1,6 @@
 ﻿using OpenTK.Graphics;
-using OpenTK.Graphics.ES30;
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Common;
 using System;
 
 namespace WPFDemo.Controls
@@ -9,10 +10,14 @@ namespace WPFDemo.Controls
         public EventHandler<EventArgs> OnInitGL;
 
 
-
         public GLRenderControl() : base()
         {
             InitGLContext();
+        }
+
+        private void GLRenderControl_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         /*public GLRenderControl(GraphicsMode mode) : base(mode)
@@ -31,10 +36,10 @@ namespace WPFDemo.Controls
 
 
         }
-        /*public GLRenderControl(GraphicsMode mode, int major, int minor, GraphicsContextFlags flags) : base(mode, major, minor, flags)
-        {
-            InitGLContext();
-        }*/
+        ///*public GLRenderControl(GraphicsMode mode, int major, int minor, GraphicsContextFlags flags) : base(mode, major, minor, flags)
+        //{
+        //    InitGLContext();
+        //}*/
 
         protected override void OnResize(EventArgs e)
         {
@@ -54,12 +59,12 @@ namespace WPFDemo.Controls
         }
 
 
-        public void Clean()
-        {
-            //GL.ClearColor(System.Drawing.Color.FromArgb(this.ClearAlpha, this.ClearColor));
-            GL.ClearBuffer(ClearBuffer.Color, 0, new float[4] { 0, 0, 0, 1 });
-        }
+        //public void Clean()
+        //{
+        //    //GL.ClearColor(System.Drawing.Color.FromArgb(this.ClearAlpha, this.ClearColor));
+        //    GL.ClearBuffer(ClearBuffer.Color, 0, new float[4] { 0, 0, 0, 1 });
+        //}
 
-       
+
     }
 }

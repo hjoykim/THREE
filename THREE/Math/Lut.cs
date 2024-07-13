@@ -1,8 +1,7 @@
-﻿using System;
+﻿using SkiaSharp;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 
 
 namespace THREE
@@ -144,25 +143,12 @@ namespace THREE
 
             ColorMapKeywords[colormapName] = arrayOfColors;
 
-        }
-        /*
-         * createCanvas: function () {
-
-		var canvas = document.createElement( 'canvas' );
-		canvas.width = 1;
-		canvas.height = this.n;
-
-		this.updateCanvas( canvas );
-
-		return canvas;
-
-	},
-         
-        */
+        }  
+        
         public Texture CreateTexture()
         {
             Texture texture = new Texture();
-            Bitmap bitmap = new Bitmap(1, this.n.Value);
+            SKBitmap bitmap = new SKBitmap(1, this.n.Value);
             texture.Image = bitmap;
             texture.ImageSize.Width = 1;
             texture.ImageSize.Height = this.n.Value;
@@ -173,52 +159,7 @@ namespace THREE
 
             return texture;
         }
-        /**
-         updateCanvas: function ( canvas ) {
 
-		    var ctx = canvas.getContext( '2d', { alpha: false } );
-
-		    var imageData = ctx.getImageData( 0, 0, 1, this.n );
-
-		    var data = imageData.data;
-
-		    var k = 0;
-
-		    var step = 1.0 / this.n;
-
-		    for ( var i = 1; i >= 0; i -= step ) {
-
-			    for ( var j = this.map.length - 1; j >= 0; j -- ) {
-
-				    if ( i < this.map[ j ][ 0 ] && i >= this.map[ j - 1 ][ 0 ] ) {
-
-					    var min = this.map[ j - 1 ][ 0 ];
-					    var max = this.map[ j ][ 0 ];
-
-					    var minColor = new Color( this.map[ j - 1 ][ 1 ] );
-					    var maxColor = new Color( this.map[ j ][ 1 ] );
-
-					    var color = minColor.lerp( maxColor, ( i - min ) / ( max - min ) );
-
-					    data[ k * 4 ] = Math.round( color.r * 255 );
-					    data[ k * 4 + 1 ] = Math.round( color.g * 255 );
-					    data[ k * 4 + 2 ] = Math.round( color.b * 255 );
-					    data[ k * 4 + 3 ] = 255;
-
-					    k += 1;
-
-				    }
-
-			    }
-
-		    }
-
-		    ctx.putImageData( imageData, 0, 0 );
-
-		    return canvas;
-
-	    }
-         */
         public void UpdateTexture(Texture texture)
         {
             byte[] data = new byte[4 * this.n.Value];
@@ -250,16 +191,8 @@ namespace THREE
                     }
                 }
             }
+            texture.Image = data.ToSKBitMap(1,this.n.Value);
 
-            unsafe
-            {
-                fixed (byte* ptr = data)
-                {
-                    Bitmap image = new Bitmap(1, this.n.Value, 4, PixelFormat.Format32bppArgb, new IntPtr(ptr));
-                    //image.Save(@"sprite.png");
-                    texture.Image = image;
-                }
-            }
         }
     }
 

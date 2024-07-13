@@ -1,13 +1,10 @@
-﻿using OpenTK.Graphics;
-using OpenTK.Graphics.ES30;
+﻿using OpenTK.Graphics.ES30;
+using SkiaSharp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
+
 
 namespace THREE
 {
@@ -68,29 +65,30 @@ namespace THREE
             this.info = info;
         }
 
-        private Bitmap ResizeImage(Bitmap image, int width, int height)
+        private SKBitmap ResizeImage(SKBitmap image, int width, int height)
         {
-            var destRect = new Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
+            return image.Resize(new SKImageInfo(width,height), SKFilterQuality.High);
+            //var destRect = new Rectangle(0, 0, width, height);
+            //var destImage = new Bitmap(width, height);
 
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+            //destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-            using (var graphics = Graphics.FromImage(destImage))
-            {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            //using (var graphics = Graphics.FromImage(destImage))
+            //{
+            //    graphics.CompositingMode = CompositingMode.SourceCopy;
+            //    graphics.CompositingQuality = CompositingQuality.HighQuality;
+            //    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            //    graphics.SmoothingMode = SmoothingMode.HighQuality;
+            //    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-                using (var wrapMode = new ImageAttributes())
-                {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
-                }
-            }
+            //    using (var wrapMode = new ImageAttributes())
+            //    {
+            //        wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+            //        graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+            //    }
+            //}
 
-            return destImage;
+            //return destImage;
         }
 
         //private Bitmap ResizeImage(Bitmap image, int width, int height)
@@ -98,7 +96,7 @@ namespace THREE
         //    Size resize = new Size(width, height);
         //    return new Bitmap(image, resize);
         //}
-        private Bitmap ResizeImage(Bitmap image, bool needsPowerOfTwo, bool needsNewCanvas, int maxSize)
+        private SKBitmap ResizeImage(SKBitmap image, bool needsPowerOfTwo, bool needsNewCanvas, int maxSize)
         {
             float scale = 1.0f;
 
@@ -111,7 +109,7 @@ namespace THREE
 
             if (scale <= 1 || needsPowerOfTwo == true)
             {
-                if (image is Bitmap)
+                if (image is SKBitmap)
                 {
                     var width = needsPowerOfTwo ? MathUtils.FloorPowerOfTwo(scale * image.Width) : (float)System.Math.Floor(scale * image.Width);
                     var height = needsPowerOfTwo ? MathUtils.FloorPowerOfTwo(scale * image.Height) : (float)System.Math.Floor(scale * image.Height);
@@ -130,7 +128,7 @@ namespace THREE
             return image;
         }
 
-        private bool IsPowerOfTwo(Bitmap image)
+        private bool IsPowerOfTwo(SKBitmap image)
         {
             if (image == null) return false;
             return MathUtils.IsPowerOfTwo(image.Width) && MathUtils.IsPowerOfTwo(image.Height);
@@ -320,15 +318,15 @@ namespace THREE
 
                 if (texture.Image == null && texture.ImageSize.Width > 0 && texture.ImageSize.Height > 0 && !(texture is DataTexture))
                 {
-                    byte[] data = new byte[texture.ImageSize.Width * texture.ImageSize.Height];
-                    Bitmap bitmap = new Bitmap(texture.ImageSize.Width, texture.ImageSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                    BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, texture.ImageSize.Width, texture.ImageSize.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
-                    IntPtr iptr = bitmapData.Scan0;
-                    Marshal.Copy(iptr, data, 0, data.Length);
+                    byte[] data = new byte[texture.ImageSize.Width * texture.ImageSize.Height*4];
+                    //Bitmap bitmap = new Bitmap(texture.ImageSize.Width, texture.ImageSize.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    //BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, texture.ImageSize.Width, texture.ImageSize.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
+                    //IntPtr iptr = bitmapData.Scan0;
+                    //Marshal.Copy(iptr, data, 0, data.Length);
 
-                    bitmap.UnlockBits(bitmapData);
+                    //bitmap.UnlockBits(bitmapData);
 
-                    texture.Image = bitmap;
+                    texture.Image = data.ToSKBitMap(texture.ImageSize.Width,texture.ImageSize.Height);
                 }
                 if (texture.Image == null && !(texture is DataTexture))
                 {
@@ -420,7 +418,7 @@ namespace THREE
 
                 var image = cubeImage[0];
 
-                bool supportsMipsMap = image is Bitmap ? IsPowerOfTwo((Bitmap)image) : IsPowerOfTwo((image as Texture).Image);
+                bool supportsMipsMap = image is SKBitmap ? IsPowerOfTwo((SKBitmap)image) : IsPowerOfTwo((image as Texture).Image);
                 bool supportsMips = supportsMipsMap ? supportsMipsMap : IsGL2;
 
                 All glFormat = utils.Convert(texture.Format);
@@ -498,34 +496,25 @@ namespace THREE
 
                     for (var i = 0; i < 6; i++)
                     {
-                        Bitmap localImage = cubeImage[i] as Bitmap;
+                        SKBitmap localImage = cubeImage[i] as SKBitmap;
                         if (isDataTexture)
                         {
-
-
-                            var data = localImage.LockBits(new Rectangle(0, 0, localImage.Width, localImage.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-                            state.TexImage2D((int)targets[i], 0, glInternalFormat, data.Width, data.Height, 0, (int)glFormat, (int)glType, data.Scan0);
+                            state.TexImage2D((int)targets[i], 0, glInternalFormat, localImage.Width, localImage.Height, 0, (int)glFormat, (int)glType, localImage.Bytes);
 
                             for (var j = 0; j < mipmaps.Count; j++)
                             {
-
                                 var mipmap = mipmaps[j];
-                                //var mipmapImage = mipmap.image[ i ].image;
                                 var mipmapImage = mipmap.Data;
 
                                 state.TexImage2D((int)targets[i], j + 1, glInternalFormat, mipmap.Width, mipmap.Height, 0, (int)glFormat, (int)glType, mipmapImage);
-
                             }
-                            localImage.UnlockBits(data);
                         }
                         else
                         {
 
-                            var data = localImage.LockBits(new Rectangle(0, 0, localImage.Width, localImage.Height), ImageLockMode.ReadOnly, localImage.PixelFormat);
 
                             //state.TexImage2D(targets[i], 0, (TextureComponentCount)glInternalFormat, data.Width,data.Height,0,(OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, data.Scan0);
-                            GL.TexImage2D((All)targets[i], 0, (All)glInternalFormat, data.Width, data.Height, 0, All.BgraImg, glType, data.Scan0);
+                            GL.TexImage2D((All)targets[i], 0, (All)glInternalFormat, localImage.Width, localImage.Height, 0, All.BgraImg, glType, localImage.Bytes);
 
                             for (var j = 0; j < mipmaps.Count; j++)
                             {
@@ -535,7 +524,6 @@ namespace THREE
                                 state.TexImage2D((int)targets[i], j + 1, glInternalFormat, mipmap.Width, mipmap.Height, 0, (int)glFormat, (int)glType, mipmapImage);
 
                             }
-                            localImage.UnlockBits(data);
                         }
 
                     }
@@ -548,7 +536,7 @@ namespace THREE
                 {
 
                     // We assume images for cube map have the same size.
-                    GenerateMipmap(TextureTarget.TextureCubeMap, texture, (image as Bitmap).Width, (image as Bitmap).Height);
+                    GenerateMipmap(TextureTarget.TextureCubeMap, texture, (image as SKBitmap).Width, (image as SKBitmap).Height);
 
                 }
 
@@ -834,10 +822,11 @@ namespace THREE
                     //state.TexImage2D(TextureTarget2d.Texture2D, 0, (TextureComponentCount)glInternalFormat, image.Width, image.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glFormat, (PixelType)glType, data.Scan0);
                     if (texture.Image != null)
                     {
-                        Bitmap image1 = (Bitmap)image.Clone();
-                        var data = image1.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);//System.Drawing.Imaging.PixelFormat.Format32bppArgb);                   
-                        image1.UnlockBits(data);
-                        GL.TexImage2D(All.Texture2D, 0, (All)glInternalFormat, image.Width, image.Height, 0, All.BgraImg, glType, data.Scan0);
+                        //Bitmap image1 = (Bitmap)image.Clone();
+                        //var data = image1.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);//System.Drawing.Imaging.PixelFormat.Format32bppArgb);                   
+                        //image1.UnlockBits(data);
+                        byte[] data = new byte[image.Width * image.Height * 4];
+                        GL.TexImage2D(All.Texture2D, 0, (All)glInternalFormat, image.Width, image.Height, 0, All.BgraImg, glType, data.ToSKBitMap(image.Width, image.Height).Bytes);
 
                         textureProperties["maxMipLevel"] = 0;
                     }
@@ -947,7 +936,7 @@ namespace THREE
 
                     //image.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-                    var data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);//System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    //var data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, image.PixelFormat);//System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     //state.TexImage2D(TextureTarget2d.Texture2D, 0, (TextureComponentCount)glInternalFormat, image.Width, image.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glType, PixelType.UnsignedByte, data.Scan0);
                     //state.TexImage2D(TextureTarget2d.Texture2D, 0, TextureComponentCount.Rgba, image.Width, image.Height, 0, OpenTK.Graphics.ES30.PixelFormat.Rgba, PixelType.UnsignedByte, data.Scan0);
                     //OpenTK.Graphics.OpenGL.GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D,
@@ -959,8 +948,8 @@ namespace THREE
                     //    OpenTK.Graphics.OpenGL.PixelFormat.Bgra,
                     //    OpenTK.Graphics.OpenGL.PixelType.UnsignedByte,
                     //    data.Scan0);
-                    GL.TexImage2D(All.Texture2D, 0, (All)glInternalFormat, image.Width, image.Height, 0, All.BgraImg, glType, data.Scan0);
-                    image.UnlockBits(data);
+                    GL.TexImage2D(All.Texture2D, 0, (All)glInternalFormat, image.Width, image.Height, 0, All.BgraImg, glType, image.Bytes);
+                    //image.UnlockBits(data);
 
                     //byte[] pixels = image.GetTextureImage();
                     //state.TexImage2D(TextureTarget2d.Texture2D, 0, (TextureComponentCount)glInternalFormat, image.Width, image.Height, 0, (OpenTK.Graphics.ES30.PixelFormat)glType, PixelType.UnsignedByte, pixels);

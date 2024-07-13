@@ -455,31 +455,31 @@ namespace THREE
                     runnable = false;
 
                     string vertexErrors = GetShaderErrors(glVertexShader, "vertex");
-                    if (!String.IsNullOrEmpty(vertexErrors))
+                    if (!string.IsNullOrEmpty(vertexErrors))
                     {
                         Debug.WriteLine(vertexErrors);
                         Debug.WriteLine(glVertexShader.Code);
                     }
 
                     string fragmentErrors = GetShaderErrors(glFragmentShader, "fragment");
-                    if (!String.IsNullOrEmpty(fragmentErrors))
+                    if (!string.IsNullOrEmpty(fragmentErrors))
                     {
                         Debug.WriteLine(fragmentErrors);
                         Debug.WriteLine(glFragmentShader.Code);
                     }
                     int validateState;
                     GL.GetProgram(program, GetProgramParameterName.ValidateStatus, out validateState);
-                    string errorMessage = String.Format("THREE.Renderers.gl.GLProgram: shader error {0}, GL.VALIDATE_STATUS {1}, GL.GetProgramInfoLog {2}",
+                    string errorMessage = string.Format("THREE.Renderers.gl.GLProgram: shader error {0}, GL.VALIDATE_STATUS {1}, GL.GetProgramInfoLog {2}",
                         GL.GetError(), validateState, programLog + "\n" + vertexLog + "\n" + fragmentLog);
 
 
                     throw new Exception(errorMessage);
                 }
-                else if (!String.IsNullOrEmpty(programLog))
+                else if (!string.IsNullOrEmpty(programLog))
                 {
                     Trace.TraceWarning("THREE.Renderers.gl.GLProgram: GL.GetProgramInfoLog() :" + programLog);
                 }
-                else if (String.IsNullOrEmpty(vertexLog) || String.IsNullOrEmpty(fragmentLog))
+                else if (string.IsNullOrEmpty(vertexLog) || string.IsNullOrEmpty(fragmentLog))
                 {
                     haveDiagnostics = false;
                     //int length;
