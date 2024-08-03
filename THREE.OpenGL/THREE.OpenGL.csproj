@@ -6,6 +6,9 @@
     <LangVersion>10</LangVersion>
     <Nullable>disable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Title>three.js ported opengl library to C#</Title>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/hjoykim/THREE/tree/master</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\THREE\THREE.csproj" />

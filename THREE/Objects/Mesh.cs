@@ -92,17 +92,23 @@ namespace THREE
                 }
             }
         }
+        public Mesh Copy(Mesh source)
+        {
+            return source.DeepCopy();
+        } 
         public override object Clone()
         {
-            Hashtable hastTable = base.Clone() as Hashtable;
-            Mesh cloned = new Mesh(this);
-            foreach (DictionaryEntry entry in hastTable)
-            {
-                cloned.Add(entry.Key, entry.Value);
-            }
+            //Hashtable hastTable = base.Clone() as Hashtable;
+            //Mesh cloned = new Mesh(this);
+            //foreach (DictionaryEntry entry in hastTable)
+            //{
+            //    cloned.Add(entry.Key, entry.Value);
+            //}
 
-            return cloned;
+            //return cloned;
+            return this.DeepCopy();
         }
+       
         public void InitGeometries(Geometry geometry, List<Material> materials)
         {
             this.type = "Mesh";

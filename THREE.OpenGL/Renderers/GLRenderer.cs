@@ -666,7 +666,7 @@ namespace THREE
 
             if (object3D is InstancedMesh)
             {
-                renderer.RenderInstances(geometry, (int)drawStart, (int)drawCount, (object3D as InstancedMesh).Count);
+                renderer.RenderInstances(geometry, (int)drawStart, (int)drawCount, (object3D as InstancedMesh).InstanceCount);
 
             }
             else if (geometry is InstancedBufferGeometry)

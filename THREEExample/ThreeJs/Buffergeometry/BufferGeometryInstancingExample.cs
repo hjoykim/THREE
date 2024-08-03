@@ -154,7 +154,6 @@ namespace THREEExample.Three.Buffergeometry
 
 			renderer.Render(scene, camera);
 			
-			ShowGUIControls();
 		}
 		private void AddControls()
         {

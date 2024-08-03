@@ -8,6 +8,9 @@
 	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	<AssemblyName>THREE</AssemblyName>
 	<RootNamespace>THREE</RootNamespace>
+	<RepositoryUrl>https://github.com/hjoykim/THREE/tree/master</RepositoryUrl>
+	<PackageTags>three.js opengl</PackageTags>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
 

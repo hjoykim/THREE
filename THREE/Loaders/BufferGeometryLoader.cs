@@ -40,8 +40,11 @@ namespace THREE
 
             if (indexObj != null)
             {
-                int[] index = indexObj as int[];
-                geometry.SetIndex(index.ToList<int>(), 1);
+               
+                int itemSize = (int)(indexObj as JObject)["itemSize"];
+                JToken arrayToken = (indexObj as JObject)["array"];
+                int[] index = arrayToken.ToObject<int[]>();
+                geometry.SetIndex(index.ToList<int>());
             }
 
             JObject data = (JObject)json["data"];

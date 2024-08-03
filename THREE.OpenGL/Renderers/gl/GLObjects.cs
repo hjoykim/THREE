@@ -18,6 +18,7 @@ namespace THREE
         public GLObjects(GLGeometries geometries, GLAttributes attributes, GLInfo info)
         {
             this.Geometries = geometries;
+            this.Attributes = attributes;
             this.info = info;
         }
 
@@ -75,6 +76,9 @@ namespace THREE
             if (object3D is InstancedMesh)
             {
                 Attributes.Update<float>((object3D as InstancedMesh).InstanceMatrix, BufferTarget.ArrayBuffer);
+
+                if ((object3D as InstancedMesh).InstanceColor != null)
+                    Attributes.Update<float>((object3D as InstancedMesh).InstanceColor,BufferTarget.ArrayBuffer);
             }
 
             return bufferGeometry as BufferGeometry;
