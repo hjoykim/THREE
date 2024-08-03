@@ -12,7 +12,7 @@ After installation WSL, if you want to debug on WSL mode, you must install Visua
 ![image](https://github.com/user-attachments/assets/4612d708-a81c-4496-84b3-61fdddeee04c)
 
 ## WSL Project Setting
-Your WSL Project has most  add WSL in Debug/Release  
+Your WSL Project has must  add WSL in Debug/Release  
 ![image](https://github.com/user-attachments/assets/b3329385-2596-4881-9605-d348acb6d83d)
 
 
