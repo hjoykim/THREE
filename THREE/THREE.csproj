@@ -11,6 +11,10 @@
 	<RepositoryUrl>https://github.com/hjoykim/THREE/tree/master</RepositoryUrl>
 	<PackageTags>three.js opengl</PackageTags>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<AssemblyVersion>1.0.0.1</AssemblyVersion>
+	<FileVersion>1.0.0.1</FileVersion>
+	<Description>C# port of Three.js </Description>
   </PropertyGroup>
 
 

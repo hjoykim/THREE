@@ -63,7 +63,7 @@ namespace THREE
             else if (attribute.Type == typeof(byte))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(byte)), array as byte[], usage);
-                type = (int)VertexAttribPointerType.UnsignedInt;
+                type = (int)VertexAttribPointerType.UnsignedByte;
                 bytePerElement = sizeof(byte);
             }
             else

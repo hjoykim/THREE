@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using ImGuiNET;
+using Microsoft.VisualBasic;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System;
 using System.Collections.Generic;
@@ -76,6 +77,10 @@ namespace THREEExample.ThreeJs.Instancing
             }
 
             scene.Add(mesh);
+            AddGuiControlsAction = () =>
+            {
+                ImGui.SliderInt("count", ref mesh.InstanceCount, 0, count);
+            };
             this.MouseMove += OnMouseMove;
         }
         private void OnMouseMove(object sender,THREE.MouseEventArgs e)

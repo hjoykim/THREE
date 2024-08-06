@@ -35,12 +35,12 @@ namespace THREE
             IntPtr ptr = IntPtr.Add(IntPtr.Zero, indices);
 
 
-            All mode1 = (All)Enum.ToObject(typeof(All), (int)mode);
-            All type1 = (All)Enum.ToObject(typeof(All), (int)type);
+            //All mode1 = (All)Enum.ToObject(typeof(All), (int)mode);
+            //All type1 = (All)Enum.ToObject(typeof(All), (int)type);
             //PrimitiveType mode1 = (PrimitiveType)Enum.ToObject(typeof(PrimitiveType), (int)mode);
             //DrawElementsType type1 = (DrawElementsType)Enum.ToObject(typeof(DrawElementsType), (int)type);
 
-            GL.DrawElements(mode1, count, type1, ptr);
+            GL.DrawElements((All)mode, count, (All)type, ptr);
 
             info.Update(count, (int)mode);
         }
@@ -51,13 +51,13 @@ namespace THREE
 
             int indices = start * this.bytesPerElement;
 
-            All mode1 = (All)Enum.ToObject(typeof(All), (int)mode);
-            All type1 = (All)Enum.ToObject(typeof(All), (int)type);
+            //All mode1 = (All)Enum.ToObject(typeof(All), (int)mode);
+            //All type1 = (All)Enum.ToObject(typeof(All), (int)type);
 
             //PrimitiveType mode1 = (PrimitiveType)Enum.ToObject(typeof(PrimitiveType), (int)mode);
             //DrawElementsType type1 = (DrawElementsType)Enum.ToObject(typeof(DrawElementsType), (int)type);
 
-            GL.DrawElementsInstanced(mode1, count, type1, ref indices, primcount);
+            GL.DrawElementsInstanced((All)mode, count, (All)type, ref indices, primcount);
 
             info.Update(count, (int)mode, primcount);
 

@@ -9,6 +9,10 @@
     <Title>three.js ported opengl library to C#</Title>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/hjoykim/THREE/tree/master</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+    <Description>C# port of Three.js </Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\THREE\THREE.csproj" />

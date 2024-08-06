@@ -29,7 +29,7 @@ namespace THREE
 
             if (json.ContainsKey("isInstancedBufferGeometry"))
             {
-                geometry = (bool)json["isInstancedBufferGeometry"] ? new InstancedBufferGeometry() : new BufferGeometry();
+                geometry = new InstancedBufferGeometry();
             }
             else
             {

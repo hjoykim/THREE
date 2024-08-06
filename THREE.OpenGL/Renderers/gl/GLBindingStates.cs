@@ -21,7 +21,7 @@ namespace THREE
         public int? vao;
         public Hashtable attributes;
         public BufferAttribute<int> index;
-
+        public int AttributesNum;
         public bool Equals(BindingStateStruct other)
         {
             return uuid.Equals(other.uuid);
@@ -34,8 +34,6 @@ namespace THREE
         public event EventHandler<EventArgs> Disposed;
 
         private int maxVertexAttributes;
-
-        private bool isGL2;
 
         private Hashtable bindingStates = new Hashtable();
 
@@ -100,13 +98,11 @@ namespace THREE
         }
         private void bindVertexArrayObject(int vao)
         {
-            if (this.Context.IsCurrent)
                 GL.BindVertexArray(vao);
 
         }
         private void deleteVertexArrayObject(int vao)
         {
-            if (this.Context.IsCurrent)
                 GL.DeleteVertexArray(vao);
         }
 
@@ -166,26 +162,28 @@ namespace THREE
             var cachedAttributes = currentState.attributes;
             var geometryAttributes = (geometry as BufferGeometry).Attributes;
 
+            int attributesNum = 0;
+
             if (cachedAttributes.Count != geometryAttributes.Count) return true;
 
-            foreach (var items in geometryAttributes)
+            foreach (var key in geometryAttributes)
             {
 
-                var cachedAttribute = cachedAttributes[items.Key];
-                var geometryAttribute = geometryAttributes[items.Key];
+                var cachedAttribute = cachedAttributes[key.Key];
+                var geometryAttribute = geometryAttributes[key.Key];
 
                 if (cachedAttribute == null) return true;
 
 
-                if ((cachedAttribute as Hashtable)["attribute"] != geometryAttribute as BufferAttribute<float>) return true;
+                if ((cachedAttribute as Hashtable)["attribute"] != geometryAttribute ) return true;
 
                 if (geometryAttribute is InterleavedBufferAttribute<float>)
                 {
                     if ((cachedAttribute as Hashtable)["data"] != (geometryAttribute as InterleavedBufferAttribute<float>).Data) return true;
                 }
-
+                attributesNum++;
             }
-
+            if (currentState.AttributesNum != attributesNum) return true;
             if (currentState.index != index) return true;
 
             return false;
@@ -194,21 +192,30 @@ namespace THREE
         private void saveCache(Geometry geometry, BufferAttribute<int> index, GLProgram program, Material material)
         {
             Hashtable cache = new Hashtable();
-
+            int attributesNum = 0;
             foreach (var items in (geometry as BufferGeometry).Attributes)
             {
-                var attribute = items.Value as BufferAttribute<float>;
+                var attribute = items.Value;// as BufferAttribute<float>;
                 Hashtable data = new Hashtable();
                 data.Add("attribute", attribute);
                 if (attribute is InterleavedBufferAttribute<float>)
                 {
                     data.Add("data", (attribute as InterleavedBufferAttribute<float>).Data);
                 }
+                else if (attribute is InterleavedBufferAttribute<int>)
+                {
+                    data.Add("data", (attribute as InterleavedBufferAttribute<int>).Data);
+                }
+                else if (attribute is InterleavedBufferAttribute<byte>)
+                {
+                    data.Add("data", (attribute as InterleavedBufferAttribute<byte>).Data);
+                }
                 cache.Add(items.Key, data);
+                attributesNum++;
             }
 
             currentState.attributes = cache;
-
+            currentState.AttributesNum = attributesNum;
             currentState.index = index;
 
             Hashtable programMap = bindingStates[geometry.Id] as Hashtable;
@@ -284,9 +291,7 @@ namespace THREE
 
                 if (index != null)
                 {
-
                     GL.BindBuffer(BufferTarget.ElementArrayBuffer, attributes.Get<int>(index).buffer);
-
                 }
 
             }
@@ -419,7 +424,7 @@ namespace THREE
         }
         private void vertexAttribPointer(int index, int size, VertexAttribPointerType type, bool normalized, int stride, int offset)
         {
-            if (isGL2 && (type == VertexAttribPointerType.Int || type == VertexAttribPointerType.UnsignedInt))
+            if (this.capabilities.IsGL2 && (type == VertexAttribPointerType.Int || type == VertexAttribPointerType.UnsignedInt))
                 GL.VertexAttribIPointer(index, size, (VertexAttribIntegerType)type, stride, IntPtr.Zero);
             else
                 GL.VertexAttribPointer(index, size, type, normalized, stride, offset);
@@ -427,7 +432,7 @@ namespace THREE
 
         private void setupVertexAttributes(Object3D object3D, Material material, GLProgram program, Geometry geometry)
         {
-            if (isGL2 == false && (object3D is InstancedMesh || geometry is InstancedBufferGeometry))
+            if (this.capabilities.IsGL2 == false && (object3D is InstancedMesh || geometry is InstancedBufferGeometry))
             {
                 if (extensions.Get("GL_ARB_instanced_arrays") == -1) return;
             }

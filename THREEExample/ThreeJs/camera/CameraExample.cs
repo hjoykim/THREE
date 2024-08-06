@@ -101,6 +101,7 @@ namespace THREEExample.Three.camera
         public override void InitRenderer()
         {
             base.InitRenderer();
+            renderer.SetClearColor(0x000000);
             renderer.AutoClear = false;
         }
         public override void Init()
@@ -117,7 +118,7 @@ namespace THREEExample.Three.camera
         float r = 0;
         public override void Render()
         {
-            r += 0.0005f;
+            r += 0.005f;
 
             mesh.Position.X = 700 * (float)Math.Cos(r);
             mesh.Position.Z = 700 * (float)Math.Sin(r);
