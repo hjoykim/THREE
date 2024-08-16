@@ -15,7 +15,7 @@ namespace THREE
 
         public BufferAttribute<float> InstanceColor;
 
-        public int InstanceCount;
+        public int InstanceCount; // count in three.js
         public InstancedMesh()  : base() { }
         public InstancedMesh(Geometry geometry, Material material, int count) : base(geometry, material)
         {

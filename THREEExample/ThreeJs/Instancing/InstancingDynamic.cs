@@ -38,15 +38,8 @@ namespace THREEExample.ThreeJs.Instancing
             geometry.ComputeVertexNormals();
             geometry.Scale(0.5f, 0.5f, 0.5f);
 
-            Geometry geometry1 = new Geometry();
-            // transfrom buffer geometry to geometry
-            // I can't find yet why buffergeometry with index is not rendered on this THREE library
-            // Now continue debugging.
-            // Anybody who can find out this solution of this bug. please let me know
-            geometry1.FromBufferGeometry(geometry); 
-
             var material = new THREE.MeshNormalMaterial();
-            mesh = new THREE.InstancedMesh(geometry1, material, count);
+            mesh = new THREE.InstancedMesh(geometry, material, count);
             mesh.InstanceMatrix.SetUsage(Constants.DynamicDrawUsage); // will be updated every frame
             scene.Add(mesh);
 
