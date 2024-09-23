@@ -69,7 +69,7 @@ namespace THREEExample.Three.Geometries
                 j += 3;
 
             }
-            geometry.SetAttribute("position", new BufferAttribute<float>(vertices.ToArray(), 3));
+            geometry.SetAttribute("position", new BufferAttribute<float>(vertices, 3));
             geometry.ComputeFaceNormals(); // needed for helper
 
             var texture = GenerateTexture(Data, worldWidth, worldDepth);
@@ -104,7 +104,7 @@ namespace THREEExample.Three.Geometries
 
             }
 
-            return data.ToList();
+            return new List <float>(data);
         }
         private Texture GenerateTexture(List<float> data, int width, int height)
         {
