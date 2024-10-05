@@ -331,7 +331,7 @@ namespace THREE
                                 int b = j + 1;
                                 int c = j + 2;
 
-                                intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>, bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>>, bufferGeometry.MorphTargetsRelative, bufferGeometry.Attributes["uv"] as BufferAttribute<float>, bufferGeometry.Attributes["uv2"] as BufferAttribute<float>, a, b, c);
+                                intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
 
                                 if (intersection != null)
                                 {
@@ -348,7 +348,7 @@ namespace THREE
                     {
 
                         int start = (int)System.Math.Max(0, bufferGeometry.DrawRange.Start);
-                        int end = (int)System.Math.Min((bufferGeometry.Attributes["position"] as BufferAttribute<float>).count, (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
+                        int end = (int)System.Math.Min(position.count, (bufferGeometry.DrawRange.Start + bufferGeometry.DrawRange.Count));
 
                         for (int i = start; i < end; i += 3)
                         {
@@ -357,10 +357,7 @@ namespace THREE
                             int b = i + 1;
                             int c = i + 2;
 
-                            intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, bufferGeometry.Attributes["position"] as BufferAttribute<float>,
-                                bufferGeometry.MorphAttributes.ContainsKey("position") ? bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null, bufferGeometry.MorphTargetsRelative,
-                                bufferGeometry.Attributes.ContainsKey("uv") ? bufferGeometry.Attributes["uv"] as BufferAttribute<float> : null,
-                                bufferGeometry.Attributes.ContainsKey("uv2") ? bufferGeometry.Attributes["uv2"] as BufferAttribute<float> : null, a, b, c);
+                            intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
 
                             if (intersection != null)
                             {
