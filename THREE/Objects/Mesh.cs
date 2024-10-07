@@ -383,8 +383,7 @@ namespace THREE
                 var faces = this.Geometry.Faces;
                 List<List<Vector2>> uvs = null;
 
-                var faceVertexUvs = this.Geometry.FaceVertexUvs[0];
-                if (faceVertexUvs.Count > 0) uvs = faceVertexUvs;
+                if (Geometry.FaceVertexUvs.Count > 0) uvs = Geometry.FaceVertexUvs[0];               
 
                 for (int f = 0; f < faces.Count; f++)
                 {
