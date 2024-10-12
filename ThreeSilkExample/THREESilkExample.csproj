@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="LearningThreeJs\Chapter11\**" />
+    <Compile Remove="ThreeJs\Clipping\**" />
+    <Compile Remove="ThreeJs\CustomAttributes\**" />
+    <Compile Remove="ThreeJs\Geometries\**" />
+    <Compile Remove="ThreeJs\Instancing\**" />
+    <Compile Remove="ThreeJs\Interactive\**" />
+    <Compile Remove="ThreeJs\Modifier\**" />
+    <EmbeddedResource Remove="LearningThreeJs\Chapter11\**" />
+    <EmbeddedResource Remove="ThreeJs\Clipping\**" />
+    <EmbeddedResource Remove="ThreeJs\CustomAttributes\**" />
+    <EmbeddedResource Remove="ThreeJs\Geometries\**" />
+    <EmbeddedResource Remove="ThreeJs\Instancing\**" />
+    <EmbeddedResource Remove="ThreeJs\Interactive\**" />
+    <EmbeddedResource Remove="ThreeJs\Modifier\**" />
+    <None Remove="LearningThreeJs\Chapter11\**" />
+    <None Remove="ThreeJs\Clipping\**" />
+    <None Remove="ThreeJs\CustomAttributes\**" />
+    <None Remove="ThreeJs\Geometries\**" />
+    <None Remove="ThreeJs\Instancing\**" />
+    <None Remove="ThreeJs\Interactive\**" />
+    <None Remove="ThreeJs\Modifier\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="LearningThreeJs\Chapter07\ProgrambasedPointsGL.cs" />
+    <Compile Remove="LearningThreeJs\Chapter07\ProgramBasedSprites.cs" />
+    <Compile Remove="ThreeJs\Buffergeometry\BufferGeometryInstancingExample.cs" />
+    <Compile Remove="ThreeJs\Buffergeometry\BuffergeometryPointsInterleaved.cs" />
+    <Compile Remove="ThreeJs\Buffergeometry\BuffergeometryUintExample.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="ThreeJs\Clipping\ClippingExample.cs" />
+    <Compile Include="ThreeJs\Clipping\ClippingIntersectionExample.cs" />
+    <Compile Include="ThreeJs\Clipping\ClippingIntersectionSolidExample.cs" />
+    <Compile Include="ThreeJs\CustomAttributes\CustomAttributesLines.cs" />
+    <Compile Include="ThreeJs\Geometries\ConvexGeometryExample.cs" />
+    <Compile Include="ThreeJs\Geometries\EdgesGeometryExample.cs" />
+    <Compile Include="ThreeJs\Geometries\GeometriesExample.cs" />
+    <Compile Include="ThreeJs\Geometries\GeometryHierarchy2Example.cs" />
+    <Compile Include="ThreeJs\Geometries\GeometryHierarchyExample.cs" />
+    <Compile Include="ThreeJs\Geometries\GeometryShapeExample.cs" />
+    <Compile Include="ThreeJs\Geometries\GeometryTerrainExample.cs" />
+    <Compile Include="ThreeJs\Geometries\GeometryTerrainFogExample.cs" />
+    <Compile Include="ThreeJs\Geometries\GeometryTerrainRaycastExample.cs" />
+    <Compile Include="ThreeJs\Geometries\GeometryTextShapeExample.cs" />
+    <Compile Include="ThreeJs\Geometries\ImprovedNoise.cs" />
+    <Compile Include="ThreeJs\Geometries\TeapotBufferGeometry.cs" />
+    <Compile Include="ThreeJs\Geometries\TeapotExample.cs" />
+    <Compile Include="ThreeJs\Interactive\InteractiveCubesExample.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\THREE.Silk\THREE.Silk.csproj" />
+    <ProjectReference Include="..\THREE\THREE.csproj" />
+  </ItemGroup>
+
+</Project>

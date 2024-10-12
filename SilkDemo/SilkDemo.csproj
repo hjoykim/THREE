@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="THREE.Silk.Example\LearningThreeJs\Chapter11\**" />
+    <EmbeddedResource Remove="THREE.Silk.Example\LearningThreeJs\Chapter11\**" />
+    <None Remove="THREE.Silk.Example\LearningThreeJs\Chapter11\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SingleSceneSilkExample\SingleSceneSilkExample.csproj" />
+    <ProjectReference Include="..\THREE.Silk\THREE.Silk.csproj" />
+    <ProjectReference Include="..\ThreeSilkExample\THREESilkExample.csproj" />
+  </ItemGroup>
+
+</Project>
