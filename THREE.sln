@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WSLDemo", "WSLDemo\WSLDemo.
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "THREEExample", "THREEExample\THREEExample.shproj", "{30D00158-3966-4B7A-8DA5-A0A08A7B61BA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SingleFormsDemo", "SingleFormsDemo\SingleFormsDemo.csproj", "{66FA6449-6729-4642-A7C9-9D67FFDD02A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{4A0520F1-F557-4C6D-A5CA-677EEA89FEB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A0520F1-F557-4C6D-A5CA-677EEA89FEB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A0520F1-F557-4C6D-A5CA-677EEA89FEB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FA6449-6729-4642-A7C9-9D67FFDD02A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FA6449-6729-4642-A7C9-9D67FFDD02A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FA6449-6729-4642-A7C9-9D67FFDD02A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FA6449-6729-4642-A7C9-9D67FFDD02A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

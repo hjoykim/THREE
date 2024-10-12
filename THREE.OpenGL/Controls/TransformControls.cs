@@ -1548,8 +1548,8 @@ namespace THREE
                         object3D.Scale.Set(1, 1, 1);
                     }
                     // save original material color 
-                    object3D.Material["_color"] = object3D.Material.Color.Value;
-                    object3D.Material["_opacity"] = object3D.Material.Opacity;
+                    object3D.Material.UserData["_color"] = object3D.Material.Color.Value;
+                    object3D.Material.UserData["_opacity"] = object3D.Material.Opacity;
                     gizmo.Add(object3D);
 
                 }
@@ -1933,8 +1933,8 @@ namespace THREE
                 else
                 {
                     // revoke original color and opacity
-                    handle.Material.Color = (Color)handle.Material["_color"];
-                    handle.Material.Opacity = (float)handle.Material["_opacity"];
+                    handle.Material.Color = (Color)handle.Material.UserData["_color"];
+                    handle.Material.Opacity = (float)handle.Material.UserData["_opacity"];
                 }
 
             }

@@ -29,7 +29,7 @@ namespace THREE
     }
 
     [Serializable]
-    public class Texture : DisposableObject
+    public class Texture : DisposableObject,ICloneable
     {
         #region Static Fields
 
@@ -221,7 +221,7 @@ namespace THREE
             this.Matrix.SetUvTransform(this.Offset.X, this.Offset.Y, this.Repeat.X, this.Repeat.Y, this.Rotation, this.Center.X, this.Center.Y);
         }
 
-        public Texture Clone()
+        public virtual object Clone()
         {
             return new Texture(this);
         }

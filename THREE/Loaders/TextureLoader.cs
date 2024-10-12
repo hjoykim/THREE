@@ -79,7 +79,7 @@ namespace THREE
             //bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
             Texture texture = new Texture();
             texture.Image = bitmap;
-            texture.Format = Constants.RGBFormat;
+            texture.Format = Constants.RGBAFormat;
             texture.NeedsUpdate = true;
       
             return texture;

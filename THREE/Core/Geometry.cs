@@ -510,10 +510,18 @@ namespace THREE
                 }
                 else
                 {
-
-                    vertexNormals[0] = (Vector3)face.Normal.Clone();
-                    vertexNormals[1] = (Vector3)face.Normal.Clone();
-                    vertexNormals[2] = (Vector3)face.Normal.Clone();
+                    if (vertexNormals.Count == 0)
+                    {
+                        vertexNormals.Add(face.Normal.Clone());
+                        vertexNormals.Add(face.Normal.Clone());
+                        vertexNormals.Add(face.Normal.Clone());
+                    }
+                    else
+                    {
+                        vertexNormals[0] = (Vector3)face.Normal.Clone();
+                        vertexNormals[1] = (Vector3)face.Normal.Clone();
+                        vertexNormals[2] = (Vector3)face.Normal.Clone();
+                    }
 
                 }
 

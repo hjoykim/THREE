@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace THREE
 {
     [Serializable]
-    public class Material : Hashtable, IDisposable, ICloneable
+    public class Material : IDisposable, ICloneable
     {
         private static int materialIdCount;
 
@@ -104,7 +104,7 @@ namespace THREE
 
         public bool ToneMapped = true;
 
-        public Hashtable UserData = new Hashtable();
+        public Dictionary<string,object> UserData = new Dictionary<string,object>();
 
         private bool needsUpdate;
 
@@ -251,7 +251,7 @@ namespace THREE
         public Material()
         {
         }
-        public Material(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public Material(SerializationInfo info, StreamingContext context) { }
 
         protected Material(Material source) : base()
         {
@@ -259,7 +259,7 @@ namespace THREE
         }
 
 
-        public override object Clone()
+        public virtual object Clone()
         {
             var material = new Material();
             material.Copy(this);
@@ -357,7 +357,7 @@ namespace THREE
 
             ToneMapped = source.ToneMapped;
 
-            UserData = source.UserData.Clone() as Hashtable;
+            UserData = source.UserData.DeepCopy();
 
             NeedsUpdate = source.NeedsUpdate;
 
@@ -370,19 +370,19 @@ namespace THREE
             MorphNormals = source.MorphNormals;
 
             if (source.Map != null)
-                Map = source.Map.Clone();
+                Map = (Texture)source.Map.Clone();
 
             if (source.AlphaMap != null)
-                AlphaMap = source.AlphaMap.Clone();
+                AlphaMap = (Texture)source.AlphaMap.Clone();
 
             if (source.SpecularMap != null)
-                SpecularMap = source.SpecularMap.Clone();
+                SpecularMap = (Texture)source.SpecularMap.Clone();
 
             if (source.EnvMap != null)
-                EnvMap = source.EnvMap.Clone();
+                EnvMap = (Texture)source.EnvMap.Clone();
 
             if (source.NormalMap != null)
-                NormalMap = source.NormalMap.Clone();
+                NormalMap = (Texture)source.NormalMap.Clone();
 
             NormalMapType = source.NormalMapType;
 
@@ -390,21 +390,21 @@ namespace THREE
                 NormalScale = source.NormalScale.Clone();
 
             if (source.BumpMap != null)
-                BumpMap = source.BumpMap.Clone();
+                BumpMap = (Texture)source.BumpMap.Clone();
 
             BumpScale = source.BumpScale;
 
             if (source.LightMap != null)
-                LightMap = source.LightMap.Clone();
+                LightMap = (Texture)source.LightMap.Clone();
 
             if (source.AoMap != null)
-                AoMap = source.AoMap.Clone();
+                AoMap = (Texture)source.AoMap.Clone();
 
             if (source.EmissiveMap != null)
-                EmissiveMap = source.EmissiveMap.Clone();
+                EmissiveMap = (Texture)source.EmissiveMap.Clone();
 
             if (source.DisplacementMap != null)
-                DisplacementMap = source.DisplacementMap.Clone();
+                DisplacementMap = (Texture)source.DisplacementMap.Clone();
 
             DisplacementScale = source.DisplacementScale;
 
@@ -413,30 +413,30 @@ namespace THREE
             Clearcoat = source.Clearcoat;
 
             if (source.ClearcoatMap != null)
-                ClearcoatMap = source.ClearcoatMap.Clone();
+                ClearcoatMap = (Texture)source.ClearcoatMap.Clone();
 
             ClearcoatRoughness = source.ClearcoatRoughness;
 
             if (source.ClearcoatRoughnessMap != null)
-                ClearcoatRoughnessMap = source.ClearcoatRoughnessMap.Clone();
+                ClearcoatRoughnessMap = (Texture)source.ClearcoatRoughnessMap.Clone();
 
             if (source.ClearcoatNormalScale != null)
                 ClearcoatNormalScale = source.ClearcoatNormalScale.Clone();
 
             if (source.ClearcoatNormalMap != null)
-                ClearcoatNormalMap = source.ClearcoatNormalMap.Clone();
+                ClearcoatNormalMap = (Texture)source.ClearcoatNormalMap.Clone();
 
             if (source.RoughnessMap != null)
-                RoughnessMap = source.RoughnessMap.Clone();
+                RoughnessMap = (Texture)source.RoughnessMap.Clone();
 
             if (source.MetalnessMap != null)
-                MetalnessMap = source.MetalnessMap.Clone();
+                MetalnessMap = (Texture)source.MetalnessMap.Clone();
 
             if (source.GradientMap != null)
-                GradientMap = source.GradientMap.Clone();
+                GradientMap = (Texture)source.GradientMap.Clone();
 
             if (source.TransmissionMap != null)
-                TransmissionMap = source.TransmissionMap.Clone();
+                TransmissionMap = (Texture)source.TransmissionMap.Clone();
 
             Sheen = source.Sheen;
 
