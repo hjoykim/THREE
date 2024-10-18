@@ -17,6 +17,13 @@ namespace THREE
             }
         }
 
+        public PointLight() : base() 
+        {
+            this.Distance = 0;
+            this.Decay =  1;
+            this.Shadow = new PointLightShadow();
+            this.type = "PointLight";
+        }
         public PointLight(Color color, float? intensity = null, float? distance = null, float? decay = null)
             : base(color, intensity)
         {
