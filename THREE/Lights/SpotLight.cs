@@ -17,6 +17,25 @@ namespace THREE
             }
         }
 
+        public SpotLight() : base() 
+        {
+            this.Position.Copy(Object3D.DefaultUp);
+            this.UpdateMatrix();
+
+            this.Target = new Object3D();
+
+            this.Distance =  0;
+
+            this.Angle = (float)(System.Math.PI / 3);
+
+            this.Penumbra =  0;
+
+            this.Decay = 1;
+
+            this.Shadow = new SpotLightShadow();
+
+            this.type = "SpotLight";
+        }
         public SpotLight(Color color, float? intensity = null, float? distance = null, float? angle = null, float? penumbra = null, float? decay = null)
             : base(color, intensity)
         {

@@ -259,6 +259,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\LightProbeExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\RectArealightExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\LoaderTTFExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\Rhino3dmLoaderExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\STLLoaderSample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\TTFFont.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\X3DLoader.cs" />
