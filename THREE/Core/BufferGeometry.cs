@@ -241,7 +241,7 @@ namespace THREE
         //    }
         //}
 
-        public virtual void AddGroup(int start, int count, int materialIndex)
+        public virtual void AddGroup(int start, int count, int materialIndex = 0)
         {
             this.Groups.Add(new DrawRange { Start = start, Count = count, MaterialIndex = materialIndex });
         }

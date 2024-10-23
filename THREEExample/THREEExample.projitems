@@ -255,6 +255,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Instancing\InstancingDynamic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Instancing\InstancingRaycast.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Interactive\InteractiveCubesExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Interactive\RaycastingPointsExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\LightprobeCubeCamera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\LightProbeExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\RectArealightExample.cs" />

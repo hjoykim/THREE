@@ -36,7 +36,7 @@ namespace THREE
         public float far = float.PositiveInfinity;
         public Camera camera;
         public Layers layers;
-        public RaycasterParameters parameters;
+        public RaycasterParameters parameters = new RaycasterParameters();
 
         public Hashtable PointCloud
         {
