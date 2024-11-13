@@ -58,10 +58,10 @@ namespace THREE
 
             for (int i = 0; i < skinWeight.count; i++)
             {
-                vector.X = skinWeight.getX(i);
-                vector.Y = skinWeight.getY(i);
-                vector.Z = skinWeight.getZ(i);
-                vector.W = skinWeight.getW(i);
+                vector.X = skinWeight.GetX(i);
+                vector.Y = skinWeight.GetY(i);
+                vector.Z = skinWeight.GetZ(i);
+                vector.W = skinWeight.GetW(i);
 
                 float scale = 1f / vector.ManhattanLength();
 
@@ -74,7 +74,7 @@ namespace THREE
                     vector.Set(1, 0, 0, 0); // do something reasonable
                 }
 
-                skinWeight.setXYZW(i, vector.X, vector.Y, vector.Z, vector.W);
+                skinWeight.SetXYZW(i, vector.X, vector.Y, vector.Z, vector.W);
             }
         }
 

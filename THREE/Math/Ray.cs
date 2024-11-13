@@ -52,6 +52,22 @@ namespace THREE
             else
                 return target.Copy(this.direction).MultiplyScalar(t).Add(this.origin);
         }
+
+        public Vector3 At(float t, Vector4 target = null)
+        {
+            Vector3 result = new Vector3();
+            if (target == null)
+            {
+                return result.Copy(this.direction).MultiplyScalar(t).Add(this.origin);
+            }
+            else
+            {
+                result.Copy(this.direction).MultiplyScalar(t).Add(this.origin);
+                target.Set(result.X, result.Y, result.Z, 0);
+                return result;
+            }
+        }
+
         public Ray LookAt(Vector3 v)
         {
             this.direction.Copy(v).Sub(this.origin).Normalize();

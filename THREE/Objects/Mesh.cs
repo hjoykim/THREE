@@ -29,7 +29,7 @@ namespace THREE
             InitGeometries(geometry, materials);
         }
 
-        public Mesh(Geometry geometry = null, Material material = null) : base()
+        public Mesh(Geometry geometry = null, Material material = null) :base()
         {
             InitGeometry(geometry, material);
         }
@@ -109,7 +109,7 @@ namespace THREE
             return this.DeepCopy();
         }
        
-        public void InitGeometries(Geometry geometry, List<Material> materials)
+        public virtual void InitGeometries(Geometry geometry, List<Material> materials)
         {
             this.type = "Mesh";
 
@@ -133,7 +133,7 @@ namespace THREE
             this.UpdateMorphTargets();
         }
 
-        public void InitGeometry(Geometry geometry, Material material)
+        public virtual void InitGeometry(Geometry geometry, Material material)
         {
             this.type = "Mesh";
 
@@ -263,9 +263,9 @@ namespace THREE
                             for (int j = start; j < end; j += 3)
                             {
 
-                                var a = bufferGeometry.Index.getX(j);
-                                var b = bufferGeometry.Index.getX(j + 1);
-                                var c = bufferGeometry.Index.getX(j + 2);
+                                var a = bufferGeometry.Index.GetX(j);
+                                var b = bufferGeometry.Index.GetX(j + 1);
+                                var c = bufferGeometry.Index.GetX(j + 2);
 
                                 intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
 
@@ -288,9 +288,9 @@ namespace THREE
                         for (int i = (int)start; i < (int)end; i += 3)
                         {
 
-                            int a = bufferGeometry.Index.getX(i);
-                            int b = bufferGeometry.Index.getX(i + 1);
-                            int c = bufferGeometry.Index.getX(i + 2);
+                            int a = bufferGeometry.Index.GetX(i);
+                            int b = bufferGeometry.Index.GetX(i + 1);
+                            int c = bufferGeometry.Index.GetX(i + 2);
 
                             intersection = checkBufferGeometryIntersection(this, Material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, b, c);
 

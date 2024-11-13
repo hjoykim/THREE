@@ -60,7 +60,7 @@ namespace THREE
 
         public int MaxMorphNormals = 4;
 
-        public ShaderLib ShaderLib = new ShaderLib();
+        public ShaderLib ShaderLib = Global.ShaderLib;
 
         GLCapabilitiesParameters parameters;
 
@@ -310,6 +310,21 @@ namespace THREE
             _viewport.Set(x, y, width, height);
             this._currentViewport = (_viewport * _pixelRatio).Floor();
             state.Viewport(_currentViewport);
+        }
+        
+        public void SetScissorTest(bool value)
+        {
+            state.SetScissorTest(value);
+        }
+        
+        public void SetScissor(int x,int y,int width,int height)
+        {
+            _scissor.Set(x, y, width, height);
+            state.Scissor(_currentScissor.Copy(_scissor));
+        }
+        public Vector4 GetScissor(Vector4 target)
+        {
+            return target.Copy(_scissor);
         }
         private void InitGLContext()
         {

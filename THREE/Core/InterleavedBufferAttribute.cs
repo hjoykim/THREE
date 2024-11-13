@@ -45,7 +45,7 @@ namespace THREE
         {
             get
             {
-                return (this.Data as BufferAttribute<T>).Array;
+                return this.Data.Array;
             }
 
         }
@@ -54,7 +54,7 @@ namespace THREE
         {
             get
             {
-                return (Data as BufferAttribute<T>).count;
+                return Data.count;
             }
         }
 
@@ -65,38 +65,27 @@ namespace THREE
         }
         public InterleavedBufferAttribute(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public InterleavedBufferAttribute(InterleavedBuffer<T> interleavedBuffer, int itemSize, int offset, bool normalized) : this()
+        public InterleavedBufferAttribute(InterleavedBuffer<T> interleavedBuffer, int itemSize, int offset, bool normalized=false) : this()
         {
             this.Data = interleavedBuffer;
             this.ItemSize = itemSize;
             this.Offset = offset;
             this.Normalized = normalized == true;
         }
-        public InterleavedBufferAttribute<T> SetX(int index, T x)
+
+        public new InterleavedBufferAttribute<T> SetY(int index, T y)
         {
-
-            this.Data.Array[index * this.Data.Stride + this.Offset] = x;
-
-            return this;
-
-        }
-        public InterleavedBufferAttribute<T> SetY(int index, T y)
-        {
-
             this.Data.Array[index * this.Data.Stride + this.Offset + 1] = y;
-
             return this;
-
         }
-        public InterleavedBufferAttribute<T> SetZ(int index, T z)
+        public new InterleavedBufferAttribute<T> SetZ(int index, T z)
         {
-
             this.Data.Array[index * this.Data.Stride + this.Offset + 2] = z;
 
             return this;
 
         }
-        public InterleavedBufferAttribute<T> SetW(int index, T w)
+        public new InterleavedBufferAttribute<T> SetW(int index, T w)
         {
 
             this.Data.Array[index * this.Data.Stride + this.Offset + 3] = w;
@@ -105,35 +94,35 @@ namespace THREE
 
         }
 
-        public T GetX(int index)
+        public new T GetX(int index)
         {
 
             return this.Data.Array[index * this.Data.Stride + this.Offset];
 
         }
 
-        public T GetY(int index)
+        public new T GetY(int index)
         {
 
             return this.Data.Array[index * this.Data.Stride + this.Offset + 1];
 
         }
 
-        public T GetZ(int index)
+        public new T GetZ(int index)
         {
 
             return this.Data.Array[index * this.Data.Stride + this.Offset + 2];
 
         }
 
-        public T GetW(int index)
+        public new T GetW(int index)
         {
 
             return this.Data.Array[index * this.Data.Stride + this.Offset + 3];
 
         }
 
-        public InterleavedBufferAttribute<T> SetXY(int index, T x, T y)
+        public new InterleavedBufferAttribute<T> SetXY(int index, T x, T y)
         {
             index = index * this.Data.Stride + this.Offset;
             this.Data.Array[index + 0] = x;
@@ -142,7 +131,7 @@ namespace THREE
             return this;
 
         }
-        public InterleavedBufferAttribute<T> SetXYZ(int index, T x, T y, T z)
+        public new InterleavedBufferAttribute<T> SetXYZ(int index, T x, T y, T z)
         {
             index = index * this.Data.Stride + this.Offset;
             this.Data.Array[index + 0] = x;
@@ -153,13 +142,32 @@ namespace THREE
 
         }
 
-        public InterleavedBufferAttribute<T> SetXYZW(int index, T x, T y, T z, T w)
+        public new InterleavedBufferAttribute<T> SetXYZW(int index, T x, T y, T z, T w)
         {
             index = index * this.Data.Stride + this.Offset;
             this.Data.Array[index + 0] = x;
             this.Data.Array[index + 1] = y;
             this.Data.Array[index + 2] = z;
             this.Data.Array[index + 3] = w;
+
+            return this;
+
+        }
+        public InterleavedBufferAttribute<T> ApplyMatrix4(Matrix4 m)
+        {
+            Vector3 _vector = new Vector3();
+            for (int i = 0, l = this.Data.count; i < l; i++)
+            {
+
+                _vector.X = (float)(object)this.GetX(i);
+                _vector.Y = (float)(object)this.GetY(i);
+                _vector.Z = (float)(object)this.GetZ(i);
+
+                _vector.ApplyMatrix4(m);
+
+                this.SetXYZ(i, (T)(object)_vector.X, (T)(object)_vector.Y, (T)(object)_vector.Z);
+
+            }
 
             return this;
 

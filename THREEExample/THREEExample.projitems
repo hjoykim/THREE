@@ -252,6 +252,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Geometries\ImprovedNoise.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Geometries\TeapotBufferGeometry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Geometries\TeapotExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Geometries\WireframeGeometryExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Instancing\InstancingDynamic.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Instancing\InstancingRaycast.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Interactive\InteractiveCubesExample.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\LightprobeCubeCamera.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\LightProbeExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\RectArealightExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lines\LinesFatExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\LoaderTTFExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\Rhino3dmLoaderExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\STLLoaderSample.cs" />

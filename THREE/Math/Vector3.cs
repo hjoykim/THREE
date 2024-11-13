@@ -758,9 +758,18 @@ namespace THREE
 
         public Vector3 FromBufferAttribute(BufferAttribute<float> attribute, int index)
         {
-            this.X = attribute.getX(index);
-            this.Y = attribute.getY(index);
-            this.Z = attribute.getZ(index);
+            this.X = attribute.GetX(index);
+            this.Y = attribute.GetY(index);
+            this.Z = attribute.GetZ(index);
+
+            return this;
+        }
+
+        public Vector3 FromBufferAttribute(InterleavedBufferAttribute<float> attribute, int index)
+        {
+            this.X = attribute.GetX(index);
+            this.Y = attribute.GetY(index);
+            this.Z = attribute.GetZ(index);
 
             return this;
         }

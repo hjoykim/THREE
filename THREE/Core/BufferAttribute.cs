@@ -285,68 +285,75 @@ namespace THREE
             return this;
         }
 
-        public T getX(int index)
+        public T GetX(int index)
         {
             return this.Array[index * this.ItemSize];
         }
 
-        public void setX(int index, T x)
+        public BufferAttribute<T> SetX(int index, T x)
         {
             this.Array[index * this.ItemSize] = x;
+            return this;
         }
 
-        public T getY(int index)
+        public T GetY(int index)
         {
             return this.Array[index * this.ItemSize + 1];
         }
 
-        public void setY(int index, T y)
+        public BufferAttribute<T> SetY(int index, T y)
         {
             this.Array[index * this.ItemSize + 1] = y;
+            return this;
         }
 
-        public T getZ(int index)
+        public T GetZ(int index)
         {
             return this.Array[index * this.ItemSize + 2];
         }
 
-        public void setZ(int index, T z)
+        public BufferAttribute<T> SetZ(int index, T z)
         {
             this.Array[index * this.ItemSize + 2] = z;
+            return this;
         }
 
-        public T getW(int index)
+        public T GetW(int index)
         {
             return this.Array[index * this.ItemSize + 3];
         }
 
-        public void setW(int index, T w)
+        public BufferAttribute<T> SetW(int index, T w)
         {
             this.Array[index * this.ItemSize + 3] = w;
+            return this;
         }
 
-        public void setXY(int index, T x, T y)
+        public BufferAttribute<T> SetXY(int index, T x, T y)
         {
             index *= this.ItemSize;
             this.Array[index + 0] = x;
             this.Array[index + 1] = y;
+            return this;
         }
 
-        public void setXYZ(int index, T x, T y, T z)
+        public BufferAttribute<T> SetXYZ(int index, T x, T y, T z)
         {
             index *= this.ItemSize;
             this.Array[index + 0] = x;
             this.Array[index + 1] = y;
             this.Array[index + 2] = z;
+            return this;
         }
 
-        public void setXYZW(int index, T x, T y, T z, T w)
+        public BufferAttribute<T> SetXYZW(int index, T x, T y, T z, T w)
         {
             index *= this.ItemSize;
             this.Array[index + 0] = x;
             this.Array[index + 1] = y;
             this.Array[index + 2] = z;
             this.Array[index + 3] = w;
+            return this;
         }
     }
 }

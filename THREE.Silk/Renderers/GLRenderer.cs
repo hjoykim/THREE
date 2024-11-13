@@ -62,7 +62,7 @@ namespace THREE
 
         public int MaxMorphNormals = 4;
 
-        public ShaderLib ShaderLib = new ShaderLib();
+        public ShaderLib ShaderLib = Global.ShaderLib;
 
         GLCapabilitiesParameters parameters;
 

@@ -966,13 +966,13 @@ namespace THREE
 
             for (int i = 0; i < normals.count; i++)
             {
-                _vector.X = normals.getX(i);
-                _vector.Y = normals.getY(i);
-                _vector.Z = normals.getZ(i);
+                _vector.X = normals.GetX(i);
+                _vector.Y = normals.GetY(i);
+                _vector.Z = normals.GetZ(i);
 
                 _vector.Normalize();
 
-                normals.setXYZ(i, _vector.X, _vector.Y, _vector.Z);
+                normals.SetXYZ(i, _vector.X, _vector.Y, _vector.Z);
             }
 
         }

@@ -104,9 +104,9 @@ namespace THREE
 
             for (int i = 0; i < attribute.count; i++)
             {
-                var x = attribute.getX(i);
-                var y = attribute.getY(i);
-                var z = attribute.getZ(i);
+                var x = attribute.GetX(i);
+                var y = attribute.GetY(i);
+                var z = attribute.GetZ(i);
 
                 if (x < minX) minX = x;
                 if (y < minY) minY = y;
@@ -139,9 +139,9 @@ namespace THREE
 
             for (int i = 0; i < attribute.count; i++)
             {
-                var x = attribute.getX(i);
-                var y = attribute.getY(i);
-                var z = attribute.getZ(i);
+                var x = attribute.GetX(i);
+                var y = attribute.GetY(i);
+                var z = attribute.GetZ(i);
 
                 if (x < minX) minX = x;
                 if (y < minY) minY = y;

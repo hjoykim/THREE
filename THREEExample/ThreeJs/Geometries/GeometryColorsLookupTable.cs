@@ -123,7 +123,7 @@ namespace THREEExample.Three.Geometries
 
                 var color = lut.GetColor(colorValue);
 
-                colors.setXYZ(i, color.R, color.G, color.B);
+                colors.SetXYZ(i, color.R, color.G, color.B);
 
             }
 

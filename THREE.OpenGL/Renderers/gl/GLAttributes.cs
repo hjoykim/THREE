@@ -29,7 +29,7 @@ namespace THREE
 
         public BufferType CreateBuffer<T>(BufferAttribute<T> attribute, BufferTarget bufferType)
         {
-            var array = attribute.Array;
+            T[] array = attribute.Array;
             BufferUsageHint usage = (BufferUsageHint)attribute.Usage;
 
             int buffer;
@@ -42,25 +42,25 @@ namespace THREE
             GL.BindBuffer(bufferType, buffer);
 
 
-            if (attribute.Type == typeof(float))
+            if (typeof(T)== typeof(float))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(float)), array as float[], usage);
                 type = (int)VertexAttribPointerType.Float;
                 bytePerElement = sizeof(float);
             }
-            else if (attribute.Type == typeof(int))
+            else if (typeof(T) == typeof(int))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(int)), array as int[], usage);
                 type = (int)VertexAttribPointerType.UnsignedInt;
                 bytePerElement = sizeof(int);
             }
-            else if (attribute.Type == typeof(uint))
+            else if (typeof(T) == typeof(uint))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(uint)), array as uint[], usage);
                 type = (int)VertexAttribPointerType.UnsignedInt;
                 bytePerElement = sizeof(uint);
             }
-            else if (attribute.Type == typeof(byte))
+            else if (typeof(T) == typeof(byte))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(byte)), array as byte[], usage);
                 type = (int)VertexAttribPointerType.UnsignedByte;

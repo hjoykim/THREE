@@ -708,10 +708,10 @@ namespace THREE
 
         public Vector4 FromBufferAttribute(BufferAttribute<float> attribute, int index)
         {
-            this.X = attribute.getX(index);
-            this.Y = attribute.getY(index);
-            this.Z = attribute.getZ(index);
-            this.W = attribute.getW(index);
+            this.X = attribute.GetX(index);
+            this.Y = attribute.GetY(index);
+            this.Z = attribute.GetZ(index);
+            this.W = attribute.GetW(index);
 
             return this;
         }

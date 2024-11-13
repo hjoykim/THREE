@@ -50,9 +50,11 @@ namespace THREE
             return this.Start.DistanceTo(this.End);
         }
 
-        public Vector3 At(float t)
+        public Vector3 At(float t,Vector3 target=null)
         {
-            return (this.Delta() * t) + this.Start;
+            if(target==null) target = new Vector3();
+            target.Copy((this.Delta() * t) + this.Start);
+            return target;
         }
 
         public float ClosestPointToPointParameter(Vector3 point, bool clampToLine = false)

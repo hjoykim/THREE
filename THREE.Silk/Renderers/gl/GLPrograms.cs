@@ -32,7 +32,7 @@ namespace THREE
 
         private GLExtensions extensions;
 
-        public ShaderLib ShaderLib = new ShaderLib();
+        public ShaderLib ShaderLib = Global.ShaderLib;
 
         private GLCubeMap cubeMaps;
 
