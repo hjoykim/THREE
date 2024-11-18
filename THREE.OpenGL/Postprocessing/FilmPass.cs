@@ -28,7 +28,7 @@ namespace THREE
             if (scanlinesIntensity != null) (this.uniforms["sIntensity"] as GLUniform)["value"] = scanlinesIntensity.Value;
             if (scanlinesCount != null) (this.uniforms["sCount"] as GLUniform)["value"] = scanlinesCount.Value;
 
-            this.fullScreenQuad = new Pass.FullScreenQuad(this.material);
+            this.fullScreenQuad = new FullScreenQuad(this.material);
         }
 
         public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime = null, bool? maskActive = null)

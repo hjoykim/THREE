@@ -109,7 +109,7 @@ namespace THREE
         public LightProbeHelper(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         //public Action<GLRenderer, Scene, Camera, Geometry,Material,DrawRange?,GLRenderTarget> OnBeforeRender;
-        private void BeforeRender(IGLRenderer renderer, Scene scene, Camera camera, Geometry geometry, Material material, DrawRange? drawRange, GLRenderTarget renderTarget)
+        private void BeforeRender(IGLRenderer renderer, Object3D scene, Camera camera, Geometry geometry, Material material, DrawRange? drawRange, GLRenderTarget renderTarget)
         {
             this.Position.Copy(this.lightProbe.Position);
 

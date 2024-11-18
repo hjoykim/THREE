@@ -24,8 +24,8 @@ namespace THREE
         Vector4 GetCurrentViewport(Vector4 target);
         GLRenderTarget GetRenderTarget();
         void SetRenderTarget(GLRenderTarget target,int? activeCubeFace=null, int? activeMipmapLevel=null);
-        void Render(Scene scene, Camera camera);
-        void RenderBufferDirect(Camera camera, Scene scene, Geometry geometry, Material material, Object3D object3D, DrawRange? group);
+        void Render(Object3D scene, Camera camera);
+        void RenderBufferDirect(Camera camera, Object3D scene, Geometry geometry, Material material, Object3D object3D, DrawRange? group);
         void ReadRenderTargetPixels(GLRenderTarget renderTarget, float x, float y, int width, int height, byte[] buffer, int? activeCubeFaceIndex);
         void CopyFramebufferToTexture(Vector2 position, Texture texture, int? level = null);
     }

@@ -52,7 +52,7 @@ namespace THREEExample.Learning.Chapter11
             scene.Add(totalGroup);
 
             renderPass = new RenderPass(scene, camera);
-            SSAOPass aoPass = new SSAOPass(scene, camera);
+            SSAOPass aoPass = new SSAOPass(scene, camera,glControl.Width,glControl.Height);
             aoPass.RenderToScreen = true;
 
             composer = new EffectComposer(renderer);
@@ -68,6 +68,11 @@ namespace THREEExample.Learning.Chapter11
             totalGroup.Rotation.Y += 0.001f;
             composer.Render();
             
+        }
+        public override void OnResize(ResizeEventArgs clientSize)
+        {
+            base.OnResize(clientSize);
+            composer.SetSize(clientSize.Width, clientSize.Height);
         }
 
     }

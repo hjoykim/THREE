@@ -1,9 +1,5 @@
-﻿using OpenTK;
-using System;
-using System.Diagnostics;
+﻿using System;
 using THREE;
-using THREEExample.Learning.Utils;
-using THREEExample.ThreeImGui;
 
 namespace THREEExample.Learning.Chapter10
 {
@@ -15,9 +11,13 @@ namespace THREEExample.Learning.Chapter10
         {
 
         }
-        public override void SetGeometryWithTexture()
+        public override void InitLighting()
         {
-            //(scene.GetObjectByName("ambientLight") as AmbientLight).Color.SetHex(0x050505);
+            base.InitLighting();
+            (scene.GetObjectByName("ambientLight") as AmbientLight).Color.SetHex(0x050505);
+        }
+        public override void SetGeometryWithTexture()
+        {           
 
             var earthMaterial = new MeshPhongMaterial
             {

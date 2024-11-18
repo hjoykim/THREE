@@ -261,7 +261,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\LightProbeExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\RectArealightExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lines\LinesFatExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lines\OutlineExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Misc\GradientBackgroundExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Misc\GradientBackgroundShaderExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Misc\LightHintExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\LoaderTTFExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\ObjLoaderExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\Rhino3dmLoaderExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\STLLoaderSample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\TTFFont.cs" />

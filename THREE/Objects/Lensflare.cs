@@ -262,7 +262,7 @@ namespace THREE
 
         public Lensflare(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        private void BeforeRender(IGLRenderer renderer, Scene scene, Camera camera, Geometry geometry, Material material, DrawRange? group = null, GLRenderTarget renderTarget = null)
+        private void BeforeRender(IGLRenderer renderer, Object3D scene, Camera camera, Geometry geometry, Material material, DrawRange? group = null, GLRenderTarget renderTarget = null)
         {
             renderer.GetCurrentViewport(viewport);
 

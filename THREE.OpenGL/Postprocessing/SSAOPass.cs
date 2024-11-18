@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using THREE.Renderers.Shaders;
+using static THREE.ConvexHull;
 
 namespace THREE
 {
@@ -32,7 +33,7 @@ namespace THREE
         ShaderMaterial depthRenderMaterial;
         ShaderMaterial copyMaterial;
         Color originalClearColor;
-
+        Dictionary<Object3D,bool> _visibilityCache = new Dictionary<Object3D,bool>();
         public enum OUTPUT
         {
             Default = 0,
@@ -116,7 +117,7 @@ namespace THREE
             (this.ssaoMaterial.Uniforms["cameraFar"] as GLUniform)["value"] = this.camera.Far;
             ((this.ssaoMaterial.Uniforms["resolution"] as GLUniform)["value"] as Vector2).Set(this.width, this.height);
             ((this.ssaoMaterial.Uniforms["cameraProjectionMatrix"] as GLUniform)["value"] as Matrix4).Copy(this.camera.ProjectionMatrix);
-            ((this.ssaoMaterial.Uniforms["cameraInverseProjectionMatrix"] as GLUniform)["value"] as Matrix4).GetInverse(this.camera.ProjectionMatrix);
+            ((this.ssaoMaterial.Uniforms["cameraInverseProjectionMatrix"] as GLUniform)["value"] as Matrix4).GetInverse(this.camera.ProjectionMatrixInverse);
 
             // normal material
 
@@ -165,7 +166,7 @@ namespace THREE
                 { "blendEquationAlpha", Constants.AddEquation }
             });
 
-            this.fullScreenQuad = new FullScreenQuad();
+            this.fullScreenQuad = new FullScreenQuad(null);
 
             this.originalClearColor = new Color();
         }
@@ -243,9 +244,9 @@ namespace THREE
             renderer.Render(this.scene, this.camera);
 
             // render normals
-
+            this.OverrideVisibility();
             this.RenderOverride(renderer, this.normalMaterial, this.normalRenderTarget, Color.Hex(0x7777ff), 1.0f);
-
+            this.RestoreVisibility();
             // render SSAO
 
             (this.ssaoMaterial.Uniforms["kernelRadius"] as GLUniform)["value"] = this.kernelRadius;
@@ -317,6 +318,26 @@ namespace THREE
             }
         }
 
+        private void RestoreVisibility()
+        {
+            scene.Traverse((object3d) => {
+
+                 object3d.Visible = _visibilityCache[object3d];
+
+            });
+        }
+
+        private void OverrideVisibility()
+        {
+            scene.Traverse((object3d)=> {
+
+                _visibilityCache[object3d] = object3d.Visible;
+
+                if (object3d is Points || object3d is Line) object3d.Visible = false;
+
+            } );
+        }
+
         public override void SetSize(float width, float height)
         {
             this.width = (int)width;
@@ -329,7 +350,7 @@ namespace THREE
 
             ((this.ssaoMaterial.Uniforms["resolution"] as GLUniform)["value"] as Vector2).Set(width, height);
             ((this.ssaoMaterial.Uniforms["cameraProjectionMatrix"] as GLUniform)["value"] as Matrix4).Copy(this.camera.ProjectionMatrix);
-            ((this.ssaoMaterial.Uniforms["cameraInverseProjectionMatrix"] as GLUniform)["value"] as Matrix4).GetInverse(this.camera.ProjectionMatrix);
+            ((this.ssaoMaterial.Uniforms["cameraInverseProjectionMatrix"] as GLUniform)["value"] as Matrix4).GetInverse(this.camera.ProjectionMatrixInverse);
 
             ((this.blurMaterial.Uniforms["resolution"] as GLUniform)["value"] as Vector2).Set(width, height);
 

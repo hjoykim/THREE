@@ -147,12 +147,12 @@ namespace THREE
         }
 
 
-        public Hashtable GetParameters(Material material, GLLights lights, List<Light> shadows, Scene scene, Object3D object3D)
+        public Hashtable GetParameters(Material material, GLLights lights, List<Light> shadows, Object3D scene, Object3D object3D)
         {
 
-            Fog fog = scene.Fog;
+            Fog fog = scene is Scene ? (scene as Scene).Fog : null;
 
-            Texture environment = material is MeshStandardMaterial ? scene.Environment : null;
+            Texture environment = material is MeshStandardMaterial ? ( scene is Scene ? (scene as Scene).Environment : null) : null;
 
             Texture envMap = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : environment);
 

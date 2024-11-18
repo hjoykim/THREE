@@ -23,7 +23,7 @@ namespace THREE
             renderStates.Remove(scene);
         }
 
-        public GLRenderState Get(Scene scene, int renderCallDepth=0)
+        public GLRenderState Get(Object3D scene, int renderCallDepth=0)
         {
             GLRenderState renderState;
 

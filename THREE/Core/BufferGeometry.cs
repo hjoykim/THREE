@@ -788,7 +788,10 @@ namespace THREE
 
                 for (int i = 0; i < (position is InterleavedBufferAttribute<float> ? (position as InterleavedBufferAttribute<float>).count : position.count); i++)
                 {
-                    _vector = _vector.FromBufferAttribute(position, i);
+                    if (position is InterleavedBufferAttribute<float>)
+                        _vector = _vector.FromBufferAttribute(position as InterleavedBufferAttribute<float>, i);
+                    else
+                        _vector = _vector.FromBufferAttribute(position, i);
                     maxRadiusSq = System.Math.Max(maxRadiusSq, center.DistanceToSquared(_vector));
                 }
 

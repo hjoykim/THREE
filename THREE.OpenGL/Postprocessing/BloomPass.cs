@@ -75,7 +75,7 @@ namespace THREE
 
             this.NeedsSwap = false;
 
-            this.fullScreenQuad = new Pass.FullScreenQuad();
+            this.fullScreenQuad = new FullScreenQuad();
         }
         public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime = null, bool? maskActive = null)
         {

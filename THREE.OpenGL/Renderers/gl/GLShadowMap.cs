@@ -122,7 +122,7 @@ namespace THREE
             fullScreenMesh = new Mesh(fullScreenTri, shadowMaterialVertical);
         }
 
-        public void Render(List<Light> lights, Scene scene, Camera camera)
+        public void Render(List<Light> lights, Object3D scene, Camera camera)
         {
             if (this.Enabled == false) return;
             if (this.AutoUpdate == false && this.needsUpdate == false) return;

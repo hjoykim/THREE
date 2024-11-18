@@ -118,8 +118,8 @@ namespace THREE
         #endregion
 
         #region public Action
-        public Action<IGLRenderer, Scene, Camera, Geometry, Material, DrawRange?, GLRenderTarget> OnBeforeRender;
-        public Action<IGLRenderer, Scene, Camera> OnAfterRender;
+        public Action<IGLRenderer, Object3D, Camera, Geometry, Material, DrawRange?, GLRenderTarget> OnBeforeRender;
+        public Action<IGLRenderer, Object3D, Camera> OnAfterRender;
         #endregion
 
         #region private field

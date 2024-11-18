@@ -15,15 +15,7 @@ namespace THREE
             this.capabilities = capabilities;
         }
 
-        public void OnSceneDispose(object sender, EventArgs e)
-        {
-            var scene = sender as Scene;
-
-            scene.Disposed -= OnSceneDispose;
-            renderStates.Remove(scene);
-        }
-
-        public GLRenderState Get(Scene scene, int renderCallDepth=0)
+        public GLRenderState Get(Object3D scene, int renderCallDepth=0)
         {
             GLRenderState renderState;
 
@@ -32,8 +24,6 @@ namespace THREE
                 renderState = new GLRenderState(extensions,capabilities);
                 List<GLRenderState> list = new List<GLRenderState>() { renderState };
                 renderStates.Add(scene, list);
-
-                scene.Disposed += OnSceneDispose;
             }
             else
             {

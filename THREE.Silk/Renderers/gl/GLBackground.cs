@@ -76,9 +76,9 @@ namespace THREE
 
         }
 
-        public void Render(GLRenderList renderList, Scene scene, Camera camera, bool forceClear)
+        public void Render(GLRenderList renderList, Object3D scene, Camera camera, bool forceClear)
         {
-            var background = scene is Scene ? scene.Background : null;
+            var background = scene is Scene ? (scene as Scene).Background : null;
 
             if (background != null && background is Texture)
             {
@@ -124,7 +124,7 @@ namespace THREE
 
                     (BoxMesh.Geometry as BufferGeometry).deleteAttribute("normal");
                     (BoxMesh.Geometry as BufferGeometry).deleteAttribute("uv");
-                    BoxMesh.OnBeforeRender = delegate (IGLRenderer r, Scene s, Camera c, Geometry g, Material m, DrawRange? d, GLRenderTarget gt)
+                    BoxMesh.OnBeforeRender = delegate (IGLRenderer r, Object3D s, Camera c, Geometry g, Material m, DrawRange? d, GLRenderTarget gt)
                     {
                         BoxMesh.MatrixWorld.CopyPosition(c.MatrixWorld);
                     };

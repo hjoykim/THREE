@@ -70,7 +70,7 @@ namespace THREE
             this.uniforms = bokehUniforms;
             this.NeedsSwap = false;
 
-            this.fullScreenQuad = new Pass.FullScreenQuad(this.materialBokeh);
+            this.fullScreenQuad = new FullScreenQuad(this.materialBokeh);
 
             this.oldClearColor = new Color();
 

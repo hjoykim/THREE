@@ -517,7 +517,7 @@ namespace THREE
             */
         }
 
-        public void RenderBufferDirect(Camera camera, Scene scene, Geometry geometry, Material material, Object3D object3D, DrawRange? group)
+        public void RenderBufferDirect(Camera camera, Object3D scene, Geometry geometry, Material material, Object3D object3D, DrawRange? group)
         {
 
             if (scene == null) scene = emptyScene;
@@ -693,7 +693,7 @@ namespace THREE
 
         // this function is called by Render()
         //private void RenderSceneList(RenderInfo renderInfo)
-        public void Render(Scene scene, Camera camera)
+        public void Render(Object3D scene, Camera camera)
         {
             //Scene scene = renderInfo.Scene;
             //Camera camera = renderInfo.Camera;
@@ -716,7 +716,7 @@ namespace THREE
             bool forceClear = false;
 
             //update scene graph
-            if (scene.AutoUpdate == true) scene.UpdateMatrixWorld();
+            if (scene is Scene && (scene as Scene).AutoUpdate == true) scene.UpdateMatrixWorld();
 
             //update camera matrices and frustum
 
@@ -966,7 +966,7 @@ namespace THREE
             }
         }
 
-        private void RenderTransmissiveObjects(List<RenderItem> opaqueObjects,List<RenderItem> transmissiveObjects, Scene scene, Camera camera)
+        private void RenderTransmissiveObjects(List<RenderItem> opaqueObjects,List<RenderItem> transmissiveObjects, Object3D scene, Camera camera)
         {
             if(_transmissionRenderTarget==null)
             {
@@ -991,9 +991,9 @@ namespace THREE
 
             RenderObjects(transmissiveObjects, scene, camera);
         }
-        private void RenderObjects(List<RenderItem> renderList, Scene scene, Camera camera)
+        private void RenderObjects(List<RenderItem> renderList, Object3D scene, Camera camera)
         {
-            var overrideMaterial = scene is Scene ? scene.OverrideMaterial : null;
+            var overrideMaterial = scene is Scene ? (scene as Scene).OverrideMaterial : null;
             for (int i = 0; i < renderList.Count; i++)
             {
                 var renderItem = renderList[i];
@@ -1040,7 +1040,7 @@ namespace THREE
             }
         }
 
-        private void RenderObject(Object3D object3D, Scene scene, Camera camera, Geometry geometry, Material material, DrawRange? group)
+        private void RenderObject(Object3D object3D, Object3D scene, Camera camera, Geometry geometry, Material material, DrawRange? group)
         {
             //TODO:
             if (object3D.OnBeforeRender != null)
@@ -1073,9 +1073,9 @@ namespace THREE
         }
 
 #endregion
-        private GLProgram GetProgram(Material material, Scene scene, Object3D object3D)
+        private GLProgram GetProgram(Material material, Object3D scene, Object3D object3D)
         {
-            if (!scene.IsScene) scene = emptyScene;
+            if (scene is not Scene) scene = emptyScene;
 
             var materialProperties = this.properties.Get(material);
 
@@ -1089,8 +1089,8 @@ namespace THREE
             var programCacheKey = programCache.getProgramCacheKey(parameters).Replace("False", "false").Replace("True", "true");
 
             Hashtable programs = (Hashtable)materialProperties["programs"];
-            materialProperties["environment"] = material is MeshStandardMaterial ? scene.Environment : null;
-            materialProperties["fog"] = scene.Fog;
+            materialProperties["environment"] = material is MeshStandardMaterial ? (scene is Scene ? (scene as Scene).Environment : null) : null;
+            materialProperties["fog"] = scene is Scene ? (scene as Scene).Fog : null;
             materialProperties["envMap"] = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : materialProperties["environment"] as Texture);
 
             if (programs == null)
@@ -1397,15 +1397,15 @@ namespace THREE
             materialProperties["numIntersection"] = parameters["numClipIntersection"];
             materialProperties["vertexAlphas"] = parameters["vertexAlphas"];
         }
-        private GLProgram SetProgram(Camera camera, Scene scene, Material material, Object3D object3D)
+        private GLProgram SetProgram(Camera camera, Object3D scene, Material material, Object3D object3D)
         {
             //if(scene.isScene!=true) scene = emptyScene;
 
             textures.ResetTextureUnits();
 
-            Fog fog = scene.Fog;
+            Fog fog = scene is Scene ? (scene as Scene).Fog : null;
 
-            var environment = material is MeshStandardMaterial ? scene.Environment : null;
+            var environment = material is MeshStandardMaterial ? (scene is Scene ? (scene as Scene).Environment : null) : null;
             var encoding = (_currentRenderTarget == null) ? outputEncoding : _currentRenderTarget.Texture.Encoding;
             var envMap = cubeMaps.Get(material.EnvMap != null ? material.EnvMap : environment);
             var geometry = object3D.Geometry;
