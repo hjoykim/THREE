@@ -117,7 +117,7 @@ namespace THREEExample
             var lightDir = _cameraEye - _center;
             directionalLight.Position.Set(lightDir.X, lightDir.Y, lightDir.Z);
         }
-        private Object3D GenerateEdges(Object3D group)
+        public Object3D GenerateEdges(Object3D group,float threshold=0.6f)
         {
             Object3D edges = new Object3D();
             group.Traverse((o) =>
@@ -128,7 +128,7 @@ namespace THREEExample
 
                     if (mesh.Geometry != null)
                     {
-                        var edgeGeometry = new EdgesGeometry(mesh.Geometry, 0.1f);
+                        var edgeGeometry = new EdgesGeometry(mesh.Geometry, threshold);
                         var edgeObject = new LineSegments(edgeGeometry, lineMaterial);
                         edges.Add(edgeObject);
                     }
@@ -150,15 +150,8 @@ namespace THREEExample
 
             mesh.Traverse((o)=>{
                 if (o is Mesh)
-                {
-                    var mesh = (Mesh)o;
-                    var geometry = mesh.Geometry as BufferGeometry;
-                    if(geometry.Index==null)
-                    {
-                        mesh.Geometry = BufferGeometryUtils.ToIndexedBufferGeometry(geometry);
-                    }
-                    (mesh.Geometry as BufferGeometry).ComputeVertexNormals();
-                    //mesh.Material = meshMaterial;
+                {  
+                    mesh.Material = meshMaterial;
                 }
             });
             var childMesh = mesh.Children[0];

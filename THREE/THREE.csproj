@@ -19,6 +19,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
     <PackageReference Include="FastDeepCloner" Version="1.3.6" />
     <PackageReference Include="MIConvexHull" Version="1.1.19.1019" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
