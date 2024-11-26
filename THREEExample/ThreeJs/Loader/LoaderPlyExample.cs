@@ -15,7 +15,7 @@ namespace THREEExample.ThreeJs.Loader
             camera.Near = 1;
             camera.Far = 15;
             camera.Position.Set(3, 0.15f, 3);
-            cameraTarget = new Vector3(0,0.1f,0);
+            cameraTarget = new Vector3(0,-0.1f,0);
         }
         public override void InitRenderer()
         {
