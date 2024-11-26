@@ -264,6 +264,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lines\OutlineExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\AssimpLoaderExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\LoaderPlyExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Misc\Controls\MapControlsExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Misc\GradientBackgroundExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Misc\GradientBackgroundShaderExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Misc\LightHintExample.cs" />
