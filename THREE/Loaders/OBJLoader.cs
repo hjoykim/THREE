@@ -732,7 +732,8 @@ namespace THREE
                 }
                 else
                 {
-                    bufferGeometry.ComputeVertexNormals();
+                    if (!isLine && !isPoints)
+                        bufferGeometry.ComputeVertexNormals();
                 }
 
                 if (geometry.Colors.Count > 0)

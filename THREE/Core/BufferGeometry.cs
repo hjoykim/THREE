@@ -79,8 +79,9 @@ namespace THREE
         {
             return new BufferGeometry(this);
         }
-        public BufferGeometry Copy(BufferGeometry source)
+        public BufferGeometry Copy(BufferGeometry source) 
         {
+            base.Copy(source as Geometry);
             this.Index = null;
             this.Attributes = new Dictionary<object,object>();
 
@@ -120,31 +121,6 @@ namespace THREE
                 if (entry.Value is BufferAttribute<byte>)
                     Attributes.Add(entry.Key, (entry.Value as BufferAttribute<byte>).Clone());
             }
-            //for ( const name in attributes ) {
-
-            //    const attribute = attributes[name];
-            //    this.setAttribute(name, attribute.clone(data));
-
-            //}
-
-            // morph attributes
-
-
-            //for ( const name in morphAttributes ) {
-
-            //    const array = [];
-            //    const morphAttribute = morphAttributes[name]; // morphAttribute: array of Float32BufferAttributes
-
-            //    for (let i = 0, l = morphAttribute.length; i < l; i++)
-            //    {
-
-            //        array.push(morphAttribute[i].clone(data));
-
-            //    }
-
-            //    this.morphAttributes[name] = array;
-
-            //}
 
             this.MorphTargetsRelative = source.MorphTargetsRelative;
 
@@ -826,42 +802,38 @@ namespace THREE
             var attributes = this.Attributes;
 
             BufferAttribute<float> positionsAttribute = (BufferAttribute<float>)this.Attributes["position"];
-            BufferAttribute<float> normalAttribute = null;
-            if (this.Attributes.ContainsKey("normal"))
-                normalAttribute = (BufferAttribute<float>)this.Attributes["normal"];
-
-            var positions = positionsAttribute.Array;
-
             if (positionsAttribute != null)
             {
 
-                if (!attributes.ContainsKey("normal"))
+                BufferAttribute<float> normalAttribute = null;
+                if (this.Attributes.ContainsKey("normal"))
+                    normalAttribute = (BufferAttribute<float>)this.Attributes["normal"];
+
+
+                if (normalAttribute == null)
                 {
-                    normalAttribute = new BufferAttribute<float>(new float[positions.Length], 3);
+                    normalAttribute = new BufferAttribute<float>(new float[positionsAttribute.count * 3], 3);
                     this.SetAttribute("normal", normalAttribute);
                 }
                 else
                 {
 
-                    var array = normalAttribute.Array;
-                    if (normalArray == null) normalArray = new float[array.Length];
-                    for (int i = 0; i < array.Length; i++)
+                    for (int i = 0; i < normalAttribute.count; i++)
                     {
-                        normalArray[i] = 0;
+                        normalAttribute.SetXYZ(i, 0, 0, 0);
                     }
                 }
 
                 var normals = ((BufferAttribute<float>)attributes["normal"]).Array;
 
-                int vA, vB, vC;
-                vA = vB = vC = 0;
-
-                Vector3 pA = new Vector3();
-                Vector3 pB = new Vector3();
-                Vector3 pC = new Vector3();
-                Vector3 cb = new Vector3();
-                Vector3 ab = new Vector3(); ;
-
+                var pA = new Vector3();
+                var pB = new Vector3();
+                var pC = new Vector3();
+                var cb = new Vector3();
+                var ab = new Vector3();
+                var nA = new Vector3();
+                var nB = new Vector3();
+                var nC = new Vector3();
 
 
                 if (index != null)
@@ -870,66 +842,53 @@ namespace THREE
 
                     for (int i = 0; i < index.count; i += 3)
                     {
-                        vA = indices[i + 0] * 3;
-                        vB = indices[i + 1] * 3;
-                        vC = indices[i + 2] * 3;
+                        int vA = index.GetX(i + 0);
+                        int vB = index.GetX(i + 1);
+                        int vC = index.GetX(i + 2);
 
-                        pA = Vector3.Zero().FromArray(positions, vA);
-                        pB = Vector3.Zero().FromArray(positions, vB);
-                        pC = Vector3.Zero().FromArray(positions, vC);
+                        pA.FromBufferAttribute(positionsAttribute, vA);
+                        pB.FromBufferAttribute(positionsAttribute, vB);
+                        pC.FromBufferAttribute(positionsAttribute, vC);
 
                         cb.SubVectors(pC, pB);
                         ab.SubVectors(pA, pB);
 
                         cb.Cross(ab);
 
-                        normals[vA] += cb.X;
-                        normals[vA + 1] += cb.Y;
-                        normals[vA + 2] += cb.Z;
+                        nA.FromBufferAttribute(normalAttribute, vA);
+                        nB.FromBufferAttribute (normalAttribute, vB);
+                        nC.FromBufferAttribute(normalAttribute, vC);
 
-                        normals[vB] += cb.X;
-                        normals[vB + 1] += cb.Y;
-                        normals[vB + 2] += cb.Z;
+                        nA.Add(cb);
+                        nB.Add(cb);
+                        nC.Add(cb);
 
-                        normals[vC] += cb.X;
-                        normals[vC + 1] += cb.Y;
-                        normals[vC + 2] += cb.Z;
+                        normalAttribute.SetXYZ(vA, nA.X, nA.Y, nA.Z);
+                        normalAttribute.SetXYZ(vB, nB.X, nB.Y, nB.Z);
+                        normalAttribute.SetXYZ(vC, nC.X, nC.Y, nC.Z);
                     }
                 }
                 else
                 {
-                    var pLen = positions.Length - 1;
-                    for (int i = 0; i < positions.Length; i += 9)
+                    for (int i = 0; i < positionsAttribute.count; i += 3)
                     {
-                        pA = Vector3.Zero().FromArray(positions, i);
-                        pB = Vector3.Zero().FromArray(positions, i + 3);
-                        pC = Vector3.Zero().FromArray(positions, i + 6);
-
-                        cb = pC - pB;
-                        ab = pA - pB;
+                        pA.FromBufferAttribute(positionsAttribute, i + 0);
+                        pB.FromBufferAttribute(positionsAttribute, i + 1);
+                        pC.FromBufferAttribute(positionsAttribute, i + 2);
+                        
+                        cb.SubVectors(pC, pB);
+                        ab.SubVectors(pA, pB);
                         cb.Cross(ab);
 
-                        normals[i] = cb.X;
-                        normals[i + 1] = cb.Y;
-                        normals[i + 2] = cb.Z;
-
-                        normals[i + 3] = cb.X;
-                        normals[i + 4] = cb.Y;
-                        normals[i + 5] = cb.Z;
-
-                        if ((i + 6) <= pLen)
-                        {
-                            normals[i + 6] = cb.X;
-                            normals[i + 7] = cb.Y;
-                            normals[i + 8] = cb.Z;
-                        }
-
+                        normalAttribute.SetXYZ(i + 0, cb.X, cb.Y, cb.Z);
+                        normalAttribute.SetXYZ(i + 1, cb.X, cb.Y, cb.Z);
+                        normalAttribute.SetXYZ(i + 2, cb.X, cb.Y, cb.Z);
                     }
                 }
 
                 this.NormalizeNormals();
-
                 normalAttribute.NeedsUpdate = true;
+
             }
         }
 
@@ -969,9 +928,7 @@ namespace THREE
 
             for (int i = 0; i < normals.count; i++)
             {
-                _vector.X = normals.GetX(i);
-                _vector.Y = normals.GetY(i);
-                _vector.Z = normals.GetZ(i);
+                _vector.FromBufferAttribute(normals, i);               
 
                 _vector.Normalize();
 
