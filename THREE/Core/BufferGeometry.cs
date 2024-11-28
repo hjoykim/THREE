@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastDeepCloner;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -62,7 +63,7 @@ namespace THREE
 
             //this.Offsets = this.Drawcalls;
 
-            this.BoundingBox = null;
+            this.BoundingBox = null; 
 
             this.BoundingSphere = null;
 
@@ -180,12 +181,12 @@ namespace THREE
         {
             this.Index = index;
         }
-        public IGLAttribute GetAttribute<T>(string name)
+        public IBufferAttribute GetAttribute<T>(string name)
         {
-            return this.Attributes[name] as IGLAttribute;
+            return this.Attributes[name] as IBufferAttribute;
         }
 
-        public BufferGeometry SetAttribute(string name, IGLAttribute attribute)
+        public BufferGeometry SetAttribute(string name, IBufferAttribute attribute)
         {
             this.Attributes[name] = attribute;
             //if (!AttributesKeys.Contains(name))
@@ -369,8 +370,8 @@ namespace THREE
                 if (geometry.LineDistances != null && geometry.LineDistances.Count == geometry.Vertices.Count)
                 {
                     BufferAttribute<float> lineDistances = new BufferAttribute<float>();
-                    lineDistances["type"] = typeof(float);
-                    lineDistances["array"] = new float[geometry.LineDistances.Count];
+                    lineDistances.Type = typeof(float);
+                    lineDistances.Array = new float[geometry.LineDistances.Count];
                     lineDistances.ItemSize = 1;
 
                     Array.Copy(geometry.LineDistances.ToArray(), lineDistances.Array, (long)geometry.LineDistances.Count);
@@ -591,7 +592,7 @@ namespace THREE
 
             foreach (string name in geometry.MorphTargets.Keys)
             {
-                List<BufferAttribute<float>> array = new List<BufferAttribute<float>>();
+                var array = new List<IBufferAttribute>();
 
                 var morphTargets = (List<MorphTarget>)geometry.MorphTargets[name];
 
@@ -604,7 +605,7 @@ namespace THREE
 
                     array.Add(attribute.CopyVector3sArray(morphTarget.Data.ToArray()));
                 }
-                this.MorphAttributes.Add(name, array);
+                this.MorphAttributes[name] = array;
 
             }
 
@@ -650,9 +651,9 @@ namespace THREE
             if (this.Attributes.ContainsKey("position"))
                 position = (BufferAttribute<float>)this.Attributes["position"];
 
-            List<BufferAttribute<float>> morphAttributesPosition = null;
+            List<IBufferAttribute> morphAttributesPosition = null;
             if (this.MorphAttributes.ContainsKey("position"))
-                morphAttributesPosition = this.MorphAttributes["position"] as List<BufferAttribute<float>>;
+                morphAttributesPosition = this.MorphAttributes["position"] as List<IBufferAttribute>;
 
             if (position != null)
             {
@@ -664,7 +665,7 @@ namespace THREE
                 {
                     for (int i = 0; i < morphAttributesPosition.Count; i++)
                     {
-                        BufferAttribute<float> morphAttribute = morphAttributesPosition[i];
+                        IBufferAttribute morphAttribute = morphAttributesPosition[i];
                         _box.SetFromBufferAttribute(morphAttribute);
 
                         if (this.MorphTargetsRelative)
@@ -717,9 +718,9 @@ namespace THREE
             if (this.Attributes.ContainsKey("position"))
                 position = (BufferAttribute<float>)this.Attributes["position"];
 
-            List<BufferAttribute<float>> morphAttributesPosition = null;
+            List<IBufferAttribute> morphAttributesPosition = null;
             if (this.MorphAttributes.ContainsKey("position"))
-                morphAttributesPosition = this.MorphAttributes["position"] as List<BufferAttribute<float>>;
+                morphAttributesPosition = this.MorphAttributes["position"] as List<IBufferAttribute>;
 
             if (position != null)
             {
@@ -734,7 +735,7 @@ namespace THREE
                 {
                     for (int i = 0; i < morphAttributesPosition.Count; i++)
                     {
-                        BufferAttribute<float> morphAttribute = morphAttributesPosition[i];
+                        IBufferAttribute morphAttribute = morphAttributesPosition[i];
 
                         _boxMorphTargets.SetFromBufferAttribute(morphAttribute);
 
@@ -776,7 +777,7 @@ namespace THREE
                 {
                     for (int i = 0; i < morphAttributesPosition.Count; i++)
                     {
-                        BufferAttribute<float> morphAttribute = morphAttributesPosition[i];
+                        IBufferAttribute morphAttribute = morphAttributesPosition[i];
 
                         for (int j = 0; j < morphAttribute.count; j++)
                         {
@@ -942,9 +943,10 @@ namespace THREE
             //backwards compatibility
         }
 
-        public BufferAttribute<float> ConvertBufferAttribute(BufferAttribute<float> attribute, int[] indices)
+        public BufferAttribute<float> ConvertBufferAttribute(IBufferAttribute attribute, int[] indices)
         {
-            var array = attribute.Array;
+            var attr = attribute as BufferAttribute<float>;
+            var array = attr.Array;
             var itemSize = attribute.ItemSize;
 
             float[] array2 = new float[indices.Length * itemSize];
@@ -990,12 +992,12 @@ namespace THREE
 
             foreach (string name in MorphAttributes.Keys)
             {
-                List<BufferAttribute<float>> morphArray = new List<BufferAttribute<float>>();
-                BufferAttribute<float>[] morphAttribute = (BufferAttribute<float>[])morphAttributes[name];
+                List<IBufferAttribute> morphArray = new List<IBufferAttribute>();
+                List<IBufferAttribute> morphAttribute = morphAttributes[name] as List<IBufferAttribute>;
 
-                for (int i = 0; i < morphAttribute.Length; i++)
+                for (int i = 0; i < morphAttribute.Count; i++)
                 {
-                    BufferAttribute<float> attribute = morphAttribute[i];
+                    IBufferAttribute attribute = morphAttribute[i];
                     var newAttribute = ConvertBufferAttribute(attribute, indices);
                     morphArray.Add(newAttribute);
                 }

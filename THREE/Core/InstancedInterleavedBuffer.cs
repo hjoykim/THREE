@@ -5,24 +5,13 @@ namespace THREE
     [Serializable]
     public class InstancedInterleavedBuffer<T> : InterleavedBuffer<T>
     {
-        public int MeshPerAttribute
-        {
-            get
-            {
-                return (int)this["meshPerAttribute"];
-            }
-            set
-            {
-                this["meshPerAttribute"] = value;
-            }
-        }
+        public int MeshPerAttribute { get; set; } = 1;
+       
 
         public InstancedInterleavedBuffer()
         {
-            this.Add("meshPerAttribute", 1);
         }
-        public InstancedInterleavedBuffer(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
+       
         public InstancedInterleavedBuffer(T[] array, int stride, int? meshPerAttribute = null) : this()
         {
             this.Array = array;

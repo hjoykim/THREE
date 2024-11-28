@@ -387,8 +387,8 @@ namespace THREE
                 {
                     if (geometry is BufferGeometry)
                     {
-                        Hashtable attributes = (geometry as BufferGeometry).MorphAttributes;
-                        useMorphing = attributes.Count > 0 && attributes.ContainsKey("position") && (attributes["position"] as List<BufferAttribute<float>>).Count > 0;
+                        var attributes = (geometry as BufferGeometry).MorphAttributes;
+                        useMorphing = attributes.Count > 0 && attributes.ContainsKey("position") && (attributes["position"] as List<IBufferAttribute>).Count > 0;
                     }
                     else if (geometry is Geometry)
                     {

@@ -106,8 +106,8 @@ namespace THREE
                 return (int)(a[0] - b[0]);
             });
 
-            List<BufferAttribute<float>> morphTargets = material.MorphTargets && geometry.MorphAttributes.ContainsKey("position") ? geometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null;
-            List<BufferAttribute<float>> morphNormals = material.MorphNormals && geometry.MorphAttributes.ContainsKey("normal") ? geometry.MorphAttributes["normal"] as List<BufferAttribute<float>> : null;
+            List<IBufferAttribute> morphTargets = material.MorphTargets && geometry.MorphAttributes.ContainsKey("position") ? geometry.MorphAttributes["position"] as List<IBufferAttribute> : null;
+            List<IBufferAttribute> morphNormals = material.MorphNormals && geometry.MorphAttributes.ContainsKey("normal") ? geometry.MorphAttributes["normal"] as List<IBufferAttribute> : null;
             float morphInfluencesSum = 0;
 
             if (influences.Count > 0)

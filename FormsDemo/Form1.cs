@@ -39,7 +39,8 @@ namespace FormsDemo
 
         private void Render()
         {
-            this.glControl.MakeCurrent();
+            if(!glControl.IsDisposed)
+                this.glControl.MakeCurrent();
             if (null != currentExample)
             {
                 currentExample.Render();

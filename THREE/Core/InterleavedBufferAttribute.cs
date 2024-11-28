@@ -6,40 +6,12 @@ namespace THREE
     [Serializable]
     public class InterleavedBufferAttribute<T> : BufferAttribute<T>
     {
-        public int Offset
-        {
-            get
-            {
-                return (int)this["offset"];
-            }
-            set
-            {
-                this["offset"] = value;
-            }
-        }
+        public int Offset { get; set; } = 0;
+        
 
-        public int Stride
-        {
-            get
-            {
-                return (int)this["stride"];
-            }
-            set
-            {
-                this["stride"] = value;
-            }
-        }
-        public InterleavedBuffer<T> Data
-        {
-            get
-            {
-                return (InterleavedBuffer<T>)this["data"];
-            }
-            set
-            {
-                this["data"] = value;
-            }
-        }
+        public int Stride { get; set; }
+       
+        public InterleavedBuffer<T> Data { get; set; }        
 
         public new T[] Array
         {
@@ -60,10 +32,9 @@ namespace THREE
 
         public InterleavedBufferAttribute() : base()
         {
-            this.Add("offset", 0);
-            this.Add("data", null);
+           
         }
-        public InterleavedBufferAttribute(SerializationInfo info, StreamingContext context) : base(info, context) { }
+       
 
         public InterleavedBufferAttribute(InterleavedBuffer<T> interleavedBuffer, int itemSize, int offset, bool normalized=false) : this()
         {

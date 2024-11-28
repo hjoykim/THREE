@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 using THREE;
 
@@ -13,7 +14,7 @@ namespace THREE
     }
 
     [Serializable]
-    public class BufferAttribute<T> : Dictionary<string,object>,IGLAttribute, IBufferAttribute
+    public class BufferAttribute<T> : IBufferAttribute
     {
         public string Name { get; set; }
         public int Usage { get; set; }// BufferUsageHint Usage;
@@ -22,63 +23,27 @@ namespace THREE
 
         public int Version = 0;
 
-        public T[] Array
-        {
-            get
-            {
-                return (T[])this["array"];
-            }
-            set
-            {
-                this["array"] = value;
-            }
-        }
+        public T[] Array { get; set; }
+       
+        
+        public Type Type { get; set; }
 
-        public Type Type
-        {
-            get
-            {
-                return (Type)this["type"];
-            }
-            set
-            {
-                this["type"] = value;
-            }
-        }
-        public int ItemSize
-        {
-            get
-            {
-                return (int)this["ItemSize"];
-            }
-            set
-            {
-                this["ItemSize"] = value;
-            }
-        }
+        public int ItemSize { get; set; } = -1;
 
-        public int Buffer
-        {
-            get
-            {
-                return (int)this["buffer"];
-            }
-            set
-            {
-                this["buffer"] = value;
-            }
-        }
 
+        public int Buffer { get; set; } = -1;
+
+        public bool needsUpdate = false;
         public bool NeedsUpdate
         {
             get
             {
-                return (bool)this["needsUpdate"];
+                return needsUpdate;
             }
             set
             {
                 this.Version++;
-                this["needsUpdate"] = value;
+                needsUpdate = value;
             }
         }
 
@@ -90,31 +55,16 @@ namespace THREE
             }
         }
 
-        public bool Normalized
-        {
-            get
-            {
-                return (bool)this["normalized"];
-            }
-            set
-            {
-                this["normalized"] = value;
-            }
-        }
-        public BufferAttribute()
-        {
-            this.Add("array", null);
-            this.Add("ItemSize", -1);
-            this.Add("buffer", -1);
-            this.Add("needsUpdate", false);
-            this.Add("type", null);
-            this.Add("normalized", false);
 
+
+        public bool Normalized { get; set; } = false;
+        
+        public BufferAttribute()
+        {          
             this.Usage = Constants.StaticDrawUsage;;
 
             this.UpdateRange = new UpdateRange { Offset = 0, Count = -1 };
-        }
-        public BufferAttribute(SerializationInfo info, StreamingContext context) : base(info,context) { }
+        }       
 
         public BufferAttribute(T[] array, int itemSize, bool? normalized = null)
             : this()
@@ -190,7 +140,7 @@ namespace THREE
             {
                 array = new float[vectors.Length * 2];
 
-                this["array"] = array;
+               Array = array as T[];
             }
             int offset = 0;
 
@@ -212,7 +162,7 @@ namespace THREE
             {
                 array = new float[colors.Length * 3];
 
-                this["array"] = array;
+                Array = array as T[];
             }
             int offset = 0;
 
@@ -237,7 +187,7 @@ namespace THREE
             {
                 array = new float[vectors.Length * 3];
 
-                this["array"] = array;
+                Array = array as T[];
             }
 
             int offset = 0;
@@ -261,7 +211,7 @@ namespace THREE
             {
                 array = new float[vectors.Length * 4];
 
-                this["array"] = array;
+                Array = array as T[];
             }
             int offset = 0;
 
@@ -354,6 +304,30 @@ namespace THREE
             this.Array[index + 2] = z;
             this.Array[index + 3] = w;
             return this;
+        }       
+
+        public object Getter(int k, int index)
+        {
+            switch(k)
+            {
+                case 0: return GetX(index);
+                case 1: return GetY(index);
+                case 2: return GetZ(index);
+                case 3: return GetW(index);
+                default: return 0;
+            }
+        }
+
+        public void Setter(int k, int index, object value)
+        {
+            switch (k)
+            {
+                case 0: SetX(index,(T)value);break;
+                case 1: SetY(index, (T)value); break;
+                case 2: SetZ(index, (T)value); break;
+                case 3: SetW(index, (T)value); break;
+                default: return ;
+            }
         }
     }
 }

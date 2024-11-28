@@ -280,7 +280,7 @@ namespace THREE
             if (index != null)
             {
 
-                attributes.Update(index, BufferTarget.ElementArrayBuffer);
+                attributes.Update<int>(index, BufferTarget.ElementArrayBuffer);
 
             }
 

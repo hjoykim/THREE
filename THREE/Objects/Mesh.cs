@@ -172,7 +172,7 @@ namespace THREE
 
                     foreach (DictionaryEntry entry in morphAttributes)
                     {
-                        var morphAttribute = morphAttributes[entry.Key] as List<BufferAttribute<float>>;
+                        var morphAttribute = morphAttributes[entry.Key] as List<IBufferAttribute>;
 
                         if (morphAttribute != null)
                         {
@@ -236,7 +236,7 @@ namespace THREE
                 BufferGeometry bufferGeometry = Geometry as BufferGeometry;
                 //const index = geometry.index;
                 BufferAttribute<float> position = bufferGeometry.Attributes.ContainsKey("position") ? bufferGeometry.Attributes["position"] as BufferAttribute<float> : null;
-                List<BufferAttribute<float>> morphPosition = bufferGeometry.MorphAttributes.ContainsKey("position") ? bufferGeometry.MorphAttributes["position"] as List<BufferAttribute<float>> : null;
+                List<IBufferAttribute> morphPosition = bufferGeometry.MorphAttributes.ContainsKey("position") ? bufferGeometry.MorphAttributes["position"] as List<IBufferAttribute> : null;
                 var morphTargetsRelative = bufferGeometry.MorphTargetsRelative;
                 BufferAttribute<float> uv = bufferGeometry.Attributes.ContainsKey("uv") ? bufferGeometry.Attributes["uv"] as BufferAttribute<float> : null; ;
                 BufferAttribute<float> uv2 = bufferGeometry.Attributes.ContainsKey("uv2") ? bufferGeometry.Attributes["uv2"] as BufferAttribute<float> : null; ;
@@ -466,7 +466,7 @@ namespace THREE
         private Vector2 _uvB = new Vector2();
         private Vector2 _uvC = new Vector2();
 
-        private Intersection checkBufferGeometryIntersection(Object3D object3D, Material material, Raycaster raycaster, Ray ray, BufferAttribute<float> position, List<BufferAttribute<float>> morphPosition, bool morphTargetsRelative, BufferAttribute<float> uv, BufferAttribute<float> uv2, int a, int b, int c)
+        private Intersection checkBufferGeometryIntersection(Object3D object3D, Material material, Raycaster raycaster, Ray ray, IBufferAttribute position, List<IBufferAttribute> morphPosition, bool morphTargetsRelative, BufferAttribute<float> uv, BufferAttribute<float> uv2, int a, int b, int c)
         {
             _vA.FromBufferAttribute(position, a);
             _vB.FromBufferAttribute(position, b);

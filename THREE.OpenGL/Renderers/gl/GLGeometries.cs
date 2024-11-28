@@ -96,7 +96,7 @@ namespace THREE
 
             foreach (string name in morphAttributes.Keys)
             {
-                List<BufferAttribute<float>> array = (List<BufferAttribute<float>>)morphAttributes[name];
+                List<IBufferAttribute> array = (List<IBufferAttribute>)morphAttributes[name];
 
                 for (int i = 0; i < array.Count; i++)
                 {

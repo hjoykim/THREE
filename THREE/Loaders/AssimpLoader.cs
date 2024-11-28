@@ -37,6 +37,8 @@ namespace THREE
             }
 
             CreateMaterial(scene, lineMaterialSet, pointMaterialSet);
+            
+            importer.Dispose();
 
             return ProcessNode(scene.RootNode, scene);
         }
@@ -141,23 +143,22 @@ namespace THREE
                     if (m.HasOpacity) parameter["opacity"] = m.Opacity;
                     if(m.HasTextureDiffuse)
                     {
-                        var textures = LoadMaterialTexture(m, Assimp.TextureType.Diffuse);
-                        parameter["map"] = textures[0];
+                        parameter["map"] = LoadMaterialTexture(m.TextureDiffuse);
+                        
+                        
                     }
                     if (m.HasTextureSpecular)
-                    {
-                        var textures = LoadMaterialTexture(m, Assimp.TextureType.Specular);
-                        parameter["map"] = textures[0];
+                    {                       
+                        parameter["specularMap"] = LoadMaterialTexture(m.TextureSpecular);
                     }
                     if(m.HasTextureEmissive)
                     {
-                        var textures = LoadMaterialTexture(m, Assimp.TextureType.Emissive);
-                        parameter["map"] = textures[0];
+                        parameter["emissiveMap"] = LoadMaterialTexture(m.TextureEmissive);
                     }
                     if(m.HasTextureNormal)
                     {
-                        var textures = LoadMaterialTexture(m, Assimp.TextureType.Normals);
-                        parameter["map"] = textures[0];
+                        parameter["normalMap"] = LoadMaterialTexture(m.TextureNormal);
+
                     }
                     var material = new MeshPhongMaterial(parameter);
                     threeMaterials[i] = material;
@@ -176,28 +177,21 @@ namespace THREE
                         material.Color = new Color(m.ColorDiffuse[0], m.ColorDiffuse[1], m.ColorDiffuse[2]);
                     if (m.HasTextureDiffuse)
                     {
-                        var textures = LoadMaterialTexture(m, Assimp.TextureType.Diffuse);
-                        material.Map = textures[0];
+                        var texture = LoadMaterialTexture(m.TextureDiffuse);
+                        material.Map = texture;
                     }
                     threeMaterials[i] = material;
                 }
             }
         }
 
-        private List<Texture> LoadMaterialTexture(Assimp.Material m,Assimp.TextureType texType)
+        private Texture LoadMaterialTexture(Assimp.TextureSlot slot)
         {
-            var textureCount = m.GetMaterialTextureCount(texType);
-            List<Texture> textures = new List<Texture>();
-            for(int texIndex = 0; texIndex < textureCount; texIndex++)
-            {
-                string texName = Assimp.Material.CreateFullyQualifiedName(AiMatKeys.TEXBLEND_BASE, texType, texIndex);
-                MaterialProperty texNameProp = m.GetProperty(texName);
-                string filePath = texNameProp.GetStringValue();
-                string texFilePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(FilePath), filePath);
-                Texture texture = TextureLoader.Load(texFilePath);
-                textures.Add(texture);
-            }
-            return textures;
+            string filePath = slot.FilePath;
+            string texFilePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(FilePath), filePath);
+            Texture texture = TextureLoader.Load(texFilePath);
+
+            return texture;
         }
     }
 }
