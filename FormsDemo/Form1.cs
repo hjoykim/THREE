@@ -54,7 +54,8 @@ namespace FormsDemo
                     imGuiManager.ImGui_ImplOpenGL3_RenderDrawData(ImGui.GetDrawData());
                 }
             }
-            this.glControl.SwapBuffers();
+            if (!glControl.IsDisposed)
+                this.glControl.SwapBuffers();
         }
         private void exitMenuItem_Click(object sender, EventArgs e)
         {

@@ -262,6 +262,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\RectArealightExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lines\LinesFatExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lines\OutlineExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\ObjLoaderWithAssimp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\AssimpLoaderExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\LoaderObjMTLExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Loader\LoaderPlyExample.cs" />

@@ -14,8 +14,8 @@ namespace THREEExample
         Vector3 _center;
         Vector3 _up;
         float _fov;
-        AmbientLight ambientLight;
-        DirectionalLight directionalLight;
+        public AmbientLight ambientLight;
+        public DirectionalLight directionalLight;
 
         Material lineMaterial;
 
