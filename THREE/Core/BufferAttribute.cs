@@ -33,7 +33,7 @@ namespace THREE
 
         public int Buffer { get; set; } = -1;
 
-        public bool needsUpdate = false;
+        private bool needsUpdate = false;
         public bool NeedsUpdate
         {
             get
