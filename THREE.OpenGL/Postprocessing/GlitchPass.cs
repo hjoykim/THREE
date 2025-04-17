@@ -32,7 +32,7 @@ namespace THREE
                 FragmentShader = shader.FragmentShader
             };
 
-            this.fullScreenQuad = new Pass.FullScreenQuad(this.material);
+            this.fullScreenQuad = new FullScreenQuad(this.material);
 
             this.goWild = false;
             this.curF = 0;

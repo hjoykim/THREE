@@ -371,7 +371,7 @@ namespace THREE
                         }
                         else if (stringValue.Contains("geometry ") && defineKey != null)
                         {
-                            parent.Geometry = (Geometry)(defines[defineKey] as Geometry).Clone();
+                            parent.Geometry = (BufferGeometry)(defines[defineKey] as BufferGeometry).Clone();
                         }
                         else if (defineKey != null)
                         {
@@ -472,7 +472,7 @@ namespace THREE
 
                 double radius = 2e4;
 
-                var skyGeometry = new THREE.SphereGeometry((float)radius, segments, segments);
+                var skyGeometry = new THREE.SphereBufferGeometry((float)radius, segments, segments);
                 var skyMaterial = new THREE.MeshBasicMaterial() { Fog = false, Side = Constants.BackSide };
 
                 if (data["skyColor"] != null && (data["skyColor"] as List<float>).Count > 1)
@@ -500,7 +500,7 @@ namespace THREE
 
                     radius = 1.2e4;
 
-                    var groundGeometry = new THREE.SphereGeometry((float)radius, segments, segments, 0, (float)(2 * Math.PI), (float)(0.5 * Math.PI), (float)(1.5 * Math.PI));
+                    var groundGeometry = new THREE.SphereBufferGeometry((float)radius, segments, segments, 0, (float)(2 * Math.PI), (float)(0.5 * Math.PI), (float)(1.5 * Math.PI));
                     var groundMaterial = new THREE.MeshBasicMaterial() { Fog = false, Side = Constants.BackSide, VertexColors = true };
 
                     //paintFaces(groundGeometry, radius, data.groundAngle || [], data.groundColor, false);

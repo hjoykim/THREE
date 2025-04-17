@@ -177,7 +177,7 @@ namespace THREE
                 for (int i = 0; i < points.Count; i++)
                 {
 
-                    position.setXYZ(points[i], _vector.X, _vector.Y, _vector.Z);
+                    position.SetXYZ(points[i], _vector.X, _vector.Y, _vector.Z);
 
                 }
             }

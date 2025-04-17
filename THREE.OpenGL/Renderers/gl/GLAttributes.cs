@@ -27,10 +27,11 @@ namespace THREE
         {
         }
 
-        public BufferType CreateBuffer<T>(BufferAttribute<T> attribute, BufferTarget bufferType)
+        public BufferType CreateBuffer<T>(IBufferAttribute attribute, BufferTarget bufferType)
         {
-            var array = attribute.Array;
-            BufferUsageHint usage = (BufferUsageHint)attribute.Usage;
+            var attr = attribute as BufferAttribute<T>;
+            T[] array = attr.Array;
+            BufferUsageHint usage = (BufferUsageHint)attr.Usage;
 
             int buffer;
 
@@ -42,25 +43,25 @@ namespace THREE
             GL.BindBuffer(bufferType, buffer);
 
 
-            if (attribute.Type == typeof(float))
+            if (typeof(T)== typeof(float))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(float)), array as float[], usage);
                 type = (int)VertexAttribPointerType.Float;
                 bytePerElement = sizeof(float);
             }
-            else if (attribute.Type == typeof(int))
+            else if (typeof(T) == typeof(int))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(int)), array as int[], usage);
                 type = (int)VertexAttribPointerType.UnsignedInt;
                 bytePerElement = sizeof(int);
             }
-            else if (attribute.Type == typeof(uint))
+            else if (typeof(T) == typeof(uint))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(uint)), array as uint[], usage);
                 type = (int)VertexAttribPointerType.UnsignedInt;
                 bytePerElement = sizeof(uint);
             }
-            else if (attribute.Type == typeof(byte))
+            else if (typeof(T) == typeof(byte))
             {
                 GL.BufferData(bufferType, (array.Length * sizeof(byte)), array as byte[], usage);
                 type = (int)VertexAttribPointerType.UnsignedByte;
@@ -74,13 +75,14 @@ namespace THREE
             }
 
 
-            return new BufferType { buffer = buffer, Type = type, BytesPerElement = bytePerElement, Version = attribute.Version };
+            return new BufferType { buffer = buffer, Type = type, BytesPerElement = bytePerElement, Version = attr.Version };
         }
 
-        public void UpdateBuffer<T>(int buffer, BufferAttribute<T> attribute, BufferTarget bufferType)
+        public void UpdateBuffer<T>(int buffer, IBufferAttribute attribute, BufferTarget bufferType)
         {
-            var array = attribute.Array;
-            var updateRange = attribute.UpdateRange;
+            var attr = attribute as BufferAttribute<T>;
+            var array = attr.Array;
+            var updateRange = attr.UpdateRange;
 
             GL.BindBuffer(bufferType, buffer);
 
@@ -129,7 +131,7 @@ namespace THREE
                     GL.BufferSubData(bufferType, new IntPtr(updateRange.Offset * sizeof(byte)), length * sizeof(byte), subarray as byte[]);
                 }
 
-                attribute.UpdateRange.Count = -1;
+                (attribute as BufferAttribute<T>).UpdateRange.Count = -1;
 
             }
         }
@@ -158,7 +160,7 @@ namespace THREE
                 this.Add(attribute, new BufferType { buffer = attribute.Buffer, Type = attribute.Type, BytesPerElement = attribute.ElementSize, Version = attribute.Version });
             }
         }
-        public void Update<T>(BufferAttribute<T> attribute, BufferTarget bufferType)
+        public void Update<T>(IBufferAttribute attribute, BufferTarget bufferType)
         {
             if (attribute is InterleavedBufferAttribute<T>)
                 attribute = (attribute as InterleavedBufferAttribute<T>).Data;
@@ -172,9 +174,9 @@ namespace THREE
             //}
             if (data == null)
             {
-                this.Add(attribute, CreateBuffer(attribute, bufferType));
+                this.Add(attribute, CreateBuffer<T>(attribute, bufferType));
             }
-            else if (data.Version < attribute.Version)
+            else if (data.Version < (attribute as BufferAttribute<T>).Version)
             {
                 UpdateBuffer<T>(data.buffer, attribute, bufferType);
                 //BufferType data = (BufferType)this[attribute];

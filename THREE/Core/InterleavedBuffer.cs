@@ -8,17 +8,8 @@ namespace THREE
     [Serializable]
     public class InterleavedBuffer<T> : BufferAttribute<T>
     {
-        public int Stride
-        {
-            get
-            {
-                return (int)this["stride"];
-            }
-            set
-            {
-                this["stride"] = value;
-            }
-        }
+        public int Stride { get; set; } = 0;
+       
 
 
         public new int count
@@ -33,9 +24,8 @@ namespace THREE
         {
 
             this.Usage = Constants.StaticDrawUsage;
-            this.Add("stride", 0);
         }
-        public InterleavedBuffer(SerializationInfo info, StreamingContext context) : base(info, context) { }
+       
 
 
         public InterleavedBuffer(T[] array, int stride) : this()

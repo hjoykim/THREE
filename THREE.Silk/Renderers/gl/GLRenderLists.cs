@@ -11,7 +11,7 @@ namespace THREE
             this.properties = properties;
         }
 
-        public GLRenderList Get(Scene scene, int renderCallDepth)
+        public GLRenderList Get(Object3D scene, int renderCallDepth)
         {
             GLRenderList list = null;
 

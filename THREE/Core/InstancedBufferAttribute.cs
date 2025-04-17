@@ -11,9 +11,7 @@ namespace THREE
         public InstancedBufferAttribute()
         {
 
-        }
-        public InstancedBufferAttribute(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
+        }       
         public InstancedBufferAttribute(T[] array, int itemSize, bool? normalized = null, int? meshPerAttribute = null)
             : base(array, itemSize, normalized)
         {

@@ -280,7 +280,7 @@ namespace THREE
             if (index != null)
             {
 
-                attributes.Update(index, BufferTarget.ElementArrayBuffer);
+                attributes.Update<int>(index, BufferTarget.ElementArrayBuffer);
 
             }
 
@@ -521,7 +521,7 @@ namespace THREE
                                     {
 
 
-                                        (geometry as InstancedBufferGeometry).MaxInstanceCount = (data as InstancedInterleavedBuffer<float>).MeshPerAttribute * (data as InstancedInterleavedBuffer<float>).Count;
+                                        (geometry as InstancedBufferGeometry).MaxInstanceCount = (data as InstancedInterleavedBuffer<float>).MeshPerAttribute * (data as InstancedInterleavedBuffer<float>).count;
 
                                     }
                                 }

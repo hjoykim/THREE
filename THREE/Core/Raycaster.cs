@@ -11,6 +11,7 @@ namespace THREE
         public float distance;
         public float distanceToRay;
         public Vector3 point;
+        public Vector3 pointOnLine;
         public int index;
         public Face3 face;
         public int faceIndex;
@@ -24,6 +25,7 @@ namespace THREE
     {
         public Hashtable Mesh = new Hashtable();
         public Hashtable Line = new Hashtable();
+        public Hashtable Line2 = new Hashtable();
         public Hashtable LOD = new Hashtable();
         public Hashtable Points = new Hashtable();
         public Hashtable Sprite = new Hashtable();
@@ -36,7 +38,7 @@ namespace THREE
         public float far = float.PositiveInfinity;
         public Camera camera;
         public Layers layers;
-        public RaycasterParameters parameters;
+        public RaycasterParameters parameters = new RaycasterParameters();
 
         public Hashtable PointCloud
         {

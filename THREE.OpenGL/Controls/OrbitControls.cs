@@ -5,32 +5,31 @@ using static THREE.Constants;
 
 namespace THREE
 {
-    [Serializable]
-    public enum STATE
-    {
-        NONE = -1,
-        ROTATE = 0,
-        DOLLY = 1,
-        PAN = 2,
-        TOUCH_ROTATE = 3,
-        TOUCH_PAN = 4,
-        TOUCH_DOLLY_PAN = 5,
-        DOUCH_DOLLY_ROTATE = 6
-    };
-
-    [Serializable]
-    public enum ControlMouseButtons
-    {
-        LEFT = MOUSE.ROTATE,
-        MIDDLE = MOUSE.DOLLY,
-        RIGHT = MOUSE.PAN
-    }
+   
 
     [Serializable]
     public class OrbitControls : IDisposable
     {
+        public enum STATE
+        {
+            NONE = -1,
+            ROTATE = 0,
+            DOLLY = 1,
+            PAN = 2,
+            TOUCH_ROTATE = 3,
+            TOUCH_PAN = 4,
+            TOUCH_DOLLY_PAN = 5,
+            DOUCH_DOLLY_ROTATE = 6
+        };
 
-        public ControlMouseButtons mouseButtons;
+        public Dictionary<MouseButton, MOUSE> ControlMouseButtons = new Dictionary<MouseButton, MOUSE>
+        { 
+            {MouseButton.Left,MOUSE.ROTATE},
+            {MouseButton.Middle,MOUSE.DOLLY},
+            {MouseButton.Right,MOUSE.PAN}
+        };       
+
+        //public int mouseButtons;
 
         private Camera camera;
 
@@ -67,7 +66,6 @@ namespace THREE
 
         public bool ScreenSpacePanning = true;
         public float KeyPanSpeed = 7.0f;
-
         public bool AutoRotate = false;
         public float AutoRotateSpeed = 2.0f;
 
@@ -582,7 +580,7 @@ namespace THREE
 
         private void Control_KeyDown(object sender, KeyboardKeyEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         private void Control_MouseWheel(object sender, MouseEventArgs e)
@@ -633,13 +631,13 @@ namespace THREE
             switch (e.Button)
             {
                 case MouseButton.Left:
-                    mouseAction = (int)ControlMouseButtons.LEFT;
+                    mouseAction = (int)ControlMouseButtons[MouseButton.Left];
                     break;
                 case MouseButton.Middle:
-                    mouseAction = (int)ControlMouseButtons.MIDDLE;
+                    mouseAction = (int)ControlMouseButtons[MouseButton.Middle];
                     break;
                 case MouseButton.Right:
-                    mouseAction = (int)ControlMouseButtons.RIGHT;
+                    mouseAction = (int)ControlMouseButtons[MouseButton.Right];
                     break;
                 default:
                     mouseAction = -1;

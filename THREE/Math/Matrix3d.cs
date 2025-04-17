@@ -92,13 +92,13 @@ namespace THREE
             for (int i = 0, l = attribute.count; i < l; i++)
             {
 
-                _vector.X = attribute.getX(i);
-                _vector.Y = attribute.getY(i);
-                _vector.Z = attribute.getZ(i);
+                _vector.X = attribute.GetX(i);
+                _vector.Y = attribute.GetY(i);
+                _vector.Z = attribute.GetZ(i);
 
                 _vector.ApplyMatrix3(this);
 
-                attribute.setXYZ(i, _vector.X, _vector.Y, _vector.Z);
+                attribute.SetXYZ(i, _vector.X, _vector.Y, _vector.Z);
 
             }
 

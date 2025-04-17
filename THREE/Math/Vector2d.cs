@@ -482,8 +482,8 @@ namespace THREE
 
         public Vector2d FromBufferAttribute(BufferAttribute<double> attribute, int index)
         {
-            this.X = attribute.getX(index);
-            this.Y = attribute.getY(index);
+            this.X = attribute.GetX(index);
+            this.Y = attribute.GetY(index);
 
             return this;
         }

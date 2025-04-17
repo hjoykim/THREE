@@ -17,7 +17,7 @@ namespace THREE
 
         public int DepthSegments;
 
-        public BoxGeometry(float width, float height, float depth, int widthSegments = 1, int heightSegments = 1, int depthSegments = 1) : base()
+        public BoxGeometry(float width=1, float height=1, float depth=1, int widthSegments = 1, int heightSegments = 1, int depthSegments = 1) : base()
         {
 
             this.type = "BoxGeometry";
@@ -67,7 +67,7 @@ namespace THREE
 
         private int groupStart = 0;
 
-        public BoxBufferGeometry(float width, float height, float depth, int widthSegments = 1, int heightSegments = 1, int depthSegments = 1)
+        public BoxBufferGeometry(float width=1, float height=1, float depth=1, int widthSegments = 1, int heightSegments = 1, int depthSegments = 1)
             : base()
         {
 

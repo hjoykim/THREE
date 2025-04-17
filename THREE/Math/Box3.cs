@@ -91,9 +91,10 @@ namespace THREE
             this.Max.Z = maxZ;
         }
 
-        public void SetFromBufferAttribute(BufferAttribute<float> attribute)
+        public void SetFromBufferAttribute(IBufferAttribute attribute)
         {
 
+            BufferAttribute<float> attr = attribute as BufferAttribute<float>;
             var minX = float.PositiveInfinity;
             var minY = float.PositiveInfinity;
             var minZ = float.PositiveInfinity;
@@ -104,9 +105,9 @@ namespace THREE
 
             for (int i = 0; i < attribute.count; i++)
             {
-                var x = attribute.getX(i);
-                var y = attribute.getY(i);
-                var z = attribute.getZ(i);
+                var x = attr.GetX(i);
+                var y = attr.GetY(i);
+                var z = attr.GetZ(i);
 
                 if (x < minX) minX = x;
                 if (y < minY) minY = y;
@@ -139,9 +140,9 @@ namespace THREE
 
             for (int i = 0; i < attribute.count; i++)
             {
-                var x = attribute.getX(i);
-                var y = attribute.getY(i);
-                var z = attribute.getZ(i);
+                var x = attribute.GetX(i);
+                var y = attribute.GetY(i);
+                var z = attribute.GetZ(i);
 
                 if (x < minX) minX = x;
                 if (y < minY) minY = y;

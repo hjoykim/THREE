@@ -38,7 +38,7 @@ namespace THREE
                     }
                 }
             }
-            this.fullScreenQuad = new Pass.FullScreenQuad(this.material);
+            this.fullScreenQuad = new FullScreenQuad(this.material);
         }
         public override void Render(GLRenderer renderer, GLRenderTarget writeBuffer, GLRenderTarget readBuffer, float? deltaTime = null, bool? maskActive = null)
         {

@@ -145,7 +145,7 @@ namespace THREE
             this.oldClearColor = new Color();
             this.oldClearAlpha = 1;
 
-            this.fullScreenQuad = new Pass.FullScreenQuad(null);
+            this.fullScreenQuad = new FullScreenQuad(null);
 
             this.tempPulseColor1 = new Color();
             this.tempPulseColor2 = new Color();

@@ -440,13 +440,13 @@ namespace THREE
             for (int i = 0, l = attribute.count; i < l; i++)
             {
 
-                _v1.X = attribute.getX(i);
-                _v1.Y = attribute.getY(i);
-                _v1.Z = attribute.getZ(i);
+                _v1.X = attribute.GetX(i);
+                _v1.Y = attribute.GetY(i);
+                _v1.Z = attribute.GetZ(i);
 
                 _v1.ApplyMatrix4(this);
 
-                attribute.setXYZ(i, _v1.X, _v1.Y, _v1.Z);
+                attribute.SetXYZ(i, _v1.X, _v1.Y, _v1.Z);
 
             }
 

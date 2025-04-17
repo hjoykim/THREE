@@ -86,7 +86,7 @@ namespace THREEExample.Three.Buffergeometry
             var morphTarget = new BufferAttribute<float>(data.ToArray(), 3);
             morphTarget.Name = "target1";
 
-            geometry.MorphAttributes["position"] = new List<BufferAttribute<float>>() { morphTarget };
+            geometry.MorphAttributes["position"] = new List<IBufferAttribute>() { morphTarget };
         }
 
         public override void Render()

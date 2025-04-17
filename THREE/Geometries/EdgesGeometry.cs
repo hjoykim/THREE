@@ -67,9 +67,9 @@ namespace THREE
                 if (indexAttr != null)
                 {
 
-                    indexArr[0] = indexAttr.getX(i);
-                    indexArr[1] = indexAttr.getX(i + 1);
-                    indexArr[2] = indexAttr.getX(i + 2);
+                    indexArr[0] = indexAttr.GetX(i);
+                    indexArr[1] = indexAttr.GetX(i + 1);
+                    indexArr[2] = indexAttr.GetX(i + 2);
 
                 }
                 else

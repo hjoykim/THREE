@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastDeepCloner;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -62,7 +63,7 @@ namespace THREE
 
             //this.Offsets = this.Drawcalls;
 
-            this.BoundingBox = null;
+            this.BoundingBox = null; 
 
             this.BoundingSphere = null;
 
@@ -79,8 +80,9 @@ namespace THREE
         {
             return new BufferGeometry(this);
         }
-        public BufferGeometry Copy(BufferGeometry source)
+        public BufferGeometry Copy(BufferGeometry source) 
         {
+            base.Copy(source as Geometry);
             this.Index = null;
             this.Attributes = new Dictionary<object,object>();
 
@@ -120,31 +122,6 @@ namespace THREE
                 if (entry.Value is BufferAttribute<byte>)
                     Attributes.Add(entry.Key, (entry.Value as BufferAttribute<byte>).Clone());
             }
-            //for ( const name in attributes ) {
-
-            //    const attribute = attributes[name];
-            //    this.setAttribute(name, attribute.clone(data));
-
-            //}
-
-            // morph attributes
-
-
-            //for ( const name in morphAttributes ) {
-
-            //    const array = [];
-            //    const morphAttribute = morphAttributes[name]; // morphAttribute: array of Float32BufferAttributes
-
-            //    for (let i = 0, l = morphAttribute.length; i < l; i++)
-            //    {
-
-            //        array.push(morphAttribute[i].clone(data));
-
-            //    }
-
-            //    this.morphAttributes[name] = array;
-
-            //}
 
             this.MorphTargetsRelative = source.MorphTargetsRelative;
 
@@ -204,12 +181,12 @@ namespace THREE
         {
             this.Index = index;
         }
-        public IGLAttribute GetAttribute<T>(string name)
+        public IBufferAttribute GetAttribute<T>(string name)
         {
-            return this.Attributes[name] as IGLAttribute;
+            return this.Attributes[name] as IBufferAttribute;
         }
 
-        public BufferGeometry SetAttribute(string name, IGLAttribute attribute)
+        public BufferGeometry SetAttribute(string name, IBufferAttribute attribute)
         {
             this.Attributes[name] = attribute;
             //if (!AttributesKeys.Contains(name))
@@ -241,7 +218,7 @@ namespace THREE
         //    }
         //}
 
-        public virtual void AddGroup(int start, int count, int materialIndex)
+        public virtual void AddGroup(int start, int count, int materialIndex = 0)
         {
             this.Groups.Add(new DrawRange { Start = start, Count = count, MaterialIndex = materialIndex });
         }
@@ -393,8 +370,8 @@ namespace THREE
                 if (geometry.LineDistances != null && geometry.LineDistances.Count == geometry.Vertices.Count)
                 {
                     BufferAttribute<float> lineDistances = new BufferAttribute<float>();
-                    lineDistances["type"] = typeof(float);
-                    lineDistances["array"] = new float[geometry.LineDistances.Count];
+                    lineDistances.Type = typeof(float);
+                    lineDistances.Array = new float[geometry.LineDistances.Count];
                     lineDistances.ItemSize = 1;
 
                     Array.Copy(geometry.LineDistances.ToArray(), lineDistances.Array, (long)geometry.LineDistances.Count);
@@ -615,7 +592,7 @@ namespace THREE
 
             foreach (string name in geometry.MorphTargets.Keys)
             {
-                List<BufferAttribute<float>> array = new List<BufferAttribute<float>>();
+                var array = new List<IBufferAttribute>();
 
                 var morphTargets = (List<MorphTarget>)geometry.MorphTargets[name];
 
@@ -628,7 +605,7 @@ namespace THREE
 
                     array.Add(attribute.CopyVector3sArray(morphTarget.Data.ToArray()));
                 }
-                this.MorphAttributes.Add(name, array);
+                this.MorphAttributes[name] = array;
 
             }
 
@@ -674,9 +651,9 @@ namespace THREE
             if (this.Attributes.ContainsKey("position"))
                 position = (BufferAttribute<float>)this.Attributes["position"];
 
-            List<BufferAttribute<float>> morphAttributesPosition = null;
+            List<IBufferAttribute> morphAttributesPosition = null;
             if (this.MorphAttributes.ContainsKey("position"))
-                morphAttributesPosition = this.MorphAttributes["position"] as List<BufferAttribute<float>>;
+                morphAttributesPosition = this.MorphAttributes["position"] as List<IBufferAttribute>;
 
             if (position != null)
             {
@@ -688,7 +665,7 @@ namespace THREE
                 {
                     for (int i = 0; i < morphAttributesPosition.Count; i++)
                     {
-                        BufferAttribute<float> morphAttribute = morphAttributesPosition[i];
+                        IBufferAttribute morphAttribute = morphAttributesPosition[i];
                         _box.SetFromBufferAttribute(morphAttribute);
 
                         if (this.MorphTargetsRelative)
@@ -741,9 +718,9 @@ namespace THREE
             if (this.Attributes.ContainsKey("position"))
                 position = (BufferAttribute<float>)this.Attributes["position"];
 
-            List<BufferAttribute<float>> morphAttributesPosition = null;
+            List<IBufferAttribute> morphAttributesPosition = null;
             if (this.MorphAttributes.ContainsKey("position"))
-                morphAttributesPosition = this.MorphAttributes["position"] as List<BufferAttribute<float>>;
+                morphAttributesPosition = this.MorphAttributes["position"] as List<IBufferAttribute>;
 
             if (position != null)
             {
@@ -758,7 +735,7 @@ namespace THREE
                 {
                     for (int i = 0; i < morphAttributesPosition.Count; i++)
                     {
-                        BufferAttribute<float> morphAttribute = morphAttributesPosition[i];
+                        IBufferAttribute morphAttribute = morphAttributesPosition[i];
 
                         _boxMorphTargets.SetFromBufferAttribute(morphAttribute);
 
@@ -788,7 +765,10 @@ namespace THREE
 
                 for (int i = 0; i < (position is InterleavedBufferAttribute<float> ? (position as InterleavedBufferAttribute<float>).count : position.count); i++)
                 {
-                    _vector = _vector.FromBufferAttribute(position, i);
+                    if (position is InterleavedBufferAttribute<float>)
+                        _vector = _vector.FromBufferAttribute(position as InterleavedBufferAttribute<float>, i);
+                    else
+                        _vector = _vector.FromBufferAttribute(position, i);
                     maxRadiusSq = System.Math.Max(maxRadiusSq, center.DistanceToSquared(_vector));
                 }
 
@@ -797,7 +777,7 @@ namespace THREE
                 {
                     for (int i = 0; i < morphAttributesPosition.Count; i++)
                     {
-                        BufferAttribute<float> morphAttribute = morphAttributesPosition[i];
+                        IBufferAttribute morphAttribute = morphAttributesPosition[i];
 
                         for (int j = 0; j < morphAttribute.count; j++)
                         {
@@ -823,42 +803,38 @@ namespace THREE
             var attributes = this.Attributes;
 
             BufferAttribute<float> positionsAttribute = (BufferAttribute<float>)this.Attributes["position"];
-            BufferAttribute<float> normalAttribute = null;
-            if (this.Attributes.ContainsKey("normal"))
-                normalAttribute = (BufferAttribute<float>)this.Attributes["normal"];
-
-            var positions = positionsAttribute.Array;
-
             if (positionsAttribute != null)
             {
 
-                if (!attributes.ContainsKey("normal"))
+                BufferAttribute<float> normalAttribute = null;
+                if (this.Attributes.ContainsKey("normal"))
+                    normalAttribute = (BufferAttribute<float>)this.Attributes["normal"];
+
+
+                if (normalAttribute == null)
                 {
-                    normalAttribute = new BufferAttribute<float>(new float[positions.Length], 3);
+                    normalAttribute = new BufferAttribute<float>(new float[positionsAttribute.count * 3], 3);
                     this.SetAttribute("normal", normalAttribute);
                 }
                 else
                 {
 
-                    var array = normalAttribute.Array;
-                    if (normalArray == null) normalArray = new float[array.Length];
-                    for (int i = 0; i < array.Length; i++)
+                    for (int i = 0; i < normalAttribute.count; i++)
                     {
-                        normalArray[i] = 0;
+                        normalAttribute.SetXYZ(i, 0, 0, 0);
                     }
                 }
 
                 var normals = ((BufferAttribute<float>)attributes["normal"]).Array;
 
-                int vA, vB, vC;
-                vA = vB = vC = 0;
-
-                Vector3 pA = new Vector3();
-                Vector3 pB = new Vector3();
-                Vector3 pC = new Vector3();
-                Vector3 cb = new Vector3();
-                Vector3 ab = new Vector3(); ;
-
+                var pA = new Vector3();
+                var pB = new Vector3();
+                var pC = new Vector3();
+                var cb = new Vector3();
+                var ab = new Vector3();
+                var nA = new Vector3();
+                var nB = new Vector3();
+                var nC = new Vector3();
 
 
                 if (index != null)
@@ -867,66 +843,53 @@ namespace THREE
 
                     for (int i = 0; i < index.count; i += 3)
                     {
-                        vA = indices[i + 0] * 3;
-                        vB = indices[i + 1] * 3;
-                        vC = indices[i + 2] * 3;
+                        int vA = index.GetX(i + 0);
+                        int vB = index.GetX(i + 1);
+                        int vC = index.GetX(i + 2);
 
-                        pA = Vector3.Zero().FromArray(positions, vA);
-                        pB = Vector3.Zero().FromArray(positions, vB);
-                        pC = Vector3.Zero().FromArray(positions, vC);
+                        pA.FromBufferAttribute(positionsAttribute, vA);
+                        pB.FromBufferAttribute(positionsAttribute, vB);
+                        pC.FromBufferAttribute(positionsAttribute, vC);
 
                         cb.SubVectors(pC, pB);
                         ab.SubVectors(pA, pB);
 
                         cb.Cross(ab);
 
-                        normals[vA] += cb.X;
-                        normals[vA + 1] += cb.Y;
-                        normals[vA + 2] += cb.Z;
+                        nA.FromBufferAttribute(normalAttribute, vA);
+                        nB.FromBufferAttribute (normalAttribute, vB);
+                        nC.FromBufferAttribute(normalAttribute, vC);
 
-                        normals[vB] += cb.X;
-                        normals[vB + 1] += cb.Y;
-                        normals[vB + 2] += cb.Z;
+                        nA.Add(cb);
+                        nB.Add(cb);
+                        nC.Add(cb);
 
-                        normals[vC] += cb.X;
-                        normals[vC + 1] += cb.Y;
-                        normals[vC + 2] += cb.Z;
+                        normalAttribute.SetXYZ(vA, nA.X, nA.Y, nA.Z);
+                        normalAttribute.SetXYZ(vB, nB.X, nB.Y, nB.Z);
+                        normalAttribute.SetXYZ(vC, nC.X, nC.Y, nC.Z);
                     }
                 }
                 else
                 {
-                    var pLen = positions.Length - 1;
-                    for (int i = 0; i < positions.Length; i += 9)
+                    for (int i = 0; i < positionsAttribute.count; i += 3)
                     {
-                        pA = Vector3.Zero().FromArray(positions, i);
-                        pB = Vector3.Zero().FromArray(positions, i + 3);
-                        pC = Vector3.Zero().FromArray(positions, i + 6);
-
-                        cb = pC - pB;
-                        ab = pA - pB;
+                        pA.FromBufferAttribute(positionsAttribute, i + 0);
+                        pB.FromBufferAttribute(positionsAttribute, i + 1);
+                        pC.FromBufferAttribute(positionsAttribute, i + 2);
+                        
+                        cb.SubVectors(pC, pB);
+                        ab.SubVectors(pA, pB);
                         cb.Cross(ab);
 
-                        normals[i] = cb.X;
-                        normals[i + 1] = cb.Y;
-                        normals[i + 2] = cb.Z;
-
-                        normals[i + 3] = cb.X;
-                        normals[i + 4] = cb.Y;
-                        normals[i + 5] = cb.Z;
-
-                        if ((i + 6) <= pLen)
-                        {
-                            normals[i + 6] = cb.X;
-                            normals[i + 7] = cb.Y;
-                            normals[i + 8] = cb.Z;
-                        }
-
+                        normalAttribute.SetXYZ(i + 0, cb.X, cb.Y, cb.Z);
+                        normalAttribute.SetXYZ(i + 1, cb.X, cb.Y, cb.Z);
+                        normalAttribute.SetXYZ(i + 2, cb.X, cb.Y, cb.Z);
                     }
                 }
 
                 this.NormalizeNormals();
-
                 normalAttribute.NeedsUpdate = true;
+
             }
         }
 
@@ -966,13 +929,11 @@ namespace THREE
 
             for (int i = 0; i < normals.count; i++)
             {
-                _vector.X = normals.getX(i);
-                _vector.Y = normals.getY(i);
-                _vector.Z = normals.getZ(i);
+                _vector.FromBufferAttribute(normals, i);               
 
                 _vector.Normalize();
 
-                normals.setXYZ(i, _vector.X, _vector.Y, _vector.Z);
+                normals.SetXYZ(i, _vector.X, _vector.Y, _vector.Z);
             }
 
         }
@@ -982,9 +943,10 @@ namespace THREE
             //backwards compatibility
         }
 
-        public BufferAttribute<float> ConvertBufferAttribute(BufferAttribute<float> attribute, int[] indices)
+        public BufferAttribute<float> ConvertBufferAttribute(IBufferAttribute attribute, int[] indices)
         {
-            var array = attribute.Array;
+            var attr = attribute as BufferAttribute<float>;
+            var array = attr.Array;
             var itemSize = attribute.ItemSize;
 
             float[] array2 = new float[indices.Length * itemSize];
@@ -1030,12 +992,12 @@ namespace THREE
 
             foreach (string name in MorphAttributes.Keys)
             {
-                List<BufferAttribute<float>> morphArray = new List<BufferAttribute<float>>();
-                BufferAttribute<float>[] morphAttribute = (BufferAttribute<float>[])morphAttributes[name];
+                List<IBufferAttribute> morphArray = new List<IBufferAttribute>();
+                List<IBufferAttribute> morphAttribute = morphAttributes[name] as List<IBufferAttribute>;
 
-                for (int i = 0; i < morphAttribute.Length; i++)
+                for (int i = 0; i < morphAttribute.Count; i++)
                 {
-                    BufferAttribute<float> attribute = morphAttribute[i];
+                    IBufferAttribute attribute = morphAttribute[i];
                     var newAttribute = ConvertBufferAttribute(attribute, indices);
                     morphArray.Add(newAttribute);
                 }
