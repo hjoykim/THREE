@@ -253,6 +253,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Geometries\TeapotBufferGeometry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Geometries\TeapotExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Instancing\InstancingDynamic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Instancing\InstancingExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Instancing\InstancingRaycast.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Interactive\InteractiveCubesExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Lights\LightprobeCubeCamera.cs" />
