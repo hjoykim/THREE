@@ -17,6 +17,10 @@
 	<Description>C# port of Three.js </Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Renderers\Shaders\ShaderChunk_org.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
