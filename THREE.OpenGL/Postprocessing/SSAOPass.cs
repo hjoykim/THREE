@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using THREE.Renderers.Shaders;
 using static THREE.ConvexHull;
 
 namespace THREE

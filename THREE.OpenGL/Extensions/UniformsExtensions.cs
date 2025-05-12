@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using THREE.Renderers.Shaders;
 
 namespace THREE.OpenGL.Extensions
 {

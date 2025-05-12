@@ -1,6 +1,5 @@
 ﻿
 using System;
-using THREE.Renderers.Shaders;
 
 namespace THREE
 {
