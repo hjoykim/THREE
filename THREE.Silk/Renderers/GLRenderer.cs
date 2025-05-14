@@ -538,7 +538,7 @@ namespace THREE
 
             //
 
-            if (index != null && index.Count == 0) return;
+            if (index != null && index.count == 0) return;
             //if (position != null || position.count === 0) return;
             if (position == null) return;
 

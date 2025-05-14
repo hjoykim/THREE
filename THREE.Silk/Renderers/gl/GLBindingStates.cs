@@ -511,7 +511,7 @@ namespace THREE
                                     {
 
 
-                                        (geometry as InstancedBufferGeometry).MaxInstanceCount = (data as InstancedInterleavedBuffer<float>).MeshPerAttribute * (data as InstancedInterleavedBuffer<float>).Count;
+                                        (geometry as InstancedBufferGeometry).MaxInstanceCount = (data as InstancedInterleavedBuffer<float>).MeshPerAttribute * (data as InstancedInterleavedBuffer<float>).count;
 
                                     }
                                 }
