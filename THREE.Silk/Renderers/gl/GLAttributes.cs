@@ -29,10 +29,11 @@ namespace THREE
             this.gl = gl;
         }
 
-        public unsafe BufferType CreateBuffer<T>(BufferAttribute<T> attribute, GLEnum bufferType)
+        public unsafe BufferType CreateBuffer<T>(IBufferAttribute attribute, GLEnum bufferType)
         {
-            var array = attribute.Array;
-            GLEnum usage = (GLEnum)attribute.Usage;
+            var attr = attribute as BufferAttribute<T>;
+            T[] array = attr.Array;
+            GLEnum usage = (GLEnum)attr.Usage;
 
             uint buffer;
 
@@ -109,13 +110,14 @@ namespace THREE
             }
 
 
-            return new BufferType { buffer = (int)buffer, Type = type, BytesPerElement = bytePerElement, Version = attribute.Version };
+            return new BufferType { buffer = (int)buffer, Type = type, BytesPerElement = bytePerElement, Version = attr.Version };
         }
 
-        public unsafe void UpdateBuffer<T>(int buffer, BufferAttribute<T> attribute, GLEnum bufferType)
+        public unsafe void UpdateBuffer<T>(int buffer, IBufferAttribute attribute, GLEnum bufferType)
         {
-            var array = attribute.Array;
-            var updateRange = attribute.UpdateRange;
+            var attr = attribute as BufferAttribute<T>;
+            var array = attr.Array;
+            var updateRange = attr.UpdateRange;
 
             gl.BindBuffer(bufferType, (uint)buffer);
 
@@ -213,7 +215,7 @@ namespace THREE
                     }
                 }
 
-                attribute.UpdateRange.Count = -1;
+                (attribute as BufferAttribute<T>).UpdateRange.Count = -1;
 
             }
         }
@@ -242,7 +244,7 @@ namespace THREE
                 this.Add(attribute, new BufferType { buffer = attribute.Buffer, Type = attribute.Type, BytesPerElement = attribute.ElementSize, Version = attribute.Version });
             }
         }
-        public void Update<T>(BufferAttribute<T> attribute, GLEnum bufferType)
+        public void Update<T>(IBufferAttribute attribute, GLEnum bufferType)
         {
             if (attribute is InterleavedBufferAttribute<T>)
                 attribute = (attribute as InterleavedBufferAttribute<T>).Data;
@@ -256,9 +258,9 @@ namespace THREE
             //}
             if (data == null)
             {
-                this.Add(attribute, CreateBuffer(attribute, bufferType));
+                this.Add(attribute, CreateBuffer<T>(attribute, bufferType));
             }
-            else if (data.Version < attribute.Version)
+            else if (data.Version < (attribute as BufferAttribute<T>).Version)
             {
                 UpdateBuffer<T>(data.buffer, attribute, bufferType);
                 //BufferType data = (BufferType)this[attribute];

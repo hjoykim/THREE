@@ -268,7 +268,7 @@ namespace THREE
             if (index != null)
             {
 
-                attributes.Update(index, GLEnum.ElementArrayBuffer);
+                attributes.Update<int>(index, GLEnum.ElementArrayBuffer);
 
             }
 
