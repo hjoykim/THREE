@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using THREE.Renderers.Shaders;
+﻿using System.Collections;
 
 namespace THREE
 {

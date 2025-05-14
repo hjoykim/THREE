@@ -1,8 +1,4 @@
-﻿
-using System;
-using THREE.Renderers.Shaders;
-
-namespace THREE
+﻿namespace THREE
 {
     [Serializable]
     public class FilmPass : Pass
