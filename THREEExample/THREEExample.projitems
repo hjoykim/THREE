@@ -223,6 +223,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter11\SimplePassExample1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter11\SimplePassExample2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter11\Util11.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\postprocessing\MultisampledRenderbuffersExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Buffergeometry\BuffergeometryExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Buffergeometry\BufferGeometryInstancingExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Buffergeometry\BuffergeometryLineExample.cs" />
@@ -286,6 +287,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Misc\Controls\TransControlsExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Modifier\ModifierCurve.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Morphtargets\MorphtargetsExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\postprocessing\OutlinePassExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\postprocessing\SMAAExample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)3rd\Typography.OpenFont\README.MD" />

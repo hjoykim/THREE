@@ -1,4 +1,6 @@
 ﻿
+using OpenTK.WinForms;
+
 namespace FormsDemo
 {
     partial class Form1
@@ -37,6 +39,12 @@ namespace FormsDemo
             splitContainer1 = new SplitContainer();
             treeView1 = new TreeView();
             statusStrip1 = new StatusStrip();
+            var settings = new GLControlSettings
+            {
+                NumberOfSamples = 8, // MSAA x8
+                DepthBits = 24,
+                StencilBits = 8
+            };
             glControl = new GLControl();
             statusStrip2 = new StatusStrip();
             menuStrip1.SuspendLayout();
@@ -131,7 +139,7 @@ namespace FormsDemo
             glControl.Location = new Point(0, 0);
             glControl.Margin = new Padding(3, 4, 3, 4);
             glControl.Name = "glControl";
-            glControl.Profile = OpenTK.Windowing.Common.ContextProfile.Core;
+            glControl.Profile = OpenTK.Windowing.Common.ContextProfile.Compatability;
             glControl.Size = new Size(646, 516);
             glControl.TabIndex = 1;
             glControl.Load += glControl_Load;

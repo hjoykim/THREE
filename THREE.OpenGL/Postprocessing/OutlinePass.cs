@@ -9,7 +9,7 @@ namespace THREE
     {
         Scene renderScene;
         Camera renderCamera;
-        List<Object3D> selectedObjects = new List<Object3D>();
+        public List<Object3D> selectedObjects = new List<Object3D>();
         public Color visibleEdgeColor;
         public Color hiddenEdgeColor;
         public float edgeGlow;
@@ -19,7 +19,7 @@ namespace THREE
         float downSampleRatio;
         public float pulsePeriod;
         Vector2 resolution;
-        Texture patternTexture;
+        public Texture patternTexture;
         MeshBasicMaterial maskBufferMaterial;
         GLRenderTarget renderTargetMaskBuffer;
         MeshDepthMaterial depthMaterial;

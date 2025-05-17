@@ -114,7 +114,7 @@ namespace THREEExample
         {
             return stopWatch.ElapsedMilliseconds / 1000.0f;
         }
-        public virtual void OnResize(ResizeEventArgs clientSize)
+        public override void OnResize(ResizeEventArgs clientSize)
         {
             if (renderer != null)
             {
