@@ -45,8 +45,10 @@ namespace FormsDemo
                 DepthBits = 24,
                 StencilBits = 8
             };
+            
             glControl = new GLControl(settings);
             statusStrip2 = new StatusStrip();
+
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
             splitContainer1.Panel1.SuspendLayout();
