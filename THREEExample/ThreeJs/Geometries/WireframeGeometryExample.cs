@@ -14,7 +14,7 @@ namespace THREEExample.ThreeJs.Geometries
         float detail = 4;
         int currentModel = 0;
         Material lineMaterial, meshMaterial;
-        Texture texture;
+        THREE.Texture texture;
         Light[] lights = new Light[3];
         Mesh mesh;
         LineSegments lineSegments;

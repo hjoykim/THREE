@@ -289,6 +289,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Morphtargets\MorphtargetsExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\postprocessing\OutlinePassExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\postprocessing\SMAAExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Texture\Texture3DExample.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Texture\VolumeCloudExample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)3rd\Typography.OpenFont\README.MD" />

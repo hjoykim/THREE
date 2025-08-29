@@ -348,8 +348,8 @@ namespace THREE
         public void SetTexture2DArray(Texture texture, int slot)
         {
             var textureProperties = properties.Get(texture);
-
-            if (texture.version > 0 && (int)textureProperties["version"] != texture.version)
+            int textureVersion = textureProperties.ContainsKey("version") ? (int)textureProperties["version"] : -1;
+            if (texture.version > 0 && textureVersion != texture.version)
             {
                 UploadTexture(textureProperties, texture, slot);
                 return;
@@ -362,7 +362,8 @@ namespace THREE
         public void SetTexture3D(Texture texture, int slot)
         {
             var textureProperties = properties.Get(texture);
-            if (texture.version > 0 && (int)textureProperties["version"] != texture.version)
+            int textureVersion = textureProperties.ContainsKey("version") ? (int)textureProperties["version"] : -1;
+            if (texture.version > 0 && textureVersion != texture.version)
             {
                 UploadTexture(textureProperties, texture, slot);
                 return;
@@ -711,7 +712,7 @@ namespace THREE
             var textureType = TextureTarget.Texture2D;
 
             if (texture is DataTexture2DArray) textureType = TextureTarget.Texture2DArray;
-            if (texture is DataTexture2DArray) textureType = TextureTarget.Texture3D;
+            if (texture is DataTexture3D) textureType = TextureTarget.Texture3D;
 
             InitTexture(textureProperties, texture);
 
@@ -901,8 +902,15 @@ namespace THREE
             }
             else if (texture is DataTexture3D)
             {
+                if (glType == All.UnsignedByte)
+                {
+                    state.TexImage3D((int)All.Texture3D, 0, glInternalFormat, (texture as DataTexture3D).Width, (texture as DataTexture3D).Height, (texture as DataTexture3D).Depth, 0, (int)glFormat, (int)glType, (texture as DataTexture3D).Data);
+                }
+                else if (glType == All.Float)
+                {
+                    state.TexImage3D((int)All.Texture3D, 0, glInternalFormat, (texture as DataTexture3D).Width, (texture as DataTexture3D).Height, (texture as DataTexture3D).Depth, 0, (int)glFormat, (int)glType, (texture as DataTexture3D).DataFloat);
 
-                state.TexImage3D((int)All.Texture3D, 0, glInternalFormat, (texture as DataTexture3D).Width, (texture as DataTexture3D).Height, (texture as DataTexture3D).Depth, 0, (int)glFormat, (int)glType, (texture as DataTexture3D).Data);
+                }
                 textureProperties["maxMipLevel"] = 0;
 
             }

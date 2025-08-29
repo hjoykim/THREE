@@ -872,6 +872,12 @@ namespace THREE
             //TexImage3D<T9>(TextureTarget3d target, int level, TextureComponentCount internalformat, int width, int height, int depth, int border, PixelFormat format, PixelType type, T9[] pixels) where T9 : struct;
             GL.TexImage3D<byte>((TextureTarget3d)target, level, (TextureComponentCount)internalFormat, width, height, depth, border, (PixelFormat)format, (PixelType)type, pixels);
         }
+        public void TexImage3D(int target, int level, int internalFormat, int width, int height, int depth, int border, int format, int type, float[] pixels)
+        {
+            //GL.TexImage3D(target, level, internalFormat, width, height, depth, border, format, type, pixels);
+            //TexImage3D<T9>(TextureTarget3d target, int level, TextureComponentCount internalformat, int width, int height, int depth, int border, PixelFormat format, PixelType type, T9[] pixels) where T9 : struct;
+            GL.TexImage3D<float>((TextureTarget3d)target, level, (TextureComponentCount)internalFormat, width, height, depth, border, (PixelFormat)format, (PixelType)type, pixels);
+        }
 
         public void Scissor(Vector4 scissor)
         {
