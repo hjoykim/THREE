@@ -816,7 +816,7 @@ namespace THREE
                     Console.WriteLine("butterfly-body");
 
                 // Create Mesh
-                Mesh mesh;
+                Object3D mesh;
 
                 if (createdMaterials.Count > 1)
                 {
@@ -831,26 +831,16 @@ namespace THREE
 
                     if (isLine)
                     {
-
-                        var lineSegment = new LineSegments(bufferGeometry, createdMaterials);
-                        lineSegment.Name = Object.Name;
-                        container.Add(lineSegment);
+                        mesh = new LineSegments(bufferGeometry, createdMaterials);
                     }
                     else if (isPoints)
                     {
-
-                        Points points = new Points(bufferGeometry, createdMaterials);
-                        points.Name = Object.Name;
-                        container.Add(points);
+                        mesh = new Points(bufferGeometry, createdMaterials);
 
                     }
                     else
                     {
-
                         mesh = new Mesh(bufferGeometry, createdMaterials);
-                        mesh.Name = Object.Name;
-                        container.Add(mesh);
-
                     }
 
                 }
@@ -859,27 +849,21 @@ namespace THREE
 
                     if (isLine)
                     {
-
-                        var lineSegment = new LineSegments(bufferGeometry, createdMaterials[0]);
-                        lineSegment.Name = Object.Name;
-                        container.Add(lineSegment);
+                        mesh = new LineSegments(bufferGeometry, createdMaterials[0]);
                     }
                     else if (isPoints)
                     {
-
-                        Points points = new Points(bufferGeometry, createdMaterials[0]);
-                        points.Name = Object.Name;
-                        container.Add(points);
+                        mesh = new Points(bufferGeometry, createdMaterials[0]);
                     }
                     else
                     {
-
                         mesh = new Mesh(bufferGeometry, createdMaterials[0]);
-                        mesh.Name = Object.Name;
-                        container.Add(mesh);
                     }
 
                 }
+
+                mesh.Name = Object.Name;
+                container.Add(mesh);
             }
 
             stopWatch.Stop();
