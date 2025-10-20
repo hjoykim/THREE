@@ -112,7 +112,7 @@ namespace THREE
                     //"#version 120",
                     //"#define GL_ES",
                     //"#ifdef GL_ES",
-                    "#version 300 es\n",
+                    "#version 400\n",
                     "#define attribute in",
                     "#define varying out",
                     "#define texture2D texture",
@@ -258,7 +258,7 @@ namespace THREE
                     //"#version 120",
                     //"#define GL_ES",
                     //"#ifdef GL_ES",
-                    "#version 300 es\n",
+                    "#version 400\n",
                     String.Join("\n",customExtensions),
                     GeneratePrecision(parameters),
 
