@@ -439,6 +439,7 @@ namespace THREE
             }
 
             gl.LinkProgram((uint)program);
+            gl.ValidateProgram((uint)program);
 
             if ((bool)renderer.debug["checkShaderErrors"])
             {
