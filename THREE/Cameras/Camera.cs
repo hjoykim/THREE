@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.Serialization;
 
 namespace THREE
 {
     [Serializable]
     public struct View
     {
-        public Boolean Enabled;
+        public bool Enabled;
 
         public float FullWidth;
 
@@ -27,30 +28,17 @@ namespace THREE
 
         public Matrix4 MatrixWorldInverse = Matrix4.Identity();
 
-        public Matrix4 ProjectionMatrixInverse = Matrix4.Identity();
-
         public Matrix4 ProjectionMatrix = Matrix4.Identity();
 
+        public Matrix4 ProjectionMatrixInverse = Matrix4.Identity();
+
         public float Fov;
+        
         public float Aspect = 1.0f;
+        
         public float Far = 2000.0f;
+        
         public float Near = 0.1f;
-
-        public bool NeedsUpdate = false;
-
-        public float X = -1;
-
-        public float Y = -1;
-
-        public float FullWidth = -1;
-
-        public float FullHeight = -1;
-
-        public float Width = -1;
-
-        public float Height = -1;
-
-        public float Zoom = 1;
 
         public float Bottom;
 
@@ -64,9 +52,6 @@ namespace THREE
 
         public Camera()
         {
-            this.IsCamera = true;
-            this.type = "Camera";
-
             View = new View()
             {
                 Enabled = false,
@@ -78,23 +63,18 @@ namespace THREE
                 Height = 1
             };
         }
-        protected Camera(Camera source, bool recursive = true) : base(source, recursive)
+        public Camera(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            this.IsCamera = true;
-            this.type = "Camera";
-
-            MatrixWorldInverse.Copy(source.MatrixWorldInverse);
-
-            ProjectionMatrix.Copy(source.ProjectionMatrix);
-
-            ProjectionMatrixInverse.Copy(source.ProjectionMatrixInverse);
-
-            this.View = source.View;
         }
 
         public override Vector3 GetWorldDirection(Vector3 target)
         {
-            this.UpdateMatrixWorld(true);
+            if (target == null)
+            {
+                target = new Vector3();
+            }
+
+            this.UpdateWorldMatrix(true, false);
 
             var e = this.MatrixWorld.Elements;
 
@@ -105,53 +85,25 @@ namespace THREE
         {
             base.UpdateMatrixWorld(force);
 
-            this.MatrixWorldInverse.GetInverse(this.MatrixWorld);
+            this.MatrixWorldInverse.Copy(this.MatrixWorld).Invert();
+
         }
         public override void UpdateWorldMatrix(bool updateParents, bool updateChildren)
         {
             base.UpdateWorldMatrix(updateParents, updateChildren);
 
-            MatrixWorldInverse.GetInverse(MatrixWorld);
+            MatrixWorldInverse.Copy(this.MatrixWorld).Invert();
         }
 
-        public void SetViewOffset(int fullWidth, int fullHeight, int x, int y, int width, int height)
+        public override object Clone()
         {
-            View.Enabled = true;
-            View.FullWidth = fullWidth;
-            View.FullHeight = fullHeight;
-            View.OffsetX = x;
-            View.OffsetY = y;
-            View.Width = width;
-            View.Height = height;
-
-            this.UpdateProjectionMatrix();
-        }
-        public void ClearViewOffset()
-        {
-            this.View.Enabled = false;
-
-            this.UpdateProjectionMatrix();
+           return FastDeepCloner.DeepCloner.Clone(this);
         }
 
         public virtual void UpdateProjectionMatrix()
         {
             //this.MatrixWorldInverse.GetInverse(this.MatrixWorld);
             this.UpdateWorldMatrix(false, true);
-        }
-
-        public override object Clone()
-        {
-
-            Object3D object3D = base.Clone() as Object3D;
-
-            Camera cloned = new Camera(this);
-
-            foreach (DictionaryEntry item in object3D)
-            {
-                cloned.Add(item.Key, item.Value);
-            }
-
-            return cloned;
         }
 
     }
