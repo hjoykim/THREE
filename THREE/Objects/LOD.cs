@@ -30,18 +30,6 @@ namespace THREE
 
         public LOD(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        protected LOD(LOD other) : base(other)
-        {
-            var levels = other.Levels;
-
-            for (int i = 0; i < levels.Count; i++)
-            {
-                var level = levels[i];
-                this.AddLevel((Object3D)level.object3D.Clone(), level.distance);
-            }
-            this.AutoUpdate = other.AutoUpdate;
-        }
-
         public LOD AddLevel(Object3D object3D, float? distance)
         {
             if (distance == null) distance = 0;

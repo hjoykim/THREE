@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastDeepCloner;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,26 +40,11 @@ namespace THREE
         /// <summary>
         /// </summary>
         /// <param name="other"></param>
-        protected OrthographicCamera(OrthographicCamera other)
-            : base(other)
-        {
-            this.Zoom = other.Zoom;
-
-            this.Left = other.Left;
-            this.CameraRight = other.CameraRight;
-            this.Top = other.Top;
-            this.Bottom = other.Bottom;
-
-            this.Near = other.Near;
-            this.Far = other.Far;
-        }
-
-        #endregion
-
-        #region Public Properties
 
 
         #endregion
+
+   
 
         #region Public Methods and Operators
         /// <summary>
@@ -98,7 +84,7 @@ namespace THREE
 
         public override object Clone()
         {
-            return new OrthographicCamera(this);
+            return FastDeepCloner.DeepCloner.Clone(this);
         }
         #endregion
     }

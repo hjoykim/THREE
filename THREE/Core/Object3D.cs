@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastDeepCloner;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using THREE;
 namespace THREE
 {
     [Serializable]
-    public class Object3D : BasicObject, ICloneable
+    public class Object3D : BasicObject
     {
         public static Vector3 DefaultUp = new Vector3(0, 1, 0);
 
@@ -67,11 +68,11 @@ namespace THREE
 
         public int RenderOrder = 0;
 
-        public Geometry Geometry;
+        public Geometry? Geometry { get { return null; } set { } }
 
-        public Material Material;
+        public Material? Material { get { return null; } set { } }
 
-        public List<Material> Materials = new List<Material>();
+        public List<Material>? Materials { get { return null; } set { } }
 
         public Material CustomDepthMaterial;
 
@@ -81,7 +82,6 @@ namespace THREE
 
         public Dictionary<string, object> UserData = new Dictionary<string, object>();
 
-        #region Fields
 
         public List<Object3D> Children = new List<Object3D>();
 
@@ -96,33 +96,18 @@ namespace THREE
         public bool IsLight = false;
 
         public object Tag = null;
-        #endregion
 
         public List<float> MorphTargetInfluences = new List<float>() { 0, 0, 0, 0, 0, 0, 0, 0 };
 
         public Hashtable MorphTargetDictionary = new Hashtable();
 
-        public bool IsGroup
-        {
-            get
-            {
-                if (Geometry != null && Geometry.IsBufferGeometry && (Geometry as BufferGeometry).Attributes.Count == 0) return true;
-                else return false;
-            }
-        }
-
-        #region Public Events
         public event EventHandler<EventArgs> Added;
 
         public event EventHandler<EventArgs> Removed;
-        #endregion
 
-        #region public Action
         public Action<IGLRenderer, Object3D, Camera, Geometry, Material, DrawRange?, GLRenderTarget> OnBeforeRender;
         public Action<IGLRenderer, Object3D, Camera> OnAfterRender;
-        #endregion
 
-        #region private field
         Vector3 _v1 = new Vector3();
         Quaternion _q1 = new Quaternion();
         Matrix4 _m1 = new Matrix4();
@@ -135,7 +120,7 @@ namespace THREE
         Vector3 _xAxis = new Vector3(1, 0, 0);
         Vector3 _yAxis = new Vector3(0, 1, 0);
         Vector3 _zAxis = new Vector3(0, 0, 1);
-        #endregion
+
         public Object3D()
         {
             this.Up = new Vector3(0, 1, 0);
@@ -144,66 +129,35 @@ namespace THREE
         }
         public Object3D(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        protected Object3D(Object3D source, bool recursive = true) : this()
+
+        public Object3D Copy(Object3D source, bool recursive = true)
         {
             this.Name = source.Name;
-
             this.Up.Copy(source.Up);
-
             this.Position.Copy(source.Position);
             this.Quaternion.Copy(source.Quaternion);
             this.Scale.Copy(source.Scale);
-
             this.Matrix.Copy(source.Matrix);
             this.MatrixWorld.Copy(source.MatrixWorld);
-
             this.MatrixAutoUpdate = source.MatrixAutoUpdate;
             this.MatrixWorldNeedsUpdate = source.MatrixWorldNeedsUpdate;
-
             this.Layers.Mask = source.Layers.Mask;
             this.Visible = source.Visible;
-
             this.CastShadow = source.CastShadow;
             this.ReceiveShadow = source.ReceiveShadow;
-
             this.FrustumCulled = source.FrustumCulled;
             this.RenderOrder = source.RenderOrder;
-
             this.UserData = source.UserData;
-
-            /*
-            * if you deal with this cloned object to indivisual, you need to adopt real deep copy of source's Geometry, Material, Materials, and it's base class , Hashtable
-            * this will be accomplished by declaring Serialize all three class and  writing all class member to Memory stream , and deserializing...
-            * please refer to Deep copy of C# Class
-            * */
-            if (source.Geometry != null)
-            {
-                if (source.Geometry is BufferGeometry)
-                    this.Geometry = source.Geometry as BufferGeometry;
-                else
-                    this.Geometry = source.Geometry;
-            }
-            if (source.Material != null)
-            {
-                this.Material = source.Material;
-            }
-            if (source.Materials.Count > 0)
-            {
-                this.Materials = source.Materials;
-            }
-
             if (recursive == true)
             {
                 for (var i = 0; i < source.Children.Count; i++)
                 {
-
                     var child = source.Children[i];
                     this.Add((Object3D)child.Clone());
                 }
             }
-
+            return this;
         }
-
         private void OnRotationChanged(object sender, PropertyChangedEventArgs e)
         {
             this.Quaternion.SetFromEuler((sender as Euler), false);
@@ -600,14 +554,7 @@ namespace THREE
 
         public override object Clone()
         {
-            Hashtable hashTable = base.Clone() as Hashtable;
-            Object3D cloned = new Object3D(this);
-
-            foreach (DictionaryEntry item in hashTable)
-            {
-                cloned.Add(item.Key, item.Value);
-            }
-            return cloned;
+            return DeepCloner.Clone(this);
         }
         public override void Dispose()
         {

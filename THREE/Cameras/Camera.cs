@@ -78,19 +78,7 @@ namespace THREE
                 Height = 1
             };
         }
-        protected Camera(Camera source, bool recursive = true) : base(source, recursive)
-        {
-            this.IsCamera = true;
-            this.type = "Camera";
 
-            MatrixWorldInverse.Copy(source.MatrixWorldInverse);
-
-            ProjectionMatrix.Copy(source.ProjectionMatrix);
-
-            ProjectionMatrixInverse.Copy(source.ProjectionMatrixInverse);
-
-            this.View = source.View;
-        }
 
         public override Vector3 GetWorldDirection(Vector3 target)
         {
@@ -141,17 +129,7 @@ namespace THREE
 
         public override object Clone()
         {
-
-            Object3D object3D = base.Clone() as Object3D;
-
-            Camera cloned = new Camera(this);
-
-            foreach (DictionaryEntry item in object3D)
-            {
-                cloned.Add(item.Key, item.Value);
-            }
-
-            return cloned;
+            return FastDeepCloner.DeepCloner.Clone(this);
         }
 
     }

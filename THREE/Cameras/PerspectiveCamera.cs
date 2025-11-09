@@ -30,19 +30,7 @@ namespace THREE
             //View.Height = 1;
         }
 
-        protected PerspectiveCamera(PerspectiveCamera other) : base(other)
-        {
-            this.Fov = other.Fov;
-            this.Aspect = other.Aspect;
-            this.Near = other.Near;
-            this.Far = other.Far;
-            this.focus = other.focus;
-            this.Zoom = other.Zoom;
-            this.FilmGauge = other.FilmGauge;
-            this.FilmOffset = other.FilmOffset;
-            this.View = other.View;
-            //this.UpdateProjectionMatrix();
-        }
+
 
         public override void UpdateProjectionMatrix()
         {
@@ -90,7 +78,7 @@ namespace THREE
 
         public override object Clone()
         {
-            return new PerspectiveCamera(this);
+            return FastDeepCloner.DeepCloner.Clone(this);
         }
 
         public void SetFocalLength(float focalLength)
