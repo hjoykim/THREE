@@ -21,11 +21,6 @@ namespace THREE
         public HemisphereLight(int color, int gcolor, float? intensity) : this(Color.Hex(color), Color.Hex(gcolor), intensity) { }
 
         public HemisphereLight(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        protected HemisphereLight(HemisphereLight other) : base(other)
-        {
-            this.type = "HemisphereLight";
-            this.GroundColor = other.GroundColor;
-        }
+               
     }
 }

@@ -20,15 +20,7 @@ namespace THREE
             this.type = "DirectionalLight";
         }
         public DirectionalLight() : this(new Color(), null) { }
-        public DirectionalLight(int color, float? intensity = null) : this(Color.Hex(color), intensity) { }
-        protected DirectionalLight(DirectionalLight other) : base(other)
-        {
-            this.Target = other.Target;
-
-            this.type = "DirectionalLight";
-
-            this.Shadow = (LightShadow)other.Shadow.Clone();
-        }
+        public DirectionalLight(int color, float? intensity = null) : this(Color.Hex(color), intensity) { }        
         public DirectionalLight(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
     }

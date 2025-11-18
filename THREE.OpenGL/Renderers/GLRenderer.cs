@@ -871,7 +871,7 @@ namespace THREE
 
             if (visible)
             {
-                if (object3D.IsGroup)
+                if (object3D is Group)
                 {
                     groupOrder = object3D.RenderOrder;
                 }

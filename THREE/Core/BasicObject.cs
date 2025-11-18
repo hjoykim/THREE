@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastDeepCloner;
+using System;
 using System.Collections;
 using System.Runtime.Serialization;
 

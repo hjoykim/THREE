@@ -61,64 +61,7 @@ namespace THREE
             InitGeometry(geometry, material);
         }
 
-        protected Mesh(Mesh source, bool recursive = true) : this()
-        {
-            this.Name = source.Name;
 
-            this.Up.Copy(source.Up);
-
-            this.Position.Copy(source.Position);
-            this.Quaternion.Copy(source.Quaternion);
-            this.Scale.Copy(source.Scale);
-
-            this.Matrix.Copy(source.Matrix);
-            this.MatrixWorld.Copy(source.MatrixWorld);
-
-            this.MatrixAutoUpdate = source.MatrixAutoUpdate;
-            this.MatrixWorldNeedsUpdate = source.MatrixWorldNeedsUpdate;
-
-            this.Layers.Mask = source.Layers.Mask;
-            this.Visible = source.Visible;
-
-            this.CastShadow = source.CastShadow;
-            this.ReceiveShadow = source.ReceiveShadow;
-
-            this.FrustumCulled = source.FrustumCulled;
-            this.RenderOrder = source.RenderOrder;
-
-            this.UserData = source.UserData;
-
-            /*
-			* if you deal with this cloned object to indivisual, you need to adopt real deep copy of source's Geometry, Material, Materials, and it's base class , Hashtable
-			* this will be accomplished by declaring Serialize all three class and  writing all class member to Memory stream , and deserializing...
-			* please refer to Deep copy of C# Class
-			* */
-            if (source.Geometry != null)
-            {
-                if (source.Geometry is BufferGeometry)
-                    this.Geometry = source.Geometry as BufferGeometry;
-                else
-                    this.Geometry = source.Geometry;
-            }
-            if (source.Material != null)
-            {
-                this.Material = source.Material;
-            }
-            if (source.Materials.Count > 0)
-            {
-                this.Materials = source.Materials;
-            }
-
-            if (recursive == true)
-            {
-                for (var i = 0; i < source.Children.Count; i++)
-                {
-
-                    var child = source.Children[i];
-                    this.Add((Object3D)child.Clone());
-                }
-            }
-        }
         public Mesh Copy(Mesh source)
         {
             return source.DeepCopy();
@@ -147,14 +90,11 @@ namespace THREE
 
             if (materials == null)
             {
-                this.Material = new MeshBasicMaterial() { Color = new Color().SetHex(0xffffff) };
-                this.Materials.Add(Material);
+                this.Material = new MeshBasicMaterial() { Color = new Color().SetHex(0xffffff) };                
             }
             else
             {
-                this.Materials = materials;
-                if (this.Materials.Count > 0)
-                    this.Material = this.Materials[0];
+                this.Materials = materials;                
             }
 
             this.UpdateMorphTargets();
@@ -176,11 +116,15 @@ namespace THREE
             }
             else
             {
-                Materials.Clear();
-                this.Material = material;
+                if(Materials!=null)
+                    Materials.Clear();
+                else
+                    Materials = new List<Material>();
+
+                this.Material = material;                
             }
 
-            this.Materials.Add(Material);
+            
 
             this.UpdateMorphTargets();
         }

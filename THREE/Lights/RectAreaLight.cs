@@ -23,13 +23,7 @@ namespace THREE
 
         }
         public RectAreaLight(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        protected RectAreaLight(RectAreaLight other) : base(other)
-        {
-            this.Width = other.Width;
-            this.Height = other.Height;
-            this.type = "RectAreaLight";
-        }
+               
 
     }
 }
