@@ -68,11 +68,45 @@ namespace THREE
 
         public int RenderOrder = 0;
 
-        public Geometry? Geometry { get { return null; } set { } }
+        private Geometry _geometry = null;  
+        public Geometry Geometry {get {return _geometry;} set { _geometry = value; } }
 
-        public Material? Material { get { return null; } set { } }
+        public Material Material
+        {
+            get
+            {
+                if (Materials != null && Materials.Count > 0)
+                {
+                    return Materials[0];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                if (Materials != null)
+                {
+                    if (Materials.Count > 0)
+                    {
+                        Materials[0] = value;
+                    }
+                    else
+                    {
+                        Materials.Add(value);
+                    }
+                }
+                else
+                {
+                    Materials = new List<Material>();
+                    Materials.Add(value);
+                }
+            }
+        }
+                
 
-        public List<Material>? Materials { get { return null; } set { } }
+        public List<Material> Materials { get; set; }
 
         public Material CustomDepthMaterial;
 

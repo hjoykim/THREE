@@ -61,23 +61,7 @@ namespace THREE
         { }
 
         public SpotLight(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        protected SpotLight(SpotLight other) : base(other)
-        {
-            this.Distance = other.Distance;
-
-            this.Angle = other.Angle;
-
-            this.Penumbra = other.Penumbra;
-
-            this.Decay = other.Decay;
-
-            this.Target = other.Target;
-
-            this.Shadow = (SpotLightShadow)other.Shadow.Clone();
-
-            this.type = "SpotLight";
-        }
+               
 
     }
 }

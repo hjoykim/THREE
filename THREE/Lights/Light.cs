@@ -59,24 +59,26 @@ namespace THREE
 
         public Light Copy(Light source)
         {
-            base.Copy(source);
-            this.Color = source.Color;
-            this.Intensity = source.Intensity;
-            this.Distance = source.Distance;
-            this.Angle = source.Angle;
-            this.Exponent = source.Exponent;
-            this.Decay = source.Decay;
-            this.Power = source.Power;
-            this.Penumbra = source.Penumbra;
-            this.Target = source.Target;
-            this.Shadow = source.Shadow;
-            this.sh = source.sh;
-            this.Width = source.Width;
-            this.Height = source.Height;
-            this.IsLight = source.IsLight;
-            this.ReceiveShadow = source.ReceiveShadow;
+            //base.Copy(source);
+            //this.Color = source.Color;
+            //this.Intensity = source.Intensity;
+            //this.Distance = source.Distance;
+            //this.Angle = source.Angle;
+            //this.Exponent = source.Exponent;
+            //this.Decay = source.Decay;
+            //this.Power = source.Power;
+            //this.Penumbra = source.Penumbra;
+            //this.Target = source.Target;
+            //this.Shadow = source.Shadow;
+            //this.sh = source.sh;
+            //this.Width = source.Width;
+            //this.Height = source.Height;
+            //this.IsLight = source.IsLight;
+            //this.ReceiveShadow = source.ReceiveShadow;
+            
+            //return this;
 
-            return this;
+            return source.DeepCopy();
 
         }
     }

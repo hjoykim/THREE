@@ -696,14 +696,14 @@ namespace THREE
 
             var container = new Group();
 
-            container.MaterialLibraries = state.MaterialLibraries.ToList();
+            container["MaterialLibraries"] = state.MaterialLibraries.ToList();
 
-            if (container.MaterialLibraries != null && container.MaterialLibraries.Count > 0)
+            if (container["MaterialLibraries"] != null && (container["MaterialLibraries"] as List<string>).Count > 0)
             {
                 MTLLoader mtlLoader = new MTLLoader();
-                for (int i = 0; i < container.MaterialLibraries.Count; i++)
+                for (int i = 0; i < (container["MaterialLibraries"] as List<string>).Count; i++)
                 {
-                    string mtlPath = container.MaterialLibraries[i];
+                    string mtlPath = (container["MaterialLibraries"] as List<string>)[i];
                     if (File.Exists(mtlPath))
                         mtlLoader.Load(mtlPath);
                 }

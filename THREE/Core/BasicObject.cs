@@ -1,11 +1,12 @@
-﻿using System;
+﻿using FastDeepCloner;
+using System;
 using System.Collections;
 using System.Runtime.Serialization;
 
 namespace THREE
 {
     [Serializable]
-    public abstract class BasicObject : EventDispatcher,IDisposable, ICloneable
+    public abstract class BasicObject : EventDispatcher,IDisposable
     {
         public event EventHandler<EventArgs> Disposed;
         public BasicObject()
@@ -45,7 +46,8 @@ namespace THREE
 
         public virtual object Clone()
         {
-            throw new NotImplementedException();
+            base.Clone();
+            return DeepCloner.Clone(this);
         }
     }
 }
