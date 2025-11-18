@@ -1,7 +1,7 @@
 ﻿
 namespace THREE
 {
-    public class CubeCamera : Camera
+    public class CubeCamera : PerspectiveCamera
     {
         public GLRenderTarget RenderTarget;
 		PerspectiveCamera cameraPX, cameraNX, cameraPY, cameraNY,cameraPZ,cameraNZ;

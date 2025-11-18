@@ -6,14 +6,13 @@ using System.Runtime.Serialization;
 namespace THREE
 {
     [Serializable]
-    public abstract class BasicObject : EventDispatcher,IDisposable
+    public abstract class BasicObject : EventDispatcher, IDisposable, ICloneable
     {
         public event EventHandler<EventArgs> Disposed;
-        public BasicObject()
-        {
+        public BasicObject() {}
 
-        }
-        public BasicObject(SerializationInfo info, StreamingContext context)  { }
+        public BasicObject(SerializationInfo info, StreamingContext context) { }
+
         ~BasicObject()
         {
             this.Dispose(false);
@@ -46,8 +45,7 @@ namespace THREE
 
         public virtual object Clone()
         {
-            base.Clone();
-            return DeepCloner.Clone(this);
+            throw new NotImplementedException();
         }
     }
 }

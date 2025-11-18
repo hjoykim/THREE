@@ -1,7 +1,4 @@
-﻿using FastDeepCloner;
-using System.Collections;
-
-namespace THREE
+﻿namespace THREE
 {
     public class Event : EventArgs
     {
@@ -15,7 +12,7 @@ namespace THREE
         }
     }
 
-    public class EventDispatcher : Hashtable
+    public class EventDispatcher
     {
         private readonly Dictionary<string, List<EventHandler<Event>>> _listeners = new();
 
@@ -71,10 +68,6 @@ namespace THREE
                     // 필요하면 로깅. 예외가 전체 디스패치를 중단하지 않도록 흡수.
                 }
             }
-        }
-        public override object Clone()
-        {
-            return DeepCloner.Clone(this);
         }
     }
 }

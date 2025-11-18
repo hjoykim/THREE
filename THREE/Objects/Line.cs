@@ -17,6 +17,34 @@ namespace THREE
 
         public int Mode;
 
+        private Geometry _geometry;
+        private Material _material;
+        private List<Material> _materials = new List<Material>();
+
+        public override Geometry Geometry
+        {
+            get { return _geometry; }
+            set
+            {
+                _geometry = value;
+            }
+        }
+        public override Material Material
+        {
+            get { return _material; }
+            set
+            {
+                _material = value;
+            }
+        }
+        public override List<Material> Materials
+        {
+            get { return _materials; }
+            set
+            {
+                _materials = value;
+            }
+        }
 
         public Line()
         {
