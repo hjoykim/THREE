@@ -5,13 +5,14 @@ using System.Runtime.Serialization;
 namespace THREE
 {
     [Serializable]
-    public abstract class BasicObject : EventDispatcher, IDisposable, ICloneable
+    public abstract class BasicObject : Hashtable, IDisposable
     {
         public event EventHandler<EventArgs> Disposed;
-        public BasicObject() {}
+        public BasicObject()
+        {
 
-        public BasicObject(SerializationInfo info, StreamingContext context) { }
-
+        }
+        public BasicObject(SerializationInfo info, StreamingContext context) : base(info, context) { }
         ~BasicObject()
         {
             this.Dispose(false);
@@ -40,11 +41,6 @@ namespace THREE
 
             }
             this.disposed = true;
-        }
-
-        public virtual object Clone()
-        {
-            throw new NotImplementedException();
         }
     }
 }

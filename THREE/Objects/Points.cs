@@ -10,39 +10,11 @@ namespace THREE
         private Ray ray = new Ray();
         private Sphere sphere = new Sphere();
         private Vector3 position = new Vector3();
-        private Geometry _geometry;
-        private Material _material;
-        private List<Material> _materials = new List<Material>();
-
-        public override Geometry Geometry
-        {
-            get { return _geometry; }
-            set
-            {
-                _geometry = value;
-            }
-        }
-        public override Material Material
-        {
-            get { return _material; }
-            set
-            {
-                _material = value;
-            }
-        }
-        public override List<Material> Materials
-        {
-            get { return _materials; }
-            set
-            {
-                _materials = value;
-            }
-        }
         public Points(Geometry geometry = null, Material material = null)
         {
             this.type = "Points";
 
-            this.Geometry = geometry as BufferGeometry ?? new BufferGeometry();
+            this.Geometry = geometry ?? new BufferGeometry();
             this.Material = material ?? new PointsMaterial { Color = new Color().SetHex(0xFFFFFF) };
 
             this.UpdateMorphTargets();

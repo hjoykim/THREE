@@ -13,34 +13,7 @@ namespace THREE
         private Ray _ray = new Ray();
         private Vector3 _intersectionPoint = new Vector3();
         private Vector3 _intersectionPointWorld = new Vector3();
-        private Geometry _geometry;
-        private Material _material;
-        private List<Material> _materials = new List<Material>();
 
-        public override Geometry Geometry
-        {
-            get { return _geometry; }
-            set
-            {
-                _geometry = value;
-            }
-        }
-        public override Material Material
-        {
-            get { return _material; }
-            set
-            {
-                _material = value;
-            }
-        }
-        public override List<Material> Materials
-        {
-            get { return _materials; }
-            set
-            {
-                _materials = value;
-            }
-        }
         //public List<int> MorphTargetInfluences = new List<int>();
 
         //public Dictionary<string, int> MorphTargetDictionary = new Dictionary<string, int>();

@@ -8,6 +8,9 @@ namespace THREE.Silk.Example
     public class BuffergeometryRawShaderExample : Example
     {
         string vertex = @"
+			precision mediump float;
+			precision mediump int;
+
 			uniform mat4 modelViewMatrix; // optional
 			uniform mat4 projectionMatrix; // optional
 
@@ -28,6 +31,9 @@ namespace THREE.Silk.Example
 
 ";
         string fragment = @"
+			precision mediump float;
+			precision mediump int;
+
 			uniform float time;
 
 			varying vec3 vPosition;

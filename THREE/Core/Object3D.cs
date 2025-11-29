@@ -9,24 +9,33 @@ using THREE;
 namespace THREE
 {
     [Serializable]
-    public class Object3D : BasicObject
+    public class Object3D : BasicObject, ICloneable
     {
         public static Vector3 DefaultUp = new Vector3(0, 1, 0);
 
+        public static bool DefaultMatrixAutoUpdate = true;
 
-        private static int object3DIdCount;
+        protected static int Object3DIdCount;
 
-        public int Id = object3DIdCount++;
+        public bool glInit = false;
 
-        public string Uuid = Guid.NewGuid().ToString();
+        public bool glActive = false;
+
+        public bool bVisible = false;
 
         public string Name = "";
 
-        public Object3D? Parent = null;
+        public Matrix4 ModelViewMatrix = Matrix4.Identity();
 
-        public List<Object3D> Children = new List<Object3D>();
+        public Matrix3 NormalMatrix = new Matrix3();
 
-        public Vector3 Up = DefaultUp.Clone();
+        public Vector3 Front = new Vector3(0.0f, 0.0f, -1.0f);
+
+        public Vector3 Right = Vector3.Zero();
+
+        public Vector3 Up = new Vector3(0.0f, 1.0f, 0.0f);
+
+        public string type = "Object3D";
 
         public Vector3 Position = Vector3.Zero();
 
@@ -36,17 +45,13 @@ namespace THREE
 
         public Vector3 Scale = Vector3.One();
 
-        public Matrix4 ModelViewMatrix = Matrix4.Identity();
-
-        public Matrix3 NormalMatrix = new Matrix3();
+        public int RenderDepth = -1;
 
         public Matrix4 Matrix = Matrix4.Identity();
 
         public Matrix4 MatrixWorld = Matrix4.Identity();
 
-        public static bool DefaultMatrixAutoUpdate = true;
-
-        public bool MatrixAutoUpdate = DefaultMatrixAutoUpdate;
+        public bool MatrixAutoUpdate = true;
 
         public bool MatrixWorldNeedsUpdate = false;
 
@@ -62,21 +67,62 @@ namespace THREE
 
         public int RenderOrder = 0;
 
+        public Geometry Geometry;
+
+        public Material Material;
+
+        public List<Material> Materials = new List<Material>();
+
+        public Material CustomDepthMaterial;
+
+        public Material CustomDistanceMaterial;
+
+        public bool IsObject3D = true;
+
         public Dictionary<string, object> UserData = new Dictionary<string, object>();
 
-        public string type = "Object3D";
+        #region Fields
 
-        public virtual Geometry? Geometry { get { return null; } set {  } }
-        public virtual Material? Material  { get { return null; } set {  } }
-        public virtual List<Material>? Materials { get { return null; } set { } }
+        public List<Object3D> Children = new List<Object3D>();
+
+        public int Id = Object3DIdCount++;
+
+        public Guid Uuid = Guid.NewGuid();
+
+        public Object3D Parent;
+
+        public bool IsCamera = false;
+
+        public bool IsLight = false;
+
+        public object Tag = null;
+        #endregion
 
         public List<float> MorphTargetInfluences = new List<float>() { 0, 0, 0, 0, 0, 0, 0, 0 };
 
         public Hashtable MorphTargetDictionary = new Hashtable();
 
-        public Action<IGLRenderer, Object3D, Camera, Geometry, Material, DrawRange?, GLRenderTarget>? OnBeforeRender;
-        public Action<IGLRenderer, Object3D, Camera>? OnAfterRender;
+        public bool IsGroup
+        {
+            get
+            {
+                if (Geometry != null && Geometry.IsBufferGeometry && (Geometry as BufferGeometry).Attributes.Count == 0) return true;
+                else return false;
+            }
+        }
 
+        #region Public Events
+        public event EventHandler<EventArgs> Added;
+
+        public event EventHandler<EventArgs> Removed;
+        #endregion
+
+        #region public Action
+        public Action<IGLRenderer, Object3D, Camera, Geometry, Material, DrawRange?, GLRenderTarget> OnBeforeRender;
+        public Action<IGLRenderer, Object3D, Camera> OnAfterRender;
+        #endregion
+
+        #region private field
         Vector3 _v1 = new Vector3();
         Quaternion _q1 = new Quaternion();
         Matrix4 _m1 = new Matrix4();
@@ -89,16 +135,15 @@ namespace THREE
         Vector3 _xAxis = new Vector3(1, 0, 0);
         Vector3 _yAxis = new Vector3(0, 1, 0);
         Vector3 _zAxis = new Vector3(0, 0, 1);
-
+        #endregion
         public Object3D()
         {
+            this.Up = new Vector3(0, 1, 0);
             this.Rotation.PropertyChanged += OnRotationChanged;
             this.Quaternion.PropertyChanged += OnQuaternionChanged;
         }
+        public Object3D(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public Object3D(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
         protected Object3D(Object3D source, bool recursive = true) : this()
         {
             this.Name = source.Name;
@@ -125,7 +170,27 @@ namespace THREE
             this.RenderOrder = source.RenderOrder;
 
             this.UserData = source.UserData;
-                       
+
+            /*
+            * if you deal with this cloned object to indivisual, you need to adopt real deep copy of source's Geometry, Material, Materials, and it's base class , Hashtable
+            * this will be accomplished by declaring Serialize all three class and  writing all class member to Memory stream , and deserializing...
+            * please refer to Deep copy of C# Class
+            * */
+            if (source.Geometry != null)
+            {
+                if (source.Geometry is BufferGeometry)
+                    this.Geometry = source.Geometry as BufferGeometry;
+                else
+                    this.Geometry = source.Geometry;
+            }
+            if (source.Material != null)
+            {
+                this.Material = source.Material;
+            }
+            if (source.Materials.Count > 0)
+            {
+                this.Materials = source.Materials;
+            }
 
             if (recursive == true)
             {
@@ -255,7 +320,7 @@ namespace THREE
 
         public Vector3 WorldToLocal(Vector3 vector)
         {
-            return vector.ApplyMatrix4(_m1.Copy(this.MatrixWorld).Invert());
+            return vector.ApplyMatrix4(_m1.GetInverse(this.MatrixWorld));
         }
 
 
@@ -269,25 +334,26 @@ namespace THREE
 
         public virtual void LookAt(Vector3 target)
         {
-            
+
             this.UpdateWorldMatrix(true, false);
 
             _position.SetFromMatrixPosition(this.MatrixWorld);
 
+            var m = Matrix4.Identity();
 
             if (this is Camera || this is Light)
-                _m1 = _m1.LookAt(_position, target, this.Up);
+                m = m.LookAt(_position, target, this.Up);
             else
-                _m1 = _m1.LookAt(target, _position, this.Up);
+                m = m.LookAt(target, _position, this.Up);
 
 
-            this.Quaternion.SetFromRotationMatrix(_m1);
+            this.Quaternion.SetFromRotationMatrix(m);
 
             if (this.Parent != null)
             {
-                _m1.ExtractRotation(Parent.MatrixWorld);
-                _q1.SetFromRotationMatrix(_m1);
-                this.Quaternion.PreMultiply(_q1.Invert());
+                m.ExtractRotation(Parent.MatrixWorld);
+                Quaternion q1 = new Quaternion().SetFromRotationMatrix(m);
+                this.Quaternion.PreMultiply(q1.Invert());
 
             }
         }
@@ -310,7 +376,6 @@ namespace THREE
                 object3D.Parent = this;
 
                 this.Children.Add(object3D);
-                object3D.DispatchEvent(new Event("added"));
             }
             else
             {
@@ -330,8 +395,12 @@ namespace THREE
 
                 this.Children.RemoveAt(index);
 
-                object3D.DispatchEvent(new Event("removed"));
+                //var scene = this;
 
+                //while (scene.Parent != null)
+                //{
+                //    scene = scene.Parent;
+                //}
             }
             return this;
 
@@ -362,56 +431,43 @@ namespace THREE
 
         public Object3D GetObjectById(int id)
         {
-            return GetObjectByProperty<int>("Id", id);
-            //if (this.Id == id) return this;
-
-            //for (int i = 0; i < this.Children.Count; i++)
-            //{
-            //    var child = this.Children[i];
-            //    var object3D = child.GetObjectById(id);
-            //    if (object3D != null)
-            //        return object3D;
-            //}
-            //return null;
-        }
-
-        public Object3D GetObjectByName(string name)
-        {
-            return this.GetObjectByProperty("Name", name);
-            //if (this.Name == name) return this;
-
-            //for (int i = 0; i < this.Children.Count; i++)
-            //{
-            //    var child = this.Children[i];
-            //    var object3D = child.GetObjectByName(name);
-            //    if (object3D != null)
-            //        return object3D;
-            //}
-            //return null;
-        }
-
-        private Object3D GetObjectByProperty<T>(string p, T value)
-        {
-            var property = this.GetType().GetField(p);
-            if (property != null && property.GetValue(this)?.Equals(value) == true)
-                return this;
+            if (this.Id == id) return this;
 
             for (int i = 0; i < this.Children.Count; i++)
             {
                 var child = this.Children[i];
-                var object3D = child.GetObjectByProperty(p, value);
+                var object3D = child.GetObjectById(id);
                 if (object3D != null)
                     return object3D;
             }
             return null;
         }
 
-        public Vector3 GetWorldPosition(Vector3 target)
+        public Object3D GetObjectByName(string name)
         {
-            if (target == null)
+            if (this.Name == name) return this;
+
+            for (int i = 0; i < this.Children.Count; i++)
             {
-                target = new Vector3();
+                var child = this.Children[i];
+                var object3D = child.GetObjectByName(name);
+                if (object3D != null)
+                    return object3D;
             }
+            return null;
+        }
+
+        private Object3D GetObjectByProperty<T>(string p, T id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Vector3 GetWorldPosition(Vector3 target)
+        {
+            Vector3 result = new Vector3();
+
+            if (target == null)
+                target = result;
 
             this.UpdateWorldMatrix(true, false);
 
@@ -420,11 +476,6 @@ namespace THREE
 
         public virtual Quaternion GetWorldQuaternion(Quaternion target)
         {
-            if (target == null)
-            {
-                target = new Quaternion();
-            }
-
             this.UpdateWorldMatrix(true, false);
 
             this.MatrixWorld.Decompose(_position, target, _scale);
@@ -448,11 +499,6 @@ namespace THREE
 
         public virtual Vector3 GetWorldDirection(Vector3 target)
         {
-            if (target == null)
-            {
-                target = new Vector3();
-            }
-
             this.UpdateWorldMatrix(true, false);
 
             var e = this.MatrixWorld.Elements;
@@ -553,13 +599,15 @@ namespace THREE
         }
 
         public override object Clone()
-        {            
-            //return new Object3D(this);
-            return FastDeepCloner.DeepCloner.Clone(this);
-        }
-        public virtual object Copy(Object3D source, bool recursive = true)
         {
-            return new Object3D(source, recursive);
+            Hashtable hashTable = base.Clone() as Hashtable;
+            Object3D cloned = new Object3D(this);
+
+            foreach (DictionaryEntry item in hashTable)
+            {
+                cloned.Add(item.Key, item.Value);
+            }
+            return cloned;
         }
         public override void Dispose()
         {

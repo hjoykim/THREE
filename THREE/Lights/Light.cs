@@ -37,6 +37,7 @@ namespace THREE
 
         public Light() : base()
         {
+            this.IsLight = true;
         }
         public Light(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
@@ -50,6 +51,7 @@ namespace THREE
 
             this.ReceiveShadow = false;
 
+            this.IsLight = true;
 
         }
         public Light(int color, float? intensity = null) : this(Color.Hex(color), intensity) { }
@@ -62,6 +64,7 @@ namespace THREE
 
             this.Intensity = other.Intensity;
 
+            this.IsLight = true;
         }
         public Light Copy(Light source)
         {
