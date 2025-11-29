@@ -1,5 +1,4 @@
-﻿using FastDeepCloner;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -103,20 +102,28 @@ namespace THREE
         protected Object3D(Object3D source, bool recursive = true) : this()
         {
             this.Name = source.Name;
+
             this.Up.Copy(source.Up);
+
             this.Position.Copy(source.Position);
             this.Quaternion.Copy(source.Quaternion);
             this.Scale.Copy(source.Scale);
+
             this.Matrix.Copy(source.Matrix);
             this.MatrixWorld.Copy(source.MatrixWorld);
+
             this.MatrixAutoUpdate = source.MatrixAutoUpdate;
             this.MatrixWorldNeedsUpdate = source.MatrixWorldNeedsUpdate;
+
             this.Layers.Mask = source.Layers.Mask;
             this.Visible = source.Visible;
+
             this.CastShadow = source.CastShadow;
             this.ReceiveShadow = source.ReceiveShadow;
+
             this.FrustumCulled = source.FrustumCulled;
             this.RenderOrder = source.RenderOrder;
+
             this.UserData = source.UserData;
                        
 
@@ -124,12 +131,14 @@ namespace THREE
             {
                 for (var i = 0; i < source.Children.Count; i++)
                 {
+
                     var child = source.Children[i];
                     this.Add((Object3D)child.Clone());
                 }
             }
-            return this;
+
         }
+
         private void OnRotationChanged(object sender, PropertyChangedEventArgs e)
         {
             this.Quaternion.SetFromEuler((sender as Euler), false);

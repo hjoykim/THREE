@@ -54,32 +54,18 @@ namespace THREE
         }
         public Light(int color, float? intensity = null) : this(Color.Hex(color), intensity) { }
 
+        protected Light(Light other) : base(other)
+        {
+            this.type = "Light";
+
+            this.Color = other.Color;
 
             this.Intensity = other.Intensity;
 
         }
         public Light Copy(Light source)
         {
-            //base.Copy(source);
-            //this.Color = source.Color;
-            //this.Intensity = source.Intensity;
-            //this.Distance = source.Distance;
-            //this.Angle = source.Angle;
-            //this.Exponent = source.Exponent;
-            //this.Decay = source.Decay;
-            //this.Power = source.Power;
-            //this.Penumbra = source.Penumbra;
-            //this.Target = source.Target;
-            //this.Shadow = source.Shadow;
-            //this.sh = source.sh;
-            //this.Width = source.Width;
-            //this.Height = source.Height;
-            //this.IsLight = source.IsLight;
-            //this.ReceiveShadow = source.ReceiveShadow;
-            
-            //return this;
-
-            return source.DeepCopy();
+            return new Light(source);
 
         }
     }
