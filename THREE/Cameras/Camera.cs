@@ -67,7 +67,6 @@ namespace THREE
         {
         }
 
-
         public override Vector3 GetWorldDirection(Vector3 target)
         {
             if (target == null)
