@@ -55,6 +55,7 @@ namespace THREE
     public unsafe class ThreeWindow : IThreeWindow,IDisposable
     {
         public Window* windowPtr { get; set; }
+        private bool _headless;
         public unsafe Vector2i Size
         {
             get
@@ -150,12 +151,13 @@ namespace THREE
         public event Action<FileDropEventArgs> FileDrop;
         #endregion
 
-        public ThreeWindow(int width, int height,string title)
+        public ThreeWindow(int width, int height,string title,bool headless = false)
         {
             PrepareContext();
             this.Width = width;
             this.Height = height;
             this.Title = title;
+            this._headless = headless;
             windowPtr = CreateWindow(width, height, title);
         }
         ~ThreeWindow()
@@ -227,6 +229,7 @@ namespace THREE
         {
             GLFWProvider.EnsureInitialized();
             // Create window, make the OpenGL context current on the thread, and import graphics functions
+            GLFW.WindowHint(WindowHintBool.Visible,!_headless);
             var window = GLFW.CreateWindow(width, height, title, null, (Window*)IntPtr.Zero);
             var primaryMonitor = GLFW.GetPrimaryMonitor();
             GLFW.GetMonitorWorkarea(primaryMonitor,out int sx,out int sy,out int swidth,out int sheight);
