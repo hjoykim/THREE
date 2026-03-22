@@ -231,11 +231,15 @@ namespace THREE
             // Create window, make the OpenGL context current on the thread, and import graphics functions
             GLFW.WindowHint(WindowHintBool.Visible,!_headless);
             var window = GLFW.CreateWindow(width, height, title, null, (Window*)IntPtr.Zero);
-            var primaryMonitor = GLFW.GetPrimaryMonitor();
-            GLFW.GetMonitorWorkarea(primaryMonitor,out int sx,out int sy,out int swidth,out int sheight);
-            var x = (swidth-width)/2;
-            var y =(sheight-height)/2;
-            GLFW.SetWindowPos(window,x,y);
+            if (!_headless)
+            {
+                var primaryMonitor = GLFW.GetPrimaryMonitor();
+                GLFW.GetMonitorWorkarea(primaryMonitor, out int sx, out int sy, out int swidth, out int sheight);
+                var x = (swidth - width) / 2;
+                var y = (sheight - height) / 2;
+                GLFW.SetWindowPos(window, x, y);
+            }            
+            
             GLFW.MakeContextCurrent(window);
             InitializeGlBindings();
             RegisterWindowCallbacks(window);
