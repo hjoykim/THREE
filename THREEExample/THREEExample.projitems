@@ -223,6 +223,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter11\SimplePassExample1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter11\SimplePassExample2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LearningThreeJs\Chapter11\Util11.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Instancing\InstancedMeshBVHHoverOutlineExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\postprocessing\MultisampledRenderbuffersExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Buffergeometry\BuffergeometryExample.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreeJs\Buffergeometry\BufferGeometryInstancingExample.cs" />
